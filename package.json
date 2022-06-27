@@ -1,5 +1,5 @@
 {
-  "name": "agsi.br.componente",
+  "name": "AgsiSistemas/agsi.br.componente",
   "version": "1.0.0",
   "description": "Made with create-react-library",
   "author": "niltonbsgi",
@@ -75,7 +75,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "^3.4.1"
-  },
+  },    
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
