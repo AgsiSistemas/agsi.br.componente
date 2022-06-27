@@ -177,7 +177,7 @@ var AccordionSummary = styles$8.styled(function (props) {
       sx: {
         fontSize: '0.9rem'
       }
-    }) : /*#__PURE__*/React.createElement(Fragment, null)
+    }) : /*#__PURE__*/React.createElement("div", null)
   }, props));
 })(function (_ref2) {
   var theme = _ref2.theme;
@@ -337,7 +337,7 @@ var handleDisplayModal = function handleDisplayModal(displayModal) {
 var OperationSection = function OperationSection(props) {
   var _props$toastMessages, _props$toastMessages2, _props$toastMessages3;
 
-  return /*#__PURE__*/React__default.createElement(Fragment, null, /*#__PURE__*/React__default.createElement("h2", {
+  return /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement("h2", {
     className: "" + styles$3.operation_header_title
   }, props.title), /*#__PURE__*/React__default.createElement("h5", {
     className: "" + styles$3.operation_header_subtitle
@@ -536,7 +536,7 @@ var OperationTable = function OperationTable(props) {
       columnList = props.columnList,
       display = props.display,
       onClick = props.onClick;
-  return /*#__PURE__*/React__default.createElement(Fragment, null, /*#__PURE__*/React__default.createElement(PageBase$3, null, /*#__PURE__*/React__default.createElement("div", {
+  return /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement(PageBase$3, null, /*#__PURE__*/React__default.createElement("div", {
     className: styles$5.operation_content_group
   }, /*#__PURE__*/React__default.createElement(Conteiner, null, /*#__PURE__*/React__default.createElement(ConteinerItem, {
     className: styles$5.operation_content_header + " " + styles$5.operation_content_header_search
@@ -782,7 +782,7 @@ var SaveComponent = function SaveComponent(props) {
       loading = _React$useState2[0],
       setLoading = _React$useState2[1];
 
-  return /*#__PURE__*/React__default.createElement(Fragment, null, /*#__PURE__*/React__default.createElement(Conteiner, {
+  return /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement(Conteiner, {
     className: stiles.save_component
   }, /*#__PURE__*/React__default.createElement(ConteinerItem, null, /*#__PURE__*/React__default.createElement(Button, {
     className: stiles.save_component_item,
@@ -1084,9 +1084,9 @@ var Header$1 = React.memo(Header);
 
 var StatusRecord = function StatusRecord(_ref) {
   var editing = _ref.editing;
-  if (editing) return /*#__PURE__*/React__default.createElement(Fragment, null, /*#__PURE__*/React__default.createElement("i", {
+  if (editing) return /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement("i", {
     className: "fas fa-edit"
-  }), " Altera\xE7\xE3o");else return /*#__PURE__*/React__default.createElement(Fragment, null, /*#__PURE__*/React__default.createElement("i", {
+  }), " Altera\xE7\xE3o");else return /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement("i", {
     className: "fas fa-plus-circle"
   }), " Inclus\xE3o");
 };

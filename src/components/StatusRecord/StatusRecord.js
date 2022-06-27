@@ -2,9 +2,9 @@ import React from "react"
 
 const StatusRecord = ({editing}) =>{    
     if(editing)
-        return <><i className="fas fa-edit"/> Alteração</>
+        return <div><i className="fas fa-edit"/> Alteração</div>
     else
-        return <><i className="fas fa-plus-circle"/> Inclusão</>    
+        return <div><i className="fas fa-plus-circle"/> Inclusão</div>    
 }
 
 export default React.memo(StatusRecord)

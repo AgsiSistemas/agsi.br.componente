@@ -55,7 +55,7 @@ const SaveComponent = (props) =>{
     const [loading, setLoading] = React.useState(false);
 
     return(  
-        <>      
+        <div>      
             <Conteiner className={stiles.save_component}>
                 <ConteinerItem>                    
                     <Button 
@@ -94,7 +94,7 @@ const SaveComponent = (props) =>{
                 }}
 
             />
-        </> 
+        </div> 
     )
 }
 

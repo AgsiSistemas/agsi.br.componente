@@ -29,7 +29,7 @@ const OperationTable = (props) =>{
     const { onReportClick, onAddClick, deleteHandler, records, columnList, display, onClick } = props
      
     return(     
-        <>      
+        <div>      
             <PageBase>
                 <div className={styles.operation_content_group}>
                     <Conteiner> 
@@ -79,7 +79,7 @@ const OperationTable = (props) =>{
                     </Button>
                 </DialogActions>
             </Dialog>                    
-        </> 
+        </div> 
     )
 }
 

@@ -25,7 +25,7 @@ const handleDisplayModal = (displayModal) =>{
 const OperationSection = (props) =>{ 
     
     return(  
-        <>      
+        <div>      
             <h2 className={`${styles.operation_header_title}`}>{ props.title }</h2>
             <h5 className={`${styles.operation_header_subtitle}`}>{ props.subTitle }</h5>
             <CustomModal displayModal={props.displayModal} onCloseDialog={props.onCloseDialog} buttonAdditional={ props.buttonAdditional }>
@@ -63,7 +63,7 @@ const OperationSection = (props) =>{
                     
                 }} 
             />
-        </> 
+        </div> 
     )
 }
 
