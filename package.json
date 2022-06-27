@@ -1,10 +1,10 @@
 {
-  "name": "agsi.br.component",
-  "version": "1.0.8",
+  "name": "agsi.br.componente",
+  "version": "1.0.0",
   "description": "Made with create-react-library",
   "author": "niltonbsgi",
   "license": "MIT",
-  "repository": "niltonbsgi/agsi.br.component",
+  "repository": "niltonbsgi/agsi.br.componente",
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "source": "src/index.js",
@@ -75,6 +75,9 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "^3.4.1"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   },
   "files": [
     "dist"
