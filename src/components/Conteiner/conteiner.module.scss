@@ -1,0 +1,16 @@
+
+.conteiner{
+    display: flex;        
+    flex-direction: row;
+}
+
+.conteiner_item{
+    flex: 1;    
+    padding: 3px;
+}
+
+.Conteiner_column_direction{
+    @media (max-width: 980px){
+        flex-direction: column; 
+    }
+}

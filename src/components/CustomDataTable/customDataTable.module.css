@@ -1,0 +1,14 @@
+
+.content_data_table{    
+    overflow-x: auto;       
+}
+
+.display_border{
+    border: solid 1px #ADADAD;
+    border-radius: 3px;
+    padding: 8px;
+}
+
+.p-datatable-row-expansion{
+    background: #F5F5F5!important;
+}

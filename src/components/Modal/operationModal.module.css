@@ -1,0 +1,14 @@
+.operation_modal_bottom_bar{
+  display: flex; 
+  flex-direction:row; 
+  width:100%
+}
+
+.operation_modal_bottom_bar_item{
+  flex: 1;
+  
+}
+
+.right_align{
+  text-align: right;
+}

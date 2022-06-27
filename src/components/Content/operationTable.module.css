@@ -1,0 +1,21 @@
+
+.operation_content_header{
+    text-align: end;   
+    margin-bottom: 5px;    
+    padding-right: 8px;
+    border-bottom: solid 1px rgba(0, 0, 0, .125);    
+}
+
+
+
+.operation_content_header_search {
+    text-align: start;
+}
+
+.operation_content_data_table{    
+    overflow-x: auto;   
+}
+
+.operation_content_group {
+    border: 1px solid rgba(0, 0, 0, .125);
+}
