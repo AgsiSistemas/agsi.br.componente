@@ -53,6 +53,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { ptBR } from 'date-fns/locale';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress$1 from '@mui/material/CircularProgress';
 
 function _extends() {
   _extends = Object.assign ? Object.assign.bind() : function (target) {
@@ -1490,5 +1492,42 @@ CustomDatePicker.defaultProp = {
 };
 var CustomDatePicker$1 = React__default.memo(CustomDatePicker);
 
-export { Conteiner, ConteinerItem, CustomDataTable$1 as CustomDataTable, CustomDatePicker$1 as CustomDatePicker, CustomDialog$1 as CustomDialog, CustomInputSelect$1 as CustomInputSelect, CustomModal$1 as CustomModal, CustomTextField$1 as CustomTextField, CustomTimePicker$1 as CustomTimePicker, CustomToastMessage$1 as CustomToastMessage, Header$1 as Header, HeaderAccordion$1 as HeaderAccordion, OperationDetail$1 as OperationDetail, OperationSection$1 as OperationSection, OperationTable$1 as OperationTable, PageBase$3 as PageBase, SaveComponent$1 as SaveComponent };
+var style$b = {
+  appcontent: {
+    transition: '0.4s',
+    animation: 'fadeInAnimation ease 0.5s',
+    animationIterationCount: 1,
+    animationFillMode: 'forwards',
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    marginTop: '80px',
+    maxWidth: '1195px'
+  }
+};
+
+var AppContent = function AppContent(props) {
+  return /*#__PURE__*/React__default.createElement("div", {
+    style: style$b.appcontent
+  }, /*#__PURE__*/React__default.createElement(Backdrop, {
+    sx: {
+      color: '#fff',
+      zIndex: function zIndex(theme) {
+        return theme.zIndex.drawer + 1;
+      }
+    },
+    open: props.loading
+  }, /*#__PURE__*/React__default.createElement(CircularProgress$1, {
+    color: "inherit"
+  })), props.children);
+};
+
+AppContent.propTypes = {
+  loading: PropTypes.bool
+};
+AppContent.defaultProp = {
+  loading: false
+};
+var AppContent$1 = React__default.memo(AppContent);
+
+export { AppContent$1 as AppContent, Conteiner, ConteinerItem, CustomDataTable$1 as CustomDataTable, CustomDatePicker$1 as CustomDatePicker, CustomDialog$1 as CustomDialog, CustomInputSelect$1 as CustomInputSelect, CustomModal$1 as CustomModal, CustomTextField$1 as CustomTextField, CustomTimePicker$1 as CustomTimePicker, CustomToastMessage$1 as CustomToastMessage, Header$1 as Header, HeaderAccordion$1 as HeaderAccordion, OperationDetail$1 as OperationDetail, OperationSection$1 as OperationSection, OperationTable$1 as OperationTable, PageBase$3 as PageBase, SaveComponent$1 as SaveComponent };
 //# sourceMappingURL=index.modern.js.map

@@ -56,6 +56,8 @@ var LocalizationProvider = require('@mui/x-date-pickers/LocalizationProvider');
 var TimePicker = require('@mui/x-date-pickers/TimePicker');
 var locale = require('date-fns/locale');
 var DatePicker = require('@mui/x-date-pickers/DatePicker');
+var Backdrop = _interopDefault(require('@mui/material/Backdrop'));
+var CircularProgress = _interopDefault(require('@mui/material/CircularProgress'));
 
 function _extends() {
   _extends = Object.assign ? Object.assign.bind() : function (target) {
@@ -1493,6 +1495,44 @@ CustomDatePicker.defaultProp = {
 };
 var CustomDatePicker$1 = React__default.memo(CustomDatePicker);
 
+var style$b = {
+  appcontent: {
+    transition: '0.4s',
+    animation: 'fadeInAnimation ease 0.5s',
+    animationIterationCount: 1,
+    animationFillMode: 'forwards',
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    marginTop: '80px',
+    maxWidth: '1195px'
+  }
+};
+
+var AppContent = function AppContent(props) {
+  return /*#__PURE__*/React__default.createElement("div", {
+    style: style$b.appcontent
+  }, /*#__PURE__*/React__default.createElement(Backdrop, {
+    sx: {
+      color: '#fff',
+      zIndex: function zIndex(theme) {
+        return theme.zIndex.drawer + 1;
+      }
+    },
+    open: props.loading
+  }, /*#__PURE__*/React__default.createElement(CircularProgress, {
+    color: "inherit"
+  })), props.children);
+};
+
+AppContent.propTypes = {
+  loading: PropTypes.bool
+};
+AppContent.defaultProp = {
+  loading: false
+};
+var AppContent$1 = React__default.memo(AppContent);
+
+exports.AppContent = AppContent$1;
 exports.Conteiner = Conteiner;
 exports.ConteinerItem = ConteinerItem;
 exports.CustomDataTable = CustomDataTable$1;

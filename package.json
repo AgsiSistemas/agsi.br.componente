@@ -1,6 +1,6 @@
 {
-  "name": "@AgsiSistemas/agsi.br.componente",
-  "version": "1.0.23",
+  "name": "@agsisistemas/agsi.br.componente",
+  "version": "1.0.0",
   "description": "Made with create-react-library",
   "author": "AgsiSistemas",
   "license": "MIT",
@@ -78,7 +78,7 @@
     "react-scripts": "^3.4.1"
   },      
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "registry": "https://npm.pkg.github.com/"
   },
   "files": [
     "dist"

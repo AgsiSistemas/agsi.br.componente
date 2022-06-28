@@ -20,7 +20,8 @@ import Header from './components/Header/Header';
 import CustomInputSelect from './components/Inputs/CustomInputSelect/CustomInputSelect';
 import CustomTextField from './components/Inputs/CustomTextField/CustomTextField';
 import CustomTimePicker from './components/Inputs/CustomTimePicker/CustomTimePicker'
-import CustomDatePicker from './components/Inputs/CustomDatePicker/CustomDatePicker'
+import CustomDatePicker from './components/Inputs/CustomDatePicker/CustomDatePicker';
+import AppContent from './components/Content/AppContent';
 
 export { 
   Conteiner, 
@@ -39,5 +40,6 @@ export {
   CustomInputSelect,
   CustomTextField,
   CustomTimePicker,
-  CustomDatePicker
+  CustomDatePicker,
+  AppContent
 };
