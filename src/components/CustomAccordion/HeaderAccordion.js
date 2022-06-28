@@ -10,7 +10,6 @@ import  PropTypes from "prop-types";
 import { Conteiner, ConteinerItem } from '../Conteiner/Conteiner';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import IconButton from '@mui/material/IconButton';
-import styles from './headerAccordion.module.css';
 
 const style={
   header_accordion_conteiner:{

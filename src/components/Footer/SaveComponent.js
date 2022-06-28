@@ -13,7 +13,6 @@ import DialogContentText from '@mui/material/DialogContentText';
 import PropTypes from "prop-types";
 import { Conteiner, ConteinerItem } from '../Conteiner/Conteiner';
 import CheckIcon from '@mui/icons-material/Check';
-import styles from './saveComponent.module.css';
 
 const style={
     save_component:{        

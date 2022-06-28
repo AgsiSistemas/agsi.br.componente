@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from "prop-types";
-import styles from './customDataTable.module.css';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 

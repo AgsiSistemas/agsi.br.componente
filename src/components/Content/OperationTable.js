@@ -13,7 +13,6 @@ import PrintIcon from '@mui/icons-material/Print';
 import IconButton from '@mui/material/IconButton';
 import { Conteiner, ConteinerItem } from '../Conteiner/Conteiner';
 import PageBase from  '../PageBase/PageBase';
-// import styles from './operationTable.module.css';
 
 import CustomDataTable from '../CustomDataTable/CustomDataTable';
 

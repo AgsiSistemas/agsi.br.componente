@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from './pageBase.module.css';
 
 const style={
     page_base_content:{    
