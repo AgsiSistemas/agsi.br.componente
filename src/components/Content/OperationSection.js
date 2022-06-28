@@ -6,6 +6,16 @@ import HeaderAccordion from '../CustomAccordion/HeaderAccordion'
 import CustomModal from '../Modal/CustomModal';
 import CustomToastMessage from '../../Components/CustomToastMessage/CustomToastMessage';
 
+const style={
+    operation_header_title: {
+        marginBottom: '5px'
+    },    
+    operation_header_subtitle: {
+        marginTop: '2px'        
+    }
+    
+}
+
 const handleDisplay = (display) =>{ 
     if(display===undefined)        
         return 'none'  
@@ -26,8 +36,8 @@ const OperationSection = (props) =>{
     
     return(  
         <div>      
-            <h2 className={`${styles.operation_header_title}`}>{ props.title }</h2>
-            <h5 className={`${styles.operation_header_subtitle}`}>{ props.subTitle }</h5>
+            <h2 style={style.operation_header_title}>{ props.title }</h2>
+            <h5 style={style.operation_header_subtitle}>{ props.subTitle }</h5>
             <CustomModal displayModal={props.displayModal} onCloseDialog={props.onCloseDialog} buttonAdditional={ props.buttonAdditional }>
                 <PageBase style={{display: handleDisplayModal(props.displayModal)}} id='operation-header'>
                     <HeaderAccordion  

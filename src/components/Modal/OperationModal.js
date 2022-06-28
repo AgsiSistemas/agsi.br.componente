@@ -9,6 +9,24 @@ import DialogTitle from '@mui/material/DialogTitle';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 
+const style={
+  operation_modal_bottom_bar:{
+    display: 'flex',
+    flexDirection: 'row',
+    width:'100%'
+  },  
+  operation_modal_bottom_bar_item:{
+    flex: '1'    
+  },  
+  operation_modal_bottom_bar_item_right_align:{
+    flex: '1',
+    textAlign: 'right'
+  },  
+  right_align:{
+    textAlign: 'right'
+  }  
+}
+
 const handleLoading = (text, isLoading) =>{
   return isLoading ? <CircularProgress />: text 
 }
@@ -40,11 +58,11 @@ const OperationModal = (props) => {
             </div>        
             </DialogContent>            
           <DialogActions>        
-            <div className={styles.operation_modal_bottom_bar}>
-              <div className={styles.operation_modal_bottom_bar_item}>
+            <div style={style.operation_modal_bottom_bar}>
+              <div style={style.operation_modal_bottom_bar_item}>
                <LoadingComponent display={props.displayLoadingSave}/>
               </div>
-              <div className={`${styles.operation_modal_bottom_bar_item} ${styles.right_align}`}>
+              <div style={style.operation_modal_bottom_bar_item_right_align}>
                 <Button style={{marginRight:'8px'}} variant="contained" startIcon={<CancelOutlinedIcon />} onClick={props.onCancel}>Cancelar</Button>
                 <Button 
                   color="success" 

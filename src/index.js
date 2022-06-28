@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './styles.module.css'
+// import styles from './styles.module.css'
 
 import{ 
   Conteiner, 
@@ -18,6 +18,10 @@ import CustomDataTable from './components/CustomDataTable/CustomDataTable';
 import SaveComponent from './components/Footer/SaveComponent';
 import Header from './components/Header/Header';
 import StatusRecord from './components/StatusRecord/StatusRecord';
+import CustomInputSelect from './components/Inputs/CustomInputSelect/CustomInputSelect';
+import CustomTextField from './components/Inputs/CustomTextField/CustomTextField';
+import CustomTimePicker from './components/Inputs/CustomTimePicker/CustomTimePicker'
+import CustomDatePicker from './components/Inputs/CustomDatePicker/CustomDatePicker'
 
 export { 
   Conteiner, 
@@ -33,5 +37,9 @@ export {
   CustomDataTable,
   SaveComponent,
   Header,
-  StatusRecord
+  StatusRecord,
+  CustomInputSelect,
+  CustomTextField,
+  CustomTimePicker,
+  CustomDatePicker
 };

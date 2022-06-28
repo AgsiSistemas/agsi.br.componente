@@ -4,6 +4,20 @@ import styles from './customDataTable.module.css';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 
+const style={
+    content_data_table:{    
+        overflowX: 'auto'
+    },
+    content_data_table_display_border:{
+        overflowX: 'auto',
+        border: 'solid 1px #ADADAD',
+        borderRadius: '3px',
+        padding: '8px'
+    },
+    p_datatable_row_expansion:{
+        background: '#F5F5F5!important'
+    }
+}
 const CustomDataTable = (props) =>{
 
     const { records, columnList, heigthDataTable, paginatorStep, displayBorder, paginator, displayExpander, onRowExpand,  onRowCollapse, rowExpansionTemplate} = props
@@ -28,7 +42,7 @@ const CustomDataTable = (props) =>{
     };
 
     return(         
-        <div className={`${styles.content_data_table} ${displayBorder? `${styles.display_border}`:''}`} >
+        <div style={displayBorder? style.content_data_table_display_border:  style.content_data_table} >
             <DataTable
                 value={records}
                 paginator={paginator}

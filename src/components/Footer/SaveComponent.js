@@ -13,8 +13,16 @@ import DialogContentText from '@mui/material/DialogContentText';
 import PropTypes from "prop-types";
 import { Conteiner, ConteinerItem } from '../Conteiner/Conteiner';
 import CheckIcon from '@mui/icons-material/Check';
-import stiles from './saveComponent.module.css';
+import styles from './saveComponent.module.css';
 
+const style={
+    save_component:{        
+       textAlign: 'end'
+   },
+   save_component_item:{
+       marginRight: '5px'
+   }
+}
 
 export const validationModel = {
     error: false,
@@ -39,7 +47,7 @@ const MessageConfirmation = ({display, onClose, onCancelClick, onConfirmClick})=
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button variant="outlined" className={stiles.save_component_item} onClick={ onCancelClick } startIcon={<CancelOutlinedIcon />} >Cancelar</Button> 
+                <Button variant="outlined" style={style.save_component_item} onClick={ onCancelClick } startIcon={<CancelOutlinedIcon />} >Cancelar</Button> 
                 <Button variant="contained" className='btn-green' color="success" onClick={ onConfirmClick } endIcon={<CheckIcon/>} autoFocus>
                 Confirmar
                 </Button>
@@ -56,10 +64,10 @@ const SaveComponent = (props) =>{
 
     return(  
         <div>      
-            <Conteiner className={stiles.save_component}>
+            <Conteiner style={style.save_component}>
                 <ConteinerItem>                    
                     <Button 
-                        className={stiles.save_component_item} 
+                        style={style.save_component_item} 
                         variant="outlined" 
                         startIcon={<CancelOutlinedIcon />} 
                         onClick={props.onCancelClick}

@@ -18,6 +18,14 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import AppsIcon from '@mui/icons-material/Apps';
 import styles from './header.module.scss';
 
+const style={
+  header_app_bar:{  
+    minHeight: '52px!important',
+    maxHeight: '55px!important',
+    backgroundColor: '#008EBC!important'
+  }
+}
+
 const ToggleSideBar = () =>{
   
   if(document.getElementById("layout-sidebar").style.display === 'none'){
@@ -176,7 +184,7 @@ const Header = (props) => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar className={styles.header_app_bar} position="fixed">
+      <AppBar style={style.header_app_bar} position="fixed">
         <Toolbar>
           <IconButton
             size="large"

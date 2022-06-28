@@ -13,9 +13,30 @@ import PrintIcon from '@mui/icons-material/Print';
 import IconButton from '@mui/material/IconButton';
 import { Conteiner, ConteinerItem } from '../Conteiner/Conteiner';
 import PageBase from  '../PageBase/PageBase';
-import styles from './operationTable.module.css';
+// import styles from './operationTable.module.css';
 
 import CustomDataTable from '../CustomDataTable/CustomDataTable';
+
+
+const style={    
+    operation_content_header:{
+        textAlign: 'end',
+        marginBottom: '5px',
+        paddingRight: '8px',
+        borderBottom: 'solid 1px rgba(0, 0, 0, .125)',
+        textAlign: 'start'
+    },
+    operation_content_header_search: {
+        textAlign: 'start'
+    },
+    operation_content_data_table:{    
+        overflowX: 'auto'
+    },
+    operation_content_group: {
+        border: '1px solid rgba(0, 0, 0, .125)'
+    }
+}
+
 
 const handleDisplay = (display) =>{
     if(display===undefined)        
@@ -31,14 +52,14 @@ const OperationTable = (props) =>{
     return(     
         <div>      
             <PageBase>
-                <div className={styles.operation_content_group}>
+                <div style={style.operation_content_group}>
                     <Conteiner> 
-                        <ConteinerItem className={`${styles.operation_content_header} ${styles.operation_content_header_search}`}>
+                        <ConteinerItem style={style.operation_content_header}>
                             <IconButton id="id_operation_content_search" style={{display: handleDisplay(display)}} className='icon-btn-blue' size="large" onClick={ onClick }>
                                 <FilterAltIcon fontSize="inherit" />
                             </IconButton>
                         </ConteinerItem>
-                        <ConteinerItem  className={`${styles.operation_content_header}`}>
+                        <ConteinerItem  style={style.operation_content_header}>
                             <IconButton className='icon-btn-blue' size="large"style={{marginRight:'7px'}} onClick={ onReportClick } >
                                 <PrintIcon fontSize="inherit" />
                             </IconButton>                            
@@ -48,7 +69,7 @@ const OperationTable = (props) =>{
                         </ConteinerItem>
                     </Conteiner>                
                     <Conteiner>
-                        <ConteinerItem className={`${styles.operation_content_data_table}`}>                        
+                        <ConteinerItem style={style.operation_content_data_table}>
                             <CustomDataTable
                                 records={records}
                                 columnList={columnList}/>                    

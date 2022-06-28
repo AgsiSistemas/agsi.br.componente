@@ -12,6 +12,21 @@ import PushPinIcon from '@mui/icons-material/PushPin';
 import IconButton from '@mui/material/IconButton';
 import styles from './headerAccordion.module.css';
 
+const style={
+  header_accordion_conteiner:{
+    width: '100%',
+    flexDirection: 'row!important'  
+},
+header_accordion:{  
+  alignItems: 'end',
+  textAlign: 'end',
+  zIndex: '99999'
+},
+header_accordion_pin: {
+  fontSize: '1.2rem!important'
+}
+}
+
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({
@@ -66,19 +81,19 @@ export function HeaderAccordion(props) {
     <div>      
         <Accordion 
           id="header-accordion-conteiner" 
-          className={styles.header_accordion_conteiner}
+          style={style.header_accordion_conteiner}
           expanded={ handleDisableExpand(props.disableExpandedButton, expanded) }
           onChange={handleChange('panel')}
         >
           <AccordionSummary disableExpandedButton={ props.disableExpandedButton } aria-controls="paneld-content" id="paneld-header">          
-            <Conteiner className={styles.header_accordion_conteiner}>
+            <Conteiner>
               <ConteinerItem>
                 <Typography style={{fontSize:'1.2rem'}}>{ props.header }</Typography>
               </ConteinerItem>            
-              <ConteinerItem className={styles.header_accordion}>
+              <ConteinerItem style={style.header_accordion}>
                 {!props.disableAttachButton &&
                 <Tooltip title={props.titleTooltip}>
-                  <IconButton className={styles.header_accordion_pin} size="small" onClick={ props.onClick }>              
+                  <IconButton style={style.header_accordion_pin} size="small" onClick={ props.onClick }>              
                     <PushPinIcon/>
                   </IconButton>           
                 </Tooltip>}

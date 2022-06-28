@@ -1,13 +1,25 @@
 import React from "react";
 import  PropTypes from "prop-types";
-import styles from './conteiner.module.scss';
+// import styles from './conteiner.module.scss';
 
-export const Conteiner = (props) =>{
-    return <div className={ styles.conteiner }>
+const style={
+    conteiner:{
+        display: 'flex',
+        // flexDirection: 'row',
+        width: '100%',
+        flexDirection: 'row!important'  
+    },
+    conteiner_item: {
+        flex: '1',    
+        padding: '3px'
+    }
+}
+
+export const Conteiner = (props) =>{    
+    return <div style={{...style.conteiner, ...props.style || {}}}  className={`${props?.className || ''}`}>
         { props?.children }
     </div>
 }
-
 
 Conteiner.propTypes = {
     className: PropTypes.string,
@@ -21,8 +33,7 @@ Conteiner.defaultProp = {
 
 
 export const ConteinerItem = (props) =>{
-    return <div id={ props?.id } className={` ${styles.conteiner_item} ${styles.conteiner_item} `}> 
-     {/* {`Conteiner-item ${props?.className || ''}`} > */}
+    return <div id={ props?.id } style={style.conteiner_item} className={`${props?.className || ''}`}>      
         { props.children }
     </div>
 }
