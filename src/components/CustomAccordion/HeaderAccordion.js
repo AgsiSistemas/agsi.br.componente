@@ -14,15 +14,16 @@ import IconButton from '@mui/material/IconButton';
 const style={
   header_accordion_conteiner:{
     width: '100%',
-    flexDirection: 'row!important'  
+    flexDirection: 'row'  
 },
 header_accordion:{  
   alignItems: 'end',
   textAlign: 'end',
-  zIndex: '99999'
+  zIndex: '99999',
+  fontSize: '1.2rem'
 },
 header_accordion_pin: {
-  fontSize: '1.2rem!important'
+  fontSize: '1.2rem'
 }
 }
 
@@ -62,7 +63,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderTop: '1px solid rgba(0, 0, 0, .125)',
 }));
 
-export function HeaderAccordion(props) {
+export function HeaderAccordion(props) { 
   const [expanded, setExpanded] = React.useState('panel');
 
   const handleChange = (panel) => (event, newExpanded) => {
@@ -78,31 +79,31 @@ export function HeaderAccordion(props) {
 
   return (
     <div>      
-        <Accordion 
-          id="header-accordion-conteiner" 
-          style={style.header_accordion_conteiner}
-          expanded={ handleDisableExpand(props.disableExpandedButton, expanded) }
-          onChange={handleChange('panel')}
-        >
-          <AccordionSummary disableExpandedButton={ props.disableExpandedButton } aria-controls="paneld-content" id="paneld-header">          
-            <Conteiner>
-              <ConteinerItem>
-                <Typography style={{fontSize:'1.2rem'}}>{ props.header }</Typography>
-              </ConteinerItem>            
-              <ConteinerItem style={style.header_accordion}>
-                {!props.disableAttachButton &&
-                <Tooltip title={props.titleTooltip}>
-                  <IconButton style={style.header_accordion_pin} size="small" onClick={ props.onClick }>              
-                    <PushPinIcon/>
-                  </IconButton>           
-                </Tooltip>}
-              </ConteinerItem>            
-            </Conteiner>
-          </AccordionSummary>
-          <AccordionDetails>
-            { props.children }
-          </AccordionDetails>
-        </Accordion>
+      <Accordion 
+        id="header-accordion-conteiner" 
+        style={style.header_accordion_conteiner}
+        expanded={ handleDisableExpand(props.disableExpandedButton, expanded) }
+        onChange={handleChange('panel')}
+      >
+        <AccordionSummary disableExpandedButton={ props.disableExpandedButton } aria-controls="paneld-content" id="paneld-header">          
+          <Conteiner>
+            <ConteinerItem>
+              <Typography style={{fontSize:'1.2rem'}}>{ props.header }</Typography>
+            </ConteinerItem>            
+            <ConteinerItem style={style.header_accordion}>
+              {!props.disableAttachButton &&
+              <Tooltip title={props.titleTooltip}>
+                <IconButton style={style.header_accordion_pin} size="small" onClick={ props.onClick }>              
+                  <PushPinIcon/>
+                </IconButton>           
+              </Tooltip>}
+            </ConteinerItem>            
+          </Conteiner>
+        </AccordionSummary>
+        <AccordionDetails>
+          { props.children }
+        </AccordionDetails>
+      </Accordion>
     </div>
   );
 }

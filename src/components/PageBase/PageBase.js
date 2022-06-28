@@ -25,11 +25,10 @@ const PageBase = (props) => {
         <div 
             id={props.id} 
             // style={props.style} 
-            style={ style.page_base_content }
+            style={{...style.page_base_content, ...props.style || {}}}            
         >
             {props.header!==undefined &&
-                <div 
-                style={style.page_base_header}>
+                <div style={{...style.page_base_header, ...props.style || {}}}>                    
                     <label>{ props.header }</label>
                 </div>
             }

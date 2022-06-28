@@ -1,6 +1,5 @@
 import React from "react";
 import  PropTypes from "prop-types";
-// import styles from './conteiner.module.scss';
 
 const style={
     conteiner:{
@@ -33,7 +32,7 @@ Conteiner.defaultProp = {
 
 
 export const ConteinerItem = (props) =>{
-    return <div id={ props?.id } style={style.conteiner_item} className={`${props?.className || ''}`}>      
+    return <div id={ props?.id } style={{...style.conteiner_item, ...props.style || {}}} className={`${props?.className || ''}`}>      
         { props.children }
     </div>
 }

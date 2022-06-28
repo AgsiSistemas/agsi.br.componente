@@ -117,7 +117,7 @@ Conteiner.defaultProp = {
 var ConteinerItem = function ConteinerItem(props) {
   return /*#__PURE__*/React__default.createElement("div", {
     id: props === null || props === void 0 ? void 0 : props.id,
-    style: style.conteiner_item,
+    style: _extends({}, style.conteiner_item, props.style || {}),
     className: "" + ((props === null || props === void 0 ? void 0 : props.className) || '')
   }, props.children);
 };
@@ -154,9 +154,9 @@ var style$1 = {
 var PageBase = function PageBase(props) {
   return /*#__PURE__*/React__default.createElement("div", {
     id: props.id,
-    style: style$1.page_base_content
+    style: _extends({}, style$1.page_base_content, props.style || {})
   }, props.header !== undefined && /*#__PURE__*/React__default.createElement("div", {
-    style: style$1.page_base_header
+    style: _extends({}, style$1.page_base_header, props.style || {})
   }, /*#__PURE__*/React__default.createElement("label", null, props.header)), props.children);
 };
 
@@ -191,9 +191,9 @@ var style$2 = {
 var PageBase$2 = function PageBase(props) {
   return /*#__PURE__*/React__default.createElement("div", {
     id: props.id,
-    style: style$2.page_base_content
+    style: _extends({}, style$2.page_base_content, props.style || {})
   }, props.header !== undefined && /*#__PURE__*/React__default.createElement("div", {
-    style: style$2.page_base_header
+    style: _extends({}, style$2.page_base_header, props.style || {})
   }, /*#__PURE__*/React__default.createElement("label", null, props.header)), props.children);
 };
 
@@ -202,15 +202,16 @@ var PageBase$3 = React__default.memo(PageBase$2);
 var style$3 = {
   header_accordion_conteiner: {
     width: '100%',
-    flexDirection: 'row!important'
+    flexDirection: 'row'
   },
   header_accordion: {
     alignItems: 'end',
     textAlign: 'end',
-    zIndex: '99999'
+    zIndex: '99999',
+    fontSize: '1.2rem'
   },
   header_accordion_pin: {
-    fontSize: '1.2rem!important'
+    fontSize: '1.2rem'
   }
 };
 var Accordion = styles.styled(function (props) {
@@ -603,14 +604,13 @@ CustomDataTable.defaultProp = {
 };
 var CustomDataTable$1 = React__default.memo(CustomDataTable);
 
-var _operation_content_he;
 var style$6 = {
-  operation_content_header: (_operation_content_he = {
+  operation_content_header: {
     textAlign: 'end',
     marginBottom: '5px',
     paddingRight: '8px',
     borderBottom: 'solid 1px rgba(0, 0, 0, .125)'
-  }, _operation_content_he["textAlign"] = 'start', _operation_content_he),
+  },
   operation_content_header_search: {
     textAlign: 'start'
   },
@@ -639,7 +639,7 @@ var OperationTable = function OperationTable(props) {
   return /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement(PageBase$3, null, /*#__PURE__*/React__default.createElement("div", {
     style: style$6.operation_content_group
   }, /*#__PURE__*/React__default.createElement(Conteiner, null, /*#__PURE__*/React__default.createElement(ConteinerItem, {
-    style: style$6.operation_content_header
+    style: style$6.operation_content_header_search
   }, /*#__PURE__*/React__default.createElement(IconButton, {
     id: "id_operation_content_search",
     style: {
@@ -1195,17 +1195,6 @@ var Header = function Header(props) {
 
 var Header$1 = React.memo(Header);
 
-var StatusRecord = function StatusRecord(_ref) {
-  var editing = _ref.editing;
-  if (editing) return /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement("i", {
-    className: "fas fa-edit"
-  }), " Altera\xE7\xE3o");else return /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement("i", {
-    className: "fas fa-plus-circle"
-  }), " Inclus\xE3o");
-};
-
-var StatusRecord$1 = React__default.memo(StatusRecord);
-
 var isNullValue = function isNullValue(value) {
   return value === undefined || value === null || value === "";
 };
@@ -1521,5 +1510,4 @@ exports.OperationSection = OperationSection$1;
 exports.OperationTable = OperationTable$1;
 exports.PageBase = PageBase$3;
 exports.SaveComponent = SaveComponent$1;
-exports.StatusRecord = StatusRecord$1;
 //# sourceMappingURL=index.js.map

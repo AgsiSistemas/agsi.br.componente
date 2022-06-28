@@ -22,8 +22,7 @@ const style={
         textAlign: 'end',
         marginBottom: '5px',
         paddingRight: '8px',
-        borderBottom: 'solid 1px rgba(0, 0, 0, .125)',
-        textAlign: 'start'
+        borderBottom: 'solid 1px rgba(0, 0, 0, .125)',        
     },
     operation_content_header_search: {
         textAlign: 'start'
@@ -53,7 +52,7 @@ const OperationTable = (props) =>{
             <PageBase>
                 <div style={style.operation_content_group}>
                     <Conteiner> 
-                        <ConteinerItem style={style.operation_content_header}>
+                        <ConteinerItem style={style.operation_content_header_search}>
                             <IconButton id="id_operation_content_search" style={{display: handleDisplay(display)}} className='icon-btn-blue' size="large" onClick={ onClick }>
                                 <FilterAltIcon fontSize="inherit" />
                             </IconButton>

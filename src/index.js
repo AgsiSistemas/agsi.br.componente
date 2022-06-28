@@ -17,7 +17,6 @@ import PageBase from './components/PageBase/PageBase';
 import CustomDataTable from './components/CustomDataTable/CustomDataTable';
 import SaveComponent from './components/Footer/SaveComponent';
 import Header from './components/Header/Header';
-import StatusRecord from './components/StatusRecord/StatusRecord';
 import CustomInputSelect from './components/Inputs/CustomInputSelect/CustomInputSelect';
 import CustomTextField from './components/Inputs/CustomTextField/CustomTextField';
 import CustomTimePicker from './components/Inputs/CustomTimePicker/CustomTimePicker'
@@ -37,7 +36,6 @@ export {
   CustomDataTable,
   SaveComponent,
   Header,
-  StatusRecord,
   CustomInputSelect,
   CustomTextField,
   CustomTimePicker,
