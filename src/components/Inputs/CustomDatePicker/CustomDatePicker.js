@@ -7,7 +7,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { ptBR } from 'date-fns/locale'
 import { TextField } from '@mui/material';
 
-const style={
+const style = {
   date_picker: {
     padding: '9px 9px 9px 15px !important'
   }
@@ -22,7 +22,7 @@ const CustomDatePicker = ({ id, size, label, value, minDate, maxDate, dateFormat
       <LocalizationProvider dateAdapter={AdapterDateFns} locale={ptBR}>
         <DatePicker
           size={size}
-          label={label}
+          label={label + '123'}
           value={value}
           disabled={disabled}
           minDate={minDate ? new Date(minDate) : undefined}
@@ -33,10 +33,11 @@ const CustomDatePicker = ({ id, size, label, value, minDate, maxDate, dateFormat
           renderInput={params => (
             <TextField
               {...params}
+              style={style.date_picker}
               inputProps={{
                 ...params.inputProps,
                 placeholder: placeHolder || "DD/MM/AAAA",
-                style: style.date_picker
+                style: style.date_picker,
 
               }}
               id={id}
