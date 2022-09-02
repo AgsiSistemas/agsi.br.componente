@@ -37,10 +37,9 @@ const CustomDatePicker = ({ id, size, label, value, minDate, maxDate, dateFormat
                 ...params.inputProps,
                 placeholder: placeHolder || "DD/MM/AAAA",
                 // style: style.date_picker,
-
               }}
-              id={id}
-              sx={{ minWidth: '100px', marginTop: '5px', padding: '8px 8px !important' }}
+              id='custom-date-picker'
+              sx={{ minWidth: '100px', marginTop: '5px' }}
               error={!value || dateValidation}
               helperText={!value || dateValidation ? helperText || "Data ou Hora Invalida!" : ""}
             />
