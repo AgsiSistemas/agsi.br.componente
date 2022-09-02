@@ -22,7 +22,7 @@ const CustomDatePicker = ({ id, size, label, value, minDate, maxDate, dateFormat
       <LocalizationProvider dateAdapter={AdapterDateFns} locale={ptBR}>
         <DatePicker
           size={size}
-          label={label + '123'}
+          label={label}
           value={value}
           disabled={disabled}
           minDate={minDate ? new Date(minDate) : undefined}
@@ -33,15 +33,14 @@ const CustomDatePicker = ({ id, size, label, value, minDate, maxDate, dateFormat
           renderInput={params => (
             <TextField
               {...params}
-              style={style.date_picker}
               inputProps={{
                 ...params.inputProps,
                 placeholder: placeHolder || "DD/MM/AAAA",
-                style: style.date_picker,
+                // style: style.date_picker,
 
               }}
               id={id}
-              sx={{ minWidth: '100px', marginTop: '5px' }}
+              sx={{ minWidth: '100px', marginTop: '5px', padding: '8px 8px !important' }}
               error={!value || dateValidation}
               helperText={!value || dateValidation ? helperText || "Data ou Hora Invalida!" : ""}
             />
