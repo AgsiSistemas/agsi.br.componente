@@ -18,7 +18,9 @@ const theme = createTheme({
     MuiTextField: {
       styleOverrides: {
         root: {
-          padding: '8px',
+          input: {
+            padding: '8px',
+          }
         },
       },
     },
