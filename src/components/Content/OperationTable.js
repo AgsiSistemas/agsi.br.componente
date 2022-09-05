@@ -81,7 +81,9 @@ const OperationTable = (props) => {
                         </ConteinerItem>
                         <ConteinerItem style={style.operation_content_header}>
                             {printIcon && <IconButton className='icon-btn-blue' size="large" style={{ marginRight: '7px' }} onClick={onReportClick} >
-                                <PrintIcon fontSize="inherit" />
+                                <Tooltip title='Imprimir'>
+                                    <PrintIcon fontSize="inherit" />
+                                </Tooltip>
                             </IconButton>}
                             {onAddClick &&
                                 <Button className='btn-blue' startIcon={<AddCircleOutlineIcon />} variant="contained" color="success" onClick={onAddClick}>
@@ -95,7 +97,8 @@ const OperationTable = (props) => {
                             <DataTable
                                 value={records}
                                 paginator
-                                sortField={sortField} sortOrder={sortOrder}
+                                sortField={sortField}
+                                sortOrder={sortOrder}
                                 responsiveLayout="scroll"
                                 paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
                                 currentPageReportTemplate={"Mostrando {first} a {last} de {totalRecords}"}
@@ -158,7 +161,8 @@ OperationTable.propTypes = {
     columnList: PropTypes.arrayOf(PropTypes.object),
     heigthDataTable: PropTypes.number,
     display: PropTypes.bool,
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    printIcon: PropTypes.bool
 };
 
 OperationTable.defaultProp = {
@@ -173,7 +177,8 @@ OperationTable.defaultProp = {
     columnList: [],
     heigthDataTable: 0,
     display: false,
-    onClick: () => { }
+    onClick: () => { },
+    printIcon: true,
 };
 
 

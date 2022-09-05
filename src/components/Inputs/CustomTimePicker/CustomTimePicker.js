@@ -7,13 +7,13 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { ptBR } from 'date-fns/locale'
 import { TextField } from '@mui/material';
 
-const style={
+const style = {
   date_picker: {
     padding: '9px 9px 9px 15px !important'
   }
 }
 
-const CustomTimePicker = ({ id, size, label, value, mask, onChange, placeHolder, ampm, disabled }) => {
+const CustomTimePicker = ({ id, size, label, value, mask, onChange, placeHolder, ampm, disabled, ...other }) => {
 
   const [dateValidation, setDateValidation] = React.useState('')
 
@@ -21,7 +21,7 @@ const CustomTimePicker = ({ id, size, label, value, mask, onChange, placeHolder,
     <React.Fragment>
       <LocalizationProvider dateAdapter={AdapterDateFns} locale={ptBR}>
         <TimePicker
-          id={id}
+          id={'custom-time-picker'}
           size={size}
           label={label}
           value={value}
@@ -42,6 +42,7 @@ const CustomTimePicker = ({ id, size, label, value, mask, onChange, placeHolder,
               }}
               error={!value || dateValidation}
             />}
+          {...other}
         />
       </LocalizationProvider>
     </React.Fragment>
