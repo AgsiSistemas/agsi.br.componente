@@ -44,9 +44,27 @@ const handleDisplay = (display) => {
 }
 const OperationTable = (props) => {
 
-    const { onReportClick, onAddClick, deleteHandler, records, columnList, display, onClick } = props
+    const { onReportClick, onAddClick, deleteHandler, records, columnList, heigthDataTable, display, onClick, paginatorStep, sortField, sortOrder } = props
 
+    const rowsTable = paginatorStep ? paginatorStep : 5
+    const pagArr = [rowsTable];
     const printIcon = props.printIcon == false ? props.printIcon : true
+
+    // Faz verificação e define quantidade de rows e rowsperpage
+    const calPerPage = () => {
+        var i = 0;
+
+        while (i < 2) {
+            i++;
+            const inclement = pagArr[pagArr.length - 1] + rowsTable
+            if (!pagArr.includes(inclement) || !inclement == 50) {
+                pagArr.push(inclement);
+            }
+        }
+        pagArr.push(50);
+
+        return (pagArr.sort(function (a, b) { return a - b }));
+    };
 
     return (
         <div>
