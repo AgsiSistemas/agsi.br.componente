@@ -26,11 +26,12 @@ const style = {
     operation_content_justify_header: {
         justifyContent: 'space-between',
         borderBottom: 'solid 1px rgba(0, 0, 0, .125)',
+        alignItems: 'center'
     },
     operation_content_header_search: {
         textAlign: 'start',
         flex: 'none',
-        borderBottom: '1px solid rgba(0, 0, 0, 0.125)'
+        // borderBottom: '1px solid rgba(0, 0, 0, 0.125)'
     },
     operation_content_data_table: {
         overflowX: 'auto'
