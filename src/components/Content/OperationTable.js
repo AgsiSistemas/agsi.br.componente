@@ -20,8 +20,11 @@ import PageBase from '../PageBase/PageBase';
 const style = {
     operation_content_header: {
         textAlign: 'end',
-        marginBottom: '5px',
-        paddingRight: '8px',
+        padding: '8px',
+
+    },
+    operation_content_justify_header: {
+        justifyContent: 'space-between',
         borderBottom: 'solid 1px rgba(0, 0, 0, .125)',
     },
     operation_content_header_search: {
@@ -73,7 +76,7 @@ const OperationTable = (props) => {
         <div>
             <PageBase>
                 <div style={style.operation_content_group}>
-                    <Conteiner>
+                    <Conteiner style={style.operation_content_justify_header}>
                         <ConteinerItem style={style.operation_content_header_search}>
                             <IconButton id="id_operation_content_search" style={{ display: handleDisplay(display) }} className='icon-btn-blue' size="large" onClick={onClick}>
                                 <Tooltip title='Filtros / Pesquisa'><FilterAltIcon fontSize="inherit" /></Tooltip>
