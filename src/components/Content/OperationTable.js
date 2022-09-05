@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { DataTable } from 'primereact/datatable';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
