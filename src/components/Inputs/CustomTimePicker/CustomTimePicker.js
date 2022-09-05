@@ -21,7 +21,6 @@ const CustomTimePicker = ({ id, size, label, value, mask, onChange, placeHolder,
     <React.Fragment>
       <LocalizationProvider dateAdapter={AdapterDateFns} locale={ptBR}>
         <TimePicker
-
           size={size}
           label={label}
           value={value}
@@ -42,8 +41,8 @@ const CustomTimePicker = ({ id, size, label, value, mask, onChange, placeHolder,
                 style: style.date_picker
               }}
               error={!value || dateValidation}
+              {...other}
             />}
-          {...other}
         />
       </LocalizationProvider>
     </React.Fragment>
