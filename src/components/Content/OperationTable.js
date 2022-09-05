@@ -25,7 +25,9 @@ const style = {
         borderBottom: 'solid 1px rgba(0, 0, 0, .125)',
     },
     operation_content_header_search: {
-        textAlign: 'start'
+        textAlign: 'start',
+        flex: 'none',
+        borderBottom: '1px solid rgba(0, 0, 0, 0.125)'
     },
     operation_content_data_table: {
         overflowX: 'auto'
@@ -51,7 +53,7 @@ const OperationTable = (props) => {
     const pagArr = [rowsTable];
     const printIcon = props.printIcon == false ? props.printIcon : true
 
-    // Faz verificação e define quantidade de rows e rowsperpage
+    // Check and set quantity of rows and rowsperpage
     const calPerPage = () => {
         var i = 0;
 
