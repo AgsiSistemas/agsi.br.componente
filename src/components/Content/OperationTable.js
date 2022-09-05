@@ -12,22 +12,19 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import PrintIcon from '@mui/icons-material/Print';
 import IconButton from '@mui/material/IconButton';
 import { Conteiner, ConteinerItem } from '../Conteiner/Conteiner';
-import PageBase from  '../PageBase/PageBase';
+import PageBase from '../PageBase/PageBase';
 
-import CustomDataTable from '../CustomDataTable/CustomDataTable';
-
-
-const style={    
-    operation_content_header:{
+const style = {
+    operation_content_header: {
         textAlign: 'end',
         marginBottom: '5px',
         paddingRight: '8px',
-        borderBottom: 'solid 1px rgba(0, 0, 0, .125)',        
+        borderBottom: 'solid 1px rgba(0, 0, 0, .125)',
     },
     operation_content_header_search: {
         textAlign: 'start'
     },
-    operation_content_data_table:{    
+    operation_content_data_table: {
         overflowX: 'auto'
     },
     operation_content_group: {
@@ -36,45 +33,69 @@ const style={
 }
 
 
-const handleDisplay = (display) =>{
-    if(display===undefined)        
-        return 'none'  
-    else{
-        return display? 'inline-flex': 'none'
+const handleDisplay = (display) => {
+    if (display === undefined)
+        return 'none'
+    else {
+        return display ? 'inline-flex' : 'none'
     }
 }
-const OperationTable = (props) =>{
+const OperationTable = (props) => {
 
     const { onReportClick, onAddClick, deleteHandler, records, columnList, display, onClick } = props
-     
-    return(     
-        <div>      
+
+    const printIcon = props.printIcon == false ? props.printIcon : true
+
+    return (
+        <div>
             <PageBase>
                 <div style={style.operation_content_group}>
-                    <Conteiner> 
+                    <Conteiner>
                         <ConteinerItem style={style.operation_content_header_search}>
-                            <IconButton id="id_operation_content_search" style={{display: handleDisplay(display)}} className='icon-btn-blue' size="large" onClick={ onClick }>
-                                <FilterAltIcon fontSize="inherit" />
+                            <IconButton id="id_operation_content_search" style={{ display: handleDisplay(display) }} className='icon-btn-blue' size="large" onClick={onClick}>
+                                <Tooltip title='Filtros / Pesquisa'><FilterAltIcon fontSize="inherit" /></Tooltip>
                             </IconButton>
                         </ConteinerItem>
-                        <ConteinerItem  style={style.operation_content_header}>
-                            <IconButton className='icon-btn-blue' size="large"style={{marginRight:'7px'}} onClick={ onReportClick } >
+                        <ConteinerItem style={style.operation_content_header}>
+                            {printIcon && <IconButton className='icon-btn-blue' size="large" style={{ marginRight: '7px' }} onClick={onReportClick} >
                                 <PrintIcon fontSize="inherit" />
-                            </IconButton>                            
-                            <Button className='btn-blue' startIcon={<AddCircleOutlineIcon />} variant="contained" color="success" onClick={onAddClick}>
-                                Incluir
-                            </Button>
+                            </IconButton>}
+                            {onAddClick &&
+                                <Button className='btn-blue' startIcon={<AddCircleOutlineIcon />} variant="contained" color="success" onClick={onAddClick}>
+                                    {props.onAddClickTitle ? props.onAddClickTitle : 'Incluir'}
+                                </Button>
+                            }
                         </ConteinerItem>
-                    </Conteiner>                
+                    </Conteiner>
                     <Conteiner>
-                        <ConteinerItem style={style.operation_content_data_table}>
-                            <CustomDataTable
-                                records={records}
-                                columnList={columnList}/>                    
-                        </ConteinerItem>     
-                    </Conteiner>       
-                </div>    
-            </PageBase>                        
+                        <ConteinerItem style={style.operation_content_data_table} >
+                            <DataTable
+                                value={records}
+                                paginator
+                                sortField={sortField} sortOrder={sortOrder}
+                                responsiveLayout="scroll"
+                                paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+                                currentPageReportTemplate={"Mostrando {first} a {last} de {totalRecords}"}
+                                size="small"
+                                rows={rowsTable}
+                                emptyMessage={"Nenhum resultado encontrado"}
+                                rowsPerPageOptions={calPerPage()}
+                                scrollHeight={heigthDataTable}>
+
+                                {
+                                    columnList.map((item, index) => {
+                                        if (item.body !== undefined)
+                                            return <Column key={index} style={item.style} sortable={item.sortable} body={item.body} header={item.header} frozen={item.frozen} alignFrozen={item.alignFrozen} dataType={item.dataType} />
+                                        else
+                                            return <Column key={index} style={item.style} sortable={item.sortable} field={item.field} header={item.header} frozen={item.frozen} dataType={item.dataType} />
+                                    })
+                                }
+                            </DataTable>
+
+                        </ConteinerItem>
+                    </Conteiner>
+                </div>
+            </PageBase>
 
             <Dialog
                 open={deleteHandler.displayDelete}
@@ -90,15 +111,15 @@ const OperationTable = (props) =>{
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button style={{marginRight:'5px'}} variant="outlined" component="span" onClick={()=> deleteHandler.onCancelClick()}>
+                    <Button style={{ marginRight: '5px' }} variant="outlined" component="span" onClick={() => deleteHandler.onCancelClick()}>
                         Cancelar
                     </Button>
-                    <Button className='btn-red' variant="contained" startIcon={<DeleteIcon />} color="error" onClick={()=> deleteHandler.onDeleteClick()} autoFocus>
+                    <Button className='btn-red' variant="contained" startIcon={<DeleteIcon />} color="error" onClick={() => deleteHandler.onDeleteClick()} autoFocus>
                         Excluir
                     </Button>
                 </DialogActions>
-            </Dialog>                    
-        </div> 
+            </Dialog>
+        </div>
     )
 }
 
@@ -109,27 +130,27 @@ OperationTable.propTypes = {
         displayDelete: PropTypes.bool,
         onCancelClick: PropTypes.func,
         onDeleteClick: PropTypes.func
-    }),    
-    records:  PropTypes.arrayOf(PropTypes.object),
+    }),
+    records: PropTypes.arrayOf(PropTypes.object),
     columnList: PropTypes.arrayOf(PropTypes.object),
     heigthDataTable: PropTypes.number,
     display: PropTypes.bool,
     onClick: PropTypes.func
 };
-  
+
 OperationTable.defaultProp = {
-    onReportClick: ()=> {},
-    onAddClick: ()=> {},
+    onReportClick: () => { },
+    onAddClick: () => { },
     deleteHandler: {
         displayDelete: false,
-        onCancelClick: ()=>{},
-        onDeleteClick: ()=>{}
+        onCancelClick: () => { },
+        onDeleteClick: () => { }
     },
-    records:  [],
+    records: [],
     columnList: [],
     heigthDataTable: 0,
     display: false,
-    onClick: ()=> {}
+    onClick: () => { }
 };
 
 
