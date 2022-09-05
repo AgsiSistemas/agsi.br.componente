@@ -13,7 +13,7 @@ const style = {
   }
 }
 
-const CustomDatePicker = ({ id, size, label, value, minDate, maxDate, dateFormat, onChange, placeHolder, helperText, disabled }) => {
+const CustomDatePicker = ({ id, size, label, value, minDate, maxDate, dateFormat, onChange, placeHolder, helperText, disabled, ...other }) => {
 
   const [dateValidation, setDateValidation] = React.useState('')
 
@@ -42,6 +42,7 @@ const CustomDatePicker = ({ id, size, label, value, minDate, maxDate, dateFormat
               sx={{ minWidth: '100px', marginTop: '5px' }}
               error={!value || dateValidation}
               helperText={!value || dateValidation ? helperText || "Data ou Hora Invalida!" : ""}
+              {...other}
             />
           )}
         />
