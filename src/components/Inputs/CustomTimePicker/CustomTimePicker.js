@@ -21,7 +21,7 @@ const CustomTimePicker = ({ id, size, label, value, mask, onChange, placeHolder,
     <React.Fragment>
       <LocalizationProvider dateAdapter={AdapterDateFns} locale={ptBR}>
         <TimePicker
-          id={'custom-time-picker'}
+
           size={size}
           label={label}
           value={value}
@@ -34,6 +34,7 @@ const CustomTimePicker = ({ id, size, label, value, mask, onChange, placeHolder,
           renderInput={(params) =>
             <TextField
               {...params}
+              id='custom-time-picker'
               sx={{ maxWidth: '120px' }}
               inputProps={{
                 ...params.inputProps,
