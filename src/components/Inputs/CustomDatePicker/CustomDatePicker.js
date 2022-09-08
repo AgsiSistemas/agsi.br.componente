@@ -42,6 +42,7 @@ const CustomDatePicker = ({ id, size, label, value, minDate, maxDate, dateFormat
               sx={{ minWidth: '100px', marginTop: '5px' }}
               error={!value || dateValidation}
               helperText={!value || dateValidation ? helperText || "Data ou Hora Invalida!" : ""}
+              onKeyDown={(e) => e.preventDefault()}
               {...other}
             />
           )}

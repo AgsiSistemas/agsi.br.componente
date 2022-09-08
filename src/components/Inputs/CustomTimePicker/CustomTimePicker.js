@@ -41,6 +41,7 @@ const CustomTimePicker = ({ id, size, label, value, mask, onChange, placeHolder,
                 style: style.date_picker
               }}
               error={!value || dateValidation}
+              onKeyDown={(e) => e.preventDefault()}
               {...other}
             />}
         />
