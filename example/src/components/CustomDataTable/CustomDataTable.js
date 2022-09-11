@@ -1,18 +1,50 @@
 import React, { useState } from 'react';
-import  PropTypes from "prop-types";
-import './CustomDataTable.css';
+import PropTypes from "prop-types";
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import { Button } from 'primereact/button';
+import './CustomDataTable.css'
 
+const style={
+    content_data_table:{    
+        overflowX: 'auto'
+    },
+    content_data_table_display_border:{
+        overflowX: 'auto',
+        border: 'solid 1px #ADADAD',
+        borderRadius: '3px',
+        padding: '8px'
+    },
+    p_datatable_row_expansion:{
+        background: '#F5F5F5!important'
+    },
+    paginatorRight: {
+        fontSize:'12px',
+        color:'#69ABEC',
+        fontWeight:'normal'
+    }
+}
 const CustomDataTable = (props) =>{
 
-    const { records, columnList, heigthDataTable, paginatorStep, displayBorder, paginator, displayExpander, onRowExpand,  onRowCollapse, rowExpansionTemplate} = props
+    const { records, columnList, heigthDataTable, paginatorStep, displayBorder, paginator, displayExpander, onRowExpand,  onRowCollapse, rowExpansionTemplate, paginatorButton} = props
 
     const rowsTable = paginatorStep ? paginatorStep : 5
     const pagArr = [rowsTable];
 
     const [expandedRows, setExpandedRows] = useState(null);
 
+    const paginatorRight = paginatorButton !== undefined
+    ? <Button 
+        label={paginatorButton?.title !== undefined? paginatorButton?.title: 'Carregar mais...'} 
+        style={style.paginatorRight} 
+        type="button"
+        icon="pi pi-refresh" 
+        className="p-button-text"
+        onClick={ paginatorButton.onClick }
+    />
+    : <></>
+
+    
     const calPerPage = () => {
 
         var i = 0;        
@@ -28,10 +60,11 @@ const CustomDataTable = (props) =>{
     };
 
     return(         
-        <div className={`content-data-table ${displayBorder? 'display-border':''}`} >
+        <div style={displayBorder? style.content_data_table_display_border:  style.content_data_table} >
             <DataTable
                 value={records}
                 paginator={paginator}
+                paginatorRight={paginatorRight}
                 expandedRows={expandedRows}
                 onRowToggle={(e) => setExpandedRows(e.data)}
                 onRowExpand={onRowExpand} 
@@ -71,7 +104,8 @@ CustomDataTable.propTypes = {
     paginator: PropTypes.bool,
     displayExpander: PropTypes.bool,
     onRowExpand: PropTypes.func,  
-    onRowCollapse: PropTypes.func  
+    onRowCollapse: PropTypes.func,
+    paginatorButton: PropTypes.object  
 };
   
 CustomDataTable.defaultProp = {    
@@ -82,7 +116,11 @@ CustomDataTable.defaultProp = {
     paginator: false,
     displayExpander: false,
     onRowExpand: ()=>{},  
-    onRowCollapse: ()=>{}
+    onRowCollapse: ()=>{},
+    paginatorButton: {
+        title: "Carregar mais..",
+        onClick: ()=>{}
+    }
 };
 
 
