@@ -17,6 +17,7 @@ import IconButton from '@mui/material/IconButton';
 import { Conteiner, ConteinerItem } from '../Conteiner/Conteiner';
 import PageBase from '../PageBase/PageBase';
 import { Button as PrimeButton} from 'primereact/button';
+import './OperationTable.css'
 
 const style = {
     operation_content_header: {

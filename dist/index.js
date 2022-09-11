@@ -21,12 +21,13 @@ var Stack = _interopDefault(require('@mui/material/Stack'));
 var Snackbar = _interopDefault(require('@mui/material/Snackbar'));
 var MuiAlert = _interopDefault(require('@mui/material/Alert'));
 var AddCircleOutlineIcon = _interopDefault(require('@mui/icons-material/AddCircleOutline'));
+var datatable = require('primereact/datatable');
+var column = require('primereact/column');
 var DeleteIcon = _interopDefault(require('@mui/icons-material/Delete'));
 var DialogContentText = _interopDefault(require('@mui/material/DialogContentText'));
 var FilterAltIcon = _interopDefault(require('@mui/icons-material/FilterAlt'));
 var PrintIcon = _interopDefault(require('@mui/icons-material/Print'));
-var datatable = require('primereact/datatable');
-var column = require('primereact/column');
+var button = require('primereact/button');
 var CloseIcon = _interopDefault(require('@mui/icons-material/Close'));
 var LoadingButton = _interopDefault(require('@mui/lab/LoadingButton'));
 var CancelOutlinedIcon = _interopDefault(require('@mui/icons-material/CancelOutlined'));
@@ -488,37 +489,55 @@ OperationSection.defaultProp = {
 var OperationSection$1 = React__default.memo(OperationSection);
 
 var style$5 = {
-  content_data_table: {
-    overflowX: 'auto'
-  },
-  content_data_table_display_border: {
-    overflowX: 'auto',
-    border: 'solid 1px #ADADAD',
-    borderRadius: '3px',
+  operation_content_header: {
+    textAlign: 'end',
     padding: '8px'
   },
-  p_datatable_row_expansion: {
-    background: '#F5F5F5!important'
+  operation_content_justify_header: {
+    justifyContent: 'space-between',
+    borderBottom: 'solid 1px rgba(0, 0, 0, .125)',
+    alignItems: 'center'
+  },
+  operation_content_header_search: {
+    textAlign: 'start',
+    flex: 'none'
+  },
+  operation_content_data_table: {
+    overflowX: 'auto'
+  },
+  operation_content_group: {
+    border: '1px solid rgba(0, 0, 0, .125)'
+  },
+  paginatorRight: {
+    fontSize: '12px',
+    color: '#69ABEC',
+    fontWeight: 'normal'
   }
 };
 
-var CustomDataTable = function CustomDataTable(props) {
-  var records = props.records,
+var handleDisplay$1 = function handleDisplay(display) {
+  if (display === undefined) return 'none';else {
+    return display ? 'inline-flex' : 'none';
+  }
+};
+
+var OperationTable = function OperationTable(props) {
+  var onReportClick = props.onReportClick,
+      onAddClick = props.onAddClick,
+      deleteHandler = props.deleteHandler,
+      records = props.records,
+      paginator = props.paginator,
       columnList = props.columnList,
       heigthDataTable = props.heigthDataTable,
+      display = props.display,
+      onClick = props.onClick,
       paginatorStep = props.paginatorStep,
-      displayBorder = props.displayBorder,
-      paginator = props.paginator,
-      displayExpander = props.displayExpander,
-      onRowExpand = props.onRowExpand,
-      onRowCollapse = props.onRowCollapse,
-      rowExpansionTemplate = props.rowExpansionTemplate;
+      sortField = props.sortField,
+      sortOrder = props.sortOrder,
+      paginatorButton = props.paginatorButton;
   var rowsTable = paginatorStep ? paginatorStep : 5;
   var pagArr = [rowsTable];
-
-  var _useState = React.useState(null),
-      expandedRows = _useState[0],
-      setExpandedRows = _useState[1];
+  var printIcon = props.printIcon == false ? props.printIcon : true;
 
   var calPerPage = function calPerPage() {
     var i = 0;
@@ -538,110 +557,20 @@ var CustomDataTable = function CustomDataTable(props) {
     });
   };
 
-  return /*#__PURE__*/React__default.createElement("div", {
-    style: displayBorder ? style$5.content_data_table_display_border : style$5.content_data_table
-  }, /*#__PURE__*/React__default.createElement(datatable.DataTable, {
-    value: records,
-    paginator: paginator,
-    expandedRows: expandedRows,
-    onRowToggle: function onRowToggle(e) {
-      return setExpandedRows(e.data);
-    },
-    onRowExpand: onRowExpand,
-    onRowCollapse: onRowCollapse,
-    rowExpansionTemplate: rowExpansionTemplate,
-    selectionMode: "single",
-    responsiveLayout: "scroll",
-    paginatorTemplate: "CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown",
-    currentPageReportTemplate: "Mostrando {first} a {last} de {totalRecords}",
-    size: "small",
-    rows: rowsTable,
-    emptyMessage: "Nenhum resultado encontrado",
-    rowsPerPageOptions: calPerPage(),
-    scrollHeight: heigthDataTable
-  }, displayExpander && /*#__PURE__*/React__default.createElement(column.Column, {
-    expander: true,
-    style: {
-      width: '3em'
-    }
-  }), columnList.map(function (item, index) {
-    if (item.body !== undefined) return /*#__PURE__*/React__default.createElement(column.Column, {
-      key: index,
-      style: item.style,
-      sortable: item.sortable,
-      body: item.body,
-      header: item.header,
-      frozen: item.frozen,
-      alignFrozen: item.alignFrozen
-    });else return /*#__PURE__*/React__default.createElement(column.Column, {
-      key: index,
-      style: item.style,
-      sortable: item.sortable,
-      field: item.field,
-      header: item.header,
-      frozen: item.frozen
-    });
-  })));
-};
-
-CustomDataTable.propTypes = {
-  records: PropTypes.arrayOf(PropTypes.object),
-  columnList: PropTypes.arrayOf(PropTypes.object),
-  heigthDataTable: PropTypes.number,
-  displayBorder: PropTypes.bool,
-  paginator: PropTypes.bool,
-  displayExpander: PropTypes.bool,
-  onRowExpand: PropTypes.func,
-  onRowCollapse: PropTypes.func
-};
-CustomDataTable.defaultProp = {
-  records: [],
-  columnList: [],
-  heigthDataTable: 0,
-  displayBorder: false,
-  paginator: false,
-  displayExpander: false,
-  onRowExpand: function onRowExpand() {},
-  onRowCollapse: function onRowCollapse() {}
-};
-var CustomDataTable$1 = React__default.memo(CustomDataTable);
-
-var style$6 = {
-  operation_content_header: {
-    textAlign: 'end',
-    marginBottom: '5px',
-    paddingRight: '8px',
-    borderBottom: 'solid 1px rgba(0, 0, 0, .125)'
-  },
-  operation_content_header_search: {
-    textAlign: 'start'
-  },
-  operation_content_data_table: {
-    overflowX: 'auto'
-  },
-  operation_content_group: {
-    border: '1px solid rgba(0, 0, 0, .125)'
-  }
-};
-
-var handleDisplay$1 = function handleDisplay(display) {
-  if (display === undefined) return 'none';else {
-    return display ? 'inline-flex' : 'none';
-  }
-};
-
-var OperationTable = function OperationTable(props) {
-  var onReportClick = props.onReportClick,
-      onAddClick = props.onAddClick,
-      deleteHandler = props.deleteHandler,
-      records = props.records,
-      columnList = props.columnList,
-      display = props.display,
-      onClick = props.onClick;
+  var paginatorRight = paginatorButton !== undefined ? /*#__PURE__*/React__default.createElement(button.Button, {
+    label: (paginatorButton === null || paginatorButton === void 0 ? void 0 : paginatorButton.title) !== undefined ? paginatorButton === null || paginatorButton === void 0 ? void 0 : paginatorButton.title : 'Carregar mais...',
+    style: style$5.paginatorRight,
+    type: "button",
+    icon: "pi pi-refresh",
+    className: "p-button-text",
+    onClick: paginatorButton.onClick
+  }) : /*#__PURE__*/React__default.createElement(Fragment, null);
   return /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement(PageBase$3, null, /*#__PURE__*/React__default.createElement("div", {
-    style: style$6.operation_content_group
-  }, /*#__PURE__*/React__default.createElement(Conteiner, null, /*#__PURE__*/React__default.createElement(ConteinerItem, {
-    style: style$6.operation_content_header_search
+    style: style$5.operation_content_group
+  }, /*#__PURE__*/React__default.createElement(Conteiner, {
+    style: style$5.operation_content_justify_header
+  }, /*#__PURE__*/React__default.createElement(ConteinerItem, {
+    style: style$5.operation_content_header_search
   }, /*#__PURE__*/React__default.createElement(IconButton, {
     id: "id_operation_content_search",
     style: {
@@ -650,32 +579,66 @@ var OperationTable = function OperationTable(props) {
     className: "icon-btn-blue",
     size: "large",
     onClick: onClick
+  }, /*#__PURE__*/React__default.createElement(Tooltip, {
+    title: "Filtros / Pesquisa"
   }, /*#__PURE__*/React__default.createElement(FilterAltIcon, {
     fontSize: "inherit"
-  }))), /*#__PURE__*/React__default.createElement(ConteinerItem, {
-    style: style$6.operation_content_header
-  }, /*#__PURE__*/React__default.createElement(IconButton, {
+  })))), /*#__PURE__*/React__default.createElement(ConteinerItem, {
+    style: style$5.operation_content_header
+  }, printIcon && /*#__PURE__*/React__default.createElement(IconButton, {
     className: "icon-btn-blue",
     size: "large",
     style: {
       marginRight: '7px'
     },
     onClick: onReportClick
+  }, /*#__PURE__*/React__default.createElement(Tooltip, {
+    title: "Imprimir"
   }, /*#__PURE__*/React__default.createElement(PrintIcon, {
     fontSize: "inherit"
-  })), /*#__PURE__*/React__default.createElement(Button, {
+  }))), onAddClick && /*#__PURE__*/React__default.createElement(Button, {
     className: "btn-blue",
     startIcon: /*#__PURE__*/React__default.createElement(AddCircleOutlineIcon, null),
     variant: "contained",
     color: "success",
     onClick: onAddClick
-  }, "Incluir"))), /*#__PURE__*/React__default.createElement(Conteiner, null, /*#__PURE__*/React__default.createElement(ConteinerItem, {
-    style: style$6.operation_content_data_table
-  }, /*#__PURE__*/React__default.createElement(CustomDataTable$1, {
-    records: records,
-    columnList: columnList
-  }))))), /*#__PURE__*/React__default.createElement(Dialog, {
-    open: deleteHandler.displayDelete,
+  }, props.onAddClickTitle ? props.onAddClickTitle : 'Incluir'))), /*#__PURE__*/React__default.createElement(Conteiner, null, /*#__PURE__*/React__default.createElement(ConteinerItem, {
+    style: style$5.operation_content_data_table
+  }, /*#__PURE__*/React__default.createElement(datatable.DataTable, {
+    value: records,
+    paginator: paginator,
+    paginatorRight: paginatorRight,
+    sortField: sortField,
+    sortOrder: sortOrder,
+    responsiveLayout: "scroll",
+    paginatorTemplate: "CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown",
+    currentPageReportTemplate: "Mostrando {first} a {last} de {totalRecords}",
+    size: "small",
+    rows: rowsTable,
+    emptyMessage: "Nenhum resultado encontrado",
+    rowsPerPageOptions: calPerPage(),
+    scrollHeight: heigthDataTable
+  }, columnList.map(function (item, index) {
+    if (item.body !== undefined) return /*#__PURE__*/React__default.createElement(column.Column, {
+      key: index,
+      style: item.style,
+      sortable: item.sortable,
+      body: item.body,
+      header: item.header,
+      frozen: item.frozen,
+      alignFrozen: item.alignFrozen,
+      dataType: item.dataType
+    });else return /*#__PURE__*/React__default.createElement(column.Column, {
+      key: index,
+      style: item.style,
+      sortable: item.sortable,
+      field: item.field,
+      header: item.header,
+      frozen: item.frozen,
+      dataType: item.dataType
+    });
+  })))))), /*#__PURE__*/React__default.createElement(Dialog, {
+    open: deleteHandler === null || deleteHandler === void 0 ? void 0 : deleteHandler.displayDelete,
     "aria-labelledby": "alert-dialog-title",
     "aria-describedby": "alert-dialog-description"
   }, /*#__PURE__*/React__default.createElement(DialogTitle, {
@@ -706,6 +669,7 @@ var OperationTable = function OperationTable(props) {
 OperationTable.propTypes = {
   onReportClick: PropTypes.func,
   onAddClick: PropTypes.func,
+  paginator: PropTypes.bool,
   deleteHandler: PropTypes.shape({
     displayDelete: PropTypes.bool,
     onCancelClick: PropTypes.func,
@@ -715,11 +679,14 @@ OperationTable.propTypes = {
   columnList: PropTypes.arrayOf(PropTypes.object),
   heigthDataTable: PropTypes.number,
   display: PropTypes.bool,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  printIcon: PropTypes.bool,
+  paginatorButton: PropTypes.object
 };
 OperationTable.defaultProp = {
   onReportClick: function onReportClick() {},
   onAddClick: function onAddClick() {},
+  paginator: false,
   deleteHandler: {
     displayDelete: false,
     onCancelClick: function onCancelClick() {},
@@ -729,7 +696,12 @@ OperationTable.defaultProp = {
   columnList: [],
   heigthDataTable: 0,
   display: false,
-  onClick: function onClick() {}
+  onClick: function onClick() {},
+  printIcon: true,
+  paginatorButton: {
+    title: "Carregar mais..",
+    onClick: function onClick() {}
+  }
 };
 var OperationTable$1 = React__default.memo(OperationTable);
 
@@ -840,6 +812,146 @@ function CustomToastMessage$1(_ref) {
     }
   }, message)));
 }
+
+var style$6 = {
+  content_data_table: {
+    overflowX: 'auto'
+  },
+  content_data_table_display_border: {
+    overflowX: 'auto',
+    border: 'solid 1px #ADADAD',
+    borderRadius: '3px',
+    padding: '8px'
+  },
+  p_datatable_row_expansion: {
+    background: '#F5F5F5!important'
+  },
+  paginatorRight: {
+    fontSize: '12px',
+    color: '#69ABEC',
+    fontWeight: 'normal'
+  }
+};
+
+var CustomDataTable = function CustomDataTable(props) {
+  var records = props.records,
+      columnList = props.columnList,
+      heigthDataTable = props.heigthDataTable,
+      paginatorStep = props.paginatorStep,
+      displayBorder = props.displayBorder,
+      paginator = props.paginator,
+      displayExpander = props.displayExpander,
+      onRowExpand = props.onRowExpand,
+      onRowCollapse = props.onRowCollapse,
+      rowExpansionTemplate = props.rowExpansionTemplate,
+      paginatorButton = props.paginatorButton;
+  var rowsTable = paginatorStep ? paginatorStep : 5;
+  var pagArr = [rowsTable];
+
+  var _useState = React.useState(null),
+      expandedRows = _useState[0],
+      setExpandedRows = _useState[1];
+
+  var paginatorRight = paginatorButton !== undefined ? /*#__PURE__*/React__default.createElement(button.Button, {
+    label: (paginatorButton === null || paginatorButton === void 0 ? void 0 : paginatorButton.title) !== undefined ? paginatorButton === null || paginatorButton === void 0 ? void 0 : paginatorButton.title : 'Carregar mais...',
+    style: style$6.paginatorRight,
+    type: "button",
+    icon: "pi pi-refresh",
+    className: "p-button-text",
+    onClick: paginatorButton.onClick
+  }) : /*#__PURE__*/React__default.createElement(Fragment, null);
+
+  var calPerPage = function calPerPage() {
+    var i = 0;
+
+    while (i < 2) {
+      i++;
+      var inclement = pagArr[pagArr.length - 1] + rowsTable;
+
+      if (!pagArr.includes(inclement) || !inclement == 50) {
+        pagArr.push(inclement);
+      }
+    }
+
+    pagArr.push(50);
+    return pagArr.sort(function (a, b) {
+      return a - b;
+    });
+  };
+
+  return /*#__PURE__*/React__default.createElement("div", {
+    style: displayBorder ? style$6.content_data_table_display_border : style$6.content_data_table
+  }, /*#__PURE__*/React__default.createElement(datatable.DataTable, {
+    value: records,
+    paginator: paginator,
+    paginatorRight: paginatorRight,
+    expandedRows: expandedRows,
+    onRowToggle: function onRowToggle(e) {
+      return setExpandedRows(e.data);
+    },
+    onRowExpand: onRowExpand,
+    onRowCollapse: onRowCollapse,
+    rowExpansionTemplate: rowExpansionTemplate,
+    selectionMode: "single",
+    responsiveLayout: "scroll",
+    paginatorTemplate: "CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown",
+    currentPageReportTemplate: "Mostrando {first} a {last} de {totalRecords}",
+    size: "small",
+    rows: rowsTable,
+    emptyMessage: "Nenhum resultado encontrado",
+    rowsPerPageOptions: calPerPage(),
+    scrollHeight: heigthDataTable
+  }, displayExpander && /*#__PURE__*/React__default.createElement(column.Column, {
+    expander: true,
+    style: {
+      width: '3em'
+    }
+  }), columnList.map(function (item, index) {
+    if (item.body !== undefined) return /*#__PURE__*/React__default.createElement(column.Column, {
+      key: index,
+      style: item.style,
+      sortable: item.sortable,
+      body: item.body,
+      header: item.header,
+      frozen: item.frozen,
+      alignFrozen: item.alignFrozen
+    });else return /*#__PURE__*/React__default.createElement(column.Column, {
+      key: index,
+      style: item.style,
+      sortable: item.sortable,
+      field: item.field,
+      header: item.header,
+      frozen: item.frozen
+    });
+  })));
+};
+
+CustomDataTable.propTypes = {
+  records: PropTypes.arrayOf(PropTypes.object),
+  columnList: PropTypes.arrayOf(PropTypes.object),
+  heigthDataTable: PropTypes.number,
+  displayBorder: PropTypes.bool,
+  paginator: PropTypes.bool,
+  displayExpander: PropTypes.bool,
+  onRowExpand: PropTypes.func,
+  onRowCollapse: PropTypes.func,
+  paginatorButton: PropTypes.object
+};
+CustomDataTable.defaultProp = {
+  records: [],
+  columnList: [],
+  heigthDataTable: 0,
+  displayBorder: false,
+  paginator: false,
+  displayExpander: false,
+  onRowExpand: function onRowExpand() {},
+  onRowCollapse: function onRowCollapse() {},
+  paginatorButton: {
+    title: "Carregar mais..",
+    onClick: function onClick() {}
+  }
+};
+var CustomDataTable$1 = React__default.memo(CustomDataTable);
 
 var style$7 = {
   save_component: {
@@ -1197,6 +1309,8 @@ var Header = function Header(props) {
 
 var Header$1 = React.memo(Header);
 
+var _excluded$1 = ["title", "options", "value", "freeSolo", "onChange", "inputValue", "onInputChange", "validation", "loadingListOptions", "open", "disabled", "onKeyPress", "onblur"];
+
 var isNullValue = function isNullValue(value) {
   return value === undefined || value === null || value === "";
 };
@@ -1222,7 +1336,9 @@ var CustomInputSelect = function CustomInputSelect(_ref) {
       open = _ref.open,
       disabled = _ref.disabled,
       onKeyPress = _ref.onKeyPress,
-      onblur = _ref.onblur;
+      onblur = _ref.onblur,
+      other = _objectWithoutPropertiesLoose(_ref, _excluded$1);
+
   return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(Autocomplete, {
     style: {
       marginTop: '8px'
@@ -1260,7 +1376,7 @@ var CustomInputSelect = function CustomInputSelect(_ref) {
             size: 15
           }) : null, params.InputProps.startAdornment)
         })
-      }));
+      }, other));
     }
   }));
 };
@@ -1297,13 +1413,17 @@ CustomInputSelect.defaultProp = {
 };
 var CustomInputSelect$1 = React__default.memo(CustomInputSelect);
 
+var _excluded$2 = ["label", "id", "value", "disabled", "onChange"];
+
 var CustomTextField = function CustomTextField(_ref) {
   var label = _ref.label,
       id = _ref.id,
       value = _ref.value,
       disabled = _ref.disabled,
-      onChange = _ref.onChange;
-  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(TextField, {
+      onChange = _ref.onChange,
+      other = _objectWithoutPropertiesLoose(_ref, _excluded$2);
+
+  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(TextField, _extends({
     size: "small",
     label: label,
     id: id,
@@ -1316,7 +1436,7 @@ var CustomTextField = function CustomTextField(_ref) {
     },
     value: value,
     onChange: onChange
-  }));
+  }, other)));
 };
 
 CustomTextField.propTypes = {
@@ -1335,6 +1455,7 @@ CustomTextField.defaultProp = {
 };
 var CustomTextField$1 = React__default.memo(CustomTextField);
 
+var _excluded$3 = ["id", "size", "label", "value", "mask", "onChange", "placeHolder", "ampm", "disabled"];
 var style$9 = {
   date_picker: {
     padding: '9px 9px 9px 15px !important'
@@ -1342,15 +1463,15 @@ var style$9 = {
 };
 
 var CustomTimePicker = function CustomTimePicker(_ref) {
-  var id = _ref.id,
-      size = _ref.size,
+  var size = _ref.size,
       label = _ref.label,
       value = _ref.value,
       mask = _ref.mask,
       onChange = _ref.onChange,
       placeHolder = _ref.placeHolder,
       ampm = _ref.ampm,
-      disabled = _ref.disabled;
+      disabled = _ref.disabled,
+      other = _objectWithoutPropertiesLoose(_ref, _excluded$3);
 
   var _React$useState = React__default.useState(''),
       dateValidation = _React$useState[0],
@@ -1360,7 +1481,6 @@ var CustomTimePicker = function CustomTimePicker(_ref) {
     dateAdapter: AdapterDateFns.AdapterDateFns,
     locale: locale.ptBR
   }, /*#__PURE__*/React__default.createElement(TimePicker.TimePicker, {
-    id: id,
     size: size,
     label: label,
     value: value,
@@ -1374,6 +1494,7 @@ var CustomTimePicker = function CustomTimePicker(_ref) {
     onChange: onChange,
     renderInput: function renderInput(params) {
       return /*#__PURE__*/React__default.createElement(material.TextField, _extends({}, params, {
+        id: "custom-time-picker",
         sx: {
           maxWidth: '120px'
         },
@@ -1381,8 +1502,11 @@ var CustomTimePicker = function CustomTimePicker(_ref) {
           placeholder: placeHolder || "00:00",
           style: style$9.date_picker
         }),
-        error: !value || dateValidation
-      }));
+        error: !value || dateValidation,
+        onKeyDown: function onKeyDown(e) {
+          return e.preventDefault();
+        }
+      }, other));
     }
   })));
 };
@@ -1411,6 +1535,7 @@ CustomTimePicker.defaultProp = {
 };
 var CustomTimePicker$1 = React__default.memo(CustomTimePicker);
 
+var _excluded$4 = ["id", "size", "label", "value", "minDate", "maxDate", "dateFormat", "onChange", "placeHolder", "helperText", "disabled"];
 var style$a = {
   date_picker: {
     padding: '9px 9px 9px 15px !important'
@@ -1418,8 +1543,7 @@ var style$a = {
 };
 
 var CustomDatePicker = function CustomDatePicker(_ref) {
-  var id = _ref.id,
-      size = _ref.size,
+  var size = _ref.size,
       label = _ref.label,
       value = _ref.value,
       minDate = _ref.minDate,
@@ -1428,7 +1552,8 @@ var CustomDatePicker = function CustomDatePicker(_ref) {
       onChange = _ref.onChange,
       placeHolder = _ref.placeHolder,
       helperText = _ref.helperText,
-      disabled = _ref.disabled;
+      disabled = _ref.disabled,
+      other = _objectWithoutPropertiesLoose(_ref, _excluded$4);
 
   var _React$useState = React__default.useState(''),
       dateValidation = _React$useState[0],
@@ -1455,14 +1580,17 @@ var CustomDatePicker = function CustomDatePicker(_ref) {
           placeholder: placeHolder || "DD/MM/AAAA",
           style: style$a.date_picker
         }),
-        id: id,
+        id: "custom-date-picker",
         sx: {
           minWidth: '100px',
           marginTop: '5px'
         },
         error: !value || dateValidation,
-        helperText: !value || dateValidation ? helperText || "Data ou Hora Invalida!" : ""
-      }));
+        helperText: !value || dateValidation ? helperText || "Data ou Hora Invalida!" : "",
+        onKeyDown: function onKeyDown(e) {
+          return e.preventDefault();
+        }
+      }, other));
     }
   })));
 };
