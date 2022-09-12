@@ -42,7 +42,7 @@ const CustomDataTable = (props) =>{
         className="p-button-text"
         onClick={ paginatorButton.onClick }
     />
-    : <></>
+    : <React.Fragment/>
 
     
     const calPerPage = () => {

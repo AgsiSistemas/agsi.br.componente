@@ -89,7 +89,7 @@ const OperationTable = (props) => {
         className="p-button-text"
         onClick={ paginatorButton.onClick }
     />
-    : <></>
+    : <React.Fragment/>
 
     return (
         <div>
