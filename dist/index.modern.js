@@ -561,7 +561,7 @@ var OperationTable = function OperationTable(props) {
     icon: "pi pi-refresh",
     className: "p-button-text",
     onClick: paginatorButton.onClick
-  }) : /*#__PURE__*/React__default.createElement(Fragment, null);
+  }) : /*#__PURE__*/React__default.createElement(React__default.Fragment, null);
   return /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement(PageBase$3, null, /*#__PURE__*/React__default.createElement("div", {
     style: style$5.operation_content_group
   }, /*#__PURE__*/React__default.createElement(Conteiner, {
@@ -856,7 +856,7 @@ var CustomDataTable = function CustomDataTable(props) {
     icon: "pi pi-refresh",
     className: "p-button-text",
     onClick: paginatorButton.onClick
-  }) : /*#__PURE__*/React__default.createElement(Fragment, null);
+  }) : /*#__PURE__*/React__default.createElement(React__default.Fragment, null);
 
   var calPerPage = function calPerPage() {
     var i = 0;
