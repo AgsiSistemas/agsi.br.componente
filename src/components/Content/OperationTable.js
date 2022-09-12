@@ -17,7 +17,6 @@ import IconButton from '@mui/material/IconButton';
 import { Conteiner, ConteinerItem } from '../Conteiner/Conteiner';
 import PageBase from '../PageBase/PageBase';
 import { Button as PrimeButton} from 'primereact/button';
-import './OperationTable.css'
 
 const style = {
     operation_content_header: {
@@ -57,6 +56,7 @@ const handleDisplay = (display) => {
     }
 }
 const OperationTable = (props) => {
+   
 
     const { onReportClick, onAddClick, deleteHandler, records, paginator, columnList, heigthDataTable, display, onClick, paginatorStep, sortField, sortOrder, paginatorButton } = props
 

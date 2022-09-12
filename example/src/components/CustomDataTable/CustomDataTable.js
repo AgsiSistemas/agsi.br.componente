@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
-import './CustomDataTable.css'
 
 const style={
     content_data_table:{    

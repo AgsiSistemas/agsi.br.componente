@@ -55,6 +55,7 @@ const handleDisplay = (display) => {
         return display ? 'inline-flex' : 'none'
     }
 }
+
 const OperationTable = (props) => {
 
     const { onReportClick, onAddClick, deleteHandler, records, paginator, columnList, heigthDataTable, display, onClick, paginatorStep, sortField, sortOrder, paginatorButton } = props
@@ -79,6 +80,7 @@ const OperationTable = (props) => {
         return (pagArr.sort(function (a, b) { return a - b }));
     };
 
+    const paginatorLeft = <div/>;
     const paginatorRight = paginatorButton !== undefined
     ? <PrimeButton 
         label={paginatorButton?.title !== undefined? paginatorButton?.title: 'Carregar mais...'} 
@@ -118,6 +120,7 @@ const OperationTable = (props) => {
                             <DataTable
                                 value={records}
                                 paginator={paginator}
+                                paginatorLeft={paginatorLeft}
                                 paginatorRight={paginatorRight}
                                 sortField={sortField}
                                 sortOrder={sortOrder}
