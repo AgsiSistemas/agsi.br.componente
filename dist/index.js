@@ -557,6 +557,7 @@ var OperationTable = function OperationTable(props) {
     });
   };
 
+  var paginatorLeft = /*#__PURE__*/React__default.createElement("div", null);
   var paginatorRight = paginatorButton !== undefined ? /*#__PURE__*/React__default.createElement(button.Button, {
     label: (paginatorButton === null || paginatorButton === void 0 ? void 0 : paginatorButton.title) !== undefined ? paginatorButton === null || paginatorButton === void 0 ? void 0 : paginatorButton.title : 'Carregar mais...',
     style: style$5.paginatorRight,
@@ -607,6 +608,7 @@ var OperationTable = function OperationTable(props) {
   }, /*#__PURE__*/React__default.createElement(datatable.DataTable, {
     value: records,
     paginator: paginator,
+    paginatorLeft: paginatorLeft,
     paginatorRight: paginatorRight,
     sortField: sortField,
     sortOrder: sortOrder,
