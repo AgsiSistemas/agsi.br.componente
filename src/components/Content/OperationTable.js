@@ -81,7 +81,7 @@ const OperationTable = (props) => {
     };
 
     const paginatorLeft = <div />;
-    const paginatorRight = paginatorButton !== undefined && records
+    const paginatorRight = paginatorButton !== undefined && records.length !== 0
         ? <PrimeButton
             label={paginatorButton?.title !== undefined ? paginatorButton?.title : 'Carregar mais...'}
             style={style.paginatorRight}
