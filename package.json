@@ -1,6 +1,6 @@
 {
   "name": "@agsisistemas/agsi.br.componente",
-  "version": "1.0.6",
+  "version": "1.0.2",
   "description": "Made with create-react-library",
   "author": "AgsiSistemas",
   "license": "MIT",
@@ -12,9 +12,10 @@
     "node": ">=10"
   },
   "scripts": {
-    "build": "microbundle-crl --no-compress --no-css-modules --format modern,cjs",
-    "build2": "microbundle-crl --no-compress --no-css-modules --format modern,cjs",
+    "login": "npm login --registry=https://npm.pkg.github.com",
+    "release": "microbundle-crl --no-compress --no-css-modules --format modern,cjs && standard-version && git push --follow-tags && npm publish",
     "start": "microbundle-crl watch --no-compress --format modern,cjs",
+    "build": "microbundle-crl --no-compress --no-css-modules --format modern,cjs",
     "prepare": "run-s build",
     "test": "run-s test:unit test:lint test:build",
     "test:build": "run-s build",
@@ -56,6 +57,7 @@
     "styled-components": "^5.3.5"
   },
   "devDependencies": {
+    "standard-version": "^9.5.0",
     "babel-eslint": "^10.0.3",
     "cross-env": "^7.0.2",
     "eslint": "^6.8.0",
@@ -78,7 +80,7 @@
     "react-scripts": "^3.4.1"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
+    "registry": "https://npm.pkg.github.com/agsisistemas"
   },
   "files": [
     "dist"
