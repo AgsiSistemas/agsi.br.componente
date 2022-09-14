@@ -16,7 +16,7 @@ import PrintIcon from '@mui/icons-material/Print';
 import IconButton from '@mui/material/IconButton';
 import { Conteiner, ConteinerItem } from '../Conteiner/Conteiner';
 import PageBase from '../PageBase/PageBase';
-import { Button as PrimeButton} from 'primereact/button';
+import { Button as PrimeButton } from 'primereact/button';
 
 const style = {
     operation_content_header: {
@@ -41,9 +41,9 @@ const style = {
         border: '1px solid rgba(0, 0, 0, .125)'
     },
     paginatorRight: {
-        fontSize:'12px',
-        color:'#69ABEC',
-        fontWeight:'normal'
+        fontSize: '12px',
+        color: '#69ABEC',
+        fontWeight: 'normal'
     }
 }
 
@@ -80,17 +80,17 @@ const OperationTable = (props) => {
         return (pagArr.sort(function (a, b) { return a - b }));
     };
 
-    const paginatorLeft = <div/>;
-    const paginatorRight = paginatorButton !== undefined
-    ? <PrimeButton 
-        label={paginatorButton?.title !== undefined? paginatorButton?.title: 'Carregar mais...'} 
-        style={style.paginatorRight} 
-        type="button"
-        icon="pi pi-refresh" 
-        className="p-button-text"
-        onClick={ paginatorButton.onClick }
-    />
-    : <React.Fragment/>
+    const paginatorLeft = <div />;
+    const paginatorRight = paginatorButton !== undefined && records.length !== 0
+        ? <PrimeButton
+            label={paginatorButton?.title !== undefined ? paginatorButton?.title : 'Carregar mais...'}
+            style={style.paginatorRight}
+            type="button"
+            icon="pi pi-refresh"
+            className="p-button-text"
+            onClick={paginatorButton.onClick}
+        />
+        : <React.Fragment />
 
     return (
         <div>
@@ -189,7 +189,7 @@ OperationTable.propTypes = {
     display: PropTypes.bool,
     onClick: PropTypes.func,
     printIcon: PropTypes.bool,
-    paginatorButton: PropTypes.object  
+    paginatorButton: PropTypes.object
 };
 
 OperationTable.defaultProp = {
@@ -209,7 +209,7 @@ OperationTable.defaultProp = {
     printIcon: true,
     paginatorButton: {
         title: "Carregar mais..",
-        onClick: ()=>{}
+        onClick: () => { }
     }
 };
 
