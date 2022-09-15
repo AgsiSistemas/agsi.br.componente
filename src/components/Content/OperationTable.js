@@ -21,18 +21,20 @@ import { Paginator } from 'primereact/paginator';
 const style = {
     operation_content_header: {
         textAlign: 'end',
+        marginBottom: '5px',
         padding: '8px',
+        minHeight: '68px',
+        borderBottom: 'solid 1px rgba(0, 0, 0, .125)',
 
     },
-    operation_content_justify_header: {
-        justifyContent: 'space-between',
-        borderBottom: 'solid 1px rgba(0, 0, 0, .125)',
-        alignItems: 'center'
-    },
+    // operation_content_justify_header: {
+    //     justifyContent: 'space-between',
+    //     borderBottom: 'solid 1px rgba(0, 0, 0, .125)',
+    //     alignItems: 'center'
+    // },
     operation_content_header_search: {
         textAlign: 'start',
-        flex: 'none',
-        // borderBottom: '1px solid rgba(0, 0, 0, 0.125)'
+        minHeight: '68px',
     },
     operation_content_data_table: {
         overflowX: 'auto'
@@ -93,8 +95,8 @@ const OperationTable = (props) => {
         <div>
             <PageBase>
                 <div style={style.operation_content_group}>
-                    <Conteiner style={style.operation_content_justify_header}>
-                        <ConteinerItem style={style.operation_content_header_search}>
+                    <Conteiner >
+                        <ConteinerItem style={style.operation_content_header + style.operation_content_header_search}>
                             <IconButton id="id_operation_content_search" style={{ display: handleDisplay(display) }} className='icon-btn-blue' size="large" onClick={onClick}>
                                 <Tooltip title='Filtros / Pesquisa'><FilterAltIcon fontSize="inherit" /></Tooltip>
                             </IconButton>
