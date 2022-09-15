@@ -27,11 +27,6 @@ const style = {
         borderBottom: 'solid 1px rgba(0, 0, 0, .125)',
 
     },
-    // operation_content_justify_header: {
-    //     justifyContent: 'space-between',
-    //     borderBottom: 'solid 1px rgba(0, 0, 0, .125)',
-    //     alignItems: 'center'
-    // },
     operation_content_header_search: {
         textAlign: 'start',
         minHeight: '68px',
@@ -96,7 +91,7 @@ const OperationTable = (props) => {
             <PageBase>
                 <div style={style.operation_content_group}>
                     <Conteiner >
-                        <ConteinerItem style={style.operation_content_header + style.operation_content_header_search}>
+                        <ConteinerItem style={style.operation_content_header}>
                             <IconButton id="id_operation_content_search" style={{ display: handleDisplay(display) }} className='icon-btn-blue' size="large" onClick={onClick}>
                                 <Tooltip title='Filtros / Pesquisa'><FilterAltIcon fontSize="inherit" /></Tooltip>
                             </IconButton>
