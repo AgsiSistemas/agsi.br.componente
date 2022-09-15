@@ -29,7 +29,10 @@ const style = {
     },
     operation_content_header_search: {
         textAlign: 'start',
+        padding: '8px',
         minHeight: '68px',
+        marginBottom: '5px',
+        borderBottom: 'solid 1px rgba(0, 0, 0, .125)',
     },
     operation_content_data_table: {
         overflowX: 'auto'
@@ -91,7 +94,7 @@ const OperationTable = (props) => {
             <PageBase>
                 <div style={style.operation_content_group}>
                     <Conteiner >
-                        <ConteinerItem style={style.operation_content_header}>
+                        <ConteinerItem style={style.operation_content_header_search}>
                             <IconButton id="id_operation_content_search" style={{ display: handleDisplay(display) }} className='icon-btn-blue' size="large" onClick={onClick}>
                                 <Tooltip title='Filtros / Pesquisa'><FilterAltIcon fontSize="inherit" /></Tooltip>
                             </IconButton>
