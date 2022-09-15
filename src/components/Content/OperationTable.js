@@ -5,10 +5,6 @@ import Tooltip from '@mui/material/Tooltip';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { Ripple } from "primereact/ripple";
-import { Dropdown } from "primereact/dropdown";
-import { classNames } from "primereact/utils";
-import { InputText } from "primereact/inputtext";
 import DeleteIcon from '@mui/icons-material/Delete';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -20,10 +16,7 @@ import PrintIcon from '@mui/icons-material/Print';
 import IconButton from '@mui/material/IconButton';
 import { Conteiner, ConteinerItem } from '../Conteiner/Conteiner';
 import PageBase from '../PageBase/PageBase';
-import { Button as PrimeButton } from 'primereact/button';
 import { Paginator } from 'primereact/paginator';
-// import './OperationTable.scss'
-import { isNullValue } from '../../Utils/Utils.js';
 
 const style = {
     operation_content_header: {
