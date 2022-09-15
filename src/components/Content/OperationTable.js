@@ -44,6 +44,12 @@ const style = {
         fontSize: '12px',
         color: '#69ABEC',
         fontWeight: 'normal'
+    },
+    loadingPaginator: {
+        // backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        pointerEvents: 'none',
+        borderRadius: 0,
+        zIndex: 1000
     }
 }
 
@@ -127,7 +133,7 @@ const OperationTable = (props) => {
                                     })
                                 }
                             </DataTable>
-                            <Paginator className={loading && 'loading-paginator'} template={template} onPageChange={onPageChange} first={first} rows={rows} totalRecords={totalRecords} currentPageReportTemplate={"Mostrando {first} a {last} de {totalRecords}"} rowsPerPageOptions={[10, 20, 30, 50]}>
+                            <Paginator style={loading ? style.loadingPaginator : {}} template={template} onPageChange={onPageChange} first={first} rows={rows} totalRecords={totalRecords} currentPageReportTemplate={"Mostrando {first} a {last} de {totalRecords}"} rowsPerPageOptions={[10, 20, 30, 50]}>
                             </Paginator>
 
                         </ConteinerItem>
