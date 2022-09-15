@@ -5,10 +5,6 @@ import Tooltip from '@mui/material/Tooltip';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { Ripple } from "primereact/ripple";
-import { Dropdown } from "primereact/dropdown";
-import { classNames } from "primereact/utils";
-import { InputText } from "primereact/inputtext";
 import DeleteIcon from '@mui/icons-material/Delete';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -21,9 +17,6 @@ import IconButton from '@mui/material/IconButton';
 import { Conteiner, ConteinerItem } from '../Conteiner/Conteiner';
 import PageBase from '../PageBase/PageBase';
 import { Button as PrimeButton } from 'primereact/button';
-import { Paginator } from 'primereact/paginator';
-// import './OperationTable.scss'
-import { isNullValue } from '../../Utils/Utils.js';
 
 const style = {
     operation_content_header: {
@@ -65,30 +58,39 @@ const handleDisplay = (display) => {
 
 const OperationTable = (props) => {
 
-    const { onReportClick, onAddClick, deleteHandler, records, paginator, columnList, heigthDataTable, display, onClick, paginatorStep, sortField, sortOrder, paginatorButton, pageableData } = props
+    const { onReportClick, onAddClick, deleteHandler, records, paginator, columnList, heigthDataTable, display, onClick, paginatorStep, sortField, sortOrder, paginatorButton } = props
 
     const rowsTable = paginatorStep ? paginatorStep : 5
     const pagArr = [rowsTable];
     const printIcon = props.printIcon == false ? props.printIcon : true
 
-    const [loading, setLoading] = useState(false)
-    const [first, setFirst] = useState(0)
-    const [rows, setRows] = useState(pageableData?.pageable?.pageSize);
-    const totalRecords = pageableData?.totalElements
+    // Check and set quantity of rows and rowsperpage
+    const calPerPage = () => {
+        var i = 0;
 
-    useEffect(() => {
-        setLoading(false)
-    }, [pageableData])
+        while (i < 2) {
+            i++;
+            const inclement = pagArr[pagArr.length - 1] + rowsTable
+            if (!pagArr.includes(inclement) || !inclement == 50) {
+                pagArr.push(inclement);
+            }
+        }
+        pagArr.push(50);
 
-    const onPageChange = (e) => {
-        setLoading(true)
-        paginatorButton.onClick(e)
-        setFirst(e.first)
-        setRows(e.rows)
-    }
-    const template = {
-        layout: 'CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown',
-    }
+        return (pagArr.sort(function (a, b) { return a - b }));
+    };
+
+    const paginatorLeft = <div />;
+    const paginatorRight = paginatorButton !== undefined && records.length !== 0
+        ? <PrimeButton
+            label={paginatorButton?.title !== undefined ? paginatorButton?.title : 'Carregar mais...'}
+            style={style.paginatorRight}
+            type="button"
+            icon="pi pi-refresh"
+            className="p-button-text"
+            onClick={paginatorButton.onClick}
+        />
+        : <React.Fragment />
 
     return (
         <div>
@@ -117,14 +119,20 @@ const OperationTable = (props) => {
                         <ConteinerItem style={style.operation_content_data_table} >
                             <DataTable
                                 value={records}
-                                paginatorTemplate={template}
+                                paginator={paginator}
+                                paginatorLeft={paginatorLeft}
+                                paginatorRight={paginatorRight}
                                 sortField={sortField}
                                 sortOrder={sortOrder}
                                 responsiveLayout="scroll"
-                                loading={loading}
+                                paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+                                currentPageReportTemplate={"Mostrando {first} a {last} de {totalRecords}"}
                                 size="small"
+                                rows={rowsTable}
                                 emptyMessage={"Nenhum resultado encontrado"}
+                                rowsPerPageOptions={calPerPage()}
                                 scrollHeight={heigthDataTable}>
+
                                 {
                                     columnList.map((item, index) => {
                                         if (item.body !== undefined)
@@ -134,8 +142,6 @@ const OperationTable = (props) => {
                                     })
                                 }
                             </DataTable>
-                            <Paginator className={loading && 'loading-paginator'} template={template} onPageChange={onPageChange} first={first} rows={rows} totalRecords={totalRecords} currentPageReportTemplate={"Mostrando {first} a {last} de {totalRecords}"} rowsPerPageOptions={[10, 20, 30, 50]}>
-                            </Paginator>
 
                         </ConteinerItem>
                     </Conteiner>
