@@ -133,8 +133,10 @@ const OperationTable = (props) => {
                                     })
                                 }
                             </DataTable>
-                            <Paginator style={loading ? style.loadingPaginator : {}} template={template} onPageChange={onPageChange} first={first} rows={rows} totalRecords={totalRecords} currentPageReportTemplate={"Mostrando {first} a {last} de {totalRecords}"} rowsPerPageOptions={[10, 20, 30, 50]}>
-                            </Paginator>
+                            {pageableData &&
+                                <Paginator style={loading ? style.loadingPaginator : {}} template={template} onPageChange={onPageChange} first={first} rows={rows} totalRecords={totalRecords} currentPageReportTemplate={"Mostrando {first} a {last} de {totalRecords}"} rowsPerPageOptions={[10, 20, 30, 50]}>
+                                </Paginator>
+                            }
 
                         </ConteinerItem>
                     </Conteiner>
