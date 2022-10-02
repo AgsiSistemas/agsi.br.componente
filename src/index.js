@@ -1,6 +1,9 @@
 import React from 'react'
 // import styles from './styles.module.css'
 
+import '../src/components/Header/Header.css';
+export * from '../src/components/Header/Header.css';
+
 import{ 
   Conteiner, 
   ConteinerItem 
