@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import WidgetsIcon from '@mui/icons-material/Widgets';
-import './Header.scss';
+import './Header.css';
 
 const style = {
   width: 85,
