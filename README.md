@@ -3,7 +3,6 @@
 
 ## Get Started:
 
-## Install:
 ### Install from the command line:
 npm install @agsisistemas/agsi.br.componente@1.0.6
 
