@@ -1,96 +1,76 @@
 import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
+import { useNavigate } from "react-router-dom";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
-import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import AppsIcon from '@mui/icons-material/Apps';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import FolderSharedIcon from '@mui/icons-material/FolderShared';
+import Divider from '@mui/material/Divider';
+import HeaderApp from './HeaderApp';
+import Badge from '@mui/material/Badge';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import { Tooltip } from '@mui/material';
+import MenuAppList from './MenuAppList'
+import './Header.scss'
+// import { roleUserBeneficiarie } from '../../Utils/Utils'
 
-const style={
-  header_app_bar:{  
-    minHeight: '52px!important',
-    maxHeight: '55px!important',
-    backgroundColor: '#008EBC!important'
-  }
-}
+import {
+  ToggleSideBar,
+  removeToken,  
+  getRememberMenuLocalStorage,
+  roleUserBeneficiarie
+} from './HeaderUtils';
 
-const ToggleSideBar = () =>{
-  
-  if(document.getElementById("layout-sidebar").style.display === 'none'){
-    document.getElementById("layout-sidebar").style.display = 'block'
-  }else{
-    if(document.getElementsByClassName("layout-reduce")[0] === undefined){
-      document.getElementById("layout-sidebar").classList.add("layout-reduce");
-      document.getElementById("sidebar").classList.add("sidebar-reduce");
-    }else{
-      document.getElementById("layout-sidebar").classList.remove("layout-reduce");
-      document.getElementById("sidebar").classList.remove("sidebar-reduce");
-    }
-  }
-}
 
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
-}));
+const Header = ({ title, listApp = [], notification }) => {
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
+  var navigate = useNavigate()  
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
-  },
-}));
-
-const Header = (props) => {
-
-  const { title } = props
-
+  const [openMenu, setOpenMenu] = React.useState(getRememberMenuLocalStorage());
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
+  const handleClick = (event) => {
+    let remember = getRememberMenuLocalStorage()
+    setOpenMenu(remember ? remember : !openMenu)
+  };
+
+  // Change open or close apps Menus
+  window.addEventListener('click', function (e) {
+    let remember = getRememberMenuLocalStorage()
+    let listIds = []
+
+    e.path.map((i) => {
+      if (i.id) {
+        listIds.push(i.id)
+      }
+    })
+    if (listIds.includes('menu-apps')) {
+      return
+    }
+    if (listIds.includes('basic-menu')) {
+      return
+    }
+    if (!remember && openMenu)
+      setOpenMenu(false)
+
+  });
+
   const handleProfileMenuOpen = (event) => {
+    let remember = getRememberMenuLocalStorage()
+    if (!remember && openMenu) setOpenMenu(false)
     setAnchorEl(event.currentTarget);
   };
 
@@ -107,68 +87,54 @@ const Header = (props) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleExit = () => {
+    removeToken()
+    navigate("/")
+    window.location.reload()
+  }
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMenuOpen}
       onClose={handleMenuClose}
+      anchorEl={anchorEl}
+      open={isMenuOpen}
+      id={menuId}
+      keepMounted      
+      style={{ marginTop: '7px', marginLeft: '10px' }}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <div style={{ minWidth: '200px' }}>
+        <MenuItem onClick={handleMenuClose}>
+          <ListItemIcon>
+            <FolderSharedIcon fontSize="small" />
+          </ListItemIcon>
+          Perfil
+        </MenuItem>
+        <Divider />
+        <MenuItem onClick={() => handleExit()}>
+          <ListItemIcon>
+            <ExitToAppIcon fontSize="small" />
+          </ListItemIcon>
+          Sair
+        </MenuItem>
+      </div>
     </Menu>
   );
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
     <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
+      anchorEl={mobileMoreAnchorEl}
+      open={isMobileMenuOpen}
+      id={mobileMenuId}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      keepMounted
     >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
-          size="large"
+          size="small"
           aria-label="account of current user"
           aria-controls="primary-search-account-menu"
           aria-haspopup="true"
@@ -176,14 +142,24 @@ const Header = (props) => {
         >
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
+        <p>Perfil</p>
+      </MenuItem>
+      <MenuItem onClick={handleClick}>
+        <IconButton
+          size="small"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <AppsIcon />
+        </IconButton>
+        <p>Módulos</p>
       </MenuItem>
     </Menu>
   );
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar style={style.header_app_bar} position="fixed">
+      <AppBar className='header-app-bar' position="fixed">
         <Toolbar>
           <IconButton
             size="large"
@@ -191,9 +167,11 @@ const Header = (props) => {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
-            onClick={ ()=> ToggleSideBar() }
+            onClick={() => ToggleSideBar()}
           >
-            <AppsIcon />
+            <Tooltip title='Menu'>
+              <MenuIcon />
+            </Tooltip>
           </IconButton>
           <Typography
             variant="h6"
@@ -201,33 +179,40 @@ const Header = (props) => {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            { title }
+            {title}
           </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Pesquisar..."
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
+
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
+
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, marginRight: '15px' }}>
             <IconButton
               size="large"
-              aria-label="show 17 new notifications"
+              aria-label="show more"
+              aria-haspopup="true"
               color="inherit"
             >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
+              <Badge color="error" badgeContent={ notification.notificationUnread }>
+                <Tooltip title='Notificações'>
+                  <NotificationsIcon onClick={ notification.onClick } />
+                </Tooltip>
               </Badge>
             </IconButton>
+          </Box>
+
+          <Box id='menu-apps' sx={{ display: { xs: 'none', md: 'flex' } }}>
+            {!roleUserBeneficiarie() && <IconButton
+              id="app-menu"
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="Módulos"
+              onClick={handleClick}
+            >
+              <Tooltip title='Aplicativos'>
+
+                <AppsIcon />
+              </Tooltip>
+            </IconButton>}
             <IconButton
               size="large"
               edge="end"
@@ -237,7 +222,9 @@ const Header = (props) => {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
+              <Tooltip title='Usuário'>
+                <AccountCircle />
+              </Tooltip>
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
@@ -256,8 +243,22 @@ const Header = (props) => {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-    </Box>
+      <MenuAppList open={openMenu} >
+        <section className="grid grid-template-columns-4">
+          {
+            listApp.map((item, index) =>
+              <HeaderApp key={index} title={item.title}
+                onClick={() => {
+                  navigate(item.link)
+                  window.location.reload()
+                }} />
+            )
+          }
+        </section>
+      </MenuAppList>
+    </Box >
   );
 }
 
 export default React.memo(Header)
+

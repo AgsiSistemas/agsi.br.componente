@@ -1,4 +1,4 @@
-import React__default, { memo, createElement, useState, forwardRef } from 'react';
+import React__default, { memo, createElement, useState, forwardRef, useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Tooltip from '@mui/material/Tooltip';
 import { styled, alpha } from '@mui/material/styles';
@@ -24,29 +24,36 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import DialogContentText from '@mui/material/DialogContentText';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import PrintIcon from '@mui/icons-material/Print';
-import { Button as Button$1 } from 'primereact/button';
+import { Paginator } from 'primereact/paginator';
 import CloseIcon from '@mui/icons-material/Close';
+import { Button as Button$1 } from 'primereact/button';
 import LoadingButton from '@mui/lab/LoadingButton';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import '@mui/icons-material/ArrowBack';
 import '@mui/icons-material/DeleteOutline';
 import CheckIcon from '@mui/icons-material/Check';
+import { useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import InputBase from '@mui/material/InputBase';
-import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
+import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import AppsIcon from '@mui/icons-material/Apps';
-import { CircularProgress, TextField as TextField$1 } from '@mui/material';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import FolderSharedIcon from '@mui/icons-material/FolderShared';
+import Divider from '@mui/material/Divider';
+import WidgetsIcon from '@mui/icons-material/Widgets';
+import Badge from '@mui/material/Badge';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import { Tooltip as Tooltip$1, CircularProgress, TextField as TextField$1 } from '@mui/material';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
+import InputBase from '@mui/material/InputBase';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -488,16 +495,17 @@ var OperationSection$1 = React__default.memo(OperationSection);
 var style$5 = {
   operation_content_header: {
     textAlign: 'end',
-    padding: '8px'
-  },
-  operation_content_justify_header: {
-    justifyContent: 'space-between',
-    borderBottom: 'solid 1px rgba(0, 0, 0, .125)',
-    alignItems: 'center'
+    marginBottom: '5px',
+    padding: '8px',
+    minHeight: '68px',
+    borderBottom: 'solid 1px rgba(0, 0, 0, .125)'
   },
   operation_content_header_search: {
     textAlign: 'start',
-    flex: 'none'
+    padding: '8px',
+    minHeight: '68px',
+    marginBottom: '5px',
+    borderBottom: 'solid 1px rgba(0, 0, 0, .125)'
   },
   operation_content_data_table: {
     overflowX: 'auto'
@@ -509,6 +517,11 @@ var style$5 = {
     fontSize: '12px',
     color: '#69ABEC',
     fontWeight: 'normal'
+  },
+  loadingPaginator: {
+    pointerEvents: 'none',
+    borderRadius: 0,
+    zIndex: 1000
   }
 };
 
@@ -519,55 +532,52 @@ var handleDisplay$1 = function handleDisplay(display) {
 };
 
 var OperationTable = function OperationTable(props) {
+  var _pageableData$pageabl;
+
   var onReportClick = props.onReportClick,
       onAddClick = props.onAddClick,
       deleteHandler = props.deleteHandler,
       records = props.records,
-      paginator = props.paginator,
       columnList = props.columnList,
       heigthDataTable = props.heigthDataTable,
       display = props.display,
       onClick = props.onClick,
-      paginatorStep = props.paginatorStep,
       sortField = props.sortField,
       sortOrder = props.sortOrder,
-      paginatorButton = props.paginatorButton;
-  var rowsTable = paginatorStep ? paginatorStep : 5;
-  var pagArr = [rowsTable];
+      paginatorButton = props.paginatorButton,
+      pageableData = props.pageableData;
   var printIcon = props.printIcon == false ? props.printIcon : true;
 
-  var calPerPage = function calPerPage() {
-    var i = 0;
+  var _useState = useState(false),
+      loading = _useState[0],
+      setLoading = _useState[1];
 
-    while (i < 2) {
-      i++;
-      var inclement = pagArr[pagArr.length - 1] + rowsTable;
+  var _useState2 = useState(0),
+      first = _useState2[0],
+      setFirst = _useState2[1];
 
-      if (!pagArr.includes(inclement) || !inclement == 50) {
-        pagArr.push(inclement);
-      }
-    }
+  var _useState3 = useState(pageableData === null || pageableData === void 0 ? void 0 : (_pageableData$pageabl = pageableData.pageable) === null || _pageableData$pageabl === void 0 ? void 0 : _pageableData$pageabl.pageSize),
+      rows = _useState3[0],
+      setRows = _useState3[1];
 
-    pagArr.push(50);
-    return pagArr.sort(function (a, b) {
-      return a - b;
-    });
+  var totalRecords = pageableData === null || pageableData === void 0 ? void 0 : pageableData.totalElements;
+  useEffect(function () {
+    setLoading(false);
+  }, [pageableData]);
+
+  var onPageChange = function onPageChange(e) {
+    setLoading(true);
+    paginatorButton.onClick(e);
+    setFirst(e.first);
+    setRows(e.rows);
   };
 
-  var paginatorLeft = /*#__PURE__*/React__default.createElement("div", null);
-  var paginatorRight = paginatorButton !== undefined && records.length !== 0 ? /*#__PURE__*/React__default.createElement(Button$1, {
-    label: (paginatorButton === null || paginatorButton === void 0 ? void 0 : paginatorButton.title) !== undefined ? paginatorButton === null || paginatorButton === void 0 ? void 0 : paginatorButton.title : 'Carregar mais...',
-    style: style$5.paginatorRight,
-    type: "button",
-    icon: "pi pi-refresh",
-    className: "p-button-text",
-    onClick: paginatorButton.onClick
-  }) : /*#__PURE__*/React__default.createElement(React__default.Fragment, null);
+  var template = {
+    layout: 'CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown'
+  };
   return /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement(PageBase$3, null, /*#__PURE__*/React__default.createElement("div", {
     style: style$5.operation_content_group
-  }, /*#__PURE__*/React__default.createElement(Conteiner, {
-    style: style$5.operation_content_justify_header
-  }, /*#__PURE__*/React__default.createElement(ConteinerItem, {
+  }, /*#__PURE__*/React__default.createElement(Conteiner, null, /*#__PURE__*/React__default.createElement(ConteinerItem, {
     style: style$5.operation_content_header_search
   }, /*#__PURE__*/React__default.createElement(IconButton, {
     id: "id_operation_content_search",
@@ -604,18 +614,13 @@ var OperationTable = function OperationTable(props) {
     style: style$5.operation_content_data_table
   }, /*#__PURE__*/React__default.createElement(DataTable, {
     value: records,
-    paginator: paginator,
-    paginatorLeft: paginatorLeft,
-    paginatorRight: paginatorRight,
+    paginatorTemplate: template,
     sortField: sortField,
     sortOrder: sortOrder,
     responsiveLayout: "scroll",
-    paginatorTemplate: "CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown",
-    currentPageReportTemplate: "Mostrando {first} a {last} de {totalRecords}",
+    loading: loading,
     size: "small",
-    rows: rowsTable,
     emptyMessage: "Nenhum resultado encontrado",
-    rowsPerPageOptions: calPerPage(),
     scrollHeight: heigthDataTable
   }, columnList.map(function (item, index) {
     if (item.body !== undefined) return /*#__PURE__*/React__default.createElement(Column, {
@@ -636,7 +641,16 @@ var OperationTable = function OperationTable(props) {
       frozen: item.frozen,
       dataType: item.dataType
     });
-  })))))), /*#__PURE__*/React__default.createElement(Dialog, {
+  })), pageableData && /*#__PURE__*/React__default.createElement(Paginator, {
+    style: loading ? style$5.loadingPaginator : {},
+    template: template,
+    onPageChange: onPageChange,
+    first: first,
+    rows: rows,
+    totalRecords: totalRecords,
+    currentPageReportTemplate: "Mostrando {first} a {last} de {totalRecords}",
+    rowsPerPageOptions: [10, 20, 30, 50]
+  }))))), /*#__PURE__*/React__default.createElement(Dialog, {
     open: deleteHandler === null || deleteHandler === void 0 ? void 0 : deleteHandler.displayDelete,
     "aria-labelledby": "alert-dialog-title",
     "aria-describedby": "alert-dialog-description"
@@ -1065,27 +1079,46 @@ SaveComponent.defaultProp = {
 var SaveComponent$1 = React__default.memo(SaveComponent);
 
 var style$8 = {
-  header_app_bar: {
-    minHeight: '52px!important',
-    maxHeight: '55px!important',
-    backgroundColor: '#008EBC!important'
+  width: 85,
+  height: 80,
+  margin: '10px',
+  borderRadius: '2px',
+  backgroundColor: 'white',
+  '&:hover': {
+    backgroundColor: '#DDF1FB',
+    opacity: [0.9, 0.8, 0.7]
   }
+};
+function HeaderApp(_ref) {
+  var title = _ref.title,
+      onClick = _ref.onClick,
+      key = _ref.key;
+  return /*#__PURE__*/createElement(Box, {
+    sx: style$8,
+    onClick: onClick,
+    key: key
+  }, /*#__PURE__*/createElement("div", {
+    className: "box-menu"
+  }, /*#__PURE__*/createElement(WidgetsIcon, {
+    className: "box-menu-icon",
+    sx: {
+      fontSize: 30
+    }
+  }), /*#__PURE__*/createElement("p", null, title)));
+}
+
+var authorities = {
+  ROLE_ROOT: "ROLE_ROOT",
+  ROLE_BENEFICIARIO: "ROLE_BENEFICIARIO"
 };
 
 var ToggleSideBar = function ToggleSideBar() {
-  if (document.getElementById("layout-sidebar").style.display === 'none') {
-    document.getElementById("layout-sidebar").style.display = 'block';
+  if (document.getElementById("layout-sidebar").style.display !== 'none') {
+    document.getElementById("layout-sidebar").style.display = 'none';
   } else {
-    if (document.getElementsByClassName("layout-reduce")[0] === undefined) {
-      document.getElementById("layout-sidebar").classList.add("layout-reduce");
-      document.getElementById("sidebar").classList.add("sidebar-reduce");
-    } else {
-      document.getElementById("layout-sidebar").classList.remove("layout-reduce");
-      document.getElementById("sidebar").classList.remove("sidebar-reduce");
-    }
+    document.getElementById("layout-sidebar").style.display = 'block';
   }
 };
-
 var Search = styled('div')(function (_ref) {
   var _ref2;
 
@@ -1133,22 +1166,129 @@ var StyledInputBase = styled(InputBase)(function (_ref4) {
     }, _MuiInputBaseInpu)
   };
 });
+var removeToken = function removeToken() {
+  return localStorage.removeItem('agsi-tk');
+};
+var setRememberMenuLocalStorage = function setRememberMenuLocalStorage(status) {
+  localStorage.setItem('RememberMenu', status);
+};
+var getRememberMenuLocalStorage = function getRememberMenuLocalStorage() {
+  try {
+    return JSON.parse(localStorage.getItem('RememberMenu'));
+  } catch (_unused3) {
+    return true;
+  }
+};
+function roleUserBeneficiarie() {
+  var agsiJwt = localStorage.getItem('agsi-tk') ? parseJwt(localStorage.getItem('agsi-tk')) : '';
 
-var Header = function Header(props) {
-  var title = props.title;
+  if (!agsiJwt) {
+    return /*#__PURE__*/React.createElement(AccessDenied, null);
+  }
 
-  var _React$useState = useState(null),
-      anchorEl = _React$useState[0],
-      setAnchorEl = _React$useState[1];
+  if (agsiJwt.authorities.includes(authorities.ROLE_BENEFICIARIO)) {
+    return {
+      'wallet': agsiJwt.code
+    };
+  } else {
+    return false;
+  }
+}
+var parseJwt = function parseJwt(token) {
+  try {
+    return JSON.parse(atob(token.split('.')[1]));
+  } catch (e) {
+    return null;
+  }
+};
+
+function MenuAppList(_ref) {
+  var open = _ref.open,
+      children = _ref.children;
+
+  var _React$useState = useState(getRememberMenuLocalStorage()),
+      switchDisplayMenu = _React$useState[0],
+      setSwitchDisplayMenu = _React$useState[1];
+
+  return /*#__PURE__*/createElement(Fragment, null, /*#__PURE__*/createElement("div", {
+    id: "basic-menu",
+    className: open ? 'menu-app-list' : 'menu-app-list-none'
+  }, /*#__PURE__*/createElement("div", {
+    id: "toggle-menu-apps",
+    style: {
+      textAlign: 'right',
+      color: 'gray'
+    }
+  }, /*#__PURE__*/createElement(FormControlLabel, {
+    label: /*#__PURE__*/createElement("label", {
+      style: {
+        fontSize: '14px'
+      }
+    }, "Fixar"),
+    className: "menu-apps",
+    control: /*#__PURE__*/createElement(Switch, {
+      checked: switchDisplayMenu,
+      className: "menu-apps",
+      onChange: function onChange() {
+        setSwitchDisplayMenu(!switchDisplayMenu);
+        setRememberMenuLocalStorage(!switchDisplayMenu);
+      }
+    })
+  })), /*#__PURE__*/createElement(Divider, {
+    variant: "middle"
+  }), children));
+}
+
+var Header = function Header(_ref) {
+  var title = _ref.title,
+      _ref$listApp = _ref.listApp,
+      listApp = _ref$listApp === void 0 ? [] : _ref$listApp,
+      notification = _ref.notification;
+  var navigate = useNavigate();
+
+  var _React$useState = useState(getRememberMenuLocalStorage()),
+      openMenu = _React$useState[0],
+      setOpenMenu = _React$useState[1];
 
   var _React$useState2 = useState(null),
-      mobileMoreAnchorEl = _React$useState2[0],
-      setMobileMoreAnchorEl = _React$useState2[1];
+      anchorEl = _React$useState2[0],
+      setAnchorEl = _React$useState2[1];
+
+  var _React$useState3 = useState(null),
+      mobileMoreAnchorEl = _React$useState3[0],
+      setMobileMoreAnchorEl = _React$useState3[1];
 
   var isMenuOpen = Boolean(anchorEl);
   var isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
+  var handleClick = function handleClick(event) {
+    var remember = getRememberMenuLocalStorage();
+    setOpenMenu(remember ? remember : !openMenu);
+  };
+
+  window.addEventListener('click', function (e) {
+    var remember = getRememberMenuLocalStorage();
+    var listIds = [];
+    e.path.map(function (i) {
+      if (i.id) {
+        listIds.push(i.id);
+      }
+    });
+
+    if (listIds.includes('menu-apps')) {
+      return;
+    }
+
+    if (listIds.includes('basic-menu')) {
+      return;
+    }
+
+    if (!remember && openMenu) setOpenMenu(false);
+  });
+
   var handleProfileMenuOpen = function handleProfileMenuOpen(event) {
+    var remember = getRememberMenuLocalStorage();
+    if (!remember && openMenu) setOpenMenu(false);
     setAnchorEl(event.currentTarget);
   };
 
@@ -1165,70 +1305,74 @@ var Header = function Header(props) {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  var handleExit = function handleExit() {
+    removeToken();
+    navigate("/");
+    window.location.reload();
+  };
+
   var menuId = 'primary-search-account-menu';
   var renderMenu = /*#__PURE__*/createElement(Menu, {
+    onClose: handleMenuClose,
     anchorEl: anchorEl,
-    anchorOrigin: {
-      vertical: 'top',
-      horizontal: 'right'
-    },
+    open: isMenuOpen,
     id: menuId,
     keepMounted: true,
-    transformOrigin: {
-      vertical: 'top',
-      horizontal: 'right'
-    },
-    open: isMenuOpen,
-    onClose: handleMenuClose
+    style: {
+      marginTop: '7px',
+      marginLeft: '10px'
+    }
+  }, /*#__PURE__*/createElement("div", {
+    style: {
+      minWidth: '200px'
+    }
   }, /*#__PURE__*/createElement(MenuItem, {
     onClick: handleMenuClose
-  }, "Profile"), /*#__PURE__*/createElement(MenuItem, {
-    onClick: handleMenuClose
-  }, "My account"));
+  }, /*#__PURE__*/createElement(ListItemIcon, null, /*#__PURE__*/createElement(FolderSharedIcon, {
+    fontSize: "small"
+  })), "Perfil"), /*#__PURE__*/createElement(Divider, null), /*#__PURE__*/createElement(MenuItem, {
+    onClick: function onClick() {
+      return handleExit();
+    }
+  }, /*#__PURE__*/createElement(ListItemIcon, null, /*#__PURE__*/createElement(ExitToAppIcon, {
+    fontSize: "small"
+  })), "Sair")));
   var mobileMenuId = 'primary-search-account-menu-mobile';
   var renderMobileMenu = /*#__PURE__*/createElement(Menu, {
+    onClose: handleMobileMenuClose,
     anchorEl: mobileMoreAnchorEl,
+    open: isMobileMenuOpen,
+    id: mobileMenuId,
     anchorOrigin: {
       vertical: 'top',
       horizontal: 'right'
     },
-    id: mobileMenuId,
-    keepMounted: true,
     transformOrigin: {
       vertical: 'top',
       horizontal: 'right'
     },
-    open: isMobileMenuOpen,
-    onClose: handleMobileMenuClose
-  }, /*#__PURE__*/createElement(MenuItem, null, /*#__PURE__*/createElement(IconButton, {
-    size: "large",
-    "aria-label": "show 4 new mails",
-    color: "inherit"
-  }, /*#__PURE__*/createElement(Badge, {
-    badgeContent: 4,
-    color: "error"
-  }, /*#__PURE__*/createElement(MailIcon, null))), /*#__PURE__*/createElement("p", null, "Messages")), /*#__PURE__*/createElement(MenuItem, null, /*#__PURE__*/createElement(IconButton, {
-    size: "large",
-    "aria-label": "show 17 new notifications",
-    color: "inherit"
-  }, /*#__PURE__*/createElement(Badge, {
-    badgeContent: 17,
-    color: "error"
-  }, /*#__PURE__*/createElement(NotificationsIcon, null))), /*#__PURE__*/createElement("p", null, "Notifications")), /*#__PURE__*/createElement(MenuItem, {
+    keepMounted: true
+  }, /*#__PURE__*/createElement(MenuItem, {
     onClick: handleProfileMenuOpen
   }, /*#__PURE__*/createElement(IconButton, {
-    size: "large",
+    size: "small",
     "aria-label": "account of current user",
     "aria-controls": "primary-search-account-menu",
     "aria-haspopup": "true",
     color: "inherit"
-  }, /*#__PURE__*/createElement(AccountCircle, null)), /*#__PURE__*/createElement("p", null, "Profile")));
+  }, /*#__PURE__*/createElement(AccountCircle, null)), /*#__PURE__*/createElement("p", null, "Perfil")), /*#__PURE__*/createElement(MenuItem, {
+    onClick: handleClick
+  }, /*#__PURE__*/createElement(IconButton, {
+    size: "small",
+    "aria-haspopup": "true",
+    color: "inherit"
+  }, /*#__PURE__*/createElement(AppsIcon, null)), /*#__PURE__*/createElement("p", null, "M\xF3dulos")));
   return /*#__PURE__*/createElement(Box, {
     sx: {
       flexGrow: 1
     }
   }, /*#__PURE__*/createElement(AppBar, {
-    style: style$8.header_app_bar,
+    className: "header-app-bar",
     position: "fixed"
   }, /*#__PURE__*/createElement(Toolbar, null, /*#__PURE__*/createElement(IconButton, {
     size: "large",
@@ -1241,7 +1385,9 @@ var Header = function Header(props) {
     onClick: function onClick() {
       return ToggleSideBar();
     }
-  }, /*#__PURE__*/createElement(AppsIcon, null)), /*#__PURE__*/createElement(Typography, {
+  }, /*#__PURE__*/createElement(Tooltip$1, {
+    title: "Menu"
+  }, /*#__PURE__*/createElement(MenuIcon, null))), /*#__PURE__*/createElement(Typography, {
     variant: "h6",
     noWrap: true,
     component: "div",
@@ -1251,12 +1397,7 @@ var Header = function Header(props) {
         sm: 'block'
       }
     }
-  }, title), /*#__PURE__*/createElement(Search, null, /*#__PURE__*/createElement(SearchIconWrapper, null, /*#__PURE__*/createElement(SearchIcon, null)), /*#__PURE__*/createElement(StyledInputBase, {
-    placeholder: "Pesquisar...",
-    inputProps: {
-      'aria-label': 'search'
-    }
-  })), /*#__PURE__*/createElement(Box, {
+  }, title), /*#__PURE__*/createElement(Box, {
     sx: {
       flexGrow: 1
     }
@@ -1265,23 +1406,39 @@ var Header = function Header(props) {
       display: {
         xs: 'none',
         md: 'flex'
-      }
+      },
+      marginRight: '15px'
     }
   }, /*#__PURE__*/createElement(IconButton, {
     size: "large",
-    "aria-label": "show 4 new mails",
+    "aria-label": "show more",
+    "aria-haspopup": "true",
     color: "inherit"
   }, /*#__PURE__*/createElement(Badge, {
-    badgeContent: 4,
-    color: "error"
-  }, /*#__PURE__*/createElement(MailIcon, null))), /*#__PURE__*/createElement(IconButton, {
+    color: "error",
+    badgeContent: notification.notificationUnread
+  }, /*#__PURE__*/createElement(Tooltip$1, {
+    title: "Notifica\xE7\xF5es"
+  }, /*#__PURE__*/createElement(NotificationsIcon, {
+    onClick: notification.onClick
+  }))))), /*#__PURE__*/createElement(Box, {
+    id: "menu-apps",
+    sx: {
+      display: {
+        xs: 'none',
+        md: 'flex'
+      }
+    }
+  }, !roleUserBeneficiarie() && /*#__PURE__*/createElement(IconButton, {
+    id: "app-menu",
     size: "large",
-    "aria-label": "show 17 new notifications",
-    color: "inherit"
-  }, /*#__PURE__*/createElement(Badge, {
-    badgeContent: 17,
-    color: "error"
-  }, /*#__PURE__*/createElement(NotificationsIcon, null))), /*#__PURE__*/createElement(IconButton, {
+    edge: "start",
+    color: "inherit",
+    "aria-label": "M\xF3dulos",
+    onClick: handleClick
+  }, /*#__PURE__*/createElement(Tooltip$1, {
+    title: "Aplicativos"
+  }, /*#__PURE__*/createElement(AppsIcon, null))), /*#__PURE__*/createElement(IconButton, {
     size: "large",
     edge: "end",
     "aria-label": "account of current user",
@@ -1289,7 +1446,9 @@ var Header = function Header(props) {
     "aria-haspopup": "true",
     onClick: handleProfileMenuOpen,
     color: "inherit"
-  }, /*#__PURE__*/createElement(AccountCircle, null))), /*#__PURE__*/createElement(Box, {
+  }, /*#__PURE__*/createElement(Tooltip$1, {
+    title: "Usu\xE1rio"
+  }, /*#__PURE__*/createElement(AccountCircle, null)))), /*#__PURE__*/createElement(Box, {
     sx: {
       display: {
         xs: 'flex',
@@ -1303,7 +1462,20 @@ var Header = function Header(props) {
     "aria-haspopup": "true",
     onClick: handleMobileMenuOpen,
     color: "inherit"
-  }, /*#__PURE__*/createElement(MoreIcon, null))))), renderMobileMenu, renderMenu);
+  }, /*#__PURE__*/createElement(MoreIcon, null))))), renderMobileMenu, renderMenu, /*#__PURE__*/createElement(MenuAppList, {
+    open: openMenu
+  }, /*#__PURE__*/createElement("section", {
+    className: "grid grid-template-columns-4"
+  }, listApp.map(function (item, index) {
+    return /*#__PURE__*/createElement(HeaderApp, {
+      key: index,
+      title: item.title,
+      onClick: function onClick() {
+        navigate(item.link);
+        window.location.reload();
+      }
+    });
+  }))));
 };
 
 var Header$1 = memo(Header);

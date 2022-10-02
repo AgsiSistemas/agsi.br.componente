@@ -1,7 +1,7 @@
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
-var React = require('react');
-var React__default = _interopDefault(React);
+var React$1 = require('react');
+var React$1__default = _interopDefault(React$1);
 var PropTypes = _interopDefault(require('prop-types'));
 var Tooltip = _interopDefault(require('@mui/material/Tooltip'));
 var styles = require('@mui/material/styles');
@@ -27,29 +27,36 @@ var DeleteIcon = _interopDefault(require('@mui/icons-material/Delete'));
 var DialogContentText = _interopDefault(require('@mui/material/DialogContentText'));
 var FilterAltIcon = _interopDefault(require('@mui/icons-material/FilterAlt'));
 var PrintIcon = _interopDefault(require('@mui/icons-material/Print'));
-var button = require('primereact/button');
+var paginator = require('primereact/paginator');
 var CloseIcon = _interopDefault(require('@mui/icons-material/Close'));
+var button = require('primereact/button');
 var LoadingButton = _interopDefault(require('@mui/lab/LoadingButton'));
 var CancelOutlinedIcon = _interopDefault(require('@mui/icons-material/CancelOutlined'));
 var SaveOutlinedIcon = _interopDefault(require('@mui/icons-material/SaveOutlined'));
 require('@mui/icons-material/ArrowBack');
 require('@mui/icons-material/DeleteOutline');
 var CheckIcon = _interopDefault(require('@mui/icons-material/Check'));
+var reactRouterDom = require('react-router-dom');
 var AppBar = _interopDefault(require('@mui/material/AppBar'));
 var Box = _interopDefault(require('@mui/material/Box'));
 var Toolbar = _interopDefault(require('@mui/material/Toolbar'));
-var InputBase = _interopDefault(require('@mui/material/InputBase'));
-var Badge = _interopDefault(require('@mui/material/Badge'));
 var MenuItem = _interopDefault(require('@mui/material/MenuItem'));
 var Menu = _interopDefault(require('@mui/material/Menu'));
-require('@mui/icons-material/Menu');
-var SearchIcon = _interopDefault(require('@mui/icons-material/Search'));
+var MenuIcon = _interopDefault(require('@mui/icons-material/Menu'));
 var AccountCircle = _interopDefault(require('@mui/icons-material/AccountCircle'));
-var MailIcon = _interopDefault(require('@mui/icons-material/Mail'));
-var NotificationsIcon = _interopDefault(require('@mui/icons-material/Notifications'));
 var MoreIcon = _interopDefault(require('@mui/icons-material/MoreVert'));
 var AppsIcon = _interopDefault(require('@mui/icons-material/Apps'));
+var ListItemIcon = _interopDefault(require('@mui/material/ListItemIcon'));
+var ExitToAppIcon = _interopDefault(require('@mui/icons-material/ExitToApp'));
+var FolderSharedIcon = _interopDefault(require('@mui/icons-material/FolderShared'));
+var Divider = _interopDefault(require('@mui/material/Divider'));
+var WidgetsIcon = _interopDefault(require('@mui/icons-material/Widgets'));
+var Badge = _interopDefault(require('@mui/material/Badge'));
+var NotificationsIcon = _interopDefault(require('@mui/icons-material/Notifications'));
 var material = require('@mui/material');
+var FormControlLabel = _interopDefault(require('@mui/material/FormControlLabel'));
+var Switch = _interopDefault(require('@mui/material/Switch'));
+var InputBase = _interopDefault(require('@mui/material/InputBase'));
 var TextField = _interopDefault(require('@mui/material/TextField'));
 var Autocomplete = _interopDefault(require('@mui/material/Autocomplete'));
 var AdapterDateFns = require('@mui/x-date-pickers/AdapterDateFns');
@@ -104,7 +111,7 @@ var style = {
   }
 };
 var Conteiner = function Conteiner(props) {
-  return /*#__PURE__*/React__default.createElement("div", {
+  return /*#__PURE__*/React$1__default.createElement("div", {
     style: _extends({}, style.conteiner, props.style || {}),
     className: "" + ((props === null || props === void 0 ? void 0 : props.className) || '')
   }, props === null || props === void 0 ? void 0 : props.children);
@@ -118,7 +125,7 @@ Conteiner.defaultProp = {
   children: {}
 };
 var ConteinerItem = function ConteinerItem(props) {
-  return /*#__PURE__*/React__default.createElement("div", {
+  return /*#__PURE__*/React$1__default.createElement("div", {
     id: props === null || props === void 0 ? void 0 : props.id,
     style: _extends({}, style.conteiner_item, props.style || {}),
     className: "" + ((props === null || props === void 0 ? void 0 : props.className) || '')
@@ -155,21 +162,21 @@ var style$1 = {
 };
 
 var PageBase = function PageBase(props) {
-  return /*#__PURE__*/React__default.createElement("div", {
+  return /*#__PURE__*/React$1__default.createElement("div", {
     id: props.id,
     style: _extends({}, style$1.page_base_content, props.style || {})
-  }, props.header !== undefined && /*#__PURE__*/React__default.createElement("div", {
+  }, props.header !== undefined && /*#__PURE__*/React$1__default.createElement("div", {
     style: _extends({}, style$1.page_base_header, props.style || {})
-  }, /*#__PURE__*/React__default.createElement("label", null, props.header)), props.children);
+  }, /*#__PURE__*/React$1__default.createElement("label", null, props.header)), props.children);
 };
 
-var PageBase$1 = React__default.memo(PageBase);
+var PageBase$1 = React$1__default.memo(PageBase);
 
 var OperationDetail = function OperationDetail(props) {
-  return /*#__PURE__*/React__default.createElement(PageBase$1, null, props.children);
+  return /*#__PURE__*/React$1__default.createElement(PageBase$1, null, props.children);
 };
 
-var OperationDetail$1 = React__default.memo(OperationDetail);
+var OperationDetail$1 = React$1__default.memo(OperationDetail);
 
 var style$2 = {
   page_base_content: {
@@ -192,15 +199,15 @@ var style$2 = {
 };
 
 var PageBase$2 = function PageBase(props) {
-  return /*#__PURE__*/React__default.createElement("div", {
+  return /*#__PURE__*/React$1__default.createElement("div", {
     id: props.id,
     style: _extends({}, style$2.page_base_content, props.style || {})
-  }, props.header !== undefined && /*#__PURE__*/React__default.createElement("div", {
+  }, props.header !== undefined && /*#__PURE__*/React$1__default.createElement("div", {
     style: _extends({}, style$2.page_base_header, props.style || {})
-  }, /*#__PURE__*/React__default.createElement("label", null, props.header)), props.children);
+  }, /*#__PURE__*/React$1__default.createElement("label", null, props.header)), props.children);
 };
 
-var PageBase$3 = React__default.memo(PageBase$2);
+var PageBase$3 = React$1__default.memo(PageBase$2);
 
 var style$3 = {
   header_accordion_conteiner: {
@@ -218,7 +225,7 @@ var style$3 = {
   }
 };
 var Accordion = styles.styled(function (props) {
-  return /*#__PURE__*/React.createElement(MuiAccordion, _extends({
+  return /*#__PURE__*/React$1.createElement(MuiAccordion, _extends({
     disableGutters: true,
     elevation: 0,
     square: true
@@ -236,15 +243,15 @@ var Accordion = styles.styled(function (props) {
   };
 });
 var AccordionSummary = styles.styled(function (props) {
-  return /*#__PURE__*/React.createElement(MuiAccordionSummary, _extends({
-    expandIcon: !props.disableExpandedButton ? /*#__PURE__*/React.createElement(ArrowForwardIosSharpIcon, {
+  return /*#__PURE__*/React$1.createElement(MuiAccordionSummary, _extends({
+    expandIcon: !props.disableExpandedButton ? /*#__PURE__*/React$1.createElement(ArrowForwardIosSharpIcon, {
       style: {
         color: '#008EBC'
       },
       sx: {
         fontSize: '0.9rem'
       }
-    }) : /*#__PURE__*/React.createElement("div", null)
+    }) : /*#__PURE__*/React$1.createElement("div", null)
   }, props));
 })(function (_ref2) {
   var theme = _ref2.theme;
@@ -269,7 +276,7 @@ var AccordionDetails = styles.styled(MuiAccordionDetails)(function (_ref3) {
   };
 });
 function HeaderAccordion(props) {
-  var _React$useState = React.useState('panel'),
+  var _React$useState = React$1.useState('panel'),
       expanded = _React$useState[0],
       setExpanded = _React$useState[1];
 
@@ -283,28 +290,28 @@ function HeaderAccordion(props) {
     if (disabled) return true;else return expanded === 'panel';
   };
 
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Accordion, {
+  return /*#__PURE__*/React$1.createElement("div", null, /*#__PURE__*/React$1.createElement(Accordion, {
     id: "header-accordion-conteiner",
     style: style$3.header_accordion_conteiner,
     expanded: handleDisableExpand(props.disableExpandedButton, expanded),
     onChange: handleChange('panel')
-  }, /*#__PURE__*/React.createElement(AccordionSummary, {
+  }, /*#__PURE__*/React$1.createElement(AccordionSummary, {
     disableExpandedButton: props.disableExpandedButton,
     "aria-controls": "paneld-content",
     id: "paneld-header"
-  }, /*#__PURE__*/React.createElement(Conteiner, null, /*#__PURE__*/React.createElement(ConteinerItem, null, /*#__PURE__*/React.createElement(Typography, {
+  }, /*#__PURE__*/React$1.createElement(Conteiner, null, /*#__PURE__*/React$1.createElement(ConteinerItem, null, /*#__PURE__*/React$1.createElement(Typography, {
     style: {
       fontSize: '1.2rem'
     }
-  }, props.header)), /*#__PURE__*/React.createElement(ConteinerItem, {
+  }, props.header)), /*#__PURE__*/React$1.createElement(ConteinerItem, {
     style: style$3.header_accordion
-  }, !props.disableAttachButton && /*#__PURE__*/React.createElement(Tooltip, {
+  }, !props.disableAttachButton && /*#__PURE__*/React$1.createElement(Tooltip, {
     title: props.titleTooltip
-  }, /*#__PURE__*/React.createElement(IconButton, {
+  }, /*#__PURE__*/React$1.createElement(IconButton, {
     style: style$3.header_accordion_pin,
     size: "small",
     onClick: props.onClick
-  }, /*#__PURE__*/React.createElement(PushPinIcon, null)))))), /*#__PURE__*/React.createElement(AccordionDetails, null, props.children)));
+  }, /*#__PURE__*/React$1.createElement(PushPinIcon, null)))))), /*#__PURE__*/React$1.createElement(AccordionDetails, null, props.children)));
 }
 HeaderAccordion.propTypes = {
   header: PropTypes.object,
@@ -318,24 +325,24 @@ HeaderAccordion.defaultProp = {
   disableAttachButton: false,
   disableExpandedButton: false
 };
-var HeaderAccordion$1 = React.memo(HeaderAccordion);
+var HeaderAccordion$1 = React$1.memo(HeaderAccordion);
 
 var CustomModal = function CustomModal(props) {
-  var _React$useState = React.useState('paper'),
+  var _React$useState = React$1.useState('paper'),
       scroll = _React$useState[0];
 
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Dialog, {
+  return /*#__PURE__*/React$1.createElement("div", null, /*#__PURE__*/React$1.createElement(Dialog, {
     maxWidth: true,
     open: props.displayModal,
     onClose: props.onClose,
     scroll: scroll,
     "aria-labelledby": "scroll-dialog-title",
     "aria-describedby": "scroll-dialog-description"
-  }, /*#__PURE__*/React.createElement(DialogTitle, {
+  }, /*#__PURE__*/React$1.createElement(DialogTitle, {
     id: "scroll-dialog-title-modal"
-  }, props.title), /*#__PURE__*/React.createElement(DialogContent, {
+  }, props.title), /*#__PURE__*/React$1.createElement(DialogContent, {
     dividers: scroll === 'paper'
-  }, /*#__PURE__*/React.createElement("div", null, props.children)), /*#__PURE__*/React.createElement(DialogActions, null, /*#__PURE__*/React.createElement(Conteiner, null, /*#__PURE__*/React.createElement(ConteinerItem, null, /*#__PURE__*/React.createElement(Button, {
+  }, /*#__PURE__*/React$1.createElement("div", null, props.children)), /*#__PURE__*/React$1.createElement(DialogActions, null, /*#__PURE__*/React$1.createElement(Conteiner, null, /*#__PURE__*/React$1.createElement(ConteinerItem, null, /*#__PURE__*/React$1.createElement(Button, {
     autoFocus: true,
     onClick: props.onCloseDialog
   }, "Fechar")), props.buttonAdditional !== null && props.buttonAdditional))));
@@ -355,10 +362,10 @@ CustomModal.defaultProp = {
   title: "",
   buttonAdditional: null
 };
-var CustomModal$1 = React.memo(CustomModal);
+var CustomModal$1 = React$1.memo(CustomModal);
 
-var Alert = React.forwardRef(function Alert(props, ref) {
-  return /*#__PURE__*/React.createElement(MuiAlert, _extends({
+var Alert = React$1.forwardRef(function Alert(props, ref) {
+  return /*#__PURE__*/React$1.createElement(MuiAlert, _extends({
     elevation: 6,
     ref: ref,
     variant: "filled"
@@ -369,16 +376,16 @@ function CustomToastMessage(_ref) {
       message = _ref.message,
       severity = _ref.severity,
       handleClose = _ref.handleClose;
-  return /*#__PURE__*/React.createElement(Stack, {
+  return /*#__PURE__*/React$1.createElement(Stack, {
     spacing: 2,
     sx: {
       width: '100%'
     }
-  }, /*#__PURE__*/React.createElement(Snackbar, {
+  }, /*#__PURE__*/React$1.createElement(Snackbar, {
     open: open,
     autoHideDuration: 6000,
     onClose: handleClose
-  }, /*#__PURE__*/React.createElement(Alert, {
+  }, /*#__PURE__*/React$1.createElement(Alert, {
     onClose: handleClose,
     severity: severity || "success",
     sx: {
@@ -411,37 +418,37 @@ var handleDisplayModal = function handleDisplayModal(displayModal) {
 var OperationSection = function OperationSection(props) {
   var _props$toastMessages, _props$toastMessages2, _props$toastMessages3;
 
-  return /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement("h2", {
+  return /*#__PURE__*/React$1__default.createElement("div", null, /*#__PURE__*/React$1__default.createElement("h2", {
     style: style$4.operation_header_title
-  }, props.title), /*#__PURE__*/React__default.createElement("h5", {
+  }, props.title), /*#__PURE__*/React$1__default.createElement("h5", {
     style: style$4.operation_header_subtitle
-  }, props.subTitle), /*#__PURE__*/React__default.createElement(CustomModal$1, {
+  }, props.subTitle), /*#__PURE__*/React$1__default.createElement(CustomModal$1, {
     displayModal: props.displayModal,
     onCloseDialog: props.onCloseDialog,
     buttonAdditional: props.buttonAdditional
-  }, /*#__PURE__*/React__default.createElement(PageBase$3, {
+  }, /*#__PURE__*/React$1__default.createElement(PageBase$3, {
     style: {
       display: handleDisplayModal(props.displayModal)
     },
     id: "operation-header"
-  }, /*#__PURE__*/React__default.createElement(HeaderAccordion$1, {
+  }, /*#__PURE__*/React$1__default.createElement(HeaderAccordion$1, {
     disableAttachButton: props.disableAttachButton,
     disableExpandedButton: props.disableExpandedButton,
     titleTooltip: "Fixar",
     header: props.titleHeader,
     onClick: props.onClick
-  }, props.children))), /*#__PURE__*/React__default.createElement(PageBase$3, {
+  }, props.children))), /*#__PURE__*/React$1__default.createElement(PageBase$3, {
     style: {
       display: handleDisplay(props.display)
     },
     id: "operation-header"
-  }, /*#__PURE__*/React__default.createElement(HeaderAccordion$1, {
+  }, /*#__PURE__*/React$1__default.createElement(HeaderAccordion$1, {
     disableAttachButton: props.disableAttachButton,
     disableExpandedButton: props.disableExpandedButton,
     titleTooltip: "Desafixar",
     header: props.titleHeader,
     onClick: props.onClick
-  }, props.children)), /*#__PURE__*/React__default.createElement(CustomToastMessage, {
+  }, props.children)), /*#__PURE__*/React$1__default.createElement(CustomToastMessage, {
     open: (_props$toastMessages = props.toastMessages) === null || _props$toastMessages === void 0 ? void 0 : _props$toastMessages.open,
     message: (_props$toastMessages2 = props.toastMessages) === null || _props$toastMessages2 === void 0 ? void 0 : _props$toastMessages2.message,
     severity: (_props$toastMessages3 = props.toastMessages) === null || _props$toastMessages3 === void 0 ? void 0 : _props$toastMessages3.severity,
@@ -486,21 +493,22 @@ OperationSection.defaultProp = {
     handleClose: function handleClose() {}
   }
 };
-var OperationSection$1 = React__default.memo(OperationSection);
+var OperationSection$1 = React$1__default.memo(OperationSection);
 
 var style$5 = {
   operation_content_header: {
     textAlign: 'end',
-    padding: '8px'
-  },
-  operation_content_justify_header: {
-    justifyContent: 'space-between',
-    borderBottom: 'solid 1px rgba(0, 0, 0, .125)',
-    alignItems: 'center'
+    marginBottom: '5px',
+    padding: '8px',
+    minHeight: '68px',
+    borderBottom: 'solid 1px rgba(0, 0, 0, .125)'
   },
   operation_content_header_search: {
     textAlign: 'start',
-    flex: 'none'
+    padding: '8px',
+    minHeight: '68px',
+    marginBottom: '5px',
+    borderBottom: 'solid 1px rgba(0, 0, 0, .125)'
   },
   operation_content_data_table: {
     overflowX: 'auto'
@@ -512,6 +520,11 @@ var style$5 = {
     fontSize: '12px',
     color: '#69ABEC',
     fontWeight: 'normal'
+  },
+  loadingPaginator: {
+    pointerEvents: 'none',
+    borderRadius: 0,
+    zIndex: 1000
   }
 };
 
@@ -522,57 +535,54 @@ var handleDisplay$1 = function handleDisplay(display) {
 };
 
 var OperationTable = function OperationTable(props) {
+  var _pageableData$pageabl;
+
   var onReportClick = props.onReportClick,
       onAddClick = props.onAddClick,
       deleteHandler = props.deleteHandler,
       records = props.records,
-      paginator = props.paginator,
       columnList = props.columnList,
       heigthDataTable = props.heigthDataTable,
       display = props.display,
       onClick = props.onClick,
-      paginatorStep = props.paginatorStep,
       sortField = props.sortField,
       sortOrder = props.sortOrder,
-      paginatorButton = props.paginatorButton;
-  var rowsTable = paginatorStep ? paginatorStep : 5;
-  var pagArr = [rowsTable];
+      paginatorButton = props.paginatorButton,
+      pageableData = props.pageableData;
   var printIcon = props.printIcon == false ? props.printIcon : true;
 
-  var calPerPage = function calPerPage() {
-    var i = 0;
+  var _useState = React$1.useState(false),
+      loading = _useState[0],
+      setLoading = _useState[1];
 
-    while (i < 2) {
-      i++;
-      var inclement = pagArr[pagArr.length - 1] + rowsTable;
+  var _useState2 = React$1.useState(0),
+      first = _useState2[0],
+      setFirst = _useState2[1];
 
-      if (!pagArr.includes(inclement) || !inclement == 50) {
-        pagArr.push(inclement);
-      }
-    }
+  var _useState3 = React$1.useState(pageableData === null || pageableData === void 0 ? void 0 : (_pageableData$pageabl = pageableData.pageable) === null || _pageableData$pageabl === void 0 ? void 0 : _pageableData$pageabl.pageSize),
+      rows = _useState3[0],
+      setRows = _useState3[1];
 
-    pagArr.push(50);
-    return pagArr.sort(function (a, b) {
-      return a - b;
-    });
+  var totalRecords = pageableData === null || pageableData === void 0 ? void 0 : pageableData.totalElements;
+  React$1.useEffect(function () {
+    setLoading(false);
+  }, [pageableData]);
+
+  var onPageChange = function onPageChange(e) {
+    setLoading(true);
+    paginatorButton.onClick(e);
+    setFirst(e.first);
+    setRows(e.rows);
   };
 
-  var paginatorLeft = /*#__PURE__*/React__default.createElement("div", null);
-  var paginatorRight = paginatorButton !== undefined && records.length !== 0 ? /*#__PURE__*/React__default.createElement(button.Button, {
-    label: (paginatorButton === null || paginatorButton === void 0 ? void 0 : paginatorButton.title) !== undefined ? paginatorButton === null || paginatorButton === void 0 ? void 0 : paginatorButton.title : 'Carregar mais...',
-    style: style$5.paginatorRight,
-    type: "button",
-    icon: "pi pi-refresh",
-    className: "p-button-text",
-    onClick: paginatorButton.onClick
-  }) : /*#__PURE__*/React__default.createElement(React__default.Fragment, null);
-  return /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement(PageBase$3, null, /*#__PURE__*/React__default.createElement("div", {
+  var template = {
+    layout: 'CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown'
+  };
+  return /*#__PURE__*/React$1__default.createElement("div", null, /*#__PURE__*/React$1__default.createElement(PageBase$3, null, /*#__PURE__*/React$1__default.createElement("div", {
     style: style$5.operation_content_group
-  }, /*#__PURE__*/React__default.createElement(Conteiner, {
-    style: style$5.operation_content_justify_header
-  }, /*#__PURE__*/React__default.createElement(ConteinerItem, {
+  }, /*#__PURE__*/React$1__default.createElement(Conteiner, null, /*#__PURE__*/React$1__default.createElement(ConteinerItem, {
     style: style$5.operation_content_header_search
-  }, /*#__PURE__*/React__default.createElement(IconButton, {
+  }, /*#__PURE__*/React$1__default.createElement(IconButton, {
     id: "id_operation_content_search",
     style: {
       display: handleDisplay$1(display)
@@ -580,48 +590,43 @@ var OperationTable = function OperationTable(props) {
     className: "icon-btn-blue",
     size: "large",
     onClick: onClick
-  }, /*#__PURE__*/React__default.createElement(Tooltip, {
+  }, /*#__PURE__*/React$1__default.createElement(Tooltip, {
     title: "Filtros / Pesquisa"
-  }, /*#__PURE__*/React__default.createElement(FilterAltIcon, {
+  }, /*#__PURE__*/React$1__default.createElement(FilterAltIcon, {
     fontSize: "inherit"
-  })))), /*#__PURE__*/React__default.createElement(ConteinerItem, {
+  })))), /*#__PURE__*/React$1__default.createElement(ConteinerItem, {
     style: style$5.operation_content_header
-  }, printIcon && /*#__PURE__*/React__default.createElement(IconButton, {
+  }, printIcon && /*#__PURE__*/React$1__default.createElement(IconButton, {
     className: "icon-btn-blue",
     size: "large",
     style: {
       marginRight: '7px'
     },
     onClick: onReportClick
-  }, /*#__PURE__*/React__default.createElement(Tooltip, {
+  }, /*#__PURE__*/React$1__default.createElement(Tooltip, {
     title: "Imprimir"
-  }, /*#__PURE__*/React__default.createElement(PrintIcon, {
+  }, /*#__PURE__*/React$1__default.createElement(PrintIcon, {
     fontSize: "inherit"
-  }))), onAddClick && /*#__PURE__*/React__default.createElement(Button, {
+  }))), onAddClick && /*#__PURE__*/React$1__default.createElement(Button, {
     className: "btn-blue",
-    startIcon: /*#__PURE__*/React__default.createElement(AddCircleOutlineIcon, null),
+    startIcon: /*#__PURE__*/React$1__default.createElement(AddCircleOutlineIcon, null),
     variant: "contained",
     color: "success",
     onClick: onAddClick
-  }, props.onAddClickTitle ? props.onAddClickTitle : 'Incluir'))), /*#__PURE__*/React__default.createElement(Conteiner, null, /*#__PURE__*/React__default.createElement(ConteinerItem, {
+  }, props.onAddClickTitle ? props.onAddClickTitle : 'Incluir'))), /*#__PURE__*/React$1__default.createElement(Conteiner, null, /*#__PURE__*/React$1__default.createElement(ConteinerItem, {
     style: style$5.operation_content_data_table
-  }, /*#__PURE__*/React__default.createElement(datatable.DataTable, {
+  }, /*#__PURE__*/React$1__default.createElement(datatable.DataTable, {
     value: records,
-    paginator: paginator,
-    paginatorLeft: paginatorLeft,
-    paginatorRight: paginatorRight,
+    paginatorTemplate: template,
     sortField: sortField,
     sortOrder: sortOrder,
     responsiveLayout: "scroll",
-    paginatorTemplate: "CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown",
-    currentPageReportTemplate: "Mostrando {first} a {last} de {totalRecords}",
+    loading: loading,
     size: "small",
-    rows: rowsTable,
     emptyMessage: "Nenhum resultado encontrado",
-    rowsPerPageOptions: calPerPage(),
     scrollHeight: heigthDataTable
   }, columnList.map(function (item, index) {
-    if (item.body !== undefined) return /*#__PURE__*/React__default.createElement(column.Column, {
+    if (item.body !== undefined) return /*#__PURE__*/React$1__default.createElement(column.Column, {
       key: index,
       style: item.style,
       sortable: item.sortable,
@@ -630,7 +635,7 @@ var OperationTable = function OperationTable(props) {
       frozen: item.frozen,
       alignFrozen: item.alignFrozen,
       dataType: item.dataType
-    });else return /*#__PURE__*/React__default.createElement(column.Column, {
+    });else return /*#__PURE__*/React$1__default.createElement(column.Column, {
       key: index,
       style: item.style,
       sortable: item.sortable,
@@ -639,15 +644,24 @@ var OperationTable = function OperationTable(props) {
       frozen: item.frozen,
       dataType: item.dataType
     });
-  })))))), /*#__PURE__*/React__default.createElement(Dialog, {
+  })), pageableData && /*#__PURE__*/React$1__default.createElement(paginator.Paginator, {
+    style: loading ? style$5.loadingPaginator : {},
+    template: template,
+    onPageChange: onPageChange,
+    first: first,
+    rows: rows,
+    totalRecords: totalRecords,
+    currentPageReportTemplate: "Mostrando {first} a {last} de {totalRecords}",
+    rowsPerPageOptions: [10, 20, 30, 50]
+  }))))), /*#__PURE__*/React$1__default.createElement(Dialog, {
     open: deleteHandler === null || deleteHandler === void 0 ? void 0 : deleteHandler.displayDelete,
     "aria-labelledby": "alert-dialog-title",
     "aria-describedby": "alert-dialog-description"
-  }, /*#__PURE__*/React__default.createElement(DialogTitle, {
+  }, /*#__PURE__*/React$1__default.createElement(DialogTitle, {
     id: "alert-dialog-title"
-  }, "Confirma\xE7\xE3o"), /*#__PURE__*/React__default.createElement(DialogContent, null, /*#__PURE__*/React__default.createElement(DialogContentText, {
+  }, "Confirma\xE7\xE3o"), /*#__PURE__*/React$1__default.createElement(DialogContent, null, /*#__PURE__*/React$1__default.createElement(DialogContentText, {
     id: "alert-dialog-description"
-  }, "Tem certeza que deseja excluir ?")), /*#__PURE__*/React__default.createElement(DialogActions, null, /*#__PURE__*/React__default.createElement(Button, {
+  }, "Tem certeza que deseja excluir ?")), /*#__PURE__*/React$1__default.createElement(DialogActions, null, /*#__PURE__*/React$1__default.createElement(Button, {
     style: {
       marginRight: '5px'
     },
@@ -656,10 +670,10 @@ var OperationTable = function OperationTable(props) {
     onClick: function onClick() {
       return deleteHandler.onCancelClick();
     }
-  }, "Cancelar"), /*#__PURE__*/React__default.createElement(Button, {
+  }, "Cancelar"), /*#__PURE__*/React$1__default.createElement(Button, {
     className: "btn-red",
     variant: "contained",
-    startIcon: /*#__PURE__*/React__default.createElement(DeleteIcon, null),
+    startIcon: /*#__PURE__*/React$1__default.createElement(DeleteIcon, null),
     color: "error",
     onClick: function onClick() {
       return deleteHandler.onDeleteClick();
@@ -705,7 +719,7 @@ OperationTable.defaultProp = {
     onClick: function onClick() {}
   }
 };
-var OperationTable$1 = React__default.memo(OperationTable);
+var OperationTable$1 = React$1__default.memo(OperationTable);
 
 var _excluded = ["children", "onClose"];
 var BootstrapDialog = styles.styled(Dialog)(function (_ref) {
@@ -726,12 +740,12 @@ var BootstrapDialogTitle = function BootstrapDialogTitle(props) {
       onClose = props.onClose,
       other = _objectWithoutPropertiesLoose(props, _excluded);
 
-  return /*#__PURE__*/React.createElement(DialogTitle, _extends({
+  return /*#__PURE__*/React$1.createElement(DialogTitle, _extends({
     sx: {
       m: 0,
       p: 2
     }
-  }, other), children, onClose ? /*#__PURE__*/React.createElement(IconButton, {
+  }, other), children, onClose ? /*#__PURE__*/React$1.createElement(IconButton, {
     "aria-label": "close",
     onClick: onClose,
     sx: {
@@ -742,7 +756,7 @@ var BootstrapDialogTitle = function BootstrapDialogTitle(props) {
         return theme.palette.grey[500];
       }
     }
-  }, /*#__PURE__*/React.createElement(CloseIcon, null)) : null);
+  }, /*#__PURE__*/React$1.createElement(CloseIcon, null)) : null);
 };
 
 BootstrapDialogTitle.propTypes = {
@@ -755,18 +769,18 @@ var CustomDialog = function CustomDialog(_ref2) {
       message = _ref2.message,
       open = _ref2.open,
       onClose = _ref2.onClose;
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(BootstrapDialog, {
+  return /*#__PURE__*/React$1.createElement("div", null, /*#__PURE__*/React$1.createElement(BootstrapDialog, {
     onClose: onClose,
     "aria-labelledby": "customized-dialog-title",
     open: open
-  }, /*#__PURE__*/React.createElement(BootstrapDialogTitle, {
+  }, /*#__PURE__*/React$1.createElement(BootstrapDialogTitle, {
     id: "customized-dialog-title",
     onClose: onClose
-  }, title), /*#__PURE__*/React.createElement(DialogContent, {
+  }, title), /*#__PURE__*/React$1.createElement(DialogContent, {
     dividers: true
-  }, /*#__PURE__*/React.createElement(Typography, {
+  }, /*#__PURE__*/React$1.createElement(Typography, {
     gutterBottom: true
-  }, "\xA0\xA0\xA0\xA0\xA0", message, "\xA0\xA0\xA0\xA0\xA0")), /*#__PURE__*/React.createElement(DialogActions, null, /*#__PURE__*/React.createElement(Button, {
+  }, "\xA0\xA0\xA0\xA0\xA0", message, "\xA0\xA0\xA0\xA0\xA0")), /*#__PURE__*/React$1.createElement(DialogActions, null, /*#__PURE__*/React$1.createElement(Button, {
     autoFocus: true,
     onClick: onClose
   }, "Ok"))));
@@ -783,10 +797,10 @@ CustomDialog.defaultProp = {
   message: "",
   open: false
 };
-var CustomDialog$1 = React.memo(CustomDialog);
+var CustomDialog$1 = React$1.memo(CustomDialog);
 
-var Alert$1 = React.forwardRef(function Alert(props, ref) {
-  return /*#__PURE__*/React.createElement(MuiAlert, _extends({
+var Alert$1 = React$1.forwardRef(function Alert(props, ref) {
+  return /*#__PURE__*/React$1.createElement(MuiAlert, _extends({
     elevation: 6,
     ref: ref,
     variant: "filled"
@@ -797,16 +811,16 @@ function CustomToastMessage$1(_ref) {
       message = _ref.message,
       severity = _ref.severity,
       handleClose = _ref.handleClose;
-  return /*#__PURE__*/React.createElement(Stack, {
+  return /*#__PURE__*/React$1.createElement(Stack, {
     spacing: 2,
     sx: {
       width: '100%'
     }
-  }, /*#__PURE__*/React.createElement(Snackbar, {
+  }, /*#__PURE__*/React$1.createElement(Snackbar, {
     open: open,
     autoHideDuration: 6000,
     onClose: handleClose
-  }, /*#__PURE__*/React.createElement(Alert$1, {
+  }, /*#__PURE__*/React$1.createElement(Alert$1, {
     onClose: handleClose,
     severity: severity || "success",
     sx: {
@@ -850,18 +864,18 @@ var CustomDataTable = function CustomDataTable(props) {
   var rowsTable = paginatorStep ? paginatorStep : 5;
   var pagArr = [rowsTable];
 
-  var _useState = React.useState(null),
+  var _useState = React$1.useState(null),
       expandedRows = _useState[0],
       setExpandedRows = _useState[1];
 
-  var paginatorRight = paginatorButton !== undefined ? /*#__PURE__*/React__default.createElement(button.Button, {
+  var paginatorRight = paginatorButton !== undefined ? /*#__PURE__*/React$1__default.createElement(button.Button, {
     label: (paginatorButton === null || paginatorButton === void 0 ? void 0 : paginatorButton.title) !== undefined ? paginatorButton === null || paginatorButton === void 0 ? void 0 : paginatorButton.title : 'Carregar mais...',
     style: style$6.paginatorRight,
     type: "button",
     icon: "pi pi-refresh",
     className: "p-button-text",
     onClick: paginatorButton.onClick
-  }) : /*#__PURE__*/React__default.createElement(React__default.Fragment, null);
+  }) : /*#__PURE__*/React$1__default.createElement(React$1__default.Fragment, null);
 
   var calPerPage = function calPerPage() {
     var i = 0;
@@ -881,9 +895,9 @@ var CustomDataTable = function CustomDataTable(props) {
     });
   };
 
-  return /*#__PURE__*/React__default.createElement("div", {
+  return /*#__PURE__*/React$1__default.createElement("div", {
     style: displayBorder ? style$6.content_data_table_display_border : style$6.content_data_table
-  }, /*#__PURE__*/React__default.createElement(datatable.DataTable, {
+  }, /*#__PURE__*/React$1__default.createElement(datatable.DataTable, {
     value: records,
     paginator: paginator,
     paginatorRight: paginatorRight,
@@ -903,13 +917,13 @@ var CustomDataTable = function CustomDataTable(props) {
     emptyMessage: "Nenhum resultado encontrado",
     rowsPerPageOptions: calPerPage(),
     scrollHeight: heigthDataTable
-  }, displayExpander && /*#__PURE__*/React__default.createElement(column.Column, {
+  }, displayExpander && /*#__PURE__*/React$1__default.createElement(column.Column, {
     expander: true,
     style: {
       width: '3em'
     }
   }), columnList.map(function (item, index) {
-    if (item.body !== undefined) return /*#__PURE__*/React__default.createElement(column.Column, {
+    if (item.body !== undefined) return /*#__PURE__*/React$1__default.createElement(column.Column, {
       key: index,
       style: item.style,
       sortable: item.sortable,
@@ -917,7 +931,7 @@ var CustomDataTable = function CustomDataTable(props) {
       header: item.header,
       frozen: item.frozen,
       alignFrozen: item.alignFrozen
-    });else return /*#__PURE__*/React__default.createElement(column.Column, {
+    });else return /*#__PURE__*/React$1__default.createElement(column.Column, {
       key: index,
       style: item.style,
       sortable: item.sortable,
@@ -953,7 +967,7 @@ CustomDataTable.defaultProp = {
     onClick: function onClick() {}
   }
 };
-var CustomDataTable$1 = React__default.memo(CustomDataTable);
+var CustomDataTable$1 = React$1__default.memo(CustomDataTable);
 
 var style$7 = {
   save_component: {
@@ -969,56 +983,56 @@ var MessageConfirmation = function MessageConfirmation(_ref) {
       onClose = _ref.onClose,
       onCancelClick = _ref.onCancelClick,
       onConfirmClick = _ref.onConfirmClick;
-  return /*#__PURE__*/React__default.createElement(Dialog, {
+  return /*#__PURE__*/React$1__default.createElement(Dialog, {
     open: display,
     onClose: onClose,
     "aria-labelledby": "alert-dialog-title",
     "aria-describedby": "alert-dialog-description"
-  }, /*#__PURE__*/React__default.createElement(DialogTitle, {
+  }, /*#__PURE__*/React$1__default.createElement(DialogTitle, {
     id: "alert-dialog-title"
-  }, "Confirma\xE7\xE3o"), /*#__PURE__*/React__default.createElement(DialogContent, null, /*#__PURE__*/React__default.createElement(DialogContentText, {
+  }, "Confirma\xE7\xE3o"), /*#__PURE__*/React$1__default.createElement(DialogContent, null, /*#__PURE__*/React$1__default.createElement(DialogContentText, {
     id: "alert-dialog-description"
-  }, "Confirma a grava\xE7\xE3o ?")), /*#__PURE__*/React__default.createElement(DialogActions, null, /*#__PURE__*/React__default.createElement(Button, {
+  }, "Confirma a grava\xE7\xE3o ?")), /*#__PURE__*/React$1__default.createElement(DialogActions, null, /*#__PURE__*/React$1__default.createElement(Button, {
     variant: "outlined",
     style: style$7.save_component_item,
     onClick: onCancelClick,
-    startIcon: /*#__PURE__*/React__default.createElement(CancelOutlinedIcon, null)
-  }, "Cancelar"), /*#__PURE__*/React__default.createElement(Button, {
+    startIcon: /*#__PURE__*/React$1__default.createElement(CancelOutlinedIcon, null)
+  }, "Cancelar"), /*#__PURE__*/React$1__default.createElement(Button, {
     variant: "contained",
     className: "btn-green",
     color: "success",
     onClick: onConfirmClick,
-    endIcon: /*#__PURE__*/React__default.createElement(CheckIcon, null),
+    endIcon: /*#__PURE__*/React$1__default.createElement(CheckIcon, null),
     autoFocus: true
   }, "Confirmar")));
 };
 
 var SaveComponent = function SaveComponent(props) {
-  var _React$useState = React__default.useState({
+  var _React$useState = React$1__default.useState({
     display: false,
     confirmed: false
   }),
       displayConfirm = _React$useState[0],
       setDisplayConfirm = _React$useState[1];
 
-  var _React$useState2 = React__default.useState(false),
+  var _React$useState2 = React$1__default.useState(false),
       loading = _React$useState2[0],
       setLoading = _React$useState2[1];
 
-  return /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement(Conteiner, {
+  return /*#__PURE__*/React$1__default.createElement("div", null, /*#__PURE__*/React$1__default.createElement(Conteiner, {
     style: style$7.save_component
-  }, /*#__PURE__*/React__default.createElement(ConteinerItem, null, /*#__PURE__*/React__default.createElement(Button, {
+  }, /*#__PURE__*/React$1__default.createElement(ConteinerItem, null, /*#__PURE__*/React$1__default.createElement(Button, {
     style: style$7.save_component_item,
     variant: "outlined",
-    startIcon: /*#__PURE__*/React__default.createElement(CancelOutlinedIcon, null),
+    startIcon: /*#__PURE__*/React$1__default.createElement(CancelOutlinedIcon, null),
     onClick: props.onCancelClick
-  }, "Cancelar"), /*#__PURE__*/React__default.createElement(LoadingButton, {
+  }, "Cancelar"), /*#__PURE__*/React$1__default.createElement(LoadingButton, {
     loading: loading,
     loadingPosition: "end",
     color: "success",
     variant: "contained",
     className: "btn-green",
-    endIcon: /*#__PURE__*/React__default.createElement(SaveOutlinedIcon, null),
+    endIcon: /*#__PURE__*/React$1__default.createElement(SaveOutlinedIcon, null),
     onClick: function onClick() {
       if (loading) return;
       setDisplayConfirm({
@@ -1026,7 +1040,7 @@ var SaveComponent = function SaveComponent(props) {
         confirmed: false
       });
     }
-  }, "Salvar"))), /*#__PURE__*/React__default.createElement(MessageConfirmation, {
+  }, "Salvar"))), /*#__PURE__*/React$1__default.createElement(MessageConfirmation, {
     display: displayConfirm.display,
     onClose: function onClose() {
       return setDisplayConfirm({
@@ -1065,30 +1079,49 @@ SaveComponent.defaultProp = {
   onCancelClick: function onCancelClick() {},
   onSaveClick: function onSaveClick() {}
 };
-var SaveComponent$1 = React__default.memo(SaveComponent);
+var SaveComponent$1 = React$1__default.memo(SaveComponent);
 
 var style$8 = {
-  header_app_bar: {
-    minHeight: '52px!important',
-    maxHeight: '55px!important',
-    backgroundColor: '#008EBC!important'
+  width: 85,
+  height: 80,
+  margin: '10px',
+  borderRadius: '2px',
+  backgroundColor: 'white',
+  '&:hover': {
+    backgroundColor: '#DDF1FB',
+    opacity: [0.9, 0.8, 0.7]
   }
+};
+function HeaderApp(_ref) {
+  var title = _ref.title,
+      onClick = _ref.onClick,
+      key = _ref.key;
+  return /*#__PURE__*/React$1.createElement(Box, {
+    sx: style$8,
+    onClick: onClick,
+    key: key
+  }, /*#__PURE__*/React$1.createElement("div", {
+    className: "box-menu"
+  }, /*#__PURE__*/React$1.createElement(WidgetsIcon, {
+    className: "box-menu-icon",
+    sx: {
+      fontSize: 30
+    }
+  }), /*#__PURE__*/React$1.createElement("p", null, title)));
+}
+
+var authorities = {
+  ROLE_ROOT: "ROLE_ROOT",
+  ROLE_BENEFICIARIO: "ROLE_BENEFICIARIO"
 };
 
 var ToggleSideBar = function ToggleSideBar() {
-  if (document.getElementById("layout-sidebar").style.display === 'none') {
-    document.getElementById("layout-sidebar").style.display = 'block';
+  if (document.getElementById("layout-sidebar").style.display !== 'none') {
+    document.getElementById("layout-sidebar").style.display = 'none';
   } else {
-    if (document.getElementsByClassName("layout-reduce")[0] === undefined) {
-      document.getElementById("layout-sidebar").classList.add("layout-reduce");
-      document.getElementById("sidebar").classList.add("sidebar-reduce");
-    } else {
-      document.getElementById("layout-sidebar").classList.remove("layout-reduce");
-      document.getElementById("sidebar").classList.remove("sidebar-reduce");
-    }
+    document.getElementById("layout-sidebar").style.display = 'block';
   }
 };
-
 var Search = styles.styled('div')(function (_ref) {
   var _ref2;
 
@@ -1136,22 +1169,129 @@ var StyledInputBase = styles.styled(InputBase)(function (_ref4) {
     }, _MuiInputBaseInpu)
   };
 });
+var removeToken = function removeToken() {
+  return localStorage.removeItem('agsi-tk');
+};
+var setRememberMenuLocalStorage = function setRememberMenuLocalStorage(status) {
+  localStorage.setItem('RememberMenu', status);
+};
+var getRememberMenuLocalStorage = function getRememberMenuLocalStorage() {
+  try {
+    return JSON.parse(localStorage.getItem('RememberMenu'));
+  } catch (_unused3) {
+    return true;
+  }
+};
+function roleUserBeneficiarie() {
+  var agsiJwt = localStorage.getItem('agsi-tk') ? parseJwt(localStorage.getItem('agsi-tk')) : '';
 
-var Header = function Header(props) {
-  var title = props.title;
+  if (!agsiJwt) {
+    return /*#__PURE__*/React.createElement(AccessDenied, null);
+  }
 
-  var _React$useState = React.useState(null),
-      anchorEl = _React$useState[0],
-      setAnchorEl = _React$useState[1];
+  if (agsiJwt.authorities.includes(authorities.ROLE_BENEFICIARIO)) {
+    return {
+      'wallet': agsiJwt.code
+    };
+  } else {
+    return false;
+  }
+}
+var parseJwt = function parseJwt(token) {
+  try {
+    return JSON.parse(atob(token.split('.')[1]));
+  } catch (e) {
+    return null;
+  }
+};
 
-  var _React$useState2 = React.useState(null),
-      mobileMoreAnchorEl = _React$useState2[0],
-      setMobileMoreAnchorEl = _React$useState2[1];
+function MenuAppList(_ref) {
+  var open = _ref.open,
+      children = _ref.children;
+
+  var _React$useState = React$1.useState(getRememberMenuLocalStorage()),
+      switchDisplayMenu = _React$useState[0],
+      setSwitchDisplayMenu = _React$useState[1];
+
+  return /*#__PURE__*/React$1.createElement(React$1.Fragment, null, /*#__PURE__*/React$1.createElement("div", {
+    id: "basic-menu",
+    className: open ? 'menu-app-list' : 'menu-app-list-none'
+  }, /*#__PURE__*/React$1.createElement("div", {
+    id: "toggle-menu-apps",
+    style: {
+      textAlign: 'right',
+      color: 'gray'
+    }
+  }, /*#__PURE__*/React$1.createElement(FormControlLabel, {
+    label: /*#__PURE__*/React$1.createElement("label", {
+      style: {
+        fontSize: '14px'
+      }
+    }, "Fixar"),
+    className: "menu-apps",
+    control: /*#__PURE__*/React$1.createElement(Switch, {
+      checked: switchDisplayMenu,
+      className: "menu-apps",
+      onChange: function onChange() {
+        setSwitchDisplayMenu(!switchDisplayMenu);
+        setRememberMenuLocalStorage(!switchDisplayMenu);
+      }
+    })
+  })), /*#__PURE__*/React$1.createElement(Divider, {
+    variant: "middle"
+  }), children));
+}
+
+var Header = function Header(_ref) {
+  var title = _ref.title,
+      _ref$listApp = _ref.listApp,
+      listApp = _ref$listApp === void 0 ? [] : _ref$listApp,
+      notification = _ref.notification;
+  var navigate = reactRouterDom.useNavigate();
+
+  var _React$useState = React$1.useState(getRememberMenuLocalStorage()),
+      openMenu = _React$useState[0],
+      setOpenMenu = _React$useState[1];
+
+  var _React$useState2 = React$1.useState(null),
+      anchorEl = _React$useState2[0],
+      setAnchorEl = _React$useState2[1];
+
+  var _React$useState3 = React$1.useState(null),
+      mobileMoreAnchorEl = _React$useState3[0],
+      setMobileMoreAnchorEl = _React$useState3[1];
 
   var isMenuOpen = Boolean(anchorEl);
   var isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
+  var handleClick = function handleClick(event) {
+    var remember = getRememberMenuLocalStorage();
+    setOpenMenu(remember ? remember : !openMenu);
+  };
+
+  window.addEventListener('click', function (e) {
+    var remember = getRememberMenuLocalStorage();
+    var listIds = [];
+    e.path.map(function (i) {
+      if (i.id) {
+        listIds.push(i.id);
+      }
+    });
+
+    if (listIds.includes('menu-apps')) {
+      return;
+    }
+
+    if (listIds.includes('basic-menu')) {
+      return;
+    }
+
+    if (!remember && openMenu) setOpenMenu(false);
+  });
+
   var handleProfileMenuOpen = function handleProfileMenuOpen(event) {
+    var remember = getRememberMenuLocalStorage();
+    if (!remember && openMenu) setOpenMenu(false);
     setAnchorEl(event.currentTarget);
   };
 
@@ -1168,72 +1308,76 @@ var Header = function Header(props) {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  var handleExit = function handleExit() {
+    removeToken();
+    navigate("/");
+    window.location.reload();
+  };
+
   var menuId = 'primary-search-account-menu';
-  var renderMenu = /*#__PURE__*/React.createElement(Menu, {
+  var renderMenu = /*#__PURE__*/React$1.createElement(Menu, {
+    onClose: handleMenuClose,
     anchorEl: anchorEl,
-    anchorOrigin: {
-      vertical: 'top',
-      horizontal: 'right'
-    },
+    open: isMenuOpen,
     id: menuId,
     keepMounted: true,
-    transformOrigin: {
-      vertical: 'top',
-      horizontal: 'right'
-    },
-    open: isMenuOpen,
-    onClose: handleMenuClose
-  }, /*#__PURE__*/React.createElement(MenuItem, {
+    style: {
+      marginTop: '7px',
+      marginLeft: '10px'
+    }
+  }, /*#__PURE__*/React$1.createElement("div", {
+    style: {
+      minWidth: '200px'
+    }
+  }, /*#__PURE__*/React$1.createElement(MenuItem, {
     onClick: handleMenuClose
-  }, "Profile"), /*#__PURE__*/React.createElement(MenuItem, {
-    onClick: handleMenuClose
-  }, "My account"));
+  }, /*#__PURE__*/React$1.createElement(ListItemIcon, null, /*#__PURE__*/React$1.createElement(FolderSharedIcon, {
+    fontSize: "small"
+  })), "Perfil"), /*#__PURE__*/React$1.createElement(Divider, null), /*#__PURE__*/React$1.createElement(MenuItem, {
+    onClick: function onClick() {
+      return handleExit();
+    }
+  }, /*#__PURE__*/React$1.createElement(ListItemIcon, null, /*#__PURE__*/React$1.createElement(ExitToAppIcon, {
+    fontSize: "small"
+  })), "Sair")));
   var mobileMenuId = 'primary-search-account-menu-mobile';
-  var renderMobileMenu = /*#__PURE__*/React.createElement(Menu, {
+  var renderMobileMenu = /*#__PURE__*/React$1.createElement(Menu, {
+    onClose: handleMobileMenuClose,
     anchorEl: mobileMoreAnchorEl,
+    open: isMobileMenuOpen,
+    id: mobileMenuId,
     anchorOrigin: {
       vertical: 'top',
       horizontal: 'right'
     },
-    id: mobileMenuId,
-    keepMounted: true,
     transformOrigin: {
       vertical: 'top',
       horizontal: 'right'
     },
-    open: isMobileMenuOpen,
-    onClose: handleMobileMenuClose
-  }, /*#__PURE__*/React.createElement(MenuItem, null, /*#__PURE__*/React.createElement(IconButton, {
-    size: "large",
-    "aria-label": "show 4 new mails",
-    color: "inherit"
-  }, /*#__PURE__*/React.createElement(Badge, {
-    badgeContent: 4,
-    color: "error"
-  }, /*#__PURE__*/React.createElement(MailIcon, null))), /*#__PURE__*/React.createElement("p", null, "Messages")), /*#__PURE__*/React.createElement(MenuItem, null, /*#__PURE__*/React.createElement(IconButton, {
-    size: "large",
-    "aria-label": "show 17 new notifications",
-    color: "inherit"
-  }, /*#__PURE__*/React.createElement(Badge, {
-    badgeContent: 17,
-    color: "error"
-  }, /*#__PURE__*/React.createElement(NotificationsIcon, null))), /*#__PURE__*/React.createElement("p", null, "Notifications")), /*#__PURE__*/React.createElement(MenuItem, {
+    keepMounted: true
+  }, /*#__PURE__*/React$1.createElement(MenuItem, {
     onClick: handleProfileMenuOpen
-  }, /*#__PURE__*/React.createElement(IconButton, {
-    size: "large",
+  }, /*#__PURE__*/React$1.createElement(IconButton, {
+    size: "small",
     "aria-label": "account of current user",
     "aria-controls": "primary-search-account-menu",
     "aria-haspopup": "true",
     color: "inherit"
-  }, /*#__PURE__*/React.createElement(AccountCircle, null)), /*#__PURE__*/React.createElement("p", null, "Profile")));
-  return /*#__PURE__*/React.createElement(Box, {
+  }, /*#__PURE__*/React$1.createElement(AccountCircle, null)), /*#__PURE__*/React$1.createElement("p", null, "Perfil")), /*#__PURE__*/React$1.createElement(MenuItem, {
+    onClick: handleClick
+  }, /*#__PURE__*/React$1.createElement(IconButton, {
+    size: "small",
+    "aria-haspopup": "true",
+    color: "inherit"
+  }, /*#__PURE__*/React$1.createElement(AppsIcon, null)), /*#__PURE__*/React$1.createElement("p", null, "M\xF3dulos")));
+  return /*#__PURE__*/React$1.createElement(Box, {
     sx: {
       flexGrow: 1
     }
-  }, /*#__PURE__*/React.createElement(AppBar, {
-    style: style$8.header_app_bar,
+  }, /*#__PURE__*/React$1.createElement(AppBar, {
+    className: "header-app-bar",
     position: "fixed"
-  }, /*#__PURE__*/React.createElement(Toolbar, null, /*#__PURE__*/React.createElement(IconButton, {
+  }, /*#__PURE__*/React$1.createElement(Toolbar, null, /*#__PURE__*/React$1.createElement(IconButton, {
     size: "large",
     edge: "start",
     color: "inherit",
@@ -1244,7 +1388,9 @@ var Header = function Header(props) {
     onClick: function onClick() {
       return ToggleSideBar();
     }
-  }, /*#__PURE__*/React.createElement(AppsIcon, null)), /*#__PURE__*/React.createElement(Typography, {
+  }, /*#__PURE__*/React$1.createElement(material.Tooltip, {
+    title: "Menu"
+  }, /*#__PURE__*/React$1.createElement(MenuIcon, null))), /*#__PURE__*/React$1.createElement(Typography, {
     variant: "h6",
     noWrap: true,
     component: "div",
@@ -1254,37 +1400,48 @@ var Header = function Header(props) {
         sm: 'block'
       }
     }
-  }, title), /*#__PURE__*/React.createElement(Search, null, /*#__PURE__*/React.createElement(SearchIconWrapper, null, /*#__PURE__*/React.createElement(SearchIcon, null)), /*#__PURE__*/React.createElement(StyledInputBase, {
-    placeholder: "Pesquisar...",
-    inputProps: {
-      'aria-label': 'search'
-    }
-  })), /*#__PURE__*/React.createElement(Box, {
+  }, title), /*#__PURE__*/React$1.createElement(Box, {
     sx: {
       flexGrow: 1
     }
-  }), /*#__PURE__*/React.createElement(Box, {
+  }), /*#__PURE__*/React$1.createElement(Box, {
+    sx: {
+      display: {
+        xs: 'none',
+        md: 'flex'
+      },
+      marginRight: '15px'
+    }
+  }, /*#__PURE__*/React$1.createElement(IconButton, {
+    size: "large",
+    "aria-label": "show more",
+    "aria-haspopup": "true",
+    color: "inherit"
+  }, /*#__PURE__*/React$1.createElement(Badge, {
+    color: "error",
+    badgeContent: notification.notificationUnread
+  }, /*#__PURE__*/React$1.createElement(material.Tooltip, {
+    title: "Notifica\xE7\xF5es"
+  }, /*#__PURE__*/React$1.createElement(NotificationsIcon, {
+    onClick: notification.onClick
+  }))))), /*#__PURE__*/React$1.createElement(Box, {
+    id: "menu-apps",
     sx: {
       display: {
         xs: 'none',
         md: 'flex'
       }
     }
-  }, /*#__PURE__*/React.createElement(IconButton, {
+  }, !roleUserBeneficiarie() && /*#__PURE__*/React$1.createElement(IconButton, {
+    id: "app-menu",
     size: "large",
-    "aria-label": "show 4 new mails",
-    color: "inherit"
-  }, /*#__PURE__*/React.createElement(Badge, {
-    badgeContent: 4,
-    color: "error"
-  }, /*#__PURE__*/React.createElement(MailIcon, null))), /*#__PURE__*/React.createElement(IconButton, {
-    size: "large",
-    "aria-label": "show 17 new notifications",
-    color: "inherit"
-  }, /*#__PURE__*/React.createElement(Badge, {
-    badgeContent: 17,
-    color: "error"
-  }, /*#__PURE__*/React.createElement(NotificationsIcon, null))), /*#__PURE__*/React.createElement(IconButton, {
+    edge: "start",
+    color: "inherit",
+    "aria-label": "M\xF3dulos",
+    onClick: handleClick
+  }, /*#__PURE__*/React$1.createElement(material.Tooltip, {
+    title: "Aplicativos"
+  }, /*#__PURE__*/React$1.createElement(AppsIcon, null))), /*#__PURE__*/React$1.createElement(IconButton, {
     size: "large",
     edge: "end",
     "aria-label": "account of current user",
@@ -1292,24 +1449,39 @@ var Header = function Header(props) {
     "aria-haspopup": "true",
     onClick: handleProfileMenuOpen,
     color: "inherit"
-  }, /*#__PURE__*/React.createElement(AccountCircle, null))), /*#__PURE__*/React.createElement(Box, {
+  }, /*#__PURE__*/React$1.createElement(material.Tooltip, {
+    title: "Usu\xE1rio"
+  }, /*#__PURE__*/React$1.createElement(AccountCircle, null)))), /*#__PURE__*/React$1.createElement(Box, {
     sx: {
       display: {
         xs: 'flex',
         md: 'none'
       }
     }
-  }, /*#__PURE__*/React.createElement(IconButton, {
+  }, /*#__PURE__*/React$1.createElement(IconButton, {
     size: "large",
     "aria-label": "show more",
     "aria-controls": mobileMenuId,
     "aria-haspopup": "true",
     onClick: handleMobileMenuOpen,
     color: "inherit"
-  }, /*#__PURE__*/React.createElement(MoreIcon, null))))), renderMobileMenu, renderMenu);
+  }, /*#__PURE__*/React$1.createElement(MoreIcon, null))))), renderMobileMenu, renderMenu, /*#__PURE__*/React$1.createElement(MenuAppList, {
+    open: openMenu
+  }, /*#__PURE__*/React$1.createElement("section", {
+    className: "grid grid-template-columns-4"
+  }, listApp.map(function (item, index) {
+    return /*#__PURE__*/React$1.createElement(HeaderApp, {
+      key: index,
+      title: item.title,
+      onClick: function onClick() {
+        navigate(item.link);
+        window.location.reload();
+      }
+    });
+  }))));
 };
 
-var Header$1 = React.memo(Header);
+var Header$1 = React$1.memo(Header);
 
 var _excluded$1 = ["title", "options", "value", "freeSolo", "onChange", "inputValue", "onInputChange", "validation", "loadingListOptions", "open", "disabled", "onKeyPress", "onblur"];
 
@@ -1341,7 +1513,7 @@ var CustomInputSelect = function CustomInputSelect(_ref) {
       onblur = _ref.onblur,
       other = _objectWithoutPropertiesLoose(_ref, _excluded$1);
 
-  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(Autocomplete, {
+  return /*#__PURE__*/React$1__default.createElement(React$1__default.Fragment, null, /*#__PURE__*/React$1__default.createElement(Autocomplete, {
     style: {
       marginTop: '8px'
     },
@@ -1365,7 +1537,7 @@ var CustomInputSelect = function CustomInputSelect(_ref) {
     onInputChange: onInputChange,
     onKeyPress: onKeyPress,
     renderInput: function renderInput(params) {
-      return /*#__PURE__*/React__default.createElement(TextField, _extends({}, params, {
+      return /*#__PURE__*/React$1__default.createElement(TextField, _extends({}, params, {
         error: handleError(inputValue, validation),
         helperText: inputValue ? "" : handleHelperText(validation),
         InputLabelProps: {
@@ -1373,7 +1545,7 @@ var CustomInputSelect = function CustomInputSelect(_ref) {
         },
         label: title,
         InputProps: _extends({}, params.InputProps, {
-          startAdornment: /*#__PURE__*/React__default.createElement(React__default.Fragment, null, loadingListOptions ? /*#__PURE__*/React__default.createElement(material.CircularProgress, {
+          startAdornment: /*#__PURE__*/React$1__default.createElement(React$1__default.Fragment, null, loadingListOptions ? /*#__PURE__*/React$1__default.createElement(material.CircularProgress, {
             color: "inherit",
             size: 15
           }) : null, params.InputProps.startAdornment)
@@ -1413,7 +1585,7 @@ CustomInputSelect.defaultProp = {
   disabled: false,
   loadingListOptions: false
 };
-var CustomInputSelect$1 = React__default.memo(CustomInputSelect);
+var CustomInputSelect$1 = React$1__default.memo(CustomInputSelect);
 
 var _excluded$2 = ["label", "id", "value", "disabled", "onChange"];
 
@@ -1425,7 +1597,7 @@ var CustomTextField = function CustomTextField(_ref) {
       onChange = _ref.onChange,
       other = _objectWithoutPropertiesLoose(_ref, _excluded$2);
 
-  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(TextField, _extends({
+  return /*#__PURE__*/React$1__default.createElement(React$1__default.Fragment, null, /*#__PURE__*/React$1__default.createElement(TextField, _extends({
     size: "small",
     label: label,
     id: id,
@@ -1455,7 +1627,7 @@ CustomTextField.defaultProp = {
   disabled: false,
   onChange: function onChange() {}
 };
-var CustomTextField$1 = React__default.memo(CustomTextField);
+var CustomTextField$1 = React$1__default.memo(CustomTextField);
 
 var _excluded$3 = ["id", "size", "label", "value", "mask", "onChange", "placeHolder", "ampm", "disabled"];
 var style$9 = {
@@ -1475,14 +1647,14 @@ var CustomTimePicker = function CustomTimePicker(_ref) {
       disabled = _ref.disabled,
       other = _objectWithoutPropertiesLoose(_ref, _excluded$3);
 
-  var _React$useState = React__default.useState(''),
+  var _React$useState = React$1__default.useState(''),
       dateValidation = _React$useState[0],
       setDateValidation = _React$useState[1];
 
-  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(LocalizationProvider.LocalizationProvider, {
+  return /*#__PURE__*/React$1__default.createElement(React$1__default.Fragment, null, /*#__PURE__*/React$1__default.createElement(LocalizationProvider.LocalizationProvider, {
     dateAdapter: AdapterDateFns.AdapterDateFns,
     locale: locale.ptBR
-  }, /*#__PURE__*/React__default.createElement(TimePicker.TimePicker, {
+  }, /*#__PURE__*/React$1__default.createElement(TimePicker.TimePicker, {
     size: size,
     label: label,
     value: value,
@@ -1495,7 +1667,7 @@ var CustomTimePicker = function CustomTimePicker(_ref) {
     },
     onChange: onChange,
     renderInput: function renderInput(params) {
-      return /*#__PURE__*/React__default.createElement(material.TextField, _extends({}, params, {
+      return /*#__PURE__*/React$1__default.createElement(material.TextField, _extends({}, params, {
         id: "custom-time-picker",
         sx: {
           maxWidth: '120px'
@@ -1535,7 +1707,7 @@ CustomTimePicker.defaultProp = {
   ampm: false,
   disabled: false
 };
-var CustomTimePicker$1 = React__default.memo(CustomTimePicker);
+var CustomTimePicker$1 = React$1__default.memo(CustomTimePicker);
 
 var _excluded$4 = ["id", "size", "label", "value", "minDate", "maxDate", "dateFormat", "onChange", "placeHolder", "helperText", "disabled"];
 var style$a = {
@@ -1557,14 +1729,14 @@ var CustomDatePicker = function CustomDatePicker(_ref) {
       disabled = _ref.disabled,
       other = _objectWithoutPropertiesLoose(_ref, _excluded$4);
 
-  var _React$useState = React__default.useState(''),
+  var _React$useState = React$1__default.useState(''),
       dateValidation = _React$useState[0],
       setDateValidation = _React$useState[1];
 
-  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(LocalizationProvider.LocalizationProvider, {
+  return /*#__PURE__*/React$1__default.createElement(React$1__default.Fragment, null, /*#__PURE__*/React$1__default.createElement(LocalizationProvider.LocalizationProvider, {
     dateAdapter: AdapterDateFns.AdapterDateFns,
     locale: locale.ptBR
-  }, /*#__PURE__*/React__default.createElement(DatePicker.DatePicker, {
+  }, /*#__PURE__*/React$1__default.createElement(DatePicker.DatePicker, {
     size: size,
     label: label,
     value: value,
@@ -1577,7 +1749,7 @@ var CustomDatePicker = function CustomDatePicker(_ref) {
     },
     onChange: onChange,
     renderInput: function renderInput(params) {
-      return /*#__PURE__*/React__default.createElement(material.TextField, _extends({}, params, {
+      return /*#__PURE__*/React$1__default.createElement(material.TextField, _extends({}, params, {
         inputProps: _extends({}, params.inputProps, {
           placeholder: placeHolder || "DD/MM/AAAA",
           style: style$a.date_picker
@@ -1623,7 +1795,7 @@ CustomDatePicker.defaultProp = {
   helperText: "Data ou Hora Invalida!",
   disabled: false
 };
-var CustomDatePicker$1 = React__default.memo(CustomDatePicker);
+var CustomDatePicker$1 = React$1__default.memo(CustomDatePicker);
 
 var style$b = {
   appcontent: {
@@ -1639,9 +1811,9 @@ var style$b = {
 };
 
 var AppContent = function AppContent(props) {
-  return /*#__PURE__*/React__default.createElement("div", {
+  return /*#__PURE__*/React$1__default.createElement("div", {
     style: style$b.appcontent
-  }, /*#__PURE__*/React__default.createElement(Backdrop, {
+  }, /*#__PURE__*/React$1__default.createElement(Backdrop, {
     sx: {
       color: '#fff',
       zIndex: function zIndex(theme) {
@@ -1649,7 +1821,7 @@ var AppContent = function AppContent(props) {
       }
     },
     open: props.loading
-  }, /*#__PURE__*/React__default.createElement(CircularProgress, {
+  }, /*#__PURE__*/React$1__default.createElement(CircularProgress, {
     color: "inherit"
   })), props.children);
 };
@@ -1660,7 +1832,7 @@ AppContent.propTypes = {
 AppContent.defaultProp = {
   loading: false
 };
-var AppContent$1 = React__default.memo(AppContent);
+var AppContent$1 = React$1__default.memo(AppContent);
 
 exports.AppContent = AppContent$1;
 exports.Conteiner = Conteiner;
