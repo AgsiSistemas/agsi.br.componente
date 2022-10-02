@@ -4,7 +4,11 @@
 ## Get Started:
 
 ### Install from the command line:
-npm install @agsisistemas/agsi.br.componente@1.0.6
+npm install @agsisistemas/agsi.br.componente
+
+or
+
+yarn add @agsisistemas/agsi.br.componente
 
 ### Install via package.json:
 "@agsisistemas/agsi.br.componente": "1.0.6"
