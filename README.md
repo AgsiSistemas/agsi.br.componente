@@ -19,23 +19,27 @@ import '@agsisistemas/agsi.br.componente/dist/index.css'
 ### Usage
 import { Header } from '@agsisistemas/agsi.br.componente';
 
-## Componentes disponíveis nesta versão:
+## Avaiables components:
 
 
 ```python
-  Conteiner
-  ConteinerItem
-  OperationDetail
-  OperationSection
-  OperationTable   
-  HeaderAccordion
-  CustomDialog
-  CustomToastMessage
-  CustomModal
-  PageBase
-  CustomDataTable
-  SaveComponent
-  Header
+  Conteiner, 
+  ConteinerItem,
+  OperationDetail,
+  OperationSection, 
+  OperationTable,    
+  HeaderAccordion,
+  CustomDialog,
+  CustomToastMessage,
+  CustomModal,
+  PageBase,
+  CustomDataTable,
+  SaveComponent,
+  Header,
+  CustomInputSelect,
+  CustomTextField,
+  CustomTimePicker,
+  CustomDatePicker,
   AppContent
   ```
  
