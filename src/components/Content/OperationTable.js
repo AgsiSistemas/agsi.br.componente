@@ -156,7 +156,7 @@ const OperationTable = (props) => {
                         Tem certeza que deseja excluir ?
                     </DialogContentText>
                 </DialogContent>
-                <DialogActions>
+                <DialogActions style={{ display: 'flex', justifyContent: 'center' }}>
                     <Button style={{ marginRight: '5px' }} variant="outlined" component="span" onClick={() => deleteHandler.onCancelClick()}>
                         Cancelar
                     </Button>
