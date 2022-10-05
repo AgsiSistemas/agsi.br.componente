@@ -9,7 +9,8 @@ const style = {
     animation: 'fadeInAnimation ease 0.5s',
     animationIterationCount: 1,
     animationFillMode: 'forwards',
-    marginRight: '15px',
+    paddingRight: '10px',
+    marginRight: 'auto',
     marginLeft: 'auto',
     marginTop: '80px',
     maxWidth: '1195px'
