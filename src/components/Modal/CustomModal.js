@@ -8,9 +8,12 @@ import DialogActions from '@mui/material/DialogActions';
 import { Conteiner, ConteinerItem } from '../Conteiner/Conteiner';
 
 const style = {
-  searchModal: {
-    display: 'flex',
-    justifiContent: 'flex-end'
+  search_modal: {
+    // display: 'flex',
+    justifyContent: 'flex-end'
+  },
+  search_modal_item: {
+    flex: 'none!important'
   }
 }
 
@@ -33,8 +36,8 @@ const CustomModal = (props) => {
           </div>
         </DialogContent>
         <DialogActions>
-          <Conteiner style={style.searchModal}>
-            <ConteinerItem>
+          <Conteiner style={style.search_modal}>
+            <ConteinerItem style={style.search_modal_item}>
               <Button autoFocus onClick={props.onCloseDialog}>
                 Fechar
               </Button>
