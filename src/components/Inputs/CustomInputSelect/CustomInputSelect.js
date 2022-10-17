@@ -8,17 +8,18 @@ const isNullValue = (value) => {
     return ((value === undefined) || (value === null) || (value === ""))
 }
 
-const handleHelperText = (validation) => {
-    return validation ? "Campo obrigatório" : ""
+const handleHelperText = (value, validation) => {
+    return isNullValue(value) && validation ? "Campo obrigatório" : ""
 }
 
-const handleError = (inputValue, value, validation) => {
-    return isNullValue(inputValue) || isNullValue(value) && validation
+const handleError = (value, validation) => {
+    return isNullValue(value) && validation
 }
 
 
 const CustomInputSelect = ({ title, options, value, freeSolo, onChange, inputValue, onInputChange, validation, loadingListOptions, open, disabled, onKeyPress, onblur, ...other }) => {
 
+    console.log(!isNullValue(value) || validation);
     return (
         <React.Fragment>
             <Autocomplete
@@ -43,8 +44,8 @@ const CustomInputSelect = ({ title, options, value, freeSolo, onChange, inputVal
                 renderInput={params => (
                     <TextField
                         {...params}
-                        error={handleError(inputValue, value, validation)}
-                        helperText={inputValue ? "" : handleHelperText(validation)}
+                        error={handleError(value, validation)}
+                        helperText={handleHelperText(value, validation)}
                         InputLabelProps={{ shrink: true }}
                         label={title}
                         InputProps={{
