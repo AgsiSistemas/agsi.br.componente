@@ -17,7 +17,7 @@ const handleError = (value, validation) => {
 }
 
 
-const CustomTextField = ({ label, id, value, disabled, onChange, ...other }) => {
+const CustomTextField = ({ label, id, value, disabled, onChange, validation, ...other }) => {
 
     return (
         <React.Fragment>
@@ -47,7 +47,8 @@ CustomTextField.propTypes = {
     id: PropTypes.string,
     value: PropTypes.object,
     disabled: PropTypes.bool,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    validation: PropTypes.bool
 };
 
 CustomTextField.defaultProp = {
@@ -55,7 +56,8 @@ CustomTextField.defaultProp = {
     id: "",
     value: {},
     disabled: false,
-    onChange: () => { }
+    onChange: () => { },
+    validation: false
 };
 
 
