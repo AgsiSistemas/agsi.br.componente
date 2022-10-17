@@ -32,6 +32,8 @@ const CustomTextField = ({ label, id, value, disabled, onChange, ...other }) => 
                 InputLabelProps={{ shrink: true }}
                 value={value}
                 onChange={onChange}
+                error={handleError(value, validation)}
+                helperText={inputValue ? "" : handleHelperText(validation)}
                 {...other}
             />
         </React.Fragment>

@@ -12,8 +12,8 @@ const handleHelperText = (validation) => {
     return validation ? "Campo obrigatório" : ""
 }
 
-const handleError = (value, validation) => {
-    return isNullValue(value) && validation
+const handleError = (inputValue, value, validation) => {
+    return isNullValue(inputValue) || isNullValue(value) && validation
 }
 
 
@@ -43,7 +43,7 @@ const CustomInputSelect = ({ title, options, value, freeSolo, onChange, inputVal
                 renderInput={params => (
                     <TextField
                         {...params}
-                        error={handleError(inputValue, validation)}
+                        error={handleError(inputValue, value, validation)}
                         helperText={inputValue ? "" : handleHelperText(validation)}
                         InputLabelProps={{ shrink: true }}
                         label={title}
