@@ -33,7 +33,7 @@ const CustomTextField = ({ label, id, value, disabled, onChange, validation, ...
                 value={value}
                 onChange={onChange}
                 error={handleError(value, validation)}
-                helperText={inputValue ? "" : handleHelperText(validation)}
+                helperText={value ? "" : handleHelperText(validation)}
                 {...other}
             />
         </React.Fragment>
