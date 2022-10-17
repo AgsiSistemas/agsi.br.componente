@@ -18,8 +18,6 @@ const handleError = (value, validation) => {
 
 
 const CustomInputSelect = ({ title, options, value, freeSolo, onChange, inputValue, onInputChange, validation, loadingListOptions, open, disabled, onKeyPress, onblur, ...other }) => {
-
-    console.log(!isNullValue(value) || validation);
     return (
         <React.Fragment>
             <Autocomplete
