@@ -4,9 +4,9 @@ import React from 'react'
 import '../src/components/Header/Header.css';
 export * from '../src/components/Header/Header.css';
 
-import{ 
-  Conteiner, 
-  ConteinerItem 
+import {
+  Conteiner,
+  ConteinerItem
 } from './components/Conteiner/Conteiner';
 
 import OperationDetail from './components/Content/OperationDetail';
@@ -25,13 +25,14 @@ import CustomTextField from './components/Inputs/CustomTextField/CustomTextField
 import CustomTimePicker from './components/Inputs/CustomTimePicker/CustomTimePicker'
 import CustomDatePicker from './components/Inputs/CustomDatePicker/CustomDatePicker';
 import AppContent from './components/Content/AppContent';
+import FilesUpload from './components/FilesUpload/FilesUpload';
 
-export { 
-  Conteiner, 
+export {
+  Conteiner,
   ConteinerItem,
   OperationDetail,
-  OperationSection, 
-  OperationTable,    
+  OperationSection,
+  OperationTable,
   HeaderAccordion,
   CustomDialog,
   CustomToastMessage,
@@ -44,5 +45,6 @@ export {
   CustomTextField,
   CustomTimePicker,
   CustomDatePicker,
-  AppContent
+  AppContent,
+  FilesUpload
 };
