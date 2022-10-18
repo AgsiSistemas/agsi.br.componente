@@ -12,7 +12,7 @@ or
 yarn add @agsisistemas/agsi.br.componente
 
 ### Install via package.json:
-"@agsisistemas/agsi.br.componente": "1.0.6"
+"@agsisistemas/agsi.br.componente": "1.0.8"
 
 ## Styles:
 import '@agsisistemas/agsi.br.componente/dist/index.css'
@@ -41,6 +41,7 @@ import { Header } from '@agsisistemas/agsi.br.componente';
   CustomTextField,
   CustomTimePicker,
   CustomDatePicker,
-  AppContent
+  AppContent,
+  FilesUpload
   ```
  
