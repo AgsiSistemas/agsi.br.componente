@@ -17,7 +17,7 @@ const handleError = (value, validation) => {
 }
 
 
-const CustomTextField = ({ label, id, value, disabled, onChange, validation, ...other }) => {
+const CustomTextField = ({ label, id, value, disabled, onChange, validation, multiline, rows, ...other }) => {
 
     return (
         <React.Fragment>
@@ -26,6 +26,8 @@ const CustomTextField = ({ label, id, value, disabled, onChange, validation, ...
                 label={label}
                 id={id}
                 fullWidth
+                multiline={multiline ? multiline : false}
+                rows={rows && multiline ? rows : false}
                 disabled={disabled}
                 margin="dense"
                 variant="outlined"
@@ -47,6 +49,8 @@ CustomTextField.propTypes = {
     id: PropTypes.string,
     value: PropTypes.object,
     disabled: PropTypes.bool,
+    multiline: PropTypes.bool,
+    rows: PropTypes.number,
     onChange: PropTypes.func,
     validation: PropTypes.bool
 };
@@ -55,6 +59,8 @@ CustomTextField.defaultProp = {
     label: "",
     id: "",
     value: {},
+    multiline: false,
+    rows: false,
     disabled: false,
     onChange: () => { },
     validation: false

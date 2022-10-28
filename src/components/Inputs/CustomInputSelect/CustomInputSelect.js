@@ -17,7 +17,7 @@ const handleError = (value, validation) => {
 }
 
 
-const CustomInputSelect = ({ title, options, value, freeSolo, onChange, inputValue, onInputChange, validation, loadingListOptions, open, disabled, onKeyPress, onblur, ...other }) => {
+const CustomInputSelect = ({ title, options, value, freeSolo, onChange, inputValue, onInputChange, validation, loadingListOptions, open, disabled, onKeyPress, onblur, maxLength, ...other }) => {
     return (
         <React.Fragment>
             <Autocomplete
@@ -42,6 +42,7 @@ const CustomInputSelect = ({ title, options, value, freeSolo, onChange, inputVal
                 renderInput={params => (
                     <TextField
                         {...params}
+                        inputProps={{ ...params.inputProps, maxLength: maxLength }}
                         error={handleError(value, validation)}
                         helperText={handleHelperText(value, validation)}
                         InputLabelProps={{ shrink: true }}
@@ -79,6 +80,7 @@ CustomInputSelect.propTypes = {
     onKeyPress: PropTypes.func,
     onblur: PropTypes.func,
     validation: PropTypes.bool,
+    maxLength: PropTypes.number,
     disabled: PropTypes.bool,
     loadingListOptions: PropTypes.bool
 };
@@ -95,6 +97,7 @@ CustomInputSelect.defaultProp = {
     onKeyPress: () => { },
     onblur: () => { },
     validation: false,
+    maxLength: null,
     disabled: false,
     loadingListOptions: false
 };
