@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.10](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.9...v1.0.10) (2022-11-03)
+
+
+### Bug Fixes
+
+* Padding Css DatePicker and TimePicker ([0a927db](https://github.com/AgsiSistemas/agsi.br.componente/commit/0a927dbbb9d2bba5e1a31b995f70f3ea48ea733e))
+
 ### [1.0.9](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.8...v1.0.9) (2022-10-20)
 
 ### [1.0.8](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.7...v1.0.8) (2022-10-18)
