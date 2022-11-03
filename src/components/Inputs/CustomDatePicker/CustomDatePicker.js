@@ -7,13 +7,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { ptBR } from 'date-fns/locale'
 import { TextField } from '@mui/material';
 
-const style = {
-  date_picker: {
-    padding: '9px 9px 9px 15px !important'
-  }
-}
-
-const CustomDatePicker = ({ id, size, label, value, minDate, maxDate, dateFormat, onChange, placeHolder, helperText, disabled, ...other }) => {
+const CustomDatePicker = ({ id, label, value, minDate, maxDate, dateFormat, onChange, placeHolder, helperText, disabled, ...other }) => {
 
   const [dateValidation, setDateValidation] = React.useState('')
 
@@ -21,7 +15,6 @@ const CustomDatePicker = ({ id, size, label, value, minDate, maxDate, dateFormat
     <React.Fragment>
       <LocalizationProvider dateAdapter={AdapterDateFns} locale={ptBR}>
         <DatePicker
-          size={size}
           label={label}
           value={value}
           disabled={disabled}
@@ -36,8 +29,8 @@ const CustomDatePicker = ({ id, size, label, value, minDate, maxDate, dateFormat
               inputProps={{
                 ...params.inputProps,
                 placeholder: placeHolder || "DD/MM/AAAA",
-                style: style.date_picker,
               }}
+              size='small'
               id='custom-date-picker'
               sx={{ minWidth: '100px', marginTop: '5px' }}
               error={!value || dateValidation}
@@ -54,7 +47,6 @@ const CustomDatePicker = ({ id, size, label, value, minDate, maxDate, dateFormat
 
 CustomDatePicker.propTypes = {
   id: PropTypes.string,
-  size: PropTypes.string,
   label: PropTypes.string,
   value: PropTypes.object,
   minDate: PropTypes.string,
@@ -68,7 +60,6 @@ CustomDatePicker.propTypes = {
 
 CustomDatePicker.defaultProp = {
   id: "",
-  size: "",
   label: "",
   value: {},
   minDate: undefined,

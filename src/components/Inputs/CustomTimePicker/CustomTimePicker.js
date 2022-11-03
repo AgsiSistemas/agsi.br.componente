@@ -7,13 +7,7 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { ptBR } from 'date-fns/locale'
 import { TextField } from '@mui/material';
 
-const style = {
-  date_picker: {
-    padding: '9px 9px 9px 15px !important'
-  }
-}
-
-const CustomTimePicker = ({ id, size, label, value, mask, onChange, placeHolder, ampm, disabled, ...other }) => {
+const CustomTimePicker = ({ id, label, value, mask, onChange, placeHolder, ampm, disabled, ...other }) => {
 
   const [dateValidation, setDateValidation] = React.useState('')
 
@@ -21,7 +15,6 @@ const CustomTimePicker = ({ id, size, label, value, mask, onChange, placeHolder,
     <React.Fragment>
       <LocalizationProvider dateAdapter={AdapterDateFns} locale={ptBR}>
         <TimePicker
-          size={size}
           label={label}
           value={value}
           disabled={disabled}
@@ -34,11 +27,11 @@ const CustomTimePicker = ({ id, size, label, value, mask, onChange, placeHolder,
             <TextField
               {...params}
               id='custom-time-picker'
+              size='small'
               sx={{ maxWidth: '120px' }}
               inputProps={{
                 ...params.inputProps,
                 placeholder: placeHolder || "00:00",
-                style: style.date_picker
               }}
               error={!value || dateValidation}
               onKeyDown={(e) => e.preventDefault()}
@@ -52,7 +45,6 @@ const CustomTimePicker = ({ id, size, label, value, mask, onChange, placeHolder,
 
 CustomTimePicker.propTypes = {
   id: PropTypes.string,
-  size: PropTypes.string,
   label: PropTypes.string,
   value: PropTypes.object,
   mask: PropTypes.string,
@@ -64,7 +56,6 @@ CustomTimePicker.propTypes = {
 
 CustomTimePicker.defaultProp = {
   id: "",
-  size: '',
   label: "",
   value: {},
   mask: "__:__",
