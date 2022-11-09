@@ -1505,7 +1505,7 @@ var Header = function Header(_ref) {
 
 var Header$1 = memo(Header);
 
-var _excluded$1 = ["title", "options", "value", "freeSolo", "onChange", "inputValue", "onInputChange", "validation", "loadingListOptions", "open", "disabled", "onKeyPress", "onblur"];
+var _excluded$1 = ["title", "options", "value", "freeSolo", "onChange", "inputValue", "onInputChange", "validation", "loadingListOptions", "open", "disabled", "onKeyPress", "onblur", "maxLength"];
 
 var isNullValue = function isNullValue(value) {
   return value === undefined || value === null || value === "";
@@ -1533,6 +1533,7 @@ var CustomInputSelect = function CustomInputSelect(_ref) {
       disabled = _ref.disabled,
       onKeyPress = _ref.onKeyPress,
       onblur = _ref.onblur,
+      maxLength = _ref.maxLength,
       other = _objectWithoutPropertiesLoose(_ref, _excluded$1);
 
   return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(Autocomplete, {
@@ -1560,6 +1561,9 @@ var CustomInputSelect = function CustomInputSelect(_ref) {
     onKeyPress: onKeyPress,
     renderInput: function renderInput(params) {
       return /*#__PURE__*/React__default.createElement(TextField, _extends({}, params, {
+        inputProps: _extends({}, params.inputProps, {
+          maxLength: maxLength
+        }),
         error: handleError(value, validation),
         helperText: handleHelperText(value, validation),
         InputLabelProps: {
@@ -1589,6 +1593,7 @@ CustomInputSelect.propTypes = {
   onKeyPress: PropTypes.func,
   onblur: PropTypes.func,
   validation: PropTypes.bool,
+  maxLength: PropTypes.number,
   disabled: PropTypes.bool,
   loadingListOptions: PropTypes.bool
 };
@@ -1604,12 +1609,13 @@ CustomInputSelect.defaultProp = {
   onKeyPress: function onKeyPress() {},
   onblur: function onblur() {},
   validation: false,
+  maxLength: null,
   disabled: false,
   loadingListOptions: false
 };
 var CustomInputSelect$1 = React__default.memo(CustomInputSelect);
 
-var _excluded$2 = ["label", "id", "value", "disabled", "onChange", "validation"];
+var _excluded$2 = ["label", "id", "value", "disabled", "onChange", "validation", "multiline", "rows"];
 
 var isNullValue$1 = function isNullValue(value) {
   return value === undefined || value === null || value === "";
@@ -1630,6 +1636,8 @@ var CustomTextField = function CustomTextField(_ref) {
       disabled = _ref.disabled,
       onChange = _ref.onChange,
       validation = _ref.validation,
+      multiline = _ref.multiline,
+      rows = _ref.rows,
       other = _objectWithoutPropertiesLoose(_ref, _excluded$2);
 
   return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(TextField, _extends({
@@ -1637,6 +1645,8 @@ var CustomTextField = function CustomTextField(_ref) {
     label: label,
     id: id,
     fullWidth: true,
+    multiline: multiline ? multiline : false,
+    rows: rows && multiline ? rows : false,
     disabled: disabled,
     margin: "dense",
     variant: "outlined",
@@ -1655,6 +1665,8 @@ CustomTextField.propTypes = {
   id: PropTypes.string,
   value: PropTypes.object,
   disabled: PropTypes.bool,
+  multiline: PropTypes.bool,
+  rows: PropTypes.number,
   onChange: PropTypes.func,
   validation: PropTypes.bool
 };
@@ -1662,22 +1674,18 @@ CustomTextField.defaultProp = {
   label: "",
   id: "",
   value: {},
+  multiline: false,
+  rows: false,
   disabled: false,
   onChange: function onChange() {},
   validation: false
 };
 var CustomTextField$1 = React__default.memo(CustomTextField);
 
-var _excluded$3 = ["id", "size", "label", "value", "mask", "onChange", "placeHolder", "ampm", "disabled"];
-var style$a = {
-  date_picker: {
-    padding: '9px 9px 9px 15px !important'
-  }
-};
+var _excluded$3 = ["id", "label", "value", "mask", "onChange", "placeHolder", "ampm", "disabled"];
 
 var CustomTimePicker = function CustomTimePicker(_ref) {
-  var size = _ref.size,
-      label = _ref.label,
+  var label = _ref.label,
       value = _ref.value,
       mask = _ref.mask,
       onChange = _ref.onChange,
@@ -1694,7 +1702,6 @@ var CustomTimePicker = function CustomTimePicker(_ref) {
     dateAdapter: AdapterDateFns,
     locale: ptBR
   }, /*#__PURE__*/React__default.createElement(TimePicker, {
-    size: size,
     label: label,
     value: value,
     disabled: disabled,
@@ -1708,12 +1715,12 @@ var CustomTimePicker = function CustomTimePicker(_ref) {
     renderInput: function renderInput(params) {
       return /*#__PURE__*/React__default.createElement(TextField$1, _extends({}, params, {
         id: "custom-time-picker",
+        size: "small",
         sx: {
           maxWidth: '120px'
         },
         inputProps: _extends({}, params.inputProps, {
-          placeholder: placeHolder || "00:00",
-          style: style$a.date_picker
+          placeholder: placeHolder || "00:00"
         }),
         error: !value || dateValidation,
         onKeyDown: function onKeyDown(e) {
@@ -1726,7 +1733,6 @@ var CustomTimePicker = function CustomTimePicker(_ref) {
 
 CustomTimePicker.propTypes = {
   id: PropTypes.string,
-  size: PropTypes.string,
   label: PropTypes.string,
   value: PropTypes.object,
   mask: PropTypes.string,
@@ -1737,7 +1743,6 @@ CustomTimePicker.propTypes = {
 };
 CustomTimePicker.defaultProp = {
   id: "",
-  size: '',
   label: "",
   value: {},
   mask: "__:__",
@@ -1748,16 +1753,10 @@ CustomTimePicker.defaultProp = {
 };
 var CustomTimePicker$1 = React__default.memo(CustomTimePicker);
 
-var _excluded$4 = ["id", "size", "label", "value", "minDate", "maxDate", "dateFormat", "onChange", "placeHolder", "helperText", "disabled"];
-var style$b = {
-  date_picker: {
-    padding: '9px 9px 9px 15px !important'
-  }
-};
+var _excluded$4 = ["id", "label", "value", "minDate", "maxDate", "dateFormat", "onChange", "placeHolder", "helperText", "disabled"];
 
 var CustomDatePicker = function CustomDatePicker(_ref) {
-  var size = _ref.size,
-      label = _ref.label,
+  var label = _ref.label,
       value = _ref.value,
       minDate = _ref.minDate,
       maxDate = _ref.maxDate,
@@ -1776,7 +1775,6 @@ var CustomDatePicker = function CustomDatePicker(_ref) {
     dateAdapter: AdapterDateFns,
     locale: ptBR
   }, /*#__PURE__*/React__default.createElement(DatePicker, {
-    size: size,
     label: label,
     value: value,
     disabled: disabled,
@@ -1790,9 +1788,9 @@ var CustomDatePicker = function CustomDatePicker(_ref) {
     renderInput: function renderInput(params) {
       return /*#__PURE__*/React__default.createElement(TextField$1, _extends({}, params, {
         inputProps: _extends({}, params.inputProps, {
-          placeholder: placeHolder || "DD/MM/AAAA",
-          style: style$b.date_picker
+          placeholder: placeHolder || "DD/MM/AAAA"
         }),
+        size: "small",
         id: "custom-date-picker",
         sx: {
           minWidth: '100px',
@@ -1810,7 +1808,6 @@ var CustomDatePicker = function CustomDatePicker(_ref) {
 
 CustomDatePicker.propTypes = {
   id: PropTypes.string,
-  size: PropTypes.string,
   label: PropTypes.string,
   value: PropTypes.object,
   minDate: PropTypes.string,
@@ -1823,7 +1820,6 @@ CustomDatePicker.propTypes = {
 };
 CustomDatePicker.defaultProp = {
   id: "",
-  size: "",
   label: "",
   value: {},
   minDate: undefined,
@@ -1836,7 +1832,7 @@ CustomDatePicker.defaultProp = {
 };
 var CustomDatePicker$1 = React__default.memo(CustomDatePicker);
 
-var style$c = {
+var style$a = {
   appcontent: {
     transition: '0.4s',
     animation: 'fadeInAnimation ease 0.5s',
@@ -1852,7 +1848,7 @@ var style$c = {
 
 var AppContent = function AppContent(props) {
   return /*#__PURE__*/React__default.createElement("div", {
-    style: style$c.appcontent
+    style: style$a.appcontent
   }, /*#__PURE__*/React__default.createElement(Backdrop, {
     sx: {
       color: '#fff',

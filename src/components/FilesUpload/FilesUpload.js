@@ -19,10 +19,13 @@ const FilesUpload = ({ value, onChange, disabledChoose, maxFileSizeMb, typeAccep
 
   useEffect(() => {
     let _totalSize = totalSize;
-    value.map((file) => {
-      _totalSize += file.size;
-      setTotalSize(_totalSize);
-    })
+    if (value) {
+
+      value.map((file) => {
+        _totalSize += file.size;
+        setTotalSize(_totalSize);
+      })
+    }
   }, [])
 
   function formatBytes(bytes, decimals) {
@@ -237,7 +240,7 @@ FilesUpload.propTypes = {
 
 FilesUpload.defaultProp = {
   value: [],
-  onChange: () => { },
+  onChange: {},
   disabledChoose: false,
   maxFileSizeMb: 1,
   typeAcceptFile: '.pdf,image/*',
