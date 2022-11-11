@@ -26,6 +26,7 @@ import CustomTimePicker from './components/Inputs/CustomTimePicker/CustomTimePic
 import CustomDatePicker from './components/Inputs/CustomDatePicker/CustomDatePicker';
 import AppContent from './components/Content/AppContent';
 import FilesUpload from './components/FilesUpload/FilesUpload';
+import CustomBeneficiarieFields from './components/BeneficiarieFields/CustomBeneficiarieFields';
 
 export {
   Conteiner,
@@ -46,5 +47,6 @@ export {
   CustomTimePicker,
   CustomDatePicker,
   AppContent,
-  FilesUpload
+  FilesUpload,
+  CustomBeneficiarieFields
 };

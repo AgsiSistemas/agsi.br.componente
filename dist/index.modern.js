@@ -1886,10 +1886,13 @@ var FilesUpload = function FilesUpload(_ref) {
   var fileUploadRef = useRef(null);
   useEffect(function () {
     var _totalSize = totalSize;
-    value.map(function (file) {
-      _totalSize += file.size;
-      setTotalSize(_totalSize);
-    });
+
+    if (value) {
+      value.map(function (file) {
+        _totalSize += file.size;
+        setTotalSize(_totalSize);
+      });
+    }
   }, []);
 
   function formatBytes(bytes, decimals) {
@@ -2098,7 +2101,7 @@ FilesUpload.propTypes = {
 };
 FilesUpload.defaultProp = {
   value: [],
-  onChange: function onChange() {},
+  onChange: {},
   disabledChoose: false,
   maxFileSizeMb: 1,
   typeAcceptFile: '.pdf,image/*'
