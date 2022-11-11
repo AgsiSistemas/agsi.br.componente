@@ -2111,9 +2111,265 @@ FilesUpload.defaultProp = {
 };
 var FilesUpload$1 = React$1__default.memo(FilesUpload);
 
+// A type of promise-like that resolves synchronously and supports only one observer
+
+const _iteratorSymbol = /*#__PURE__*/ typeof Symbol !== "undefined" ? (Symbol.iterator || (Symbol.iterator = Symbol("Symbol.iterator"))) : "@@iterator";
+
+const _asyncIteratorSymbol = /*#__PURE__*/ typeof Symbol !== "undefined" ? (Symbol.asyncIterator || (Symbol.asyncIterator = Symbol("Symbol.asyncIterator"))) : "@@asyncIterator";
+
+// Asynchronously call a function and send errors to recovery continuation
+function _catch(body, recover) {
+	try {
+		var result = body();
+	} catch(e) {
+		return recover(e);
+	}
+	if (result && result.then) {
+		return result.then(void 0, recover);
+	}
+	return result;
+}
+
+var handleLoading = function handleLoading(text, isLoading) {
+  return isLoading ? /*#__PURE__*/React$1__default.createElement(CircularProgress, null) : text;
+};
+var isNullValue$2 = function isNullValue(value) {
+  return value === undefined || value === null || value === "";
+};
+
+var maskWallet = function maskWallet(v) {
+  if (isNullValue$2(v)) return '';
+  var value = v;
+  value = value.replace(/\D/g, "");
+  value = value.replace(/(\d{4})(\d{2})/, '$1.$2');
+  value = value.replace(/(\d{2})(\d{5})/, '$1.$2');
+  value = value.replace(/(\d{5})(\d{2})(\d{1})/, "$1.$2-$3");
+  return value;
+};
+
+var _CustomBeneficiarieFi;
+
+var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
+  var valueId = _ref.valueId,
+      onChangeId = _ref.onChangeId,
+      valueName = _ref.valueName,
+      onChangeName = _ref.onChangeName,
+      validation = _ref.validation,
+      api = _ref.api,
+      disabled = _ref.disabled;
+  var ResponseModel = {
+    "timestamp": "",
+    "status": 0,
+    "message": "",
+    "data": []
+  };
+  var ResponseModel_v2 = {
+    "timestamp": "",
+    "status": 0,
+    "message": "",
+    "data": {
+      "content": []
+    }
+  };
+
+  var _useState = React$1.useState(false),
+      loadingBeneficiary = _useState[0],
+      setLoadingBeneficiary = _useState[1];
+
+  var _React$useState = React$1__default.useState(false),
+      openBeneficiariesField = _React$useState[0],
+      setOpenBeneficiariesField = _React$useState[1];
+
+  var _React$useState2 = React$1__default.useState(false),
+      openWalletField = _React$useState2[0],
+      setOpenWalletField = _React$useState2[1];
+
+  var _useState2 = React$1.useState(ResponseModel_v2),
+      localBeneficiaries = _useState2[0],
+      setLocalBeneficiaries = _useState2[1];
+
+  var _useState3 = React$1.useState(ResponseModel),
+      localBeneficiariesWallets = _useState3[0];
+
+  var _useState4 = React$1.useState(valueId),
+      beneficiarieWalletValue = _useState4[0],
+      setBeneficiarieWalletValue = _useState4[1];
+
+  var _useState5 = React$1.useState(''),
+      beneficiarieWalletInputValue = _useState5[0],
+      setBeneficiarieWalletInputValue = _useState5[1];
+
+  var _useState6 = React$1.useState(''),
+      beneficiariesNameInputValue = _useState6[0],
+      setBeneficiariesNameInputValue = _useState6[1];
+
+  var _useState7 = React$1.useState(valueName),
+      beneficiariesNameValue = _useState7[0],
+      setBeneficiariesNameValue = _useState7[1];
+
+  React$1.useEffect(function () {
+    onChangeId(beneficiarieWalletValue);
+    onChangeName(beneficiariesNameValue);
+  }, [beneficiarieWalletValue, beneficiariesNameValue]);
+  React$1.useEffect(function () {
+    console.log(localBeneficiariesWallets.data);
+  }, [localBeneficiariesWallets]);
+  return /*#__PURE__*/React$1__default.createElement(React$1.Fragment, null, /*#__PURE__*/React$1__default.createElement(ConteinerItem, {
+    className: "custom-beneficiarie-component-wallet"
+  }, /*#__PURE__*/React$1__default.createElement(CustomInputSelect$1, {
+    title: handleLoading("Carteirinha *", loadingBeneficiary),
+    freeSolo: true,
+    open: openWalletField,
+    options: localBeneficiaries.data.content.map(function (item, index) {
+      return {
+        label: "" + item.code,
+        name: "" + item.name,
+        id: index
+      };
+    }),
+    disabled: disabled,
+    value: beneficiarieWalletValue,
+    onChange: function onChange(event, newInputValue) {
+      console.log(newInputValue);
+      setBeneficiarieWalletValue(newInputValue);
+      if (isNullValue$2(newInputValue)) setBeneficiariesNameValue('');
+
+      if (newInputValue !== null && newInputValue.name) {
+        setBeneficiariesNameValue({
+          label: newInputValue.name,
+          id: newInputValue.id
+        });
+      }
+
+      setOpenWalletField(false);
+    },
+    inputValue: beneficiarieWalletInputValue,
+    onInputChange: function onInputChange(event, newInputValue) {
+      setBeneficiarieWalletInputValue(maskWallet(newInputValue));
+    },
+    onKeyUp: function onKeyUp(event) {
+      try {
+        return Promise.resolve(_catch(function () {
+          var _temp = function () {
+            if (event.key === 'Tab' || event.target.value.length > 15) {
+              setLoadingBeneficiary(true);
+              return Promise.resolve(api.http.get("" + api.addressCode(event.target.value))).then(function (response) {
+                if (!isNullValue$2(response.data.data.code)) {
+                  setLocalBeneficiaries({
+                    data: {
+                      content: [response.data.data]
+                    }
+                  });
+                  setOpenWalletField(true);
+                }
+
+                setLoadingBeneficiary(false);
+              });
+            }
+          }();
+
+          if (_temp && _temp.then) return _temp.then(function () {});
+        }, function () {
+          setLoadingBeneficiary(false);
+        }));
+      } catch (e) {
+        return Promise.reject(e);
+      }
+    },
+    onblur: function onblur() {
+      return setOpenWalletField(false);
+    },
+    maxLength: 18,
+    validation: validation
+  })), /*#__PURE__*/React$1__default.createElement(ConteinerItem, null, /*#__PURE__*/React$1__default.createElement(CustomInputSelect$1, {
+    title: handleLoading("Nome Beneficiario *", loadingBeneficiary),
+    freeSolo: true,
+    open: openBeneficiariesField,
+    options: localBeneficiaries.data.content.map(function (item, index) {
+      return {
+        label: "" + item.name,
+        id: index
+      };
+    }),
+    disabled: disabled,
+    value: beneficiariesNameValue,
+    onChange: function onChange(event, newValue) {
+      return setBeneficiariesNameValue(newValue);
+    },
+    inputValue: beneficiariesNameInputValue,
+    onInputChange: function onInputChange(event, newInputValue) {
+      setBeneficiariesNameInputValue(newInputValue);
+
+      if (newInputValue == '') {
+        setBeneficiarieWalletValue('');
+      }
+
+      var item = localBeneficiaries.data.content.filter(function (x) {
+        return x.name === newInputValue;
+      })[0];
+
+      if (!isNullValue$2(item)) {
+        setBeneficiarieWalletValue(item.code);
+        setOpenBeneficiariesField(false);
+      }
+    },
+    onKeyDown: function onKeyDown(event) {
+      try {
+        return Promise.resolve(_catch(function () {
+          var _temp2 = function () {
+            if (event.key === 'Enter' || event.key === 'Tab' || event.target.value.length > 1) {
+              setLoadingBeneficiary(true);
+              return Promise.resolve(api.http.get("" + api.addressName(beneficiariesNameInputValue))).then(function (response) {
+                setLocalBeneficiaries(response.data);
+                setLoadingBeneficiary(false);
+                setOpenBeneficiariesField(true);
+              });
+            }
+          }();
+
+          if (_temp2 && _temp2.then) return _temp2.then(function () {});
+        }, function () {
+          setLoadingBeneficiary(false);
+        }));
+      } catch (e) {
+        return Promise.reject(e);
+      }
+    },
+    onBlur: function onBlur() {
+      return setOpenBeneficiariesField(false);
+    },
+    validation: validation
+  })));
+};
+
+CustomBeneficiarieFields.propTypes = (_CustomBeneficiarieFi = {
+  valueId: PropTypes.object.isRequired,
+  valueName: PropTypes.object,
+  onChangeId: PropTypes.func,
+  onChangeName: PropTypes.func,
+  validation: PropTypes.string,
+  api: PropTypes.object
+}, _CustomBeneficiarieFi["api"] = PropTypes.shape({
+  addressCode: PropTypes.object,
+  addressName: PropTypes.object,
+  http: PropTypes.string
+}), _CustomBeneficiarieFi.disabled = PropTypes.bool, _CustomBeneficiarieFi);
+CustomBeneficiarieFields.defaultProp = {
+  valueId: {},
+  valueName: {},
+  onChangeId: function onChangeId() {},
+  onChangeName: function onChangeName() {},
+  validation: '',
+  api: {
+    addressName: function addressName() {}
+  },
+  disabled: false
+};
+
 exports.AppContent = AppContent$1;
 exports.Conteiner = Conteiner;
 exports.ConteinerItem = ConteinerItem;
+exports.CustomBeneficiarieFields = CustomBeneficiarieFields;
 exports.CustomDataTable = CustomDataTable$1;
 exports.CustomDatePicker = CustomDatePicker$1;
 exports.CustomDialog = CustomDialog$1;

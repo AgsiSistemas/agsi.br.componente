@@ -1,29 +1,29 @@
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import PropTypes from "prop-types";
 import { ConteinerItem } from "../Conteiner/Conteiner"
 import CustomInputSelect from "../Inputs/CustomInputSelect/CustomInputSelect"
 import { maskWallet } from "../../Assets/Enum/Patterns.js";
-import { handleLoading, isNullValue } from "./Utils.js";
+import { handleLoading, isNullValue } from "../../Utils/Utils.js";
 import './CustomBeneficiarieFields.scss'
 
-const ResponseModel = {
-  "timestamp": "",
-  "status": 0,
-  "message": "",
-  "data": []
-}
-
-const ResponseModel_v2 = {
-  "timestamp": "",
-  "status": 0,
-  "message": "",
-  "data": {
-    "content": []
-  }
-}
 
 const CustomBeneficiarieFields = ({ valueId, onChangeId, valueName, onChangeName, validation, api, disabled }) => {
 
+  const ResponseModel = {
+    "timestamp": "",
+    "status": 0,
+    "message": "",
+    "data": []
+  }
+
+  const ResponseModel_v2 = {
+    "timestamp": "",
+    "status": 0,
+    "message": "",
+    "data": {
+      "content": []
+    }
+  }
   // LocalState
   const [loadingBeneficiary, setLoadingBeneficiary] = useState(false)
   const [openBeneficiariesField, setOpenBeneficiariesField] = React.useState(false);
@@ -46,7 +46,7 @@ const CustomBeneficiarieFields = ({ valueId, onChangeId, valueName, onChangeName
   }, [localBeneficiariesWallets])
 
   return (
-    <>
+    <Fragment>
       <ConteinerItem className="custom-beneficiarie-component-wallet">
         <CustomInputSelect
           title={handleLoading("Carteirinha *", loadingBeneficiary)}
@@ -134,7 +134,7 @@ const CustomBeneficiarieFields = ({ valueId, onChangeId, valueName, onChangeName
           validation={validation}
         />
       </ConteinerItem>
-    </>
+    </Fragment>
   )
 
 }
