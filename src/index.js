@@ -27,6 +27,7 @@ import CustomDatePicker from './components/Inputs/CustomDatePicker/CustomDatePic
 import AppContent from './components/Content/AppContent';
 import FilesUpload from './components/FilesUpload/FilesUpload';
 import CustomBeneficiarieFields from './components/BeneficiarieFields/CustomBeneficiarieFields';
+import ArchivesContent from './components/ArchivesContent/ArchivesContent'
 
 export {
   Conteiner,
@@ -48,5 +49,6 @@ export {
   CustomDatePicker,
   AppContent,
   FilesUpload,
-  CustomBeneficiarieFields
+  CustomBeneficiarieFields,
+  ArchivesContent
 };

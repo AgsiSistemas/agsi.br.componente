@@ -198,3 +198,13 @@ p {
 
 .custom-beneficiarie-component-wallet {
   max-width: 200px; }
+
+.conteiner-archive-component {
+  margin: 10px 0 1rem 0; }
+
+.table-header-archive-content {
+  background-color: #f6f5f5;
+  color: #e80e0e; }
+
+.table-header-archive-content th {
+  color: #9d9d9d; }
