@@ -57,7 +57,7 @@ const MessageConfirmation = ({ display, onClose, onCancelClick, onConfirmClick }
 }
 
 
-const SaveComponent = (props) => {
+const SaveComponent = ({ onCancelClick, onSaveClick }) => {
 
     const [displayConfirm, setDisplayConfirm] = React.useState({ display: false, confirmed: false });
     const [loading, setLoading] = React.useState(false);
@@ -70,7 +70,7 @@ const SaveComponent = (props) => {
                         style={style.save_component_item}
                         variant="outlined"
                         startIcon={<CancelOutlinedIcon />}
-                        onClick={props.onCancelClick}
+                        onClick={onCancelClick}
                     >
                         Cancelar
                     </Button>
@@ -98,7 +98,7 @@ const SaveComponent = (props) => {
                 onConfirmClick={async () => {
                     setDisplayConfirm({ display: false, confirmed: true })
                     setLoading(true)
-                    await props.onSaveClick()
+                    await onSaveClick()
                     setLoading(false)
                 }}
 
