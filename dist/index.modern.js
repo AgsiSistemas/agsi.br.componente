@@ -71,7 +71,6 @@ import { Tooltip as Tooltip$2 } from 'primereact/tooltip';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import 'react-image-lightbox/style.css';
 import { Image } from 'primereact/image';
 
 function _extends() {
@@ -1033,7 +1032,10 @@ var MessageConfirmation = function MessageConfirmation(_ref) {
   }, "Confirmar")));
 };
 
-var SaveComponent = function SaveComponent(props) {
+var SaveComponent = function SaveComponent(_ref2) {
+  var onCancelClick = _ref2.onCancelClick,
+      onSaveClick = _ref2.onSaveClick;
+
   var _React$useState = React__default.useState({
     display: false,
     confirmed: false
@@ -1051,7 +1053,7 @@ var SaveComponent = function SaveComponent(props) {
     style: style$8.save_component_item,
     variant: "outlined",
     startIcon: /*#__PURE__*/React__default.createElement(CancelOutlinedIcon, null),
-    onClick: props.onCancelClick
+    onClick: onCancelClick
   }, "Cancelar"), /*#__PURE__*/React__default.createElement(LoadingButton, {
     loading: loading,
     loadingPosition: "end",
@@ -1087,7 +1089,7 @@ var SaveComponent = function SaveComponent(props) {
           confirmed: true
         });
         setLoading(true);
-        return Promise.resolve(props.onSaveClick()).then(function () {
+        return Promise.resolve(onSaveClick()).then(function () {
           setLoading(false);
         });
       } catch (e) {

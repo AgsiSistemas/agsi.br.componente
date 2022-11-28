@@ -74,7 +74,6 @@ var tooltip = require('primereact/tooltip');
 var PictureAsPdfIcon = _interopDefault(require('@mui/icons-material/PictureAsPdf'));
 var FileDownloadIcon = _interopDefault(require('@mui/icons-material/FileDownload'));
 var VisibilityIcon = _interopDefault(require('@mui/icons-material/Visibility'));
-require('react-image-lightbox/style.css');
 var image = require('primereact/image');
 
 function _extends() {
@@ -1036,7 +1035,10 @@ var MessageConfirmation = function MessageConfirmation(_ref) {
   }, "Confirmar")));
 };
 
-var SaveComponent = function SaveComponent(props) {
+var SaveComponent = function SaveComponent(_ref2) {
+  var onCancelClick = _ref2.onCancelClick,
+      onSaveClick = _ref2.onSaveClick;
+
   var _React$useState = React$1__default.useState({
     display: false,
     confirmed: false
@@ -1054,7 +1056,7 @@ var SaveComponent = function SaveComponent(props) {
     style: style$8.save_component_item,
     variant: "outlined",
     startIcon: /*#__PURE__*/React$1__default.createElement(CancelOutlinedIcon, null),
-    onClick: props.onCancelClick
+    onClick: onCancelClick
   }, "Cancelar"), /*#__PURE__*/React$1__default.createElement(LoadingButton, {
     loading: loading,
     loadingPosition: "end",
@@ -1090,7 +1092,7 @@ var SaveComponent = function SaveComponent(props) {
           confirmed: true
         });
         setLoading(true);
-        return Promise.resolve(props.onSaveClick()).then(function () {
+        return Promise.resolve(onSaveClick()).then(function () {
           setLoading(false);
         });
       } catch (e) {
