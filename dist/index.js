@@ -2162,13 +2162,8 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
       onChangeName = _ref.onChangeName,
       validation = _ref.validation,
       api = _ref.api,
-      disabled = _ref.disabled;
-  var ResponseModel = {
-    "timestamp": "",
-    "status": 0,
-    "message": "",
-    "data": []
-  };
+      disabled = _ref.disabled,
+      required = _ref.required;
   var ResponseModel_v2 = {
     "timestamp": "",
     "status": 0,
@@ -2194,36 +2189,37 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
       localBeneficiaries = _useState2[0],
       setLocalBeneficiaries = _useState2[1];
 
-  var _useState3 = React$1.useState(ResponseModel),
-      localBeneficiariesWallets = _useState3[0];
+  var _useState3 = React$1.useState(valueId),
+      beneficiarieWalletValue = _useState3[0],
+      setBeneficiarieWalletValue = _useState3[1];
 
-  var _useState4 = React$1.useState(valueId),
-      beneficiarieWalletValue = _useState4[0],
-      setBeneficiarieWalletValue = _useState4[1];
+  var _useState4 = React$1.useState(''),
+      beneficiarieWalletInputValue = _useState4[0],
+      setBeneficiarieWalletInputValue = _useState4[1];
 
   var _useState5 = React$1.useState(''),
-      beneficiarieWalletInputValue = _useState5[0],
-      setBeneficiarieWalletInputValue = _useState5[1];
+      beneficiariesNameInputValue = _useState5[0],
+      setBeneficiariesNameInputValue = _useState5[1];
 
-  var _useState6 = React$1.useState(''),
-      beneficiariesNameInputValue = _useState6[0],
-      setBeneficiariesNameInputValue = _useState6[1];
-
-  var _useState7 = React$1.useState(valueName),
-      beneficiariesNameValue = _useState7[0],
-      setBeneficiariesNameValue = _useState7[1];
+  var _useState6 = React$1.useState(valueName),
+      beneficiariesNameValue = _useState6[0],
+      setBeneficiariesNameValue = _useState6[1];
 
   React$1.useEffect(function () {
     onChangeId(beneficiarieWalletValue);
     onChangeName(beneficiariesNameValue);
   }, [beneficiarieWalletValue, beneficiariesNameValue]);
-  React$1.useEffect(function () {
-    console.log(localBeneficiariesWallets.data);
-  }, [localBeneficiariesWallets]);
+
+  var isRequired = function isRequired() {
+    if (required) return '*';else {
+      return '';
+    }
+  };
+
   return /*#__PURE__*/React$1__default.createElement(React$1.Fragment, null, /*#__PURE__*/React$1__default.createElement(ConteinerItem, {
     className: "custom-beneficiarie-component-wallet"
   }, /*#__PURE__*/React$1__default.createElement(CustomInputSelect$1, {
-    title: handleLoading("Carteirinha *", loadingBeneficiary),
+    title: handleLoading("Carteirinha", loadingBeneficiary) + isRequired(),
     freeSolo: true,
     open: openWalletField,
     options: localBeneficiaries.data.content.map(function (item, index) {
@@ -2236,7 +2232,6 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
     disabled: disabled,
     value: beneficiarieWalletValue,
     onChange: function onChange(event, newInputValue) {
-      console.log(newInputValue);
       setBeneficiarieWalletValue(newInputValue);
       if (isNullValue$2(newInputValue)) setBeneficiariesNameValue('');
 
@@ -2288,7 +2283,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
     maxLength: 18,
     validation: validation
   })), /*#__PURE__*/React$1__default.createElement(ConteinerItem, null, /*#__PURE__*/React$1__default.createElement(CustomInputSelect$1, {
-    title: handleLoading("Nome Beneficiario *", loadingBeneficiary),
+    title: handleLoading("Nome Beneficiario", loadingBeneficiary) + isRequired(),
     freeSolo: true,
     open: openBeneficiariesField,
     options: localBeneficiaries.data.content.map(function (item, index) {
@@ -2356,10 +2351,10 @@ CustomBeneficiarieFields.propTypes = (_CustomBeneficiarieFi = {
   validation: PropTypes.string,
   api: PropTypes.object
 }, _CustomBeneficiarieFi["api"] = PropTypes.shape({
-  addressCode: PropTypes.object,
+  addressCode: PropTypes.func,
   addressName: PropTypes.object,
   http: PropTypes.string
-}), _CustomBeneficiarieFi.disabled = PropTypes.bool, _CustomBeneficiarieFi);
+}), _CustomBeneficiarieFi.disabled = PropTypes.bool, _CustomBeneficiarieFi.required = PropTypes.bool, _CustomBeneficiarieFi);
 CustomBeneficiarieFields.defaultProp = {
   valueId: {},
   valueName: {},
@@ -2367,9 +2362,11 @@ CustomBeneficiarieFields.defaultProp = {
   onChangeName: function onChangeName() {},
   validation: '',
   api: {
+    addressCode: function addressCode() {},
     addressName: function addressName() {}
   },
-  disabled: false
+  disabled: false,
+  required: false
 };
 
 var _ArchivesContent$prop;
