@@ -7,7 +7,7 @@ import { handleLoading, isNullValue } from "../../Utils/Utils.js";
 import './CustomBeneficiarieFields.scss'
 
 
-const CustomBeneficiarieFields = ({ valueId, onChangeId, valueName, onChangeName, validation, api, disabled }) => {
+const CustomBeneficiarieFields = ({ valueId, onChangeId, valueName, onChangeName, validation, api, disabled, required }) => {
 
   const ResponseModel = {
     "timestamp": "",
@@ -29,8 +29,6 @@ const CustomBeneficiarieFields = ({ valueId, onChangeId, valueName, onChangeName
   const [openBeneficiariesField, setOpenBeneficiariesField] = React.useState(false);
   const [openWalletField, setOpenWalletField] = React.useState(false);
   const [localBeneficiaries, setLocalBeneficiaries] = useState(ResponseModel_v2)
-  const [localBeneficiariesWallets, setLocalBeneficiariesWallets] = useState(ResponseModel)
-
   const [beneficiarieWalletValue, setBeneficiarieWalletValue] = useState(valueId)
   const [beneficiarieWalletInputValue, setBeneficiarieWalletInputValue] = useState('')
   const [beneficiariesNameInputValue, setBeneficiariesNameInputValue] = useState('')
@@ -41,15 +39,18 @@ const CustomBeneficiarieFields = ({ valueId, onChangeId, valueName, onChangeName
     onChangeName(beneficiariesNameValue)
   }, [beneficiarieWalletValue, beneficiariesNameValue])
 
-  useEffect(() => {
-    console.log(localBeneficiariesWallets.data)
-  }, [localBeneficiariesWallets])
+  const isRequired = () => {
+    if (required) return '*'
+    else {
+      return ''
+    }
+  }
 
   return (
     <Fragment>
       <ConteinerItem className="custom-beneficiarie-component-wallet">
         <CustomInputSelect
-          title={handleLoading("Carteirinha *", loadingBeneficiary)}
+          title={handleLoading("Carteirinha", loadingBeneficiary) + isRequired()}
           freeSolo
           open={openWalletField}
           options={localBeneficiaries.data.content.map((item, index) => ({
@@ -60,7 +61,6 @@ const CustomBeneficiarieFields = ({ valueId, onChangeId, valueName, onChangeName
           disabled={disabled}
           value={beneficiarieWalletValue}
           onChange={(event, newInputValue) => {
-            console.log(newInputValue);
             setBeneficiarieWalletValue(newInputValue)
             if (isNullValue(newInputValue)) setBeneficiariesNameValue('')
             if (newInputValue !== null && newInputValue.name) {
@@ -93,7 +93,7 @@ const CustomBeneficiarieFields = ({ valueId, onChangeId, valueName, onChangeName
       </ConteinerItem>
       <ConteinerItem>
         <CustomInputSelect
-          title={handleLoading("Nome Beneficiario *", loadingBeneficiary)}
+          title={handleLoading("Nome Beneficiario", loadingBeneficiary) + isRequired()}
           freeSolo
           open={openBeneficiariesField}
           options={localBeneficiaries.data.content.map((item, index) => ({
@@ -147,11 +147,12 @@ CustomBeneficiarieFields.propTypes = {
   validation: PropTypes.string,
   api: PropTypes.object,
   api: PropTypes.shape({
-    addressCode: PropTypes.object,
+    addressCode: PropTypes.func,
     addressName: PropTypes.object,
     http: PropTypes.string
   }),
   disabled: PropTypes.bool,
+  required: PropTypes.bool,
 };
 
 CustomBeneficiarieFields.defaultProp = {
@@ -160,8 +161,12 @@ CustomBeneficiarieFields.defaultProp = {
   onChangeId: () => { },
   onChangeName: () => { },
   validation: '',
-  api: { addressName: () => { } },
-  disabled: false
+  api: {
+    addressCode: () => { },
+    addressName: () => { }
+  },
+  disabled: false,
+  required: false,
 };
 
 export default CustomBeneficiarieFields
