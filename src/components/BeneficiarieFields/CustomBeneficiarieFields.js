@@ -40,7 +40,7 @@ const CustomBeneficiarieFields = ({ valueId, onChangeId, valueName, onChangeName
   }, [beneficiarieWalletValue, beneficiariesNameValue])
 
   const isRequired = () => {
-    if (required) return '*'
+    if (required) return ' *'
     else {
       return ''
     }
@@ -50,7 +50,7 @@ const CustomBeneficiarieFields = ({ valueId, onChangeId, valueName, onChangeName
     <Fragment>
       <ConteinerItem className="custom-beneficiarie-component-wallet">
         <CustomInputSelect
-          title={handleLoading("Carteirinha", loadingBeneficiary) + isRequired()}
+          title={handleLoading("Carteirinha" + isRequired(), loadingBeneficiary)}
           freeSolo
           open={openWalletField}
           options={localBeneficiaries.data.content.map((item, index) => ({
@@ -93,7 +93,7 @@ const CustomBeneficiarieFields = ({ valueId, onChangeId, valueName, onChangeName
       </ConteinerItem>
       <ConteinerItem>
         <CustomInputSelect
-          title={handleLoading("Nome Beneficiario", loadingBeneficiary) + isRequired()}
+          title={handleLoading("Nome Beneficiário" + isRequired(), loadingBeneficiary)}
           freeSolo
           open={openBeneficiariesField}
           options={localBeneficiaries.data.content.map((item, index) => ({

@@ -2211,7 +2211,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
   }, [beneficiarieWalletValue, beneficiariesNameValue]);
 
   var isRequired = function isRequired() {
-    if (required) return '*';else {
+    if (required) return ' *';else {
       return '';
     }
   };
@@ -2219,7 +2219,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
   return /*#__PURE__*/React$1__default.createElement(React$1.Fragment, null, /*#__PURE__*/React$1__default.createElement(ConteinerItem, {
     className: "custom-beneficiarie-component-wallet"
   }, /*#__PURE__*/React$1__default.createElement(CustomInputSelect$1, {
-    title: handleLoading("Carteirinha", loadingBeneficiary) + isRequired(),
+    title: handleLoading("Carteirinha" + isRequired(), loadingBeneficiary),
     freeSolo: true,
     open: openWalletField,
     options: localBeneficiaries.data.content.map(function (item, index) {
@@ -2283,7 +2283,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
     maxLength: 18,
     validation: validation
   })), /*#__PURE__*/React$1__default.createElement(ConteinerItem, null, /*#__PURE__*/React$1__default.createElement(CustomInputSelect$1, {
-    title: handleLoading("Nome Beneficiario", loadingBeneficiary) + isRequired(),
+    title: handleLoading("Nome Beneficiário" + isRequired(), loadingBeneficiary),
     freeSolo: true,
     open: openBeneficiariesField,
     options: localBeneficiaries.data.content.map(function (item, index) {
