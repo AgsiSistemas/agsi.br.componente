@@ -1762,7 +1762,7 @@ CustomTimePicker.defaultProp = {
 };
 var CustomTimePicker$1 = React$1__default.memo(CustomTimePicker);
 
-var _excluded$4 = ["id", "label", "value", "minDate", "maxDate", "dateFormat", "onChange", "placeHolder", "helperText", "disabled"];
+var _excluded$4 = ["label", "value", "minDate", "maxDate", "dateFormat", "onChange", "placeHolder", "helperText", "disabled", "noAlertNoneValue"];
 
 var CustomDatePicker = function CustomDatePicker(_ref) {
   var label = _ref.label,
@@ -1774,6 +1774,7 @@ var CustomDatePicker = function CustomDatePicker(_ref) {
       placeHolder = _ref.placeHolder,
       helperText = _ref.helperText,
       disabled = _ref.disabled,
+      noAlertNoneValue = _ref.noAlertNoneValue,
       other = _objectWithoutPropertiesLoose(_ref, _excluded$4);
 
   var _React$useState = React$1__default.useState(''),
@@ -1789,7 +1790,7 @@ var CustomDatePicker = function CustomDatePicker(_ref) {
     disabled: disabled,
     minDate: minDate ? new Date(minDate) : undefined,
     maxDate: maxDate ? new Date(maxDate) : undefined,
-    dateFormat: dateFormat || "MM-DD-YYYY",
+    dateFormat: dateFormat || "DD-MM-YYYY",
     onError: function onError(e) {
       return setDateValidation(e);
     },
@@ -1797,19 +1798,15 @@ var CustomDatePicker = function CustomDatePicker(_ref) {
     renderInput: function renderInput(params) {
       return /*#__PURE__*/React$1__default.createElement(material.TextField, _extends({}, params, {
         inputProps: _extends({}, params.inputProps, {
-          placeholder: placeHolder || "DD/MM/AAAA"
+          placeholder: placeHolder || "dd/mm/aaaa"
         }),
         size: "small",
-        id: "custom-date-picker",
         sx: {
-          minWidth: '100px',
-          marginTop: '5px'
+          marginTop: '8px'
         },
-        error: !value || dateValidation,
-        helperText: !value || dateValidation ? helperText || "Data ou Hora Invalida!" : "",
-        onKeyDown: function onKeyDown(e) {
-          return e.preventDefault();
-        }
+        id: 'custom-date-picker',
+        error: !value && !noAlertNoneValue || dateValidation,
+        helperText: !value && !noAlertNoneValue || dateValidation ? helperText || "Data ou Hora Invalida!" : ""
       }, other));
     }
   })));
@@ -1825,7 +1822,8 @@ CustomDatePicker.propTypes = {
   onChange: PropTypes.func,
   placeHolder: PropTypes.bool,
   helperText: PropTypes.string,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  noAlertNoneValue: PropTypes.bool
 };
 CustomDatePicker.defaultProp = {
   id: "",
@@ -1833,11 +1831,12 @@ CustomDatePicker.defaultProp = {
   value: {},
   minDate: undefined,
   maxDate: undefined,
-  dateFormat: "MM-DD-YYYY",
+  dateFormat: "DD-MM-YYYY",
   onChange: function onChange() {},
   placeHolder: "DD/MM/AAAA",
   helperText: "Data ou Hora Invalida!",
-  disabled: false
+  disabled: false,
+  noAlertNoneValue: false
 };
 var CustomDatePicker$1 = React$1__default.memo(CustomDatePicker);
 

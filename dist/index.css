@@ -134,6 +134,10 @@ p {
     cursor: pointer;
     display: none;
 }
+#custom-date-picker {
+  min-width: 95px !important;
+  width: 100%; }
+
 .container {
   border: 1px dashed;
   padding: 2rem; }

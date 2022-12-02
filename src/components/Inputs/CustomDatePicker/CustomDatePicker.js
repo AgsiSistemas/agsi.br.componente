@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from "prop-types";
+import './CustomDatePicker.scss'
 
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
@@ -7,7 +8,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { ptBR } from 'date-fns/locale'
 import { TextField } from '@mui/material';
 
-const CustomDatePicker = ({ id, label, value, minDate, maxDate, dateFormat, onChange, placeHolder, helperText, disabled, ...other }) => {
+const CustomDatePicker = ({ label, value, minDate, maxDate, dateFormat, onChange, placeHolder, helperText, disabled, noAlertNoneValue, ...other }) => {
 
   const [dateValidation, setDateValidation] = React.useState('')
 
@@ -20,7 +21,7 @@ const CustomDatePicker = ({ id, label, value, minDate, maxDate, dateFormat, onCh
           disabled={disabled}
           minDate={minDate ? new Date(minDate) : undefined}
           maxDate={maxDate ? new Date(maxDate) : undefined}
-          dateFormat={dateFormat || "MM-DD-YYYY"}
+          dateFormat={dateFormat || "DD-MM-YYYY"}
           onError={(e) => setDateValidation(e)}
           onChange={onChange}
           renderInput={params => (
@@ -28,14 +29,14 @@ const CustomDatePicker = ({ id, label, value, minDate, maxDate, dateFormat, onCh
               {...params}
               inputProps={{
                 ...params.inputProps,
-                placeholder: placeHolder || "DD/MM/AAAA",
+                placeholder: placeHolder || "dd/mm/aaaa",
               }}
               size='small'
-              id='custom-date-picker'
-              sx={{ minWidth: '100px', marginTop: '5px' }}
-              error={!value || dateValidation}
-              helperText={!value || dateValidation ? helperText || "Data ou Hora Invalida!" : ""}
-              onKeyDown={(e) => e.preventDefault()}
+              sx={{ marginTop: '8px' }}
+              id={'custom-date-picker'}
+              error={(!value && !noAlertNoneValue) || dateValidation}
+              helperText={(!value && !noAlertNoneValue) || dateValidation ? helperText || "Data ou Hora Invalida!" : ""}
+              // onKeyDown={(e) => e.preventDefault()}
               {...other}
             />
           )}
@@ -56,6 +57,7 @@ CustomDatePicker.propTypes = {
   placeHolder: PropTypes.bool,
   helperText: PropTypes.string,
   disabled: PropTypes.bool,
+  noAlertNoneValue: PropTypes.bool,
 };
 
 CustomDatePicker.defaultProp = {
@@ -64,11 +66,12 @@ CustomDatePicker.defaultProp = {
   value: {},
   minDate: undefined,
   maxDate: undefined,
-  dateFormat: "MM-DD-YYYY",
+  dateFormat: "DD-MM-YYYY",
   onChange: () => { },
   placeHolder: "DD/MM/AAAA",
   helperText: "Data ou Hora Invalida!",
-  disabled: false
+  disabled: false,
+  noAlertNoneValue: false
 };
 
 export default React.memo(CustomDatePicker)
