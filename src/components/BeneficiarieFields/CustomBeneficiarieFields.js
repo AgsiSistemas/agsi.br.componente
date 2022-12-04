@@ -29,15 +29,8 @@ const CustomBeneficiarieFields = ({ valueId, onChangeId, valueName, onChangeName
   const [openBeneficiariesField, setOpenBeneficiariesField] = React.useState(false);
   const [openWalletField, setOpenWalletField] = React.useState(false);
   const [localBeneficiaries, setLocalBeneficiaries] = useState(ResponseModel_v2)
-  const [beneficiarieWalletValue, setBeneficiarieWalletValue] = useState(valueId)
   const [beneficiarieWalletInputValue, setBeneficiarieWalletInputValue] = useState('')
   const [beneficiariesNameInputValue, setBeneficiariesNameInputValue] = useState('')
-  const [beneficiariesNameValue, setBeneficiariesNameValue] = useState(valueName)
-
-  useEffect(() => {
-    onChangeId(beneficiarieWalletValue)
-    onChangeName(beneficiariesNameValue)
-  }, [beneficiarieWalletValue, beneficiariesNameValue])
 
   const isRequired = () => {
     if (required) return ' *'
@@ -59,12 +52,12 @@ const CustomBeneficiarieFields = ({ valueId, onChangeId, valueName, onChangeName
             id: index
           }))}
           disabled={disabled}
-          value={beneficiarieWalletValue}
+          value={valueId}
           onChange={(event, newInputValue) => {
-            setBeneficiarieWalletValue(newInputValue)
-            if (isNullValue(newInputValue)) setBeneficiariesNameValue('')
+            onChangeId(newInputValue)
+            if (isNullValue(newInputValue)) onChangeName('')
             if (newInputValue !== null && newInputValue.name) {
-              setBeneficiariesNameValue({ label: newInputValue.name, id: newInputValue.id })
+              onChangeName({ label: newInputValue.name, id: newInputValue.id })
             }
             setOpenWalletField(false)
           }}
@@ -101,18 +94,18 @@ const CustomBeneficiarieFields = ({ valueId, onChangeId, valueName, onChangeName
             id: index
           }))}
           disabled={disabled}
-          value={beneficiariesNameValue}
-          onChange={(event, newValue) => setBeneficiariesNameValue(newValue)}
+          value={valueName}
+          onChange={(event, newValue) => onChangeName(newValue)}
           inputValue={beneficiariesNameInputValue}
           onInputChange={(event, newInputValue) => {
 
             setBeneficiariesNameInputValue(newInputValue)
             if (newInputValue == '') {
-              setBeneficiarieWalletValue('')
+              onChangeId('')
             }
             let item = localBeneficiaries.data.content.filter(x => x.name === newInputValue)[0]
             if (!isNullValue(item)) {
-              setBeneficiarieWalletValue(item.code)
+              onChangeId(item.code)
               setOpenBeneficiariesField(false)
             }
 

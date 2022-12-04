@@ -2185,26 +2185,13 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
       localBeneficiaries = _useState2[0],
       setLocalBeneficiaries = _useState2[1];
 
-  var _useState3 = useState(valueId),
-      beneficiarieWalletValue = _useState3[0],
-      setBeneficiarieWalletValue = _useState3[1];
+  var _useState3 = useState(''),
+      beneficiarieWalletInputValue = _useState3[0],
+      setBeneficiarieWalletInputValue = _useState3[1];
 
   var _useState4 = useState(''),
-      beneficiarieWalletInputValue = _useState4[0],
-      setBeneficiarieWalletInputValue = _useState4[1];
-
-  var _useState5 = useState(''),
-      beneficiariesNameInputValue = _useState5[0],
-      setBeneficiariesNameInputValue = _useState5[1];
-
-  var _useState6 = useState(valueName),
-      beneficiariesNameValue = _useState6[0],
-      setBeneficiariesNameValue = _useState6[1];
-
-  useEffect(function () {
-    onChangeId(beneficiarieWalletValue);
-    onChangeName(beneficiariesNameValue);
-  }, [beneficiarieWalletValue, beneficiariesNameValue]);
+      beneficiariesNameInputValue = _useState4[0],
+      setBeneficiariesNameInputValue = _useState4[1];
 
   var isRequired = function isRequired() {
     if (required) return ' *';else {
@@ -2226,13 +2213,13 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
       };
     }),
     disabled: disabled,
-    value: beneficiarieWalletValue,
+    value: valueId,
     onChange: function onChange(event, newInputValue) {
-      setBeneficiarieWalletValue(newInputValue);
-      if (isNullValue$2(newInputValue)) setBeneficiariesNameValue('');
+      onChangeId(newInputValue);
+      if (isNullValue$2(newInputValue)) onChangeName('');
 
       if (newInputValue !== null && newInputValue.name) {
-        setBeneficiariesNameValue({
+        onChangeName({
           label: newInputValue.name,
           id: newInputValue.id
         });
@@ -2289,16 +2276,16 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
       };
     }),
     disabled: disabled,
-    value: beneficiariesNameValue,
+    value: valueName,
     onChange: function onChange(event, newValue) {
-      return setBeneficiariesNameValue(newValue);
+      return onChangeName(newValue);
     },
     inputValue: beneficiariesNameInputValue,
     onInputChange: function onInputChange(event, newInputValue) {
       setBeneficiariesNameInputValue(newInputValue);
 
       if (newInputValue == '') {
-        setBeneficiarieWalletValue('');
+        onChangeId('');
       }
 
       var item = localBeneficiaries.data.content.filter(function (x) {
@@ -2306,7 +2293,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
       })[0];
 
       if (!isNullValue$2(item)) {
-        setBeneficiarieWalletValue(item.code);
+        onChangeId(item.code);
         setOpenBeneficiariesField(false);
       }
     },
