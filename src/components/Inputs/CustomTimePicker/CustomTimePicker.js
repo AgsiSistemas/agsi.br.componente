@@ -28,7 +28,7 @@ const CustomTimePicker = ({ id, label, value, mask, onChange, placeHolder, ampm,
               {...params}
               id='custom-time-picker'
               size='small'
-              sx={{ maxWidth: '120px' }}
+              sx={{ maxWidth: '120px', marginTop: '8px' }}
               inputProps={{
                 ...params.inputProps,
                 placeholder: placeHolder || "00:00",

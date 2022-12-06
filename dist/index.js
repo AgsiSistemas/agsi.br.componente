@@ -1727,7 +1727,8 @@ var CustomTimePicker = function CustomTimePicker(_ref) {
         id: "custom-time-picker",
         size: "small",
         sx: {
-          maxWidth: '120px'
+          maxWidth: '120px',
+          marginTop: '8px'
         },
         inputProps: _extends({}, params.inputProps, {
           placeholder: placeHolder || "00:00"
