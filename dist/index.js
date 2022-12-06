@@ -1724,10 +1724,9 @@ var CustomTimePicker = function CustomTimePicker(_ref) {
     onChange: onChange,
     renderInput: function renderInput(params) {
       return /*#__PURE__*/React$1__default.createElement(material.TextField, _extends({}, params, {
-        id: "custom-time-picker",
+        id: 'custom-time-picker',
         size: "small",
         sx: {
-          maxWidth: '120px',
           marginTop: '8px'
         },
         inputProps: _extends({}, params.inputProps, {
