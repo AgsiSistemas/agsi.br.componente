@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.24](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.23...v1.0.24) (2022-12-06)
+
+
+### Bug Fixes
+
+* CustomTimePicker. ([ff62815](https://github.com/AgsiSistemas/agsi.br.componente/commit/ff62815060599007e353e14b37c308880280b886))
+* CustomTimePicker. ([54a6233](https://github.com/AgsiSistemas/agsi.br.componente/commit/54a62336ac4f130ab29e1498a36e73e4835b1b8b))
+
 ### [1.0.23](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.22...v1.0.23) (2022-12-06)
 
 
