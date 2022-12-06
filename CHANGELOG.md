@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.23](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.22...v1.0.23) (2022-12-06)
+
+
+### Bug Fixes
+
+* Container Wrap and new version. ([d325164](https://github.com/AgsiSistemas/agsi.br.componente/commit/d325164879a05e92c8e1cca4e6b6b699489ddc32))
+
 ### [1.0.22](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.21...v1.0.22) (2022-12-06)
 
 
