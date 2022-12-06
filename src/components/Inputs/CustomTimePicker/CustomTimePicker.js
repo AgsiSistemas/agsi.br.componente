@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from "prop-types";
+import './CustomTimePicker.scss'
 
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
@@ -26,9 +27,9 @@ const CustomTimePicker = ({ id, label, value, mask, onChange, placeHolder, ampm,
           renderInput={(params) =>
             <TextField
               {...params}
-              id='custom-time-picker'
+              id={'custom-time-picker'}
               size='small'
-              sx={{ maxWidth: '120px', marginTop: '8px' }}
+              sx={{ marginTop: '8px' }}
               inputProps={{
                 ...params.inputProps,
                 placeholder: placeHolder || "00:00",
