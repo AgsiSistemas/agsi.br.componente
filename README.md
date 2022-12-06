@@ -12,7 +12,7 @@ or
 yarn add @agsisistemas/agsi.br.componente
 
 ### Install via package.json:
-"@agsisistemas/agsi.br.componente": "1.0.21"
+"@agsisistemas/agsi.br.componente": "1.0.22"
 
 ## Styles:
 import '@agsisistemas/agsi.br.componente/dist/index.css'

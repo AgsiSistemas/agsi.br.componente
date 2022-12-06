@@ -112,7 +112,8 @@ var style = {
   conteiner: {
     display: 'flex',
     width: '100%',
-    flexDirection: 'row!important'
+    flexDirection: 'row!important',
+    flexWrap: 'wrap'
   },
   conteiner_item: {
     flex: '1',
