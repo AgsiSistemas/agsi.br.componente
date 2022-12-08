@@ -76,6 +76,7 @@
 
 .grid-template-columns-4 {
     grid-template-columns: repeat(3, 1fr);
+    padding: 10px;
 }
 
 .grid {
@@ -103,7 +104,7 @@ p {
 }
 
 .menu-app-list {
-    width: 300px;
+    width: 336px;
     height: 300px;
     right: 5px;
     z-index: 1000;
@@ -119,7 +120,7 @@ p {
 }
 
 .menu-app-list-none {
-    width: 300px;
+    width: 336px;
     height: 300px;
     right: 5px;
     z-index: 1000;

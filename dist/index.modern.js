@@ -41,7 +41,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MoreIcon from '@mui/icons-material/MoreVert';
+import '@mui/icons-material/MoreVert';
 import AppsIcon from '@mui/icons-material/Apps';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
@@ -1333,10 +1333,6 @@ var Header = function Header(_ref) {
     handleMobileMenuClose();
   };
 
-  var handleMobileMenuOpen = function handleMobileMenuOpen(event) {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
-
   var handleExit = function handleExit() {
     removeToken();
     navigate("/");
@@ -1457,7 +1453,7 @@ var Header = function Header(_ref) {
     id: "menu-apps",
     sx: {
       display: {
-        xs: 'none',
+        xs: 'flex',
         md: 'flex'
       }
     }
@@ -1480,21 +1476,7 @@ var Header = function Header(_ref) {
     color: "inherit"
   }, /*#__PURE__*/createElement(Tooltip$1, {
     title: "Usu\xE1rio"
-  }, /*#__PURE__*/createElement(AccountCircle, null)))), /*#__PURE__*/createElement(Box, {
-    sx: {
-      display: {
-        xs: 'flex',
-        md: 'none'
-      }
-    }
-  }, /*#__PURE__*/createElement(IconButton, {
-    size: "large",
-    "aria-label": "show more",
-    "aria-controls": mobileMenuId,
-    "aria-haspopup": "true",
-    onClick: handleMobileMenuOpen,
-    color: "inherit"
-  }, /*#__PURE__*/createElement(MoreIcon, null))))), renderMobileMenu, renderMenu, /*#__PURE__*/createElement(MenuAppList, {
+  }, /*#__PURE__*/createElement(AccountCircle, null)))))), renderMobileMenu, renderMenu, /*#__PURE__*/createElement(MenuAppList, {
     open: openMenu
   }, /*#__PURE__*/createElement("section", {
     className: "grid grid-template-columns-4"
@@ -1503,8 +1485,12 @@ var Header = function Header(_ref) {
       key: index,
       title: item.title,
       onClick: function onClick() {
-        navigate(item.link);
-        window.location.reload();
+        if (item.link.includes('http')) {
+          window.open(item.link, "_blank");
+        } else {
+          navigate(item.link);
+          window.location.reload();
+        }
       }
     });
   }))));

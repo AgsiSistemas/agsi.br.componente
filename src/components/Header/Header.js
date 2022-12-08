@@ -21,11 +21,10 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import { Tooltip } from '@mui/material';
 import MenuAppList from './MenuAppList'
 import './Header.css'
-// import { roleUserBeneficiarie } from '../../Utils/Utils'
 
 import {
   ToggleSideBar,
-  removeToken,  
+  removeToken,
   getRememberMenuLocalStorage,
   roleUserBeneficiarie
 } from './HeaderUtils';
@@ -33,7 +32,7 @@ import {
 
 const Header = ({ title, listApp = [], notification }) => {
 
-  var navigate = useNavigate()  
+  var navigate = useNavigate()
 
   const [openMenu, setOpenMenu] = React.useState(getRememberMenuLocalStorage());
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -100,7 +99,7 @@ const Header = ({ title, listApp = [], notification }) => {
       anchorEl={anchorEl}
       open={isMenuOpen}
       id={menuId}
-      keepMounted      
+      keepMounted
       style={{ marginTop: '7px', marginLeft: '10px' }}
     >
       <div style={{ minWidth: '200px' }}>
@@ -191,15 +190,15 @@ const Header = ({ title, listApp = [], notification }) => {
               aria-haspopup="true"
               color="inherit"
             >
-              <Badge color="error" badgeContent={ notification.notificationUnread }>
+              <Badge color="error" badgeContent={notification.notificationUnread}>
                 <Tooltip title='Notificações'>
-                  <NotificationsIcon onClick={ notification.onClick } />
+                  <NotificationsIcon onClick={notification.onClick} />
                 </Tooltip>
               </Badge>
             </IconButton>
           </Box>
 
-          <Box id='menu-apps' sx={{ display: { xs: 'none', md: 'flex' } }}>
+          <Box id='menu-apps' sx={{ display: { xs: 'flex', md: 'flex' } }}>
             {!roleUserBeneficiarie() && <IconButton
               id="app-menu"
               size="large"
@@ -227,7 +226,7 @@ const Header = ({ title, listApp = [], notification }) => {
               </Tooltip>
             </IconButton>
           </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+          {/* <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="show more"
@@ -238,7 +237,7 @@ const Header = ({ title, listApp = [], notification }) => {
             >
               <MoreIcon />
             </IconButton>
-          </Box>
+          </Box> */}
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
@@ -249,8 +248,12 @@ const Header = ({ title, listApp = [], notification }) => {
             listApp.map((item, index) =>
               <HeaderApp key={index} title={item.title}
                 onClick={() => {
-                  navigate(item.link)
-                  window.location.reload()
+                  if (item.link.includes('http')) {
+                    window.open(item.link, "_blank")
+                  } else {
+                    navigate(item.link)
+                    window.location.reload()
+                  }
                 }} />
             )
           }

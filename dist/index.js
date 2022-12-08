@@ -44,7 +44,7 @@ var MenuItem = _interopDefault(require('@mui/material/MenuItem'));
 var Menu = _interopDefault(require('@mui/material/Menu'));
 var MenuIcon = _interopDefault(require('@mui/icons-material/Menu'));
 var AccountCircle = _interopDefault(require('@mui/icons-material/AccountCircle'));
-var MoreIcon = _interopDefault(require('@mui/icons-material/MoreVert'));
+require('@mui/icons-material/MoreVert');
 var AppsIcon = _interopDefault(require('@mui/icons-material/Apps'));
 var ListItemIcon = _interopDefault(require('@mui/material/ListItemIcon'));
 var ExitToAppIcon = _interopDefault(require('@mui/icons-material/ExitToApp'));
@@ -1336,10 +1336,6 @@ var Header = function Header(_ref) {
     handleMobileMenuClose();
   };
 
-  var handleMobileMenuOpen = function handleMobileMenuOpen(event) {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
-
   var handleExit = function handleExit() {
     removeToken();
     navigate("/");
@@ -1460,7 +1456,7 @@ var Header = function Header(_ref) {
     id: "menu-apps",
     sx: {
       display: {
-        xs: 'none',
+        xs: 'flex',
         md: 'flex'
       }
     }
@@ -1483,21 +1479,7 @@ var Header = function Header(_ref) {
     color: "inherit"
   }, /*#__PURE__*/React$1.createElement(material.Tooltip, {
     title: "Usu\xE1rio"
-  }, /*#__PURE__*/React$1.createElement(AccountCircle, null)))), /*#__PURE__*/React$1.createElement(Box, {
-    sx: {
-      display: {
-        xs: 'flex',
-        md: 'none'
-      }
-    }
-  }, /*#__PURE__*/React$1.createElement(IconButton, {
-    size: "large",
-    "aria-label": "show more",
-    "aria-controls": mobileMenuId,
-    "aria-haspopup": "true",
-    onClick: handleMobileMenuOpen,
-    color: "inherit"
-  }, /*#__PURE__*/React$1.createElement(MoreIcon, null))))), renderMobileMenu, renderMenu, /*#__PURE__*/React$1.createElement(MenuAppList, {
+  }, /*#__PURE__*/React$1.createElement(AccountCircle, null)))))), renderMobileMenu, renderMenu, /*#__PURE__*/React$1.createElement(MenuAppList, {
     open: openMenu
   }, /*#__PURE__*/React$1.createElement("section", {
     className: "grid grid-template-columns-4"
@@ -1506,8 +1488,12 @@ var Header = function Header(_ref) {
       key: index,
       title: item.title,
       onClick: function onClick() {
-        navigate(item.link);
-        window.location.reload();
+        if (item.link.includes('http')) {
+          window.open(item.link, "_blank");
+        } else {
+          navigate(item.link);
+          window.location.reload();
+        }
       }
     });
   }))));
