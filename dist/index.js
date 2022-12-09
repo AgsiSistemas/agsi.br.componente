@@ -1440,7 +1440,7 @@ var Header = function Header(_ref) {
       },
       marginRight: '15px'
     }
-  }, /*#__PURE__*/React$1.createElement(IconButton, {
+  }, notification && /*#__PURE__*/React$1.createElement(IconButton, {
     size: "large",
     "aria-label": "show more",
     "aria-haspopup": "true",

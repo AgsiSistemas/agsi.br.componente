@@ -1437,7 +1437,7 @@ var Header = function Header(_ref) {
       },
       marginRight: '15px'
     }
-  }, /*#__PURE__*/createElement(IconButton, {
+  }, notification && /*#__PURE__*/createElement(IconButton, {
     size: "large",
     "aria-label": "show more",
     "aria-haspopup": "true",

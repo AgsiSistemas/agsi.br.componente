@@ -184,18 +184,20 @@ const Header = ({ title, listApp = [], notification }) => {
           <Box sx={{ flexGrow: 1 }} />
 
           <Box sx={{ display: { xs: 'none', md: 'flex' }, marginRight: '15px' }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-haspopup="true"
-              color="inherit"
-            >
-              <Badge color="error" badgeContent={notification.notificationUnread}>
-                <Tooltip title='Notificações'>
-                  <NotificationsIcon onClick={notification.onClick} />
-                </Tooltip>
-              </Badge>
-            </IconButton>
+            {notification &&
+              <IconButton
+                size="large"
+                aria-label="show more"
+                aria-haspopup="true"
+                color="inherit"
+              >
+                <Badge color="error" badgeContent={notification.notificationUnread}>
+                  <Tooltip title='Notificações'>
+                    <NotificationsIcon onClick={notification.onClick} />
+                  </Tooltip>
+                </Badge>
+              </IconButton>
+            }
           </Box>
 
           <Box id='menu-apps' sx={{ display: { xs: 'flex', md: 'flex' } }}>
