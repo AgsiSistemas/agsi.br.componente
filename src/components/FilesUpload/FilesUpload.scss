@@ -24,6 +24,11 @@
   display: none;
 }
 
+.p-progressbar-label {
+  display: flex !important;
+  color: #000 !important;
+}
+
 .p-progressbar-determinate .p-progressbar-label {
   justify-content: center;
 }

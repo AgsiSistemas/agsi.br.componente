@@ -2367,6 +2367,9 @@ var ArchivesContent = function ArchivesContent(_ref) {
       onDownload = _ref.onDownload,
       onDelete = _ref.onDelete,
       onUpload = _ref.onUpload,
+      onShowOnApi = _ref.onShowOnApi,
+      api = _ref.api,
+      maxFileSizeMb = _ref.maxFileSizeMb,
       acceptTypes = _ref.acceptTypes;
   var initialStateFileDelete = {
     confirm: '',
@@ -2374,6 +2377,7 @@ var ArchivesContent = function ArchivesContent(_ref) {
     fileId: '',
     openDialog: false
   };
+  var maxSizeUpload = maxFileSizeMb ? maxFileSizeMb * 1000000 : 10 * 1000000;
 
   var _useState = useState(''),
       imgModal = _useState[0],
@@ -2415,10 +2419,14 @@ var ArchivesContent = function ArchivesContent(_ref) {
 
   var ShowArchives = function ShowArchives(file) {
     function get_url_extension(url) {
-      return url.split(/[#?]/)[0].split('.').pop().trim();
+      if (url) {
+        return url.split(/[#?]/)[0].split('.').pop().trim();
+      } else {
+        return '';
+      }
     }
 
-    if (get_url_extension(file.fileLink) == 'pdf') {
+    if (file !== null && file !== void 0 && file.fileLink && get_url_extension(file.fileLink) == 'pdf') {
       return /*#__PURE__*/React__default.createElement(Tooltip$1, {
         title: "Visualizar PDF"
       }, /*#__PURE__*/React__default.createElement(IconButton$1, null, /*#__PURE__*/React__default.createElement(VisibilityIcon, {
@@ -2437,6 +2445,26 @@ var ArchivesContent = function ArchivesContent(_ref) {
         }
       })));
     }
+
+    if (onShowOnApi) {
+      if (file.fileName.toLowerCase().includes('pdf')) {
+        return /*#__PURE__*/React__default.createElement(Tooltip$1, {
+          title: "Visualizar PDF"
+        }, /*#__PURE__*/React__default.createElement(IconButton$1, null, /*#__PURE__*/React__default.createElement(VisibilityIcon, {
+          onClick: function onClick() {
+            return showOnApiPdf(file.fileId);
+          }
+        })));
+      } else {
+        return /*#__PURE__*/React__default.createElement(Tooltip$1, {
+          title: "Visualizar Imagem"
+        }, /*#__PURE__*/React__default.createElement(IconButton$1, null, /*#__PURE__*/React__default.createElement(VisibilityIcon, {
+          onClick: function onClick() {
+            return showOnApi(file.fileId);
+          }
+        })));
+      }
+    }
   };
 
   var showImg = function showImg(id, fileLink, fileName) {
@@ -2450,6 +2478,29 @@ var ArchivesContent = function ArchivesContent(_ref) {
         type: 'showimg'
       });
     }
+  };
+
+  var showOnApi = function showOnApi(id, nameArchive) {
+    api.http.get("" + api.addressShow(id), {
+      responseType: 'blob'
+    }).then(function (response) {
+      var blob = new Blob([response.data]);
+      var link = URL.createObjectURL(blob);
+      setImgModal(link);
+      handleOpen();
+    });
+  };
+
+  var showOnApiPdf = function showOnApiPdf(id, nameArchive) {
+    api.http.get("" + api.addressShow(id), {
+      responseType: 'blob'
+    }).then(function (response) {
+      var blob = new Blob([response.data], {
+        type: 'application/pdf'
+      });
+      var link = URL.createObjectURL(blob);
+      window.open(link, '_blank');
+    });
   };
 
   var showPdf = function showPdf(id, fileLink, fileName) {
@@ -2474,6 +2525,11 @@ var ArchivesContent = function ArchivesContent(_ref) {
   }, [contentFileDelete]);
 
   var SendFiles = function SendFiles(e) {
+    if (e.target.files[0].size > maxSizeUpload) {
+      alert("O Arquivo \xE9 muito grande para o destino. Tamanho Maximo: " + (maxFileSizeMb ? maxFileSizeMb : '10') + " MB");
+      return;
+    }
+
     onUpload(e);
   };
 
@@ -2490,7 +2546,7 @@ var ArchivesContent = function ArchivesContent(_ref) {
     align: "center"
   }))), /*#__PURE__*/React__default.createElement(TableBody, {
     className: "table-body"
-  }, filesList && filesList.map(function (file) {
+  }, filesList && filesList.map(function (file, index) {
     return /*#__PURE__*/React__default.createElement(TableRow, {
       key: file.fileId
     }, /*#__PURE__*/React__default.createElement(TableCell, {

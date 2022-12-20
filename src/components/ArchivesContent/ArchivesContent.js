@@ -31,9 +31,10 @@ const styleButtonClose = {
   color: '#000',
 }
 
-const ArchivesContent = ({ filesList, editable, onDownload, onDelete, onUpload, acceptTypes }) => {
+const ArchivesContent = ({ filesList, editable, onDownload, onDelete, onUpload, onShowOnApi, api, maxFileSizeMb, acceptTypes }) => {
 
   const initialStateFileDelete = { confirm: '', file: '', fileId: '', openDialog: false }
+  const maxSizeUpload = maxFileSizeMb ? maxFileSizeMb * 1000000 : 10 * 1000000
   const [imgModal, setImgModal] = useState('')
   const [contentFileDelete, setContentFileDelete] = useState(initialStateFileDelete)
   const [openModal, setOpenModal] = useState(false)
@@ -53,6 +54,12 @@ const ArchivesContent = ({ filesList, editable, onDownload, onDelete, onUpload, 
     onDownload({ id, nameArchive })
 
   }
+  // Show Archives
+  const handleShowDocumentApi = (id, nameArchive, index, fileLink) => {
+    console.log(onShowOnApi({ id, nameArchive, index }))
+    showImg(id, fileLink, nameArchive)
+
+  }
 
 
   // View Archives
@@ -60,11 +67,15 @@ const ArchivesContent = ({ filesList, editable, onDownload, onDelete, onUpload, 
 
     // Get Type archive of link
     function get_url_extension(url) {
-      return url.split(/[#?]/)[0].split('.').pop().trim();
+      if (url) {
+        return url.split(/[#?]/)[0].split('.').pop().trim();
+      } else {
+        return ''
+      }
     }
 
 
-    if (get_url_extension(file.fileLink) == 'pdf') {
+    if (file?.fileLink && get_url_extension(file.fileLink) == 'pdf') {
       return (
         <Tooltip title='Visualizar PDF'>
           <IconButton >
@@ -83,6 +94,25 @@ const ArchivesContent = ({ filesList, editable, onDownload, onDelete, onUpload, 
         </Tooltip>
       )
     }
+    if (onShowOnApi) {
+      if (file.fileName.toLowerCase().includes('pdf')) {
+        return (
+          <Tooltip title='Visualizar PDF'>
+            <IconButton >
+              <VisibilityIcon onClick={() => showOnApiPdf(file.fileId, file.fileLink, file.fileName)} />
+            </IconButton>
+          </Tooltip>
+        )
+      } else {
+        return (
+          <Tooltip title='Visualizar Imagem'>
+            <IconButton >
+              <VisibilityIcon onClick={() => showOnApi(file.fileId, file.fileLink, file.fileName)} />
+            </IconButton>
+          </Tooltip>
+        )
+      }
+    }
   }
 
   const showImg = (id, fileLink, fileName) => {
@@ -92,6 +122,24 @@ const ArchivesContent = ({ filesList, editable, onDownload, onDelete, onUpload, 
     } else {
       downloadChange({ id, fileName, type: 'showimg' })
     }
+  }
+
+  const showOnApi = (id, nameArchive) => {
+    api.http.get(`${api.addressShow(id)}`, { responseType: 'blob' })
+      .then(function (response) {
+        let blob = new Blob([response.data])
+        let link = URL.createObjectURL(blob)
+        setImgModal(link)
+        handleOpen()
+      })
+  }
+  const showOnApiPdf = (id, nameArchive) => {
+    api.http.get(`${api.addressShow(id)}`, { responseType: 'blob' })
+      .then(function (response) {
+        let blob = new Blob([response.data], { type: 'application/pdf' })
+        let link = URL.createObjectURL(blob)
+        window.open(link, '_blank');
+      })
   }
 
   const showPdf = (id, fileLink, fileName) => {
@@ -116,6 +164,10 @@ const ArchivesContent = ({ filesList, editable, onDownload, onDelete, onUpload, 
 
   // Add Archives
   const SendFiles = (e) => {
+    if (e.target.files[0].size > maxSizeUpload) {
+      alert(`O Arquivo é muito grande para o destino. Tamanho Maximo: ${maxFileSizeMb ? maxFileSizeMb : '10'} MB`)
+      return
+    }
     onUpload(e)
   }
 
@@ -132,7 +184,7 @@ const ArchivesContent = ({ filesList, editable, onDownload, onDelete, onUpload, 
           </TableHead>
           <TableBody className='table-body'>
             {
-              filesList && filesList.map((file) => (
+              filesList && filesList.map((file, index) => (
                 <TableRow key={file.fileId}>
                   <TableCell align="">{file.fileId}</TableCell>
                   <TableCell align="">{file.fileName}</TableCell>
@@ -145,6 +197,7 @@ const ArchivesContent = ({ filesList, editable, onDownload, onDelete, onUpload, 
                     {
                       ShowArchives(file)
                     }
+
                     {editable &&
                       <Tooltip title='Excluir Arquivo'>
                         <IconButton >
