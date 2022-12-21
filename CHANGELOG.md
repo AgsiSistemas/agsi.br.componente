@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.36](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.35...v1.0.36) (2022-12-21)
+
+
+### Bug Fixes
+
+* ArchivesContent max size. ([8c87af8](https://github.com/AgsiSistemas/agsi.br.componente/commit/8c87af8902bfd768ea9352929ea75dbeb5df88b9))
+
 ### [1.0.35](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.34...v1.0.35) (2022-12-20)
 
 ### [1.0.34](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.33...v1.0.34) (2022-12-20)
