@@ -50,7 +50,7 @@ import Divider from '@mui/material/Divider';
 import WidgetsIcon from '@mui/icons-material/Widgets';
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { Tooltip as Tooltip$1, CircularProgress, TextField as TextField$1, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton as IconButton$1, Button as Button$2, Modal, Box as Box$1, Dialog as Dialog$1, DialogTitle as DialogTitle$1, DialogContent as DialogContent$1, DialogContentText as DialogContentText$1, DialogActions as DialogActions$1 } from '@mui/material';
+import { Tooltip as Tooltip$1, CircularProgress, TextField as TextField$1, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton as IconButton$1, Button as Button$2, Modal, Box as Box$1, Dialog as Dialog$1, DialogTitle as DialogTitle$1, DialogContent as DialogContent$1, DialogContentText as DialogContentText$1, DialogActions as DialogActions$1, LinearProgress } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import InputBase from '@mui/material/InputBase';
@@ -2642,5 +2642,607 @@ ArchivesContent.defaultProp = {
   editable: false
 };
 
-export { AppContent$1 as AppContent, ArchivesContent, Conteiner, ConteinerItem, CustomBeneficiarieFields, CustomDataTable$1 as CustomDataTable, CustomDatePicker$1 as CustomDatePicker, CustomDialog$1 as CustomDialog, CustomInputSelect$1 as CustomInputSelect, CustomModal$1 as CustomModal, CustomTextField$1 as CustomTextField, CustomTimePicker$1 as CustomTimePicker, CustomToastMessage$1 as CustomToastMessage, FilesUpload$1 as FilesUpload, Header$1 as Header, HeaderAccordion$1 as HeaderAccordion, OperationDetail$1 as OperationDetail, OperationSection$1 as OperationSection, OperationTable$1 as OperationTable, PageBase$3 as PageBase, SaveComponent$1 as SaveComponent };
+var _FilesContentApi$prop;
+
+var FilesContentApi = function FilesContentApi(_ref) {
+  var _fileList$;
+
+  var acceptFileTypes = _ref.acceptFileTypes,
+      fileList = _ref.fileList,
+      editable = _ref.editable,
+      api = _ref.api,
+      maxFileSizeMb = _ref.maxFileSizeMb,
+      solicitationId = _ref.solicitationId,
+      onChange = _ref.onChange;
+  var fileTypes = acceptFileTypes ? acceptFileTypes : ['jpg', 'jpeg', 'png', 'pdf'];
+  var maxSizeUpload = maxFileSizeMb ? maxFileSizeMb * 1000000 : 10 * 1000000;
+
+  var _useState = useState(false),
+      openModal = _useState[0],
+      setOpenModal = _useState[1];
+
+  var solicitation = fileList && fileList.length !== 0 ? (_fileList$ = fileList[0]) === null || _fileList$ === void 0 ? void 0 : _fileList$.solicitationId : solicitationId;
+
+  var _useState2 = useState(''),
+      imgModal = _useState2[0],
+      setImgModal = _useState2[1];
+
+  var initialStateFileDelete = {
+    confirm: '',
+    file: '',
+    fileId: '',
+    openDialog: false
+  };
+
+  var _useState3 = useState(initialStateFileDelete),
+      contentFileDelete = _useState3[0],
+      setContentFileDelete = _useState3[1];
+
+  var _useState4 = useState(fileList ? fileList : []),
+      list = _useState4[0],
+      setList = _useState4[1];
+
+  var _useState5 = useState(false),
+      loadChange = _useState5[0],
+      setLoadChange = _useState5[1];
+
+  useEffect(function () {
+    if (onChange) onChange(list);
+  }, [list]);
+
+  var handleOpen = function handleOpen() {
+    return setOpenModal(true);
+  };
+
+  var handleClose = function handleClose() {
+    return setOpenModal(false);
+  };
+
+  var handleCloseDialogDeleteFile = function handleCloseDialogDeleteFile() {
+    setContentFileDelete({
+      confirm: '',
+      file: '',
+      fileId: '',
+      openDialog: false
+    });
+  };
+
+  var ShowArchives = function ShowArchives(file) {
+    function get_url_extension(url) {
+      if (url) {
+        return url.split(/[#?]/)[0].split('.').pop().trim();
+      } else {
+        return '';
+      }
+    }
+
+    if (get_url_extension(file.fileName) == 'pdf') {
+      return /*#__PURE__*/React__default.createElement(Tooltip$1, {
+        title: "Visualizar PDF"
+      }, /*#__PURE__*/React__default.createElement(IconButton$1, null, /*#__PURE__*/React__default.createElement(VisibilityIcon, {
+        onClick: function onClick() {
+          return showPdf(file.fileId);
+        }
+      })));
+    }
+
+    if (fileTypes.includes(get_url_extension(file.fileName))) {
+      return /*#__PURE__*/React__default.createElement(Tooltip$1, {
+        title: "Visualizar Imagem"
+      }, /*#__PURE__*/React__default.createElement(IconButton$1, null, /*#__PURE__*/React__default.createElement(VisibilityIcon, {
+        onClick: function onClick() {
+          return showImg(file.fileId);
+        }
+      })));
+    }
+  };
+
+  var showImg = function showImg(id, fileLink, fileName) {
+    if (!api) {
+      alert('Sem Rotas de API');
+      return;
+    }
+
+    setLoadChange(true);
+    api.http.get("" + api.addressApiFile(id), {
+      responseType: 'blob'
+    }).then(function (response) {
+      var blob = new Blob([response.data]);
+      var link = URL.createObjectURL(blob);
+      setImgModal(link);
+      handleOpen();
+      setLoadChange(false);
+    });
+  };
+
+  var showPdf = function showPdf(id, nameArchive) {
+    if (!api) {
+      alert('Sem Rotas de API');
+      return;
+    }
+
+    setLoadChange(true);
+    api.http.get("" + api.addressApiFile(id), {
+      responseType: 'blob'
+    }).then(function (response) {
+      var blob = new Blob([response.data], {
+        type: 'application/pdf'
+      });
+      var link = URL.createObjectURL(blob);
+      setLoadChange(false);
+      window.open(link, '_blank');
+    })["catch"](function (e) {
+      alert('Erro ao Solicitar Arquivo!');
+      setLoadChange(false);
+    });
+  };
+
+  var handleGetDocumentApi = function handleGetDocumentApi(id, nameArchive) {
+    if (!api) {
+      alert('Sem Rotas de API');
+      return;
+    }
+
+    setLoadChange(true);
+    api.http.get("" + api.addressApiFile(id), {
+      responseType: 'blob'
+    }).then(function (response) {
+      var blob = new Blob([response.data]);
+      var link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = nameArchive;
+      link.click();
+      setLoadChange(false);
+    })["catch"](function (error) {
+      alert('Erro ao solicitar arquivo!');
+      setLoadChange(false);
+    });
+  };
+
+  var SendFiles = function SendFiles(e) {
+    if (!api) {
+      alert('Sem Rotas de API');
+      return;
+    }
+
+    if (e.target.files[0].size > maxSizeUpload) {
+      alert("O Arquivo \xE9 muito grande para o destino. Tamanho Maximo: " + (maxFileSizeMb ? maxFileSizeMb : '10') + " MB");
+      return;
+    }
+
+    var fileToSend = e.target.files[0];
+    var formData = new FormData();
+    formData.append('file', fileToSend);
+    setLoadChange(true);
+    var headers = {
+      "Content-Type": "multipart/form-data"
+    };
+    api.http.post("" + api.addressApiFile('', '', solicitation), formData, {
+      headers: headers
+    }).then(function (response) {
+      if (response.data.status == 201) {
+        var addRowFile = {
+          'fileId': response.data.data,
+          'fileName': fileToSend.name,
+          'originName': fileToSend.name
+        };
+        setList(function (current) {
+          return [].concat(current, [addRowFile]);
+        });
+        setLoadChange(false);
+      } else {
+        alert('Erro ao Enviar Arquivo.');
+        setLoadChange(false);
+      }
+    })["catch"](function (e) {
+      alert('Erro ao Enviar enviar Arquivo!');
+      setLoadChange(false);
+    });
+  };
+
+  var deleteArchive = function deleteArchive(id, fileName) {
+    setContentFileDelete({
+      confirm: '',
+      file: fileName,
+      fileId: id,
+      openDialog: true
+    });
+  };
+
+  useEffect(function () {
+    if (contentFileDelete.confirm) {
+      if (!api) {
+        alert('Sem Rotas de API');
+        setLoadChange(false);
+        return;
+      }
+
+      api.http["delete"]("" + api.addressApiFile('', contentFileDelete.fileId, solicitation), {
+        responseType: 'blob'
+      }).then(function (response) {
+        setContentFileDelete(initialStateFileDelete);
+        setList(function (current) {
+          return current.filter(function (listFiles) {
+            return listFiles.fileId !== contentFileDelete.fileId;
+          });
+        });
+        setLoadChange(false);
+      })["catch"](function (error) {
+        alert('Erro ao Excluir Arquivo.');
+        setLoadChange(false);
+      });
+    }
+  }, [contentFileDelete]);
+  return /*#__PURE__*/React__default.createElement(Fragment, null, /*#__PURE__*/React__default.createElement(TableContainer, {
+    className: "conteiner-archive-component",
+    component: Paper
+  }, /*#__PURE__*/React__default.createElement(Table, {
+    className: "",
+    size: "small",
+    "aria-label": "a dense table"
+  }, /*#__PURE__*/React__default.createElement(TableHead, {
+    className: "table-header-archive-content"
+  }, /*#__PURE__*/React__default.createElement(TableRow, null, /*#__PURE__*/React__default.createElement(TableCell, null, "C\xF3digo"), /*#__PURE__*/React__default.createElement(TableCell, null, "Nome do Arquivo"), /*#__PURE__*/React__default.createElement(TableCell, {
+    align: "center"
+  }))), /*#__PURE__*/React__default.createElement(TableBody, {
+    className: "table-body"
+  }, list && list.map(function (file, index) {
+    return /*#__PURE__*/React__default.createElement(TableRow, {
+      key: file.fileId
+    }, /*#__PURE__*/React__default.createElement(TableCell, {
+      align: ""
+    }, file.fileId), /*#__PURE__*/React__default.createElement(TableCell, {
+      align: ""
+    }, file.originName), /*#__PURE__*/React__default.createElement(TableCell, {
+      align: ""
+    }, /*#__PURE__*/React__default.createElement(Tooltip$1, {
+      title: "Baixar Arquivo"
+    }, /*#__PURE__*/React__default.createElement(IconButton$1, null, /*#__PURE__*/React__default.createElement(FileDownloadIcon, {
+      onClick: function onClick() {
+        return handleGetDocumentApi(file.fileId, file.originName);
+      }
+    }))), ShowArchives(file), editable && /*#__PURE__*/React__default.createElement(Tooltip$1, {
+      title: "Excluir Arquivo"
+    }, /*#__PURE__*/React__default.createElement(IconButton$1, null, /*#__PURE__*/React__default.createElement(DeleteIcon, {
+      onClick: function onClick() {
+        deleteArchive(file.fileId, file.fileName);
+      }
+    })))));
+  }))), loadChange && /*#__PURE__*/React__default.createElement(LinearProgress, null), editable && /*#__PURE__*/React__default.createElement(Fragment, null, /*#__PURE__*/React__default.createElement("input", {
+    accept: ".pdf,image/*",
+    style: {
+      display: 'none'
+    },
+    id: "raised-button-file",
+    type: "file",
+    onChange: function onChange(e) {
+      SendFiles(e);
+    }
+  }), /*#__PURE__*/React__default.createElement("label", {
+    htmlFor: "raised-button-file"
+  }, /*#__PURE__*/React__default.createElement(Tooltip$1, {
+    title: "Arquivos at\xE9 " + (maxFileSizeMb ? maxFileSizeMb : 10) + " mb"
+  }, /*#__PURE__*/React__default.createElement(Button$2, {
+    variant: "raised",
+    component: "span",
+    sx: {
+      display: 'flex',
+      color: '#6a6969'
+    }
+  }, "Adicionar Novo Arquivo"))))), /*#__PURE__*/React__default.createElement(Modal, {
+    open: openModal,
+    onClose: handleClose,
+    "aria-labelledby": "modal-modal-title",
+    "aria-describedby": "modal-modal-description"
+  }, /*#__PURE__*/React__default.createElement(Box$1, {
+    className: "img-content-show"
+  }, /*#__PURE__*/React__default.createElement(Image, {
+    src: imgModal,
+    alt: "Image",
+    height: "100%"
+  }), /*#__PURE__*/React__default.createElement(Box$1, {
+    className: "dialog-button-close"
+  }, /*#__PURE__*/React__default.createElement(Tooltip$1, {
+    title: "Fechar"
+  }, /*#__PURE__*/React__default.createElement(CloseIcon, {
+    onClick: function onClick() {
+      return handleClose();
+    }
+  }))))), /*#__PURE__*/React__default.createElement(Dialog$1, {
+    open: contentFileDelete.openDialog,
+    onClose: handleCloseDialogDeleteFile,
+    "aria-labelledby": "alert-dialog-title",
+    "aria-describedby": "alert-dialog-description"
+  }, /*#__PURE__*/React__default.createElement(DialogTitle$1, {
+    id: "alert-dialog-title"
+  }, "Tem Certeza que deseja Excluir: " + contentFileDelete.file), /*#__PURE__*/React__default.createElement(DialogContent$1, null, /*#__PURE__*/React__default.createElement(DialogContentText$1, {
+    id: "alert-dialog-description"
+  }, "A exclus\xE3o ser\xE1 permanente!")), /*#__PURE__*/React__default.createElement(DialogActions$1, null, /*#__PURE__*/React__default.createElement(Button$2, {
+    onClick: handleCloseDialogDeleteFile
+  }, "Cancelar"), /*#__PURE__*/React__default.createElement(Button$2, {
+    onClick: function onClick() {
+      setContentFileDelete({
+        confirm: true,
+        file: contentFileDelete.file,
+        fileId: contentFileDelete.fileId,
+        openDialog: false
+      });
+      setLoadChange(true);
+    },
+    autoFocus: true
+  }, "Confirmar Exclus\xE3o"))));
+};
+
+FilesContentApi.propTypes = (_FilesContentApi$prop = {
+  filesList: PropTypes.object
+}, _FilesContentApi$prop["filesList"] = PropTypes.shape({
+  fileId: PropTypes.string,
+  fileName: PropTypes.string,
+  fileLink: PropTypes.string
+}), _FilesContentApi$prop.api = PropTypes.object, _FilesContentApi$prop["api"] = PropTypes.shape({
+  http: PropTypes.string,
+  addressApiFile: PropTypes.string
+}), _FilesContentApi$prop.editable = PropTypes.bool, _FilesContentApi$prop.maxFileSizeMb = PropTypes.string, _FilesContentApi$prop.acceptFileTypes = PropTypes.string, _FilesContentApi$prop.solicitationId = PropTypes.string, _FilesContentApi$prop);
+FilesContentApi.defaultProp = {
+  filesList: [],
+  editable: false,
+  solicitationId: '',
+  maxFileSizeMb: 10,
+  acceptFileTypes: ['jpg', 'jpeg', 'png', 'pdf'],
+  api: {
+    http: 'api.http',
+    addressApiFile: function addressApiFile(e) {
+      return api.http.files(e);
+    }
+  }
+};
+
+var _FilesContent$propTyp;
+var style$c = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '80%',
+  height: "80%",
+  bgcolor: 'background.paper',
+  border: '0px solid #000',
+  boxShadow: 24,
+  overflow: 'hidden',
+  textAlign: 'center',
+  p: 4
+};
+var styleButtonClose$1 = {
+  position: 'absolute',
+  top: '2%',
+  left: '95%',
+  color: '#000'
+};
+
+var FilesContent = function FilesContent(_ref) {
+  var filesList = _ref.filesList,
+      editable = _ref.editable,
+      onDownload = _ref.onDownload,
+      onDelete = _ref.onDelete,
+      onUpload = _ref.onUpload,
+      acceptTypes = _ref.acceptTypes;
+  var initialStateFileDelete = {
+    confirm: '',
+    file: '',
+    fileId: '',
+    openDialog: false
+  };
+
+  var _useState = useState(''),
+      imgModal = _useState[0],
+      setImgModal = _useState[1];
+
+  var _useState2 = useState(initialStateFileDelete),
+      contentFileDelete = _useState2[0],
+      setContentFileDelete = _useState2[1];
+
+  var _useState3 = useState(false),
+      openModal = _useState3[0],
+      setOpenModal = _useState3[1];
+
+  var acceptTypesProps = acceptTypes ? acceptTypes : ['jpg', 'jpeg', 'png', 'pdf'];
+
+  var handleCloseDialogDeleteFile = function handleCloseDialogDeleteFile() {
+    setContentFileDelete({
+      confirm: '',
+      file: '',
+      fileId: '',
+      openDialog: false
+    });
+  };
+
+  var handleOpen = function handleOpen() {
+    return setOpenModal(true);
+  };
+
+  var handleClose = function handleClose() {
+    return setOpenModal(false);
+  };
+
+  var handleGetDocumentApi = function handleGetDocumentApi(id, nameArchive) {
+    onDownload({
+      id: id,
+      nameArchive: nameArchive
+    });
+  };
+
+  var ShowArchives = function ShowArchives(file) {
+    function get_url_extension(url) {
+      return url.split(/[#?]/)[0].split('.').pop().trim();
+    }
+
+    if (get_url_extension(file.fileLink) == 'pdf') {
+      return /*#__PURE__*/React__default.createElement(Tooltip$1, {
+        title: "Visualizar PDF"
+      }, /*#__PURE__*/React__default.createElement(IconButton$1, null, /*#__PURE__*/React__default.createElement(VisibilityIcon, {
+        onClick: function onClick() {
+          return showPdf(file.fileId, file.fileLink);
+        }
+      })));
+    }
+
+    if (file.fileLink && acceptTypesProps.includes(get_url_extension(file.fileLink))) {
+      return /*#__PURE__*/React__default.createElement(Tooltip$1, {
+        title: "Visualizar Imagem"
+      }, /*#__PURE__*/React__default.createElement(IconButton$1, null, /*#__PURE__*/React__default.createElement(VisibilityIcon, {
+        onClick: function onClick() {
+          return showImg(file.fileId, file.fileLink, file.fileName);
+        }
+      })));
+    }
+  };
+
+  var showImg = function showImg(id, fileLink, fileName) {
+    if (fileLink) {
+      setImgModal(fileLink);
+      handleOpen();
+    } else {
+      downloadChange({
+        id: id,
+        fileName: fileName,
+        type: 'showimg'
+      });
+    }
+  };
+
+  var showPdf = function showPdf(id, fileLink, fileName) {
+    if (fileLink) {
+      window.open(fileLink, '_blank').focus();
+    }
+  };
+
+  var deleteArchive = function deleteArchive(id, fileName) {
+    setContentFileDelete({
+      confirm: '',
+      file: fileName,
+      fileId: id,
+      openDialog: true
+    });
+  };
+
+  useEffect(function () {
+    if (contentFileDelete.confirm) {
+      onDelete(contentFileDelete);
+    }
+  }, [contentFileDelete]);
+
+  var SendFiles = function SendFiles(e) {
+    onUpload(e);
+  };
+
+  return /*#__PURE__*/React__default.createElement(Fragment, null, /*#__PURE__*/React__default.createElement(TableContainer, {
+    className: "conteiner-archive-component",
+    component: Paper
+  }, /*#__PURE__*/React__default.createElement(Table, {
+    className: "",
+    size: "small",
+    "aria-label": "a dense table"
+  }, /*#__PURE__*/React__default.createElement(TableHead, {
+    className: "table-header-archive-content"
+  }, /*#__PURE__*/React__default.createElement(TableRow, null, /*#__PURE__*/React__default.createElement(TableCell, null, "C\xF3digo"), /*#__PURE__*/React__default.createElement(TableCell, null, "Nome do Arquivo"), /*#__PURE__*/React__default.createElement(TableCell, {
+    align: "center"
+  }))), /*#__PURE__*/React__default.createElement(TableBody, {
+    className: "table-body"
+  }, filesList && filesList.map(function (file) {
+    return /*#__PURE__*/React__default.createElement(TableRow, {
+      key: file.fileId
+    }, /*#__PURE__*/React__default.createElement(TableCell, {
+      align: ""
+    }, file.fileId), /*#__PURE__*/React__default.createElement(TableCell, {
+      align: ""
+    }, file.fileName), /*#__PURE__*/React__default.createElement(TableCell, {
+      align: ""
+    }, /*#__PURE__*/React__default.createElement(Tooltip$1, {
+      title: "Baixar Arquivo"
+    }, /*#__PURE__*/React__default.createElement(IconButton$1, null, /*#__PURE__*/React__default.createElement(FileDownloadIcon, {
+      onClick: function onClick() {
+        return handleGetDocumentApi(file.fileId, file.originName);
+      }
+    }))), ShowArchives(file), editable && /*#__PURE__*/React__default.createElement(Tooltip$1, {
+      title: "Excluir Arquivo"
+    }, /*#__PURE__*/React__default.createElement(IconButton$1, null, /*#__PURE__*/React__default.createElement(DeleteIcon, {
+      onClick: function onClick() {
+        return deleteArchive(file.fileId, file.fileName);
+      }
+    })))));
+  }))), editable && /*#__PURE__*/React__default.createElement(Fragment, null, /*#__PURE__*/React__default.createElement("input", {
+    accept: ".pdf,image/*",
+    style: {
+      display: 'none'
+    },
+    id: "raised-button-file",
+    type: "file",
+    onChange: function onChange(e) {
+      return SendFiles(e);
+    }
+  }), /*#__PURE__*/React__default.createElement("label", {
+    htmlFor: "raised-button-file"
+  }, /*#__PURE__*/React__default.createElement(Button$2, {
+    variant: "raised",
+    component: "span",
+    sx: {
+      display: 'flex',
+      color: '#6a6969'
+    }
+  }, "Adicionar Novo Arquivo")))), /*#__PURE__*/React__default.createElement(Modal, {
+    open: openModal,
+    onClose: handleClose,
+    "aria-labelledby": "modal-modal-title",
+    "aria-describedby": "modal-modal-description"
+  }, /*#__PURE__*/React__default.createElement(Box$1, {
+    sx: style$c
+  }, /*#__PURE__*/React__default.createElement(Image, {
+    src: imgModal,
+    alt: "Image",
+    height: "100%"
+  }), /*#__PURE__*/React__default.createElement(Box$1, {
+    sx: styleButtonClose$1
+  }, /*#__PURE__*/React__default.createElement(Tooltip$1, {
+    title: "Fechar"
+  }, /*#__PURE__*/React__default.createElement(CloseIcon, {
+    onClick: function onClick() {
+      return handleClose();
+    }
+  }))))), /*#__PURE__*/React__default.createElement(Dialog$1, {
+    open: contentFileDelete.openDialog,
+    onClose: handleCloseDialogDeleteFile,
+    "aria-labelledby": "alert-dialog-title",
+    "aria-describedby": "alert-dialog-description"
+  }, /*#__PURE__*/React__default.createElement(DialogTitle$1, {
+    id: "alert-dialog-title"
+  }, "Tem Certeza que deseja Excluir: " + contentFileDelete.file), /*#__PURE__*/React__default.createElement(DialogContent$1, null, /*#__PURE__*/React__default.createElement(DialogContentText$1, {
+    id: "alert-dialog-description"
+  }, "A exclus\xE3o ser\xE1 permanente!")), /*#__PURE__*/React__default.createElement(DialogActions$1, null, /*#__PURE__*/React__default.createElement(Button$2, {
+    onClick: handleCloseDialogDeleteFile
+  }, "Cancelar"), /*#__PURE__*/React__default.createElement(Button$2, {
+    onClick: function onClick() {
+      return setContentFileDelete({
+        confirm: true,
+        file: contentFileDelete.file,
+        fileId: contentFileDelete.fileId,
+        openDialog: false
+      });
+    },
+    autoFocus: true
+  }, "Confirmar Exclus\xE3o"))));
+};
+
+FilesContent.propTypes = (_FilesContent$propTyp = {
+  filesList: PropTypes.object
+}, _FilesContent$propTyp["filesList"] = PropTypes.shape({
+  fileId: PropTypes.string,
+  fileName: PropTypes.string,
+  fileLink: PropTypes.string
+}), _FilesContent$propTyp.editable = PropTypes.bool, _FilesContent$propTyp);
+FilesContent.defaultProp = {
+  filesList: [],
+  editable: false
+};
+
+export { AppContent$1 as AppContent, ArchivesContent, Conteiner, ConteinerItem, CustomBeneficiarieFields, CustomDataTable$1 as CustomDataTable, CustomDatePicker$1 as CustomDatePicker, CustomDialog$1 as CustomDialog, CustomInputSelect$1 as CustomInputSelect, CustomModal$1 as CustomModal, CustomTextField$1 as CustomTextField, CustomTimePicker$1 as CustomTimePicker, CustomToastMessage$1 as CustomToastMessage, FilesContent, FilesContentApi, FilesUpload$1 as FilesUpload, Header$1 as Header, HeaderAccordion$1 as HeaderAccordion, OperationDetail$1 as OperationDetail, OperationSection$1 as OperationSection, OperationTable$1 as OperationTable, PageBase$3 as PageBase, SaveComponent$1 as SaveComponent };
 //# sourceMappingURL=index.modern.js.map

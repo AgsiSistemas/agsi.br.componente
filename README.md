@@ -41,9 +41,10 @@ import { Header } from '@agsisistemas/agsi.br.componente';
   CustomTextField,
   CustomTimePicker,
   CustomDatePicker,
+  CustomBeneficiarieFields,
   AppContent,
   FilesUpload,
-  CustomBeneficiarieFields,
-  ArchivesContent
+  FilesContentApi,
+  FilesContent,
   ```
  

@@ -28,6 +28,8 @@ import AppContent from './components/Content/AppContent';
 import FilesUpload from './components/FilesUpload/FilesUpload';
 import CustomBeneficiarieFields from './components/BeneficiarieFields/CustomBeneficiarieFields';
 import ArchivesContent from './components/ArchivesContent/ArchivesContent'
+import FilesContentApi from './components/FilesContentApi/FilesContentApi'
+import FilesContent from './components/FilesContent/FilesContent'
 
 export {
   Conteiner,
@@ -50,5 +52,7 @@ export {
   AppContent,
   FilesUpload,
   CustomBeneficiarieFields,
-  ArchivesContent
+  ArchivesContent,
+  FilesContentApi,
+  FilesContent,
 };
