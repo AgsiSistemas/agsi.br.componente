@@ -2139,7 +2139,8 @@ var maskWallet = function maskWallet(v) {
 var _CustomBeneficiarieFi;
 
 var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
-  var valueId = _ref.valueId,
+  var label = _ref.label,
+      valueId = _ref.valueId,
       onChangeId = _ref.onChangeId,
       valueName = _ref.valueName,
       onChangeName = _ref.onChangeName,
@@ -2189,7 +2190,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
   return /*#__PURE__*/React__default.createElement(Fragment, null, /*#__PURE__*/React__default.createElement(ConteinerItem, {
     className: "custom-beneficiarie-component-wallet"
   }, /*#__PURE__*/React__default.createElement(CustomInputSelect$1, {
-    title: handleLoading("Carteirinha" + isRequired(), loadingBeneficiary),
+    title: handleLoading((!label ? "Carteirinha" : label[0]) + isRequired(), loadingBeneficiary),
     freeSolo: true,
     open: openWalletField,
     options: localBeneficiaries.data.content.map(function (item, index) {
@@ -2253,7 +2254,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
     maxLength: 18,
     validation: validation
   })), /*#__PURE__*/React__default.createElement(ConteinerItem, null, /*#__PURE__*/React__default.createElement(CustomInputSelect$1, {
-    title: handleLoading("Nome Beneficiário" + isRequired(), loadingBeneficiary),
+    title: handleLoading((!label ? "Nome Beneficiário" : label[1]) + isRequired(), loadingBeneficiary),
     freeSolo: true,
     open: openBeneficiariesField,
     options: localBeneficiaries.data.content.map(function (item, index) {

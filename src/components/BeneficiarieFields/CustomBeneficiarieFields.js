@@ -7,7 +7,7 @@ import { handleLoading, isNullValue } from "../../Utils/Utils.js";
 import './CustomBeneficiarieFields.scss'
 
 
-const CustomBeneficiarieFields = ({ valueId, onChangeId, valueName, onChangeName, validation, api, disabled, required }) => {
+const CustomBeneficiarieFields = ({ label, valueId, onChangeId, valueName, onChangeName, validation, api, disabled, required }) => {
 
   const ResponseModel = {
     "timestamp": "",
@@ -43,7 +43,7 @@ const CustomBeneficiarieFields = ({ valueId, onChangeId, valueName, onChangeName
     <Fragment>
       <ConteinerItem className="custom-beneficiarie-component-wallet">
         <CustomInputSelect
-          title={handleLoading("Carteirinha" + isRequired(), loadingBeneficiary)}
+          title={handleLoading((!label ? "Carteirinha" : label[0]) + isRequired(), loadingBeneficiary)}
           freeSolo
           open={openWalletField}
           options={localBeneficiaries.data.content.map((item, index) => ({
@@ -86,7 +86,7 @@ const CustomBeneficiarieFields = ({ valueId, onChangeId, valueName, onChangeName
       </ConteinerItem>
       <ConteinerItem>
         <CustomInputSelect
-          title={handleLoading("Nome Beneficiário" + isRequired(), loadingBeneficiary)}
+          title={handleLoading((!label ? "Nome Beneficiário" : label[1]) + isRequired(), loadingBeneficiary)}
           freeSolo
           open={openBeneficiariesField}
           options={localBeneficiaries.data.content.map((item, index) => ({
