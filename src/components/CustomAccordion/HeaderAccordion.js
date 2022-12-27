@@ -6,25 +6,25 @@ import MuiAccordion from '@mui/material/Accordion';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
-import  PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import { Conteiner, ConteinerItem } from '../Conteiner/Conteiner';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import IconButton from '@mui/material/IconButton';
 
-const style={
-  header_accordion_conteiner:{
+const style = {
+  header_accordion_conteiner: {
     width: '100%',
-    flexDirection: 'row'  
-},
-header_accordion:{  
-  alignItems: 'end',
-  textAlign: 'end',
-  zIndex: '99999',
-  fontSize: '1.2rem'
-},
-header_accordion_pin: {
-  fontSize: '1.2rem'
-}
+    flexDirection: 'row'
+  },
+  header_accordion: {
+    alignItems: 'end',
+    textAlign: 'end',
+    zIndex: '99999',
+    fontSize: '1.2rem'
+  },
+  header_accordion_pin: {
+    fontSize: '1.2rem'
+  }
 }
 
 const Accordion = styled((props) => (
@@ -40,16 +40,16 @@ const Accordion = styled((props) => (
 }));
 
 const AccordionSummary = styled((props) => (
-  
+
   <MuiAccordionSummary
-    expandIcon={!props.disableExpandedButton ? <ArrowForwardIosSharpIcon style={{color:'#008EBC'}} sx={{ fontSize: '0.9rem' }} />: <div></div>}
+    expandIcon={!props.disableExpandedButton ? <ArrowForwardIosSharpIcon style={{ color: '#008EBC' }} sx={{ fontSize: '0.9rem' }} /> : <div></div>}
     {...props}
   />
 ))(({ theme }) => ({
-  color:'#008EBC',
+  color: '#008EBC',
   backgroundColor: 'rgb(236, 245, 250)',
   flexDirection: 'row-reverse',
-  display:'flex',
+  display: 'flex',
   '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
     transform: 'rotate(90deg)',
   },
@@ -63,45 +63,45 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderTop: '1px solid rgba(0, 0, 0, .125)',
 }));
 
-export function HeaderAccordion(props) { 
+export function HeaderAccordion(props) {
   const [expanded, setExpanded] = React.useState('panel');
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
 
-  const handleDisableExpand = (disabled, expanded)=>{ 
-    if(disabled)
+  const handleDisableExpand = (disabled, expanded) => {
+    if (disabled)
       return true
     else
       return expanded === 'panel'
   }
 
   return (
-    <div>      
-      <Accordion 
-        id="header-accordion-conteiner" 
+    <div>
+      <Accordion
+        id="header-accordion-conteiner"
         style={style.header_accordion_conteiner}
-        expanded={ handleDisableExpand(props.disableExpandedButton, expanded) }
+        expanded={handleDisableExpand(props.disableExpandedButton, expanded)}
         onChange={handleChange('panel')}
       >
-        <AccordionSummary disableExpandedButton={ props.disableExpandedButton } aria-controls="paneld-content" id="paneld-header">          
+        <AccordionSummary disableExpandedButton={props.disableExpandedButton} aria-controls="paneld-content" id="paneld-header">
           <Conteiner>
             <ConteinerItem>
-              <Typography style={{fontSize:'1.2rem'}}>{ props.header }</Typography>
-            </ConteinerItem>            
+              <Typography style={{ fontSize: '1.2rem' }}>{props.header}</Typography>
+            </ConteinerItem>
             <ConteinerItem style={style.header_accordion}>
               {!props.disableAttachButton &&
-              <Tooltip title={props.titleTooltip}>
-                <IconButton style={style.header_accordion_pin} size="small" onClick={ props.onClick }>              
-                  <PushPinIcon/>
-                </IconButton>           
-              </Tooltip>}
-            </ConteinerItem>            
+                <Tooltip title={props.titleTooltip}>
+                  <IconButton style={style.header_accordion_pin} size="small" onClick={props.onClick}>
+                    <PushPinIcon />
+                  </IconButton>
+                </Tooltip>}
+            </ConteinerItem>
           </Conteiner>
         </AccordionSummary>
         <AccordionDetails>
-          { props.children }
+          {props.children}
         </AccordionDetails>
       </Accordion>
     </div>
@@ -109,7 +109,10 @@ export function HeaderAccordion(props) {
 }
 
 HeaderAccordion.propTypes = {
-  header: PropTypes.object,
+  header: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object
+  ]),
   titleTooltip: PropTypes.string,
   disableAttachButton: PropTypes.bool,
   disableExpandedButton: PropTypes.bool,

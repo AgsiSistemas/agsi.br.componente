@@ -47,7 +47,10 @@ const CustomTimePicker = ({ id, label, value, mask, onChange, placeHolder, ampm,
 CustomTimePicker.propTypes = {
   id: PropTypes.string,
   label: PropTypes.string,
-  value: PropTypes.object,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object
+  ]),
   mask: PropTypes.string,
   onChange: PropTypes.func,
   placeHolder: PropTypes.string,

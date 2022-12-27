@@ -133,16 +133,25 @@ const CustomBeneficiarieFields = ({ label, valueId, onChangeId, valueName, onCha
 }
 
 CustomBeneficiarieFields.propTypes = {
-  valueId: PropTypes.object.isRequired,
-  valueName: PropTypes.object,
+  valueId: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object
+  ]),
+  valueName: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object
+  ]),
   onChangeId: PropTypes.func,
   onChangeName: PropTypes.func,
   validation: PropTypes.string,
   api: PropTypes.object,
   api: PropTypes.shape({
     addressCode: PropTypes.func,
-    addressName: PropTypes.object,
-    http: PropTypes.string
+    addressName: PropTypes.func,
+    http: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func
+    ])
   }),
   disabled: PropTypes.bool,
   required: PropTypes.bool,

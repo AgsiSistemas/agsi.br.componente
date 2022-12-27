@@ -26,8 +26,8 @@ const CustomTextField = ({ label, id, value, disabled, onChange, validation, mul
                 label={label}
                 id={id}
                 fullWidth
-                multiline={multiline ? multiline : false}
-                rows={rows && multiline ? rows : false}
+                multiline={multiline}
+                rows={rows}
                 disabled={disabled}
                 margin="dense"
                 variant="outlined"
@@ -47,7 +47,10 @@ const CustomTextField = ({ label, id, value, disabled, onChange, validation, mul
 CustomTextField.propTypes = {
     label: PropTypes.string,
     id: PropTypes.string,
-    value: PropTypes.object,
+    value: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object
+    ]),
     disabled: PropTypes.bool,
     multiline: PropTypes.bool,
     rows: PropTypes.number,

@@ -51,7 +51,10 @@ const CustomModal = (props) => {
 }
 
 CustomModal.propTypes = {
-  displayModal: PropTypes.string,
+  displayModal: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
   onClose: PropTypes.string,
   onCloseDialog: PropTypes.func,
   title: PropTypes.bool,

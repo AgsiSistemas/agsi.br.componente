@@ -23,7 +23,10 @@ export const Conteiner = (props) => {
 
 Conteiner.propTypes = {
     className: PropTypes.string,
-    children: PropTypes.object
+    children: PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.object
+    ]),
 };
 
 Conteiner.defaultProp = {
@@ -41,10 +44,13 @@ export const ConteinerItem = (props) => {
 ConteinerItem.propTypes = {
     id: PropTypes.string,
     className: PropTypes.string,
-    children: PropTypes.object
+    children: PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.object
+    ]),
 };
 
 ConteinerItem.defaultProp = {
     className: "",
-    children: {}
+    // children: {}
 };

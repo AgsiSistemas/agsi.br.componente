@@ -128,7 +128,7 @@ var Conteiner = function Conteiner(props) {
 };
 Conteiner.propTypes = {
   className: PropTypes.string,
-  children: PropTypes.object
+  children: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
 };
 Conteiner.defaultProp = {
   className: "",
@@ -144,11 +144,10 @@ var ConteinerItem = function ConteinerItem(props) {
 ConteinerItem.propTypes = {
   id: PropTypes.string,
   className: PropTypes.string,
-  children: PropTypes.object
+  children: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
 };
 ConteinerItem.defaultProp = {
-  className: "",
-  children: {}
+  className: ""
 };
 
 var style$1 = {
@@ -324,7 +323,7 @@ function HeaderAccordion(props) {
   }, /*#__PURE__*/React$1.createElement(PushPinIcon, null)))))), /*#__PURE__*/React$1.createElement(AccordionDetails, null, props.children)));
 }
 HeaderAccordion.propTypes = {
-  header: PropTypes.object,
+  header: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   titleTooltip: PropTypes.string,
   disableAttachButton: PropTypes.bool,
   disableExpandedButton: PropTypes.bool
@@ -372,7 +371,7 @@ var CustomModal = function CustomModal(props) {
 };
 
 CustomModal.propTypes = {
-  displayModal: PropTypes.string,
+  displayModal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   onClose: PropTypes.string,
   onCloseDialog: PropTypes.func,
   title: PropTypes.bool,
@@ -1126,12 +1125,10 @@ var style$9 = {
 };
 function HeaderApp(_ref) {
   var title = _ref.title,
-      onClick = _ref.onClick,
-      key = _ref.key;
+      onClick = _ref.onClick;
   return /*#__PURE__*/React$1.createElement(Box, {
     sx: style$9,
-    onClick: onClick,
-    key: key
+    onClick: onClick
   }, /*#__PURE__*/React$1.createElement("div", {
     className: "box-menu"
   }, /*#__PURE__*/React$1.createElement(WidgetsIcon, {
@@ -1484,8 +1481,10 @@ var Header = function Header(_ref) {
   }, /*#__PURE__*/React$1.createElement("section", {
     className: "grid grid-template-columns-4"
   }, listApp.map(function (item, index) {
-    return /*#__PURE__*/React$1.createElement(HeaderApp, {
-      key: index,
+    return /*#__PURE__*/React$1.createElement(Box, {
+      key: index
+    }, /*#__PURE__*/React$1.createElement(HeaderApp, {
+      index: index,
       title: item.title,
       onClick: function onClick() {
         if (item.link.includes('http')) {
@@ -1495,13 +1494,13 @@ var Header = function Header(_ref) {
           window.location.reload();
         }
       }
-    });
+    }));
   }))));
 };
 
 var Header$1 = React$1.memo(Header);
 
-var _excluded$1 = ["title", "options", "value", "freeSolo", "onChange", "inputValue", "onInputChange", "validation", "loadingListOptions", "open", "disabled", "onKeyPress", "onblur", "maxLength"];
+var _excluded$1 = ["title", "options", "loading", "value", "freeSolo", "onChange", "inputValue", "onInputChange", "validation", "loadingListOptions", "open", "disabled", "onKeyPress", "onblur", "maxLength"];
 
 var isNullValue = function isNullValue(value) {
   return value === undefined || value === null || value === "";
@@ -1518,6 +1517,7 @@ var handleError = function handleError(value, validation) {
 var CustomInputSelect = function CustomInputSelect(_ref) {
   var title = _ref.title,
       options = _ref.options,
+      loading = _ref.loading,
       value = _ref.value,
       freeSolo = _ref.freeSolo,
       onChange = _ref.onChange,
@@ -1547,7 +1547,7 @@ var CustomInputSelect = function CustomInputSelect(_ref) {
     open: open,
     disabled: disabled,
     options: options,
-    loading: options,
+    loading: loading,
     loadingText: "Carregando...",
     onBlur: onblur,
     value: value,
@@ -1582,9 +1582,10 @@ CustomInputSelect.propTypes = {
   options: PropTypes.arrayOf(PropTypes.any),
   freeSolo: PropTypes.bool,
   open: PropTypes.bool,
-  value: PropTypes.object,
+  loading: PropTypes.bool,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   onChange: PropTypes.func,
-  inputValue: PropTypes.object,
+  inputValue: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   onInputChange: PropTypes.func,
   onKeyPress: PropTypes.func,
   onblur: PropTypes.func,
@@ -1598,6 +1599,7 @@ CustomInputSelect.defaultProp = {
   options: [],
   freeSolo: false,
   open: false,
+  loading: false,
   value: {},
   onChange: function onChange() {},
   inputValue: {},
@@ -1641,8 +1643,8 @@ var CustomTextField = function CustomTextField(_ref) {
     label: label,
     id: id,
     fullWidth: true,
-    multiline: multiline ? multiline : false,
-    rows: rows && multiline ? rows : false,
+    multiline: multiline,
+    rows: rows,
     disabled: disabled,
     margin: "dense",
     variant: "outlined",
@@ -1659,7 +1661,7 @@ var CustomTextField = function CustomTextField(_ref) {
 CustomTextField.propTypes = {
   label: PropTypes.string,
   id: PropTypes.string,
-  value: PropTypes.object,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   disabled: PropTypes.bool,
   multiline: PropTypes.bool,
   rows: PropTypes.number,
@@ -1730,7 +1732,7 @@ var CustomTimePicker = function CustomTimePicker(_ref) {
 CustomTimePicker.propTypes = {
   id: PropTypes.string,
   label: PropTypes.string,
-  value: PropTypes.object,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   mask: PropTypes.string,
   onChange: PropTypes.func,
   placeHolder: PropTypes.string,
@@ -1802,9 +1804,9 @@ var CustomDatePicker = function CustomDatePicker(_ref) {
 CustomDatePicker.propTypes = {
   id: PropTypes.string,
   label: PropTypes.string,
-  value: PropTypes.object,
-  minDate: PropTypes.string,
-  maxDate: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  minDate: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  maxDate: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   dateFormat: PropTypes.string,
   onChange: PropTypes.func,
   placeHolder: PropTypes.bool,
@@ -2318,16 +2320,16 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
 };
 
 CustomBeneficiarieFields.propTypes = (_CustomBeneficiarieFi = {
-  valueId: PropTypes.object.isRequired,
-  valueName: PropTypes.object,
+  valueId: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  valueName: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   onChangeId: PropTypes.func,
   onChangeName: PropTypes.func,
   validation: PropTypes.string,
   api: PropTypes.object
 }, _CustomBeneficiarieFi["api"] = PropTypes.shape({
   addressCode: PropTypes.func,
-  addressName: PropTypes.object,
-  http: PropTypes.string
+  addressName: PropTypes.func,
+  http: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
 }), _CustomBeneficiarieFi.disabled = PropTypes.bool, _CustomBeneficiarieFi.required = PropTypes.bool, _CustomBeneficiarieFi);
 CustomBeneficiarieFields.defaultProp = {
   valueId: {},

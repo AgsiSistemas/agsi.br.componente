@@ -5,8 +5,8 @@ import './Header.css';
 
 const style = {
   width: 85,
-  height: 80,        
-  margin:'10px',
+  height: 80,
+  margin: '10px',
   borderRadius: '2px',
   backgroundColor: 'white',
   '&:hover': {
@@ -15,14 +15,14 @@ const style = {
   }
 }
 
-export default function HeaderApp({title, onClick, key}) {
-  return (    
-    <Box sx={style} onClick={ onClick } key={key}>        
+export default function HeaderApp({ title, onClick, index }) {
+  return (
+    <Box sx={style} onClick={onClick}>
       <div className='box-menu'>
-        <WidgetsIcon className="box-menu-icon" sx={{ fontSize: 30 }}/>
+        <WidgetsIcon className="box-menu-icon" sx={{ fontSize: 30 }} />
         {/* <i className="pi pi-th-large box-menu-icon"/> */}
-        <p>{ title }</p>            
-      </div>        
-    </Box>    
+        <p>{title}</p>
+      </div>
+    </Box>
   );
 }

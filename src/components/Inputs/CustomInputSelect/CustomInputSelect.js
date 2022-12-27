@@ -17,7 +17,7 @@ const handleError = (value, validation) => {
 }
 
 
-const CustomInputSelect = ({ title, options, value, freeSolo, onChange, inputValue, onInputChange, validation, loadingListOptions, open, disabled, onKeyPress, onblur, maxLength, ...other }) => {
+const CustomInputSelect = ({ title, options, loading, value, freeSolo, onChange, inputValue, onInputChange, validation, loadingListOptions, open, disabled, onKeyPress, onblur, maxLength, ...other }) => {
     return (
         <React.Fragment>
             <Autocomplete
@@ -31,7 +31,7 @@ const CustomInputSelect = ({ title, options, value, freeSolo, onChange, inputVal
                 open={open}
                 disabled={disabled}
                 options={options}
-                loading={options}
+                loading={loading}
                 loadingText='Carregando...'
                 onBlur={onblur}
                 value={value}
@@ -73,9 +73,16 @@ CustomInputSelect.propTypes = {
     options: PropTypes.arrayOf(PropTypes.any),
     freeSolo: PropTypes.bool,
     open: PropTypes.bool,
-    value: PropTypes.object,
+    loading: PropTypes.bool,
+    value: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object
+    ]),
     onChange: PropTypes.func,
-    inputValue: PropTypes.object,
+    inputValue: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object
+    ]),
     onInputChange: PropTypes.func,
     onKeyPress: PropTypes.func,
     onblur: PropTypes.func,
@@ -90,6 +97,7 @@ CustomInputSelect.defaultProp = {
     options: [],
     freeSolo: false,
     open: false,
+    loading: false,
     value: {},
     onChange: () => { },
     inputValue: {},

@@ -248,15 +248,17 @@ const Header = ({ title, listApp = [], notification }) => {
         <section className="grid grid-template-columns-4">
           {
             listApp.map((item, index) =>
-              <HeaderApp key={index} title={item.title}
-                onClick={() => {
-                  if (item.link.includes('http')) {
-                    window.open(item.link, "_blank")
-                  } else {
-                    navigate(item.link)
-                    window.location.reload()
-                  }
-                }} />
+              <Box key={index}>
+                <HeaderApp index={index} title={item.title}
+                  onClick={() => {
+                    if (item.link.includes('http')) {
+                      window.open(item.link, "_blank")
+                    } else {
+                      navigate(item.link)
+                      window.location.reload()
+                    }
+                  }} />
+              </Box>
             )
           }
         </section>

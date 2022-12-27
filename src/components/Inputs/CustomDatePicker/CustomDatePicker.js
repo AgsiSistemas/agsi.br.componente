@@ -49,9 +49,18 @@ const CustomDatePicker = ({ label, value, minDate, maxDate, dateFormat, onChange
 CustomDatePicker.propTypes = {
   id: PropTypes.string,
   label: PropTypes.string,
-  value: PropTypes.object,
-  minDate: PropTypes.string,
-  maxDate: PropTypes.string,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object
+  ]),
+  minDate: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object
+  ]),
+  maxDate: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object
+  ]),
   dateFormat: PropTypes.string,
   onChange: PropTypes.func,
   placeHolder: PropTypes.bool,
