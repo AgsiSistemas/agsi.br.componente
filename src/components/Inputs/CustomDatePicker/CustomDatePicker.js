@@ -37,6 +37,7 @@ const CustomDatePicker = ({ label, value, minDate, maxDate, dateFormat, onChange
               error={(!value && !noAlertNoneValue) || dateValidation}
               helperText={(!value && !noAlertNoneValue) || dateValidation ? helperText || "Data ou Hora Invalida!" : ""}
               // onKeyDown={(e) => e.preventDefault()}
+              InputLabelProps={{ shrink: true }}
               {...other}
             />
           )}

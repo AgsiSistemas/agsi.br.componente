@@ -1792,7 +1792,10 @@ var CustomDatePicker = function CustomDatePicker(_ref) {
         },
         id: 'custom-date-picker',
         error: !value && !noAlertNoneValue || dateValidation,
-        helperText: !value && !noAlertNoneValue || dateValidation ? helperText || "Data ou Hora Invalida!" : ""
+        helperText: !value && !noAlertNoneValue || dateValidation ? helperText || "Data ou Hora Invalida!" : "",
+        InputLabelProps: {
+          shrink: true
+        }
       }, other));
     }
   })));
