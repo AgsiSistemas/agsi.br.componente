@@ -884,7 +884,8 @@ var CustomDataTable = function CustomDataTable(props) {
       onRowExpand = props.onRowExpand,
       onRowCollapse = props.onRowCollapse,
       rowExpansionTemplate = props.rowExpansionTemplate,
-      paginatorButton = props.paginatorButton;
+      paginatorButton = props.paginatorButton,
+      loading = props.loading;
   var rowsTable = paginatorStep ? paginatorStep : 5;
   var pagArr = [rowsTable];
 
@@ -923,6 +924,7 @@ var CustomDataTable = function CustomDataTable(props) {
     style: displayBorder ? style$7.content_data_table_display_border : style$7.content_data_table
   }, /*#__PURE__*/React__default.createElement(DataTable, {
     value: records,
+    loading: loading,
     paginator: paginator,
     paginatorRight: paginatorRight,
     expandedRows: expandedRows,
