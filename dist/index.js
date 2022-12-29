@@ -2152,6 +2152,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
   var label = _ref.label,
       valueId = _ref.valueId,
       onChangeId = _ref.onChangeId,
+      onChangeData = _ref.onChangeData,
       valueName = _ref.valueName,
       onChangeName = _ref.onChangeName,
       validation = _ref.validation,
@@ -2276,7 +2277,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
     disabled: disabled,
     value: valueName,
     onChange: function onChange(event, newValue) {
-      return onChangeName(newValue);
+      onChangeName(newValue);
     },
     inputValue: beneficiariesNameInputValue,
     onInputChange: function onInputChange(event, newInputValue) {
@@ -2284,6 +2285,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
 
       if (newInputValue == '') {
         onChangeId('');
+        onChangeData('');
       }
 
       var item = localBeneficiaries.data.content.filter(function (x) {
@@ -2292,6 +2294,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
 
       if (!isNullValue$2(item)) {
         onChangeId(item.code);
+        onChangeData(item);
         setOpenBeneficiariesField(false);
       }
     },

@@ -6,8 +6,7 @@ import { maskWallet } from "../../Assets/Enum/Patterns.js";
 import { handleLoading, isNullValue } from "../../Utils/Utils.js";
 import './CustomBeneficiarieFields.scss'
 
-
-const CustomBeneficiarieFields = ({ label, valueId, onChangeId, valueName, onChangeName, validation, api, disabled, required }) => {
+const CustomBeneficiarieFields = ({ label, valueId, onChangeId, onChangeData, valueName, onChangeName, validation, api, disabled, required }) => {
 
   const ResponseModel = {
     "timestamp": "",
@@ -68,6 +67,7 @@ const CustomBeneficiarieFields = ({ label, valueId, onChangeId, valueName, onCha
               if (event.key === 'Tab' || event.target.value.length > 15) {
                 setLoadingBeneficiary(true)
                 let response = await api.http.get(`${api.addressCode(event.target.value)}`)
+
                 if (!isNullValue(response.data.data.code)) {
 
                   setLocalBeneficiaries({ data: { content: [response.data.data] } })
@@ -95,18 +95,23 @@ const CustomBeneficiarieFields = ({ label, valueId, onChangeId, valueName, onCha
           }))}
           disabled={disabled}
           value={valueName}
-          onChange={(event, newValue) => onChangeName(newValue)}
+          onChange={(event, newValue) => {
+            onChangeName(newValue)
+          }}
           inputValue={beneficiariesNameInputValue}
           onInputChange={(event, newInputValue) => {
 
             setBeneficiariesNameInputValue(newInputValue)
             if (newInputValue == '') {
               onChangeId('')
+              onChangeData('')
             }
             let item = localBeneficiaries.data.content.filter(x => x.name === newInputValue)[0]
             if (!isNullValue(item)) {
               onChangeId(item.code)
+              onChangeData(item)
               setOpenBeneficiariesField(false)
+            } else {
             }
 
           }}
@@ -143,6 +148,7 @@ CustomBeneficiarieFields.propTypes = {
   ]),
   onChangeId: PropTypes.func,
   onChangeName: PropTypes.func,
+  // onChangeData: PropTypes.func,
   validation: PropTypes.string,
   api: PropTypes.object,
   api: PropTypes.shape({
