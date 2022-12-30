@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.49](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.48...v1.0.49) (2022-12-30)
+
+
+### Bug Fixes
+
+* BeneficiarieFields. ([099fa03](https://github.com/AgsiSistemas/agsi.br.componente/commit/099fa03b1f16264dd93f1e144e0082c24b66ccc6))
+
 ### [1.0.48](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.47...v1.0.48) (2022-12-29)
 
 ### [1.0.47](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.46...v1.0.47) (2022-12-29)
