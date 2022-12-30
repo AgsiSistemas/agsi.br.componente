@@ -1577,7 +1577,7 @@ var CustomInputSelect = function CustomInputSelect(_ref) {
 };
 
 CustomInputSelect.propTypes = {
-  title: PropTypes.string,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   options: PropTypes.arrayOf(PropTypes.any),
   freeSolo: PropTypes.bool,
   open: PropTypes.bool,
@@ -2195,6 +2195,12 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
     }
   };
 
+  var handleOnChangeData = function handleOnChangeData(e) {
+    if (onChangeData) {
+      onChangeData(e);
+    }
+  };
+
   return /*#__PURE__*/React__default.createElement(Fragment, null, /*#__PURE__*/React__default.createElement(ConteinerItem, {
     className: "custom-beneficiarie-component-wallet"
   }, /*#__PURE__*/React__default.createElement(CustomInputSelect$1, {
@@ -2282,7 +2288,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
 
       if (newInputValue == '') {
         onChangeId('');
-        onChangeData('');
+        handleOnChangeData('');
       }
 
       var item = localBeneficiaries.data.content.filter(function (x) {
@@ -2291,7 +2297,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
 
       if (!isNullValue$2(item)) {
         onChangeId(item.code);
-        onChangeData(item);
+        handleOnChangeData(item);
         setOpenBeneficiariesField(false);
       }
     },

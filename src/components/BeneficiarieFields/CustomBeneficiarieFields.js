@@ -38,6 +38,12 @@ const CustomBeneficiarieFields = ({ label, valueId, onChangeId, onChangeData, va
     }
   }
 
+  const handleOnChangeData = (e) => {
+    if (onChangeData) {
+      onChangeData(e)
+    }
+  }
+
   return (
     <Fragment>
       <ConteinerItem className="custom-beneficiarie-component-wallet">
@@ -104,12 +110,12 @@ const CustomBeneficiarieFields = ({ label, valueId, onChangeId, onChangeData, va
             setBeneficiariesNameInputValue(newInputValue)
             if (newInputValue == '') {
               onChangeId('')
-              onChangeData('')
+              handleOnChangeData('')
             }
             let item = localBeneficiaries.data.content.filter(x => x.name === newInputValue)[0]
             if (!isNullValue(item)) {
               onChangeId(item.code)
-              onChangeData(item)
+              handleOnChangeData(item)
               setOpenBeneficiariesField(false)
             } else {
             }

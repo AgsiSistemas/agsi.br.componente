@@ -69,7 +69,10 @@ const CustomInputSelect = ({ title, options, loading, value, freeSolo, onChange,
 
 
 CustomInputSelect.propTypes = {
-    title: PropTypes.string,
+    title: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object
+    ]),
     options: PropTypes.arrayOf(PropTypes.any),
     freeSolo: PropTypes.bool,
     open: PropTypes.bool,
