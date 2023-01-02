@@ -652,6 +652,7 @@ var OperationTable = function OperationTable(props) {
       key: index,
       style: item.style,
       sortable: item.sortable,
+      field: item.field,
       body: item.body,
       header: item.header,
       frozen: item.frozen,
@@ -1751,12 +1752,13 @@ CustomTimePicker.defaultProp = {
 };
 var CustomTimePicker$1 = React$1__default.memo(CustomTimePicker);
 
-var _excluded$4 = ["label", "value", "minDate", "maxDate", "dateFormat", "onChange", "placeHolder", "helperText", "disabled", "noAlertNoneValue"];
+var _excluded$4 = ["label", "value", "minDate", "validation", "maxDate", "dateFormat", "onChange", "placeHolder", "helperText", "disabled", "noAlertNoneValue"];
 
 var CustomDatePicker = function CustomDatePicker(_ref) {
   var label = _ref.label,
       value = _ref.value,
       minDate = _ref.minDate,
+      validation = _ref.validation,
       maxDate = _ref.maxDate,
       dateFormat = _ref.dateFormat,
       onChange = _ref.onChange,
@@ -1769,6 +1771,19 @@ var CustomDatePicker = function CustomDatePicker(_ref) {
   var _React$useState = React$1__default.useState(''),
       dateValidation = _React$useState[0],
       setDateValidation = _React$useState[1];
+
+  var handleHelperText = function handleHelperText() {
+    if (!value && !noAlertNoneValue) return "Campo obrigatório!";
+    if (dateValidation && helperText) return "Data ou Hora Invalida!";
+    if (!value && validation) return "Campo obrigatório!";
+    return "";
+  };
+
+  var handleError = function handleError() {
+    if (!value && !noAlertNoneValue) return true;
+    if (!value && validation) return true;
+    return false;
+  };
 
   return /*#__PURE__*/React$1__default.createElement(React$1__default.Fragment, null, /*#__PURE__*/React$1__default.createElement(LocalizationProvider.LocalizationProvider, {
     dateAdapter: AdapterDateFns.AdapterDateFns,
@@ -1794,8 +1809,8 @@ var CustomDatePicker = function CustomDatePicker(_ref) {
           marginTop: '8px'
         },
         id: 'custom-date-picker',
-        error: !value && !noAlertNoneValue || dateValidation,
-        helperText: !value && !noAlertNoneValue || dateValidation ? helperText || "Data ou Hora Invalida!" : "",
+        error: handleError(),
+        helperText: handleHelperText(),
         onKeyDown: function onKeyDown(e) {
           return e.preventDefault();
         },

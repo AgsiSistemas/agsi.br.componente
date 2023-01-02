@@ -127,9 +127,23 @@ const OperationTable = (props) => {
                                 {
                                     columnList.map((item, index) => {
                                         if (item.body !== undefined)
-                                            return <Column key={index} style={item.style} sortable={item.sortable} body={item.body} header={item.header} frozen={item.frozen} alignFrozen={item.alignFrozen} dataType={item.dataType} />
+                                            return <Column key={index}
+                                                style={item.style}
+                                                sortable={item.sortable}
+                                                field={item.field}
+                                                body={item.body}
+                                                header={item.header}
+                                                frozen={item.frozen}
+                                                alignFrozen={item.alignFrozen}
+                                                dataType={item.dataType} />
                                         else
-                                            return <Column key={index} style={item.style} sortable={item.sortable} field={item.field} header={item.header} frozen={item.frozen} dataType={item.dataType} />
+                                            return <Column key={index}
+                                                style={item.style}
+                                                sortable={item.sortable}
+                                                field={item.field}
+                                                header={item.header}
+                                                frozen={item.frozen}
+                                                dataType={item.dataType} />
                                     })
                                 }
                             </DataTable>
