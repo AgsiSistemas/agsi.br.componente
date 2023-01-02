@@ -16,10 +16,12 @@ const style = {
 }
 
 export default function HeaderApp({ title, onClick, index }) {
+
   return (
     <Box sx={style} onClick={onClick}>
       <div className='box-menu'>
-        <WidgetsIcon className="box-menu-icon" sx={{ fontSize: 30 }} />
+        {/* <WidgetsIcon className="box-menu-icon" sx={{ fontSize: 30 }} /> */}
+        <img src={`img/IconsModules/${title.toUpperCase()}.png`} alt={title} />
         {/* <i className="pi pi-th-large box-menu-icon"/> */}
         <p>{title}</p>
       </div>

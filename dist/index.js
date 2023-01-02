@@ -50,7 +50,7 @@ var ListItemIcon = _interopDefault(require('@mui/material/ListItemIcon'));
 var ExitToAppIcon = _interopDefault(require('@mui/icons-material/ExitToApp'));
 var FolderSharedIcon = _interopDefault(require('@mui/icons-material/FolderShared'));
 var Divider = _interopDefault(require('@mui/material/Divider'));
-var WidgetsIcon = _interopDefault(require('@mui/icons-material/Widgets'));
+require('@mui/icons-material/Widgets');
 var Badge = _interopDefault(require('@mui/material/Badge'));
 var NotificationsIcon = _interopDefault(require('@mui/icons-material/Notifications'));
 var material = require('@mui/material');
@@ -1133,11 +1133,9 @@ function HeaderApp(_ref) {
     onClick: onClick
   }, /*#__PURE__*/React$1.createElement("div", {
     className: "box-menu"
-  }, /*#__PURE__*/React$1.createElement(WidgetsIcon, {
-    className: "box-menu-icon",
-    sx: {
-      fontSize: 30
-    }
+  }, /*#__PURE__*/React$1.createElement("img", {
+    src: "img/IconsModules/" + title.toUpperCase() + ".png",
+    alt: title
   }), /*#__PURE__*/React$1.createElement("p", null, title)));
 }
 
@@ -1798,6 +1796,9 @@ var CustomDatePicker = function CustomDatePicker(_ref) {
         id: 'custom-date-picker',
         error: !value && !noAlertNoneValue || dateValidation,
         helperText: !value && !noAlertNoneValue || dateValidation ? helperText || "Data ou Hora Invalida!" : "",
+        onKeyDown: function onKeyDown(e) {
+          return e.preventDefault();
+        },
         InputLabelProps: {
           shrink: true
         }
@@ -2136,6 +2137,12 @@ var isNullValue$2 = function isNullValue(value) {
   return value === undefined || value === null || value === "";
 };
 
+var maskText = function maskText(v) {
+  var value = v;
+  if (value.length > 150) value.preventDefault();
+  value = value.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ \s]/gi, '').toUpperCase();
+  return value;
+};
 var maskWallet = function maskWallet(v) {
   if (isNullValue$2(v)) return '';
   var value = v;
@@ -2287,7 +2294,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
     },
     inputValue: beneficiariesNameInputValue,
     onInputChange: function onInputChange(event, newInputValue) {
-      setBeneficiariesNameInputValue(newInputValue);
+      setBeneficiariesNameInputValue(maskText(newInputValue));
 
       if (newInputValue == '') {
         onChangeId('');

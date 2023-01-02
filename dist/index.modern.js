@@ -47,7 +47,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import FolderSharedIcon from '@mui/icons-material/FolderShared';
 import Divider from '@mui/material/Divider';
-import WidgetsIcon from '@mui/icons-material/Widgets';
+import '@mui/icons-material/Widgets';
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { Tooltip as Tooltip$1, CircularProgress, TextField as TextField$1, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton as IconButton$1, Button as Button$2, Modal, Box as Box$1, Dialog as Dialog$1, DialogTitle as DialogTitle$1, DialogContent as DialogContent$1, DialogContentText as DialogContentText$1, DialogActions as DialogActions$1, LinearProgress } from '@mui/material';
@@ -1130,11 +1130,9 @@ function HeaderApp(_ref) {
     onClick: onClick
   }, /*#__PURE__*/createElement("div", {
     className: "box-menu"
-  }, /*#__PURE__*/createElement(WidgetsIcon, {
-    className: "box-menu-icon",
-    sx: {
-      fontSize: 30
-    }
+  }, /*#__PURE__*/createElement("img", {
+    src: "img/IconsModules/" + title.toUpperCase() + ".png",
+    alt: title
   }), /*#__PURE__*/createElement("p", null, title)));
 }
 
@@ -1795,6 +1793,9 @@ var CustomDatePicker = function CustomDatePicker(_ref) {
         id: 'custom-date-picker',
         error: !value && !noAlertNoneValue || dateValidation,
         helperText: !value && !noAlertNoneValue || dateValidation ? helperText || "Data ou Hora Invalida!" : "",
+        onKeyDown: function onKeyDown(e) {
+          return e.preventDefault();
+        },
         InputLabelProps: {
           shrink: true
         }
@@ -2133,6 +2134,12 @@ var isNullValue$2 = function isNullValue(value) {
   return value === undefined || value === null || value === "";
 };
 
+var maskText = function maskText(v) {
+  var value = v;
+  if (value.length > 150) value.preventDefault();
+  value = value.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ \s]/gi, '').toUpperCase();
+  return value;
+};
 var maskWallet = function maskWallet(v) {
   if (isNullValue$2(v)) return '';
   var value = v;
@@ -2284,7 +2291,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
     },
     inputValue: beneficiariesNameInputValue,
     onInputChange: function onInputChange(event, newInputValue) {
-      setBeneficiariesNameInputValue(newInputValue);
+      setBeneficiariesNameInputValue(maskText(newInputValue));
 
       if (newInputValue == '') {
         onChangeId('');

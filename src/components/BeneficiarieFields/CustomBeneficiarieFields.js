@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react'
 import PropTypes from "prop-types";
 import { ConteinerItem } from "../Conteiner/Conteiner"
 import CustomInputSelect from "../Inputs/CustomInputSelect/CustomInputSelect"
-import { maskWallet } from "../../Assets/Enum/Patterns.js";
+import { maskText, maskWallet } from "../../Assets/Enum/Patterns.js";
 import { handleLoading, isNullValue } from "../../Utils/Utils.js";
 import './CustomBeneficiarieFields.scss'
 
@@ -107,7 +107,7 @@ const CustomBeneficiarieFields = ({ label, valueId, onChangeId, onChangeData, va
           inputValue={beneficiariesNameInputValue}
           onInputChange={(event, newInputValue) => {
 
-            setBeneficiariesNameInputValue(newInputValue)
+            setBeneficiariesNameInputValue(maskText(newInputValue))
             if (newInputValue == '') {
               onChangeId('')
               handleOnChangeData('')

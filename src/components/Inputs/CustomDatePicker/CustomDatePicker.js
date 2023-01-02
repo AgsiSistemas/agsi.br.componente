@@ -8,9 +8,22 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { ptBR } from 'date-fns/locale'
 import { TextField } from '@mui/material';
 
-const CustomDatePicker = ({ label, value, minDate, maxDate, dateFormat, onChange, placeHolder, helperText, disabled, noAlertNoneValue, ...other }) => {
+const CustomDatePicker = ({ label, value, minDate, validation, maxDate, dateFormat, onChange, placeHolder, helperText, disabled, noAlertNoneValue, ...other }) => {
 
   const [dateValidation, setDateValidation] = React.useState('')
+
+  const handleHelperText = () => {
+    if (!value && !noAlertNoneValue) return "Campo obrigatório!"
+    if (dateValidation && helperText) return "Data ou Hora Invalida!"
+    if (!value && validation) return "Campo obrigatório!"
+    return ""
+  }
+  const handleError = () => {
+    if (!value && !noAlertNoneValue) return true
+    if (!value && validation) return true
+
+    return false
+  }
 
   return (
     <React.Fragment>
@@ -34,9 +47,9 @@ const CustomDatePicker = ({ label, value, minDate, maxDate, dateFormat, onChange
               size='small'
               sx={{ marginTop: '8px' }}
               id={'custom-date-picker'}
-              error={(!value && !noAlertNoneValue) || dateValidation}
-              helperText={(!value && !noAlertNoneValue) || dateValidation ? helperText || "Data ou Hora Invalida!" : ""}
-              // onKeyDown={(e) => e.preventDefault()}
+              error={handleError()}
+              helperText={handleHelperText()}
+              onKeyDown={(e) => e.preventDefault()}
               InputLabelProps={{ shrink: true }}
               {...other}
             />
