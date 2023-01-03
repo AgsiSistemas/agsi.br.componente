@@ -27,7 +27,7 @@ const CustomDatePicker = ({ label, value, minDate, validation, maxDate, dateForm
 
   return (
     <React.Fragment>
-      <LocalizationProvider dateAdapter={AdapterDateFns} locale={ptBR}>
+      <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
         <DatePicker
           label={label}
           value={value}

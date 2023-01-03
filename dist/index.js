@@ -1515,6 +1515,10 @@ var handleError = function handleError(value, validation) {
   return isNullValue(value) && validation;
 };
 
+function isNumber(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
 var CustomInputSelect = function CustomInputSelect(_ref) {
   var title = _ref.title,
       options = _ref.options,
@@ -1547,7 +1551,8 @@ var CustomInputSelect = function CustomInputSelect(_ref) {
     fullWidth: true,
     open: open,
     disabled: disabled,
-    options: options,
+    options: options || [],
+    noOptionsText: 'Nenhum Resultado.',
     loading: loading,
     loadingText: "Carregando...",
     onBlur: onblur,
@@ -1556,6 +1561,9 @@ var CustomInputSelect = function CustomInputSelect(_ref) {
     inputValue: inputValue,
     onInputChange: onInputChange,
     onKeyPress: onKeyPress,
+    isOptionEqualToValue: function isOptionEqualToValue(option, value) {
+      return option.label === value.label;
+    },
     renderInput: function renderInput(params) {
       return /*#__PURE__*/React$1__default.createElement(TextField, _extends({}, params, {
         inputProps: _extends({}, params.inputProps, {
@@ -1572,7 +1580,15 @@ var CustomInputSelect = function CustomInputSelect(_ref) {
             color: "inherit",
             size: 15
           }) : null, params.InputProps.startAdornment)
-        })
+        }),
+        onKeyDown: function onKeyDown(e) {
+          if (inputValue && (e.key == 'Enter' || e.key == 'Tab') && inputValue.length <= 2 && isNumber(inputValue)) {
+            var values = options.filter(function (x) {
+              return x.id == inputValue;
+            });
+            onChange('mokEvent', values[0]);
+          }
+        }
       }, other));
     }
   }));
@@ -1699,7 +1715,7 @@ var CustomTimePicker = function CustomTimePicker(_ref) {
 
   return /*#__PURE__*/React$1__default.createElement(React$1__default.Fragment, null, /*#__PURE__*/React$1__default.createElement(LocalizationProvider.LocalizationProvider, {
     dateAdapter: AdapterDateFns.AdapterDateFns,
-    locale: locale.ptBR
+    adapterLocale: locale.ptBR
   }, /*#__PURE__*/React$1__default.createElement(TimePicker.TimePicker, {
     label: label,
     value: value,
@@ -1787,7 +1803,7 @@ var CustomDatePicker = function CustomDatePicker(_ref) {
 
   return /*#__PURE__*/React$1__default.createElement(React$1__default.Fragment, null, /*#__PURE__*/React$1__default.createElement(LocalizationProvider.LocalizationProvider, {
     dateAdapter: AdapterDateFns.AdapterDateFns,
-    locale: locale.ptBR
+    adapterLocale: locale.ptBR
   }, /*#__PURE__*/React$1__default.createElement(DatePicker.DatePicker, {
     label: label,
     value: value,

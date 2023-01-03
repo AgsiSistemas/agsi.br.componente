@@ -14,7 +14,7 @@ const CustomTimePicker = ({ id, label, value, mask, onChange, placeHolder, ampm,
 
   return (
     <React.Fragment>
-      <LocalizationProvider dateAdapter={AdapterDateFns} locale={ptBR}>
+      <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
         <TimePicker
           label={label}
           value={value}

@@ -16,6 +16,10 @@ const handleError = (value, validation) => {
     return isNullValue(value) && validation
 }
 
+function isNumber(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
 
 const CustomInputSelect = ({ title, options, loading, value, freeSolo, onChange, inputValue, onInputChange, validation, loadingListOptions, open, disabled, onKeyPress, onblur, maxLength, ...other }) => {
     return (
@@ -30,7 +34,8 @@ const CustomInputSelect = ({ title, options, loading, value, freeSolo, onChange,
                 fullWidth
                 open={open}
                 disabled={disabled}
-                options={options}
+                options={options || []}
+                noOptionsText={'Nenhum Resultado.'}
                 loading={loading}
                 loadingText='Carregando...'
                 onBlur={onblur}
@@ -39,6 +44,18 @@ const CustomInputSelect = ({ title, options, loading, value, freeSolo, onChange,
                 inputValue={inputValue}
                 onInputChange={onInputChange}
                 onKeyPress={onKeyPress}
+                isOptionEqualToValue={(option, value) =>
+                    option.label === value.label
+                }
+                // onKeyPress={onKeyPress ? onKeyPress :
+                //     (e) => {
+                //         console.log(e);
+                //         if (e.key == 'Enter' && inputValue.length <= 2 && isNumber(inputValue)) {
+                //             let values = options.filter(x => x.id == inputValue)
+                //             onChange('mokEvent', values[0])
+                //         }
+                //     }
+                // }
                 renderInput={params => (
                     <TextField
                         {...params}
@@ -58,6 +75,14 @@ const CustomInputSelect = ({ title, options, loading, value, freeSolo, onChange,
                                 </React.Fragment>
                             )
                         }}
+                        onKeyDown={
+                            (e) => {
+                                if (inputValue && (e.key == 'Enter' || e.key == 'Tab') && inputValue.length <= 2 && isNumber(inputValue)) {
+                                    let values = options.filter(x => x.id == inputValue)
+                                    onChange('mokEvent', values[0])
+                                }
+                            }
+                        }
                         {...other}
                     />
                 )}
