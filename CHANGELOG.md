@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.56](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.55...v1.0.56) (2023-01-06)
+
+
+### Bug Fixes
+
+* CustomInputSelect. ([f8cbeb7](https://github.com/AgsiSistemas/agsi.br.componente/commit/f8cbeb7395de079116387096701a5499b23999db))
+
 ### [1.0.55](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.54...v1.0.55) (2023-01-03)
 
 ### [1.0.54](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.53...v1.0.54) (2023-01-03)
