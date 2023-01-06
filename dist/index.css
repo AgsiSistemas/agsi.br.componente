@@ -135,6 +135,11 @@ p {
     cursor: pointer;
     display: none;
 }
+
+.header-component-current-operator {
+    pointer-events: none;
+    font-size: 10pt !important;
+}
 #custom-time-picker {
   max-width: 45px !important;
   width: 100%; }

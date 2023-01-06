@@ -28,6 +28,7 @@ import {
   getRememberMenuLocalStorage,
   roleUserBeneficiarie
 } from './HeaderUtils';
+import { getOperator } from './HeaderUtils.js';
 
 
 const Header = ({ title, listApp = [], notification }) => {
@@ -103,6 +104,8 @@ const Header = ({ title, listApp = [], notification }) => {
       style={{ marginTop: '7px', marginLeft: '10px' }}
     >
       <div style={{ minWidth: '200px' }}>
+        <MenuItem className='header-component-current-operator'>{`Usuário: ${getOperator()}`}</MenuItem>
+        <Divider sx={{ width: '90%', ml: 1 }} />
         <MenuItem onClick={handleMenuClose}>
           <ListItemIcon>
             <FolderSharedIcon fontSize="small" />
@@ -119,6 +122,7 @@ const Header = ({ title, listApp = [], notification }) => {
       </div>
     </Menu>
   );
+
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (

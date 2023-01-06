@@ -1234,6 +1234,15 @@ var parseJwt = function parseJwt(token) {
     return null;
   }
 };
+var getOperator = function getOperator() {
+  try {
+    var token = localStorage.getItem('agsi-tk');
+    var decodedToken = parseJwt(token);
+    return decodedToken.code.replace(/\s/g, '');
+  } catch (_unused4) {
+    return "";
+  }
+};
 
 function MenuAppList(_ref) {
   var open = _ref.open,
@@ -1356,6 +1365,13 @@ var Header = function Header(_ref) {
       minWidth: '200px'
     }
   }, /*#__PURE__*/React$1.createElement(MenuItem, {
+    className: "header-component-current-operator"
+  }, "Usu\xE1rio: " + getOperator()), /*#__PURE__*/React$1.createElement(Divider, {
+    sx: {
+      width: '90%',
+      ml: 1
+    }
+  }), /*#__PURE__*/React$1.createElement(MenuItem, {
     onClick: handleMenuClose
   }, /*#__PURE__*/React$1.createElement(ListItemIcon, null, /*#__PURE__*/React$1.createElement(FolderSharedIcon, {
     fontSize: "small"
