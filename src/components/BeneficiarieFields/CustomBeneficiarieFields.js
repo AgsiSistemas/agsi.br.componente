@@ -1,10 +1,22 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import PropTypes from "prop-types";
-import { ConteinerItem } from "../Conteiner/Conteiner"
-import CustomInputSelect from "../Inputs/CustomInputSelect/CustomInputSelect"
+// import { ConteinerItem } from "../Conteiner/Conteiner"
+// import CustomInputSelect from "../Inputs/CustomInputSelect/CustomInputSelect"
 import { maskText, maskWallet } from "../../Assets/Enum/Patterns.js";
 import { handleLoading, isNullValue } from "../../Utils/Utils.js";
 import './CustomBeneficiarieFields.scss'
+
+
+import {
+  Conteiner,
+  ConteinerItem,
+  OperationSection,
+  CustomTextField,
+  SaveComponent,
+  AppContent,
+  CustomInputSelect,
+  // CustomBeneficiarieFields
+} from '@AgsiSistemas/agsi.br.componente';
 
 const CustomBeneficiarieFields = ({ label, valueId, onChangeId, onChangeData, valueName, onChangeName, validation, api, disabled, required }) => {
 
@@ -69,6 +81,7 @@ const CustomBeneficiarieFields = ({ label, valueId, onChangeId, onChangeData, va
           inputValue={beneficiarieWalletInputValue}
           onInputChange={(event, newInputValue) => { setBeneficiarieWalletInputValue(maskWallet(newInputValue)) }}
           onKeyUp={async (event) => {
+            console.log(event.target.value.length);
             try {
               if (event.key === 'Tab' || event.target.value.length > 15) {
                 setLoadingBeneficiary(true)
@@ -105,14 +118,26 @@ const CustomBeneficiarieFields = ({ label, valueId, onChangeId, onChangeData, va
             onChangeName(newValue)
           }}
           inputValue={beneficiariesNameInputValue}
-          onInputChange={(event, newInputValue) => {
+          onInputChange={async (event, newInputValue) => {
 
-            setBeneficiariesNameInputValue(maskText(newInputValue))
+
+
             if (newInputValue == '') {
               onChangeId('')
               handleOnChangeData('')
             }
+            setBeneficiariesNameInputValue(maskText(newInputValue))
+
+            if (newInputValue && event.target.value.length >= 3) {
+              setLoadingBeneficiary(true)
+              let response = await api.http.get(`${api.addressName(maskText(event.target.value))}`)
+              setLocalBeneficiaries(response.data)
+              setLoadingBeneficiary(false)
+              setOpenBeneficiariesField(true)
+            }
+
             let item = localBeneficiaries.data.content.filter(x => x.name === newInputValue)[0]
+
             if (!isNullValue(item)) {
               onChangeId(item.code)
               handleOnChangeData(item)
@@ -121,19 +146,19 @@ const CustomBeneficiarieFields = ({ label, valueId, onChangeId, onChangeData, va
             }
 
           }}
-          onKeyDown={async (event) => {
-            try {
-              if (event.key === 'Enter' || event.key === 'Tab' || event.target.value.length > 1) {
-                setLoadingBeneficiary(true)
-                let response = await api.http.get(`${api.addressName(beneficiariesNameInputValue)}`)
-                setLocalBeneficiaries(response.data)
-                setLoadingBeneficiary(false)
-                setOpenBeneficiariesField(true)
-              }
-            } catch {
-              setLoadingBeneficiary(false)
-            }
-          }}
+          // onKeyDown={async (event) => {
+          //   try {
+          //     if (event.key === 'Enter' || event.key === 'Tab' || event.target.value.length > 1) {
+          //       setLoadingBeneficiary(true)
+          //       let response = await api.http.get(`${api.addressName(beneficiariesNameInputValue)}`)
+          //       setLocalBeneficiaries(response.data)
+          //       setLoadingBeneficiary(false)
+          //       setOpenBeneficiariesField(true)
+          //     }
+          //   } catch {
+          //     setLoadingBeneficiary(false)
+          //   }
+          // }}
           onBlur={() => setOpenBeneficiariesField(false)}
           validation={validation}
         />

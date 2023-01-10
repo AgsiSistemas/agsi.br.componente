@@ -21,7 +21,8 @@ export default function HeaderApp({ title, onClick, index }) {
     <Box sx={style} onClick={onClick}>
       <div className='box-menu'>
         {/* <WidgetsIcon className="box-menu-icon" sx={{ fontSize: 30 }} /> */}
-        <img src={`img/IconsModules/${title.toUpperCase()}.png`} alt={title} />
+        <img src={`https://raw.githubusercontent.com/AgsiSistemas/agsi.br.componente/master/public/img/IconsModules/${title.toUpperCase()}.png`} alt={title} />
+        {/* <img src={`img/IconsModules/${title.toUpperCase()}.png`} alt={title} /> */}
         {/* <i className="pi pi-th-large box-menu-icon"/> */}
         <p>{title}</p>
       </div>

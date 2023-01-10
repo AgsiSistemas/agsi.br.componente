@@ -1135,7 +1135,7 @@ function HeaderApp(_ref) {
   }, /*#__PURE__*/React$1.createElement("div", {
     className: "box-menu"
   }, /*#__PURE__*/React$1.createElement("img", {
-    src: "img/IconsModules/" + title.toUpperCase() + ".png",
+    src: "https://raw.githubusercontent.com/AgsiSistemas/agsi.br.componente/master/public/img/IconsModules/" + title.toUpperCase() + ".png",
     alt: title
   }), /*#__PURE__*/React$1.createElement("p", null, title)));
 }
