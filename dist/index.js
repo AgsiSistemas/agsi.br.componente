@@ -72,6 +72,7 @@ var progressbar = require('primereact/progressbar');
 var tag = require('primereact/tag');
 var tooltip = require('primereact/tooltip');
 var PictureAsPdfIcon = _interopDefault(require('@mui/icons-material/PictureAsPdf'));
+var agsi_br_componente = require('@AgsiSistemas/agsi.br.componente');
 var FileDownloadIcon = _interopDefault(require('@mui/icons-material/FileDownload'));
 var VisibilityIcon = _interopDefault(require('@mui/icons-material/Visibility'));
 var image = require('primereact/image');
@@ -1555,7 +1556,7 @@ var CustomInputSelect = function CustomInputSelect(_ref) {
 
   return /*#__PURE__*/React$1__default.createElement(React$1__default.Fragment, null, /*#__PURE__*/React$1__default.createElement(Autocomplete, {
     style: {
-      marginTop: '8px'
+      marginTop: '5px'
     },
     size: "small",
     margin: "dense",
@@ -2258,9 +2259,9 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
     }
   };
 
-  return /*#__PURE__*/React$1__default.createElement(React$1.Fragment, null, /*#__PURE__*/React$1__default.createElement(ConteinerItem, {
+  return /*#__PURE__*/React$1__default.createElement(React$1.Fragment, null, /*#__PURE__*/React$1__default.createElement(agsi_br_componente.ConteinerItem, {
     className: "custom-beneficiarie-component-wallet"
-  }, /*#__PURE__*/React$1__default.createElement(CustomInputSelect$1, {
+  }, /*#__PURE__*/React$1__default.createElement(agsi_br_componente.CustomInputSelect, {
     title: handleLoading((!label ? "Carteirinha" : label[0]) + isRequired(), loadingBeneficiary),
     freeSolo: true,
     open: openWalletField,
@@ -2292,6 +2293,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
     },
     onKeyUp: function onKeyUp(event) {
       try {
+        console.log(event.target.value.length);
         return Promise.resolve(_catch(function () {
           var _temp = function () {
             if (event.key === 'Tab' || event.target.value.length > 15) {
@@ -2324,7 +2326,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
     },
     maxLength: 18,
     validation: validation
-  })), /*#__PURE__*/React$1__default.createElement(ConteinerItem, null, /*#__PURE__*/React$1__default.createElement(CustomInputSelect$1, {
+  })), /*#__PURE__*/React$1__default.createElement(agsi_br_componente.ConteinerItem, null, /*#__PURE__*/React$1__default.createElement(agsi_br_componente.CustomInputSelect, {
     title: handleLoading((!label ? "Nome Beneficiário" : label[1]) + isRequired(), loadingBeneficiary),
     freeSolo: true,
     open: openBeneficiariesField,
@@ -2341,41 +2343,38 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
     },
     inputValue: beneficiariesNameInputValue,
     onInputChange: function onInputChange(event, newInputValue) {
-      setBeneficiariesNameInputValue(maskText(newInputValue));
-
-      if (newInputValue == '') {
-        onChangeId('');
-        handleOnChangeData('');
-      }
-
-      var item = localBeneficiaries.data.content.filter(function (x) {
-        return x.name === newInputValue;
-      })[0];
-
-      if (!isNullValue$2(item)) {
-        onChangeId(item.code);
-        handleOnChangeData(item);
-        setOpenBeneficiariesField(false);
-      }
-    },
-    onKeyDown: function onKeyDown(event) {
       try {
-        return Promise.resolve(_catch(function () {
-          var _temp2 = function () {
-            if (event.key === 'Enter' || event.key === 'Tab' || event.target.value.length > 1) {
-              setLoadingBeneficiary(true);
-              return Promise.resolve(api.http.get("" + api.addressName(beneficiariesNameInputValue))).then(function (response) {
-                setLocalBeneficiaries(response.data);
-                setLoadingBeneficiary(false);
-                setOpenBeneficiariesField(true);
-              });
-            }
-          }();
+        var _temp4 = function _temp4() {
+          var item = localBeneficiaries.data.content.filter(function (x) {
+            return x.name === newInputValue;
+          })[0];
 
-          if (_temp2 && _temp2.then) return _temp2.then(function () {});
-        }, function () {
-          setLoadingBeneficiary(false);
-        }));
+          if (!isNullValue$2(item)) {
+            onChangeId(item.code);
+            handleOnChangeData(item);
+            setOpenBeneficiariesField(false);
+          }
+        };
+
+        if (newInputValue == '') {
+          onChangeId('');
+          handleOnChangeData('');
+        }
+
+        setBeneficiariesNameInputValue(maskText(newInputValue));
+
+        var _temp5 = function () {
+          if (newInputValue && event.target.value.length >= 3) {
+            setLoadingBeneficiary(true);
+            return Promise.resolve(api.http.get("" + api.addressName(maskText(event.target.value)))).then(function (response) {
+              setLocalBeneficiaries(response.data);
+              setLoadingBeneficiary(false);
+              setOpenBeneficiariesField(true);
+            });
+          }
+        }();
+
+        return Promise.resolve(_temp5 && _temp5.then ? _temp5.then(_temp4) : _temp4(_temp5));
       } catch (e) {
         return Promise.reject(e);
       }
