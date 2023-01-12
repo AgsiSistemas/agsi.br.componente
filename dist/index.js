@@ -1556,7 +1556,7 @@ var CustomInputSelect = function CustomInputSelect(_ref) {
 
   return /*#__PURE__*/React$1__default.createElement(React$1__default.Fragment, null, /*#__PURE__*/React$1__default.createElement(Autocomplete, {
     style: {
-      marginTop: '5px'
+      marginTop: '8px'
     },
     size: "small",
     margin: "dense",

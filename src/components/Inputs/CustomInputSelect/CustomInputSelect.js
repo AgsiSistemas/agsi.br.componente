@@ -25,7 +25,7 @@ const CustomInputSelect = ({ title, options, loading, value, freeSolo, onChange,
     return (
         <React.Fragment>
             <Autocomplete
-                style={{ marginTop: '5px' }}
+                style={{ marginTop: '8px' }}
                 size="small"
                 margin="dense"
                 variant="outlined"
