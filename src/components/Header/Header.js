@@ -45,24 +45,20 @@ const Header = ({ title, listApp = [], notification }) => {
   const handleClick = (event) => {
     let remember = getRememberMenuLocalStorage()
     setOpenMenu(remember ? remember : !openMenu)
+
   };
 
   // Change open or close apps Menus
-  window.addEventListener('click', function (e) {
+  window.addEventListener('mousedown', function (e) {
     let remember = getRememberMenuLocalStorage()
-    let listIds = []
+    const BoxMenu = document.querySelector('.menu-app-list')
 
-    e.path.map((i) => {
-      if (i.id) {
-        listIds.push(i.id)
-      }
-    })
-    if (listIds.includes('menu-apps')) {
+    if (!BoxMenu) return
+
+    if (BoxMenu.contains(e.target)) {
       return
     }
-    if (listIds.includes('basic-menu')) {
-      return
-    }
+
     if (!remember && openMenu)
       setOpenMenu(false)
 

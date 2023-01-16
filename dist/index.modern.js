@@ -69,7 +69,6 @@ import { ProgressBar } from 'primereact/progressbar';
 import { Tag } from 'primereact/tag';
 import { Tooltip as Tooltip$2 } from 'primereact/tooltip';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
-import { ConteinerItem as ConteinerItem$1, CustomInputSelect as CustomInputSelect$2 } from '@AgsiSistemas/agsi.br.componente';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Image } from 'primereact/image';
@@ -2256,9 +2255,9 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
     }
   };
 
-  return /*#__PURE__*/React__default.createElement(Fragment, null, /*#__PURE__*/React__default.createElement(ConteinerItem$1, {
+  return /*#__PURE__*/React__default.createElement(Fragment, null, /*#__PURE__*/React__default.createElement(ConteinerItem, {
     className: "custom-beneficiarie-component-wallet"
-  }, /*#__PURE__*/React__default.createElement(CustomInputSelect$2, {
+  }, /*#__PURE__*/React__default.createElement(CustomInputSelect$1, {
     title: handleLoading((!label ? "Carteirinha" : label[0]) + isRequired(), loadingBeneficiary),
     freeSolo: true,
     open: openWalletField,
@@ -2323,7 +2322,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
     },
     maxLength: 18,
     validation: validation
-  })), /*#__PURE__*/React__default.createElement(ConteinerItem$1, null, /*#__PURE__*/React__default.createElement(CustomInputSelect$2, {
+  })), /*#__PURE__*/React__default.createElement(ConteinerItem, null, /*#__PURE__*/React__default.createElement(CustomInputSelect$1, {
     title: handleLoading((!label ? "Nome Beneficiário" : label[1]) + isRequired(), loadingBeneficiary),
     freeSolo: true,
     open: openBeneficiariesField,

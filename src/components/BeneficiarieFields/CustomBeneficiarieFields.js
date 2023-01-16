@@ -1,22 +1,10 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import PropTypes from "prop-types";
-// import { ConteinerItem } from "../Conteiner/Conteiner"
-// import CustomInputSelect from "../Inputs/CustomInputSelect/CustomInputSelect"
+import { ConteinerItem } from "../Conteiner/Conteiner"
+import CustomInputSelect from "../Inputs/CustomInputSelect/CustomInputSelect"
 import { maskText, maskWallet } from "../../Assets/Enum/Patterns.js";
 import { handleLoading, isNullValue } from "../../Utils/Utils.js";
 import './CustomBeneficiarieFields.scss'
-
-
-import {
-  Conteiner,
-  ConteinerItem,
-  OperationSection,
-  CustomTextField,
-  SaveComponent,
-  AppContent,
-  CustomInputSelect,
-  // CustomBeneficiarieFields
-} from '@AgsiSistemas/agsi.br.componente';
 
 const CustomBeneficiarieFields = ({ label, valueId, onChangeId, onChangeData, valueName, onChangeName, validation, api, disabled, required }) => {
 

@@ -72,7 +72,6 @@ var progressbar = require('primereact/progressbar');
 var tag = require('primereact/tag');
 var tooltip = require('primereact/tooltip');
 var PictureAsPdfIcon = _interopDefault(require('@mui/icons-material/PictureAsPdf'));
-var agsi_br_componente = require('@AgsiSistemas/agsi.br.componente');
 var FileDownloadIcon = _interopDefault(require('@mui/icons-material/FileDownload'));
 var VisibilityIcon = _interopDefault(require('@mui/icons-material/Visibility'));
 var image = require('primereact/image');
@@ -2259,9 +2258,9 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
     }
   };
 
-  return /*#__PURE__*/React$1__default.createElement(React$1.Fragment, null, /*#__PURE__*/React$1__default.createElement(agsi_br_componente.ConteinerItem, {
+  return /*#__PURE__*/React$1__default.createElement(React$1.Fragment, null, /*#__PURE__*/React$1__default.createElement(ConteinerItem, {
     className: "custom-beneficiarie-component-wallet"
-  }, /*#__PURE__*/React$1__default.createElement(agsi_br_componente.CustomInputSelect, {
+  }, /*#__PURE__*/React$1__default.createElement(CustomInputSelect$1, {
     title: handleLoading((!label ? "Carteirinha" : label[0]) + isRequired(), loadingBeneficiary),
     freeSolo: true,
     open: openWalletField,
@@ -2326,7 +2325,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
     },
     maxLength: 18,
     validation: validation
-  })), /*#__PURE__*/React$1__default.createElement(agsi_br_componente.ConteinerItem, null, /*#__PURE__*/React$1__default.createElement(agsi_br_componente.CustomInputSelect, {
+  })), /*#__PURE__*/React$1__default.createElement(ConteinerItem, null, /*#__PURE__*/React$1__default.createElement(CustomInputSelect$1, {
     title: handleLoading((!label ? "Nome Beneficiário" : label[1]) + isRequired(), loadingBeneficiary),
     freeSolo: true,
     open: openBeneficiariesField,
