@@ -1308,20 +1308,12 @@ var Header = function Header(_ref) {
     setOpenMenu(remember ? remember : !openMenu);
   };
 
-  window.addEventListener('click', function (e) {
+  window.addEventListener('mousedown', function (e) {
     var remember = getRememberMenuLocalStorage();
-    var listIds = [];
-    e.path.map(function (i) {
-      if (i.id) {
-        listIds.push(i.id);
-      }
-    });
+    var BoxMenu = document.querySelector('.menu-app-list');
+    if (!BoxMenu) return;
 
-    if (listIds.includes('menu-apps')) {
-      return;
-    }
-
-    if (listIds.includes('basic-menu')) {
+    if (BoxMenu.contains(e.target)) {
       return;
     }
 
