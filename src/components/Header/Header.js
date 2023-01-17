@@ -51,11 +51,15 @@ const Header = ({ title, listApp = [], notification }) => {
   // Change open or close apps Menus
   window.addEventListener('mousedown', function (e) {
     let remember = getRememberMenuLocalStorage()
-    const BoxMenu = document.querySelector('.menu-app-list')
+    const boxMenu = document.querySelector('.menu-app-list')
+    const iconMenu = document.querySelector('#menu-apps')
 
-    if (!BoxMenu) return
+    if (!boxMenu || !iconMenu) return
 
-    if (BoxMenu.contains(e.target)) {
+    if (boxMenu.contains(e.target)) {
+      return
+    }
+    if (iconMenu.contains(e.target)) {
       return
     }
 

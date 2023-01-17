@@ -1310,10 +1310,15 @@ var Header = function Header(_ref) {
 
   window.addEventListener('mousedown', function (e) {
     var remember = getRememberMenuLocalStorage();
-    var BoxMenu = document.querySelector('.menu-app-list');
-    if (!BoxMenu) return;
+    var boxMenu = document.querySelector('.menu-app-list');
+    var iconMenu = document.querySelector('#menu-apps');
+    if (!boxMenu || !iconMenu) return;
 
-    if (BoxMenu.contains(e.target)) {
+    if (boxMenu.contains(e.target)) {
+      return;
+    }
+
+    if (iconMenu.contains(e.target)) {
       return;
     }
 
