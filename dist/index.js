@@ -1514,7 +1514,7 @@ var Header = function Header(_ref) {
 
 var Header$1 = React$1.memo(Header);
 
-var _excluded$1 = ["title", "options", "loading", "value", "freeSolo", "onChange", "inputValue", "onInputChange", "validation", "loadingListOptions", "open", "disabled", "onKeyPress", "onblur", "maxLength"];
+var _excluded$1 = ["title", "options", "loading", "value", "freeSolo", "onChange", "inputValue", "onInputChange", "validation", "loadingListOptions", "open", "disabled", "onKeyPress", "onOpen", "onblur", "maxLength"];
 
 var isNullValue = function isNullValue(value) {
   return value === undefined || value === null || value === "";
@@ -1546,6 +1546,7 @@ var CustomInputSelect = function CustomInputSelect(_ref) {
       open = _ref.open,
       disabled = _ref.disabled,
       onKeyPress = _ref.onKeyPress,
+      onOpen = _ref.onOpen,
       onblur = _ref.onblur,
       maxLength = _ref.maxLength,
       other = _objectWithoutPropertiesLoose(_ref, _excluded$1);
@@ -1563,6 +1564,7 @@ var CustomInputSelect = function CustomInputSelect(_ref) {
     },
     fullWidth: true,
     open: open,
+    onOpen: onOpen,
     disabled: disabled,
     options: options || [],
     noOptionsText: 'Nenhum Resultado.',

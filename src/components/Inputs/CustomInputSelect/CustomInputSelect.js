@@ -21,7 +21,7 @@ function isNumber(n) {
 }
 
 
-const CustomInputSelect = ({ title, options, loading, value, freeSolo, onChange, inputValue, onInputChange, validation, loadingListOptions, open, disabled, onKeyPress, onblur, maxLength, ...other }) => {
+const CustomInputSelect = ({ title, options, loading, value, freeSolo, onChange, inputValue, onInputChange, validation, loadingListOptions, open, disabled, onKeyPress, onOpen, onblur, maxLength, ...other }) => {
     return (
         <React.Fragment>
             <Autocomplete
@@ -33,6 +33,7 @@ const CustomInputSelect = ({ title, options, loading, value, freeSolo, onChange,
                 InputLabelProps={{ shrink: true }}
                 fullWidth
                 open={open}
+                onOpen={onOpen}
                 disabled={disabled}
                 options={options || []}
                 noOptionsText={'Nenhum Resultado.'}
