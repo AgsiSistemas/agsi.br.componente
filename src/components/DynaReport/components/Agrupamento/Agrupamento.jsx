@@ -1,5 +1,4 @@
 import React, { useState, useMemo, useEffect } from "react";
-import "rc-tree/assets/index.css";
 import "./draggable.less";
 import "./assets/index.less";
 import Grid from "@mui/material/Unstable_Grid2";

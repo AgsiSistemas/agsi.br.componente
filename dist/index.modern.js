@@ -83,7 +83,6 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import GroupWorkIcon from '@mui/icons-material/GroupWork';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import 'rc-tree/assets/index.css';
 import { DndProvider } from 'react-dnd';
 import { MultiBackend, getBackendOptions, Tree } from '@minoru/react-dnd-treeview';
 import FolderIcon from '@mui/icons-material/Folder';

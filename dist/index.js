@@ -86,7 +86,6 @@ var DescriptionIcon = _interopDefault(require('@mui/icons-material/Description')
 var GroupWorkIcon = _interopDefault(require('@mui/icons-material/GroupWork'));
 var jspdf = require('jspdf');
 var autoTable = _interopDefault(require('jspdf-autotable'));
-require('rc-tree/assets/index.css');
 var reactDnd = require('react-dnd');
 var reactDndTreeview = require('@minoru/react-dnd-treeview');
 var FolderIcon = _interopDefault(require('@mui/icons-material/Folder'));
