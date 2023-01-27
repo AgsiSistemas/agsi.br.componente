@@ -1,4 +1,4 @@
-import React__default, { memo, createElement, useState, forwardRef, useEffect, Fragment, useRef } from 'react';
+import React__default, { memo, createElement, useState, forwardRef, useEffect, Fragment as Fragment$1, useRef, createContext, useReducer, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Tooltip from '@mui/material/Tooltip';
 import { styled, alpha } from '@mui/material/styles';
@@ -72,6 +72,28 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Image } from 'primereact/image';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import Checkbox from '@mui/material/Checkbox';
+import Grid from '@mui/material/Unstable_Grid2';
+import SearchIcon from '@mui/icons-material/Search';
+import DescriptionIcon from '@mui/icons-material/Description';
+import GroupWorkIcon from '@mui/icons-material/GroupWork';
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import 'rc-tree/assets/index.css';
+import { DndProvider } from 'react-dnd';
+import { MultiBackend, getBackendOptions, Tree } from '@minoru/react-dnd-treeview';
+import FolderIcon from '@mui/icons-material/Folder';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import Modal$1 from '@mui/material/Modal';
+import 'primeicons/primeicons.css';
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
+import 'primereact/resources/primereact.css';
+import 'primeflex/primeflex.css';
+import Paper$1 from '@mui/material/Paper';
 
 function _extends() {
   _extends = Object.assign ? Object.assign.bind() : function (target) {
@@ -1249,7 +1271,7 @@ function MenuAppList(_ref) {
       switchDisplayMenu = _React$useState[0],
       setSwitchDisplayMenu = _React$useState[1];
 
-  return /*#__PURE__*/createElement(Fragment, null, /*#__PURE__*/createElement("div", {
+  return /*#__PURE__*/createElement(Fragment$1, null, /*#__PURE__*/createElement("div", {
     id: "basic-menu",
     className: open ? 'menu-app-list' : 'menu-app-list-none'
   }, /*#__PURE__*/createElement("div", {
@@ -2254,7 +2276,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
     }
   };
 
-  return /*#__PURE__*/React__default.createElement(Fragment, null, /*#__PURE__*/React__default.createElement(ConteinerItem, {
+  return /*#__PURE__*/React__default.createElement(Fragment$1, null, /*#__PURE__*/React__default.createElement(ConteinerItem, {
     className: "custom-beneficiarie-component-wallet"
   }, /*#__PURE__*/React__default.createElement(CustomInputSelect$1, {
     title: handleLoading((!label ? "Carteirinha" : label[0]) + isRequired(), loadingBeneficiary),
@@ -2601,7 +2623,7 @@ var ArchivesContent = function ArchivesContent(_ref) {
     onUpload(e);
   };
 
-  return /*#__PURE__*/React__default.createElement(Fragment, null, /*#__PURE__*/React__default.createElement(TableContainer, {
+  return /*#__PURE__*/React__default.createElement(Fragment$1, null, /*#__PURE__*/React__default.createElement(TableContainer, {
     className: "conteiner-archive-component",
     component: Paper
   }, /*#__PURE__*/React__default.createElement(Table, {
@@ -2636,7 +2658,7 @@ var ArchivesContent = function ArchivesContent(_ref) {
         return deleteArchive(file.fileId, file.fileName);
       }
     })))));
-  }))), editable && /*#__PURE__*/React__default.createElement(Fragment, null, /*#__PURE__*/React__default.createElement("input", {
+  }))), editable && /*#__PURE__*/React__default.createElement(Fragment$1, null, /*#__PURE__*/React__default.createElement("input", {
     accept: ".pdf,image/*",
     style: {
       display: 'none'
@@ -2941,7 +2963,7 @@ var FilesContentApi = function FilesContentApi(_ref) {
       });
     }
   }, [contentFileDelete]);
-  return /*#__PURE__*/React__default.createElement(Fragment, null, /*#__PURE__*/React__default.createElement(TableContainer, {
+  return /*#__PURE__*/React__default.createElement(Fragment$1, null, /*#__PURE__*/React__default.createElement(TableContainer, {
     className: "conteiner-archive-component",
     component: Paper
   }, /*#__PURE__*/React__default.createElement(Table, {
@@ -2976,7 +2998,7 @@ var FilesContentApi = function FilesContentApi(_ref) {
         deleteArchive(file.fileId, file.fileName);
       }
     })))));
-  }))), loadChange && /*#__PURE__*/React__default.createElement(LinearProgress, null), editable && /*#__PURE__*/React__default.createElement(Fragment, null, /*#__PURE__*/React__default.createElement("input", {
+  }))), loadChange && /*#__PURE__*/React__default.createElement(LinearProgress, null), editable && /*#__PURE__*/React__default.createElement(Fragment$1, null, /*#__PURE__*/React__default.createElement("input", {
     accept: ".pdf,image/*",
     style: {
       display: 'none'
@@ -3203,7 +3225,7 @@ var FilesContent = function FilesContent(_ref) {
     onUpload(e);
   };
 
-  return /*#__PURE__*/React__default.createElement(Fragment, null, /*#__PURE__*/React__default.createElement(TableContainer, {
+  return /*#__PURE__*/React__default.createElement(Fragment$1, null, /*#__PURE__*/React__default.createElement(TableContainer, {
     className: "conteiner-archive-component",
     component: Paper
   }, /*#__PURE__*/React__default.createElement(Table, {
@@ -3238,7 +3260,7 @@ var FilesContent = function FilesContent(_ref) {
         return deleteArchive(file.fileId, file.fileName);
       }
     })))));
-  }))), editable && /*#__PURE__*/React__default.createElement(Fragment, null, /*#__PURE__*/React__default.createElement("input", {
+  }))), editable && /*#__PURE__*/React__default.createElement(Fragment$1, null, /*#__PURE__*/React__default.createElement("input", {
     accept: ".pdf,image/*",
     style: {
       display: 'none'
@@ -3312,5 +3334,938 @@ FilesContent.defaultProp = {
   editable: false
 };
 
-export { AppContent$1 as AppContent, ArchivesContent, Conteiner, ConteinerItem, CustomBeneficiarieFields, CustomDataTable$1 as CustomDataTable, CustomDatePicker$1 as CustomDatePicker, CustomDialog$1 as CustomDialog, CustomInputSelect$1 as CustomInputSelect, CustomModal$1 as CustomModal, CustomTextField$1 as CustomTextField, CustomTimePicker$1 as CustomTimePicker, CustomToastMessage$1 as CustomToastMessage, FilesContent, FilesContentApi, FilesUpload$1 as FilesUpload, Header$1 as Header, HeaderAccordion$1 as HeaderAccordion, OperationDetail$1 as OperationDetail, OperationSection$1 as OperationSection, OperationTable$1 as OperationTable, PageBase$3 as PageBase, SaveComponent$1 as SaveComponent };
+var dicionary = {
+  nome: "Nome",
+  endereco: "Endereço",
+  telefone: "Telefone",
+  dependentes: "Dependentes",
+  totalizar: "Totalizar",
+  datahora: "Mostrar data/hora",
+  cidade: "Cidade",
+  agrupar: "Agrupar"
+};
+
+var DynaContext = createContext();
+
+function contextReducer(state, action) {
+  if (action.type === 'selecteds') {
+    return _extends({}, state, {
+      selecteds: action.value
+    });
+  } else if (action.type === 'columnsOrder') {
+    return _extends({}, state, {
+      columnsOrder: action.value
+    });
+  } else if (action.type === 'fields') {
+    return _extends({}, state, {
+      fields: action.value
+    });
+  } else if (action.type === 'agrupamento') {
+    return _extends({}, state, {
+      agrupamento: action.value
+    });
+  } else if (action.type === 'options') {
+    return _extends({}, state, {
+      options: action.value
+    });
+  }
+}
+
+function DynaProvider(_ref) {
+  var children = _ref.children;
+
+  var _React$useReducer = useReducer(contextReducer, {
+    selecteds: [],
+    columnsOrder: [null, 'nome', 'telefone'],
+    fields: ['nome', 'telefone'],
+    agrupamento: [],
+    options: []
+  }),
+      state = _React$useReducer[0],
+      dispatch = _React$useReducer[1];
+
+  var value = {
+    state: state,
+    dispatch: dispatch
+  };
+  return /*#__PURE__*/createElement(DynaContext.Provider, {
+    value: value
+  }, children);
+}
+
+function useSelectedRegisters() {
+  var context = useContext(DynaContext);
+
+  if (context === undefined) {
+    throw new Error('useSelectedRegisters must be used within a DynaProvider');
+  }
+
+  return context;
+}
+
+function FieldsChecklist(_ref) {
+  var listOptions = _ref.listOptions,
+      title = _ref.title;
+
+  var _useSelectedRegisters = useSelectedRegisters(),
+      fields = _useSelectedRegisters.state.fields,
+      dispatch = _useSelectedRegisters.dispatch;
+
+  var handleToggle = function handleToggle(value) {
+    return function () {
+      var currentIndex = fields.indexOf(value);
+      var newChecked = [].concat(fields);
+
+      if (currentIndex === -1) {
+        newChecked.push(value);
+      } else {
+        newChecked.splice(currentIndex, 1);
+      }
+
+      dispatch({
+        value: newChecked,
+        type: "fields"
+      });
+    };
+  };
+
+  return /*#__PURE__*/createElement(Box, {
+    sx: {
+      p: 2
+    }
+  }, /*#__PURE__*/createElement(Typography, {
+    variant: "h5",
+    gutterBottom: true,
+    sx: {
+      color: "#455a64"
+    }
+  }, title), /*#__PURE__*/createElement(Divider, null), /*#__PURE__*/createElement(List, {
+    sx: {
+      width: "100%",
+      maxWidth: 360
+    }
+  }, listOptions.map(function (value) {
+    var labelId = "checkbox-list-label-" + value;
+    return /*#__PURE__*/createElement(ListItem, {
+      key: value,
+      secondaryAction: /*#__PURE__*/createElement(IconButton, {
+        edge: "end",
+        "aria-label": "comments"
+      }),
+      disablePadding: true
+    }, /*#__PURE__*/createElement(ListItemButton, {
+      role: undefined,
+      onClick: handleToggle(value),
+      dense: true
+    }, /*#__PURE__*/createElement(ListItemIcon, null, /*#__PURE__*/createElement(Checkbox, {
+      edge: "start",
+      checked: fields.indexOf(value) !== -1,
+      tabIndex: -1,
+      disableRipple: true,
+      inputProps: {
+        "aria-labelledby": labelId
+      }
+    })), /*#__PURE__*/createElement(ListItemText, {
+      id: labelId,
+      primary: dicionary[value]
+    })));
+  })));
+}
+
+var getFieldWidth = {
+  nome: 160,
+  endereco: 120,
+  telefone: 100,
+  dependentes: 0
+};
+var mainHeaderStyle = {
+  fillColor: [41, 89, 129],
+  textColor: [255, 255, 255],
+  fontStyle: "bold"
+};
+var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) {
+
+  var hasDependentes = fields.includes("dependentes");
+  var hasGroup = options.includes("agrupar");
+  var doc = new jsPDF("p", "pt", "a4");
+  var page = 1;
+
+  var getUsuarioStyle = function getUsuarioStyle() {
+    var result = {};
+    fields.forEach(function (element, index) {
+      var countExcludeFields = hasDependentes ? 2 : 1;
+
+      if (fields.length > index + countExcludeFields) {
+        result[index] = {
+          cellWidth: getFieldWidth[element]
+        };
+      }
+    });
+    return result;
+  };
+
+  var addPrimeiroNivel = function addPrimeiroNivel(Y, header, content) {
+    autoTable(doc, {
+      startY: Y > 116 ? Y + 5 : Y,
+      head: header ? [header] : [],
+      pageBreak: "avoid",
+      margin: {
+        top: 116
+      },
+      body: content,
+      columnStyles: getUsuarioStyle()
+    });
+  };
+
+  var addSegundoNivel = function addSegundoNivel(Y, header, content) {
+    autoTable(doc, {
+      startY: Y > 116 ? Y + 5 : Y,
+      head: header ? [header] : [],
+      pageBreak: "avoid",
+      body: content,
+      columnStyles: getUsuarioStyle()
+    });
+  };
+
+  var addTableFooter = function addTableFooter(Y, header, content) {
+    autoTable(doc, {
+      body: content,
+      head: header,
+      startY: Y,
+      pageBreak: "avoid",
+      styles: {
+        fillColor: [255, 0, 0],
+        halign: "right"
+      }
+    });
+  };
+
+  var addUsuario = function addUsuario(usuarios) {
+    usuarios === null || usuarios === void 0 ? void 0 : usuarios.forEach(function (el) {
+      var Y = doc.lastAutoTable.finalY;
+      var usuarioContent = [];
+      var newHeader = [];
+
+      for (var _i = 0, _Object$entries = Object.entries(el); _i < _Object$entries.length; _i++) {
+        var _Object$entries$_i = _Object$entries[_i],
+            key = _Object$entries$_i[0],
+            value = _Object$entries$_i[1];
+
+        if (key !== "dependentes" && key !== "hasDependentes") {
+          usuarioContent.push({
+            content: value,
+            styles: {
+              fillColor: [255, 255, 255]
+            }
+          });
+          newHeader.push(dicionary[key]);
+        }
+      }
+
+      if (page < doc.internal.getCurrentPageInfo().pageNumber) {
+        page++;
+        Y = 116;
+      }
+
+      addPrimeiroNivel(Y, newHeader, [usuarioContent]);
+
+      if (hasDependentes) {
+        addSegundoNivel(doc.lastAutoTable.finalY, null, Object.values(el.dependentes));
+
+        if (options.includes("totalizar")) {
+          var _el$dependentes;
+
+          var total = 0;
+          (_el$dependentes = el.dependentes) === null || _el$dependentes === void 0 ? void 0 : _el$dependentes.forEach(function (element) {
+            total = total + element[2];
+          });
+          addTableFooter(doc.lastAutoTable.finalY, null, [[{
+            content: "Total: " + total.toFixed(2),
+            styles: {
+              halign: "right",
+              fillColor: [200, 200, 200]
+            }
+          }]]);
+        }
+      }
+    });
+  };
+
+  autoTable(doc, {
+    startY: 116
+  });
+
+  if (hasGroup) {
+    var groupSections = [];
+    selecteds.forEach(function (element) {
+      if (!groupSections.includes(element.cidade)) groupSections.push(element.cidade);
+    });
+    groupSections.forEach(function (group) {
+      autoTable(doc, {
+        body: [["Grupo: " + group]],
+        startY: doc.lastAutoTable.finalY,
+        pageBreak: "avoid"
+      });
+      var dataGroup = [];
+      selecteds.forEach(function (element) {
+        if (element.cidade === group) dataGroup.push(element);
+      });
+      addUsuario(dataGroup);
+    });
+  } else {
+    addUsuario(selecteds);
+  }
+
+  var pageCount = doc.internal.getNumberOfPages();
+
+  for (var i = 0; i < pageCount; i++) {
+    doc.setLineWidth(1);
+    doc.setPage(i);
+    doc.line(20, 30, 580, 30);
+    doc.setFontSize(9);
+    doc.text(534, 39, "Página " + doc.internal.getCurrentPageInfo().pageNumber + "/" + pageCount);
+    doc.setFontSize(18);
+    doc.text(180, 45, "Relatório analítico de usuários");
+    doc.setFontSize(12);
+    doc.text(230, 63, "Ativos até 29/12/2022");
+    doc.text(184, 78, "Data de inclusão: 01/01/2022 a 29/12/2022");
+    doc.line(20, 95, 580, 95);
+    doc.setFontSize(9);
+    var today = new Date();
+    doc.text(493, 92, today.toLocaleString());
+    autoTable(doc, {
+      startY: 96,
+      pageBreak: "avoid",
+      body: [["Cod. Titular", "Titular", "Mensalidade"]],
+      columnStyles: {
+        0: _extends({
+          cellWidth: 100
+        }, mainHeaderStyle),
+        1: _extends({
+          cellWidth: 240
+        }, mainHeaderStyle),
+        2: _extends({
+          cellWidth: "100%"
+        }, mainHeaderStyle)
+      }
+    });
+  }
+
+  doc.save("Test.pdf");
+};
+
+function OptionsChecklist(_ref) {
+  var listOptions = _ref.listOptions,
+      title = _ref.title;
+
+  var _useSelectedRegisters = useSelectedRegisters(),
+      options = _useSelectedRegisters.state.options,
+      dispatch = _useSelectedRegisters.dispatch;
+
+  var handleToggle = function handleToggle(value) {
+    return function () {
+      var currentIndex = options.indexOf(value);
+      var newChecked = [].concat(options);
+
+      if (currentIndex === -1) {
+        newChecked.push(value);
+      } else {
+        newChecked.splice(currentIndex, 1);
+      }
+
+      dispatch({
+        value: newChecked,
+        type: "options"
+      });
+    };
+  };
+
+  return /*#__PURE__*/createElement(Box, {
+    sx: {
+      p: 2
+    }
+  }, /*#__PURE__*/createElement(Typography, {
+    variant: "h5",
+    gutterBottom: true,
+    sx: {
+      color: "#455a64"
+    }
+  }, title), /*#__PURE__*/createElement(Divider, null), /*#__PURE__*/createElement(List, {
+    sx: {
+      width: "100%",
+      maxWidth: 360
+    }
+  }, listOptions.map(function (value) {
+    var labelId = "checkbox-list-label-" + value;
+    return /*#__PURE__*/createElement(ListItem, {
+      key: value,
+      secondaryAction: /*#__PURE__*/createElement(IconButton, {
+        edge: "end",
+        "aria-label": "comments"
+      }),
+      disablePadding: true
+    }, /*#__PURE__*/createElement(ListItemButton, {
+      role: undefined,
+      onClick: handleToggle(value),
+      dense: true
+    }, /*#__PURE__*/createElement(ListItemIcon, null, /*#__PURE__*/createElement(Checkbox, {
+      edge: "start",
+      checked: options.indexOf(value) !== -1,
+      tabIndex: -1,
+      disableRipple: true,
+      inputProps: {
+        "aria-labelledby": labelId
+      }
+    })), /*#__PURE__*/createElement(ListItemText, {
+      id: labelId,
+      primary: dicionary[value]
+    })));
+  })));
+}
+
+const TEXT = '__NATIVE_TEXT__';
+
+//# sourceMappingURL=NativeTypes.js.map
+
+var TypeIcon = function TypeIcon(props) {
+  if (props.droppable) {
+    return /*#__PURE__*/React__default.createElement(FolderIcon, null);
+  }
+
+  return /*#__PURE__*/React__default.createElement(DescriptionIcon, null);
+};
+
+var ExternalNode = function ExternalNode(props) {
+  var droppable = props.node.droppable;
+
+  var handleDragStart = function handleDragStart(e) {
+    e.dataTransfer.setData("text", JSON.stringify(props.node));
+  };
+
+  return /*#__PURE__*/React__default.createElement("div", {
+    draggable: true,
+    className: undefined.root,
+    onDragStart: handleDragStart
+  }, /*#__PURE__*/React__default.createElement("div", {
+    className: undefined.filetype
+  }, /*#__PURE__*/React__default.createElement(TypeIcon, {
+    droppable: droppable || false
+  })), /*#__PURE__*/React__default.createElement("div", {
+    className: undefined.label
+  }, /*#__PURE__*/React__default.createElement(Typography, {
+    variant: "body2"
+  }, props.node.text)));
+};
+
+var CustomNode = function CustomNode(props) {
+  var droppable = props.node.droppable;
+  var indent = props.depth * 24;
+
+  var handleToggle = function handleToggle(e) {
+    e.stopPropagation();
+    props.onToggle(props.node.id);
+  };
+
+  return /*#__PURE__*/React__default.createElement("div", {
+    className: "tree-node " + undefined.root,
+    style: {
+      paddingInlineStart: indent
+    }
+  }, /*#__PURE__*/React__default.createElement("div", {
+    className: undefined.expandIconWrapper + " " + (props.isOpen ? undefined.isOpen : "")
+  }, props.node.droppable && /*#__PURE__*/React__default.createElement("div", {
+    onClick: handleToggle
+  }, /*#__PURE__*/React__default.createElement(ArrowRightIcon, null))), /*#__PURE__*/React__default.createElement(TypeIcon, {
+    droppable: droppable || false
+  }), /*#__PURE__*/React__default.createElement("div", {
+    className: undefined.labelGridItem
+  }, /*#__PURE__*/React__default.createElement(Typography, {
+    variant: "body2"
+  }, props.node.text)));
+};
+
+var CustomDragPreview = function CustomDragPreview(props) {
+  var item = props.monitorProps.item;
+  return /*#__PURE__*/React__default.createElement("div", {
+    className: undefined.root
+  }, /*#__PURE__*/React__default.createElement("div", {
+    className: undefined.icon
+  }, /*#__PURE__*/React__default.createElement(TypeIcon, {
+    droppable: item.droppable || false
+  })), /*#__PURE__*/React__default.createElement("div", {
+    className: undefined.label
+  }, item.text));
+};
+
+var formatExternalNodes = function formatExternalNodes(nodes, group) {
+  var newExternalNodes = [];
+  nodes.forEach(function (element, i) {
+    if (!group.map(function (a) {
+      return a.id;
+    }).includes(element)) {
+      newExternalNodes.push({
+        id: element,
+        parent: 0,
+        droppable: false,
+        text: dicionary[element]
+      });
+    }
+  });
+  return newExternalNodes;
+};
+
+var defaultGroup = [{
+  id: 1,
+  parent: 0,
+  droppable: true,
+  text: "Grupo 01"
+}];
+var Agrupamento = function Agrupamento(_ref) {
+  var handleClose = _ref.handleClose;
+
+  var _useSelectedRegisters = useSelectedRegisters(),
+      _useSelectedRegisters2 = _useSelectedRegisters.state,
+      fields = _useSelectedRegisters2.fields,
+      agrupamento = _useSelectedRegisters2.agrupamento,
+      dispatch = _useSelectedRegisters.dispatch;
+
+  var _useState = useState(agrupamento.length > 0 ? agrupamento : defaultGroup),
+      tree = _useState[0],
+      setTree = _useState[1];
+
+  var _useState2 = useState(formatExternalNodes(fields, agrupamento)),
+      externalNodes = _useState2[0],
+      setExternalNodes = _useState2[1];
+
+  useEffect(function () {
+    return setExternalNodes(formatExternalNodes(fields, agrupamento));
+  }, [fields, agrupamento]);
+  useEffect(function () {
+    return setTree(agrupamento.length > 0 ? agrupamento : defaultGroup);
+  }, [agrupamento]);
+
+  var handleDrop = function handleDrop(newTree, options) {
+    var dropTargetId = options.dropTargetId,
+        monitor = options.monitor;
+    var itemType = monitor.getItemType();
+
+    if (itemType === TEXT) {
+      var nodeJson = monitor.getItem().text;
+      var node = JSON.parse(nodeJson);
+      node.parent = dropTargetId;
+      setTree([].concat(newTree, [node]));
+      setExternalNodes(externalNodes.filter(function (exnode) {
+        return exnode.id !== node.id;
+      }));
+      return;
+    }
+
+    setTree(newTree);
+  };
+
+  var handleSalvar = function handleSalvar() {
+    dispatch({
+      value: tree,
+      type: "agrupamento"
+    });
+    handleClose();
+  };
+
+  var handleLimpar = function handleLimpar() {
+    setTree(agrupamento.length > 0 ? agrupamento : defaultGroup);
+    setExternalNodes(formatExternalNodes(fields, agrupamento));
+  };
+
+  return /*#__PURE__*/React__default.createElement(Fragment, null, /*#__PURE__*/React__default.createElement(Typography, {
+    variant: "h5",
+    gutterBottom: true,
+    sx: {
+      padding: "8px 12px"
+    }
+  }, "Op\xE7\xF5es de Agrupamento"), /*#__PURE__*/React__default.createElement(Divider, null), /*#__PURE__*/React__default.createElement(Grid, {
+    container: true,
+    direction: "column",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    spacing: 2,
+    style: {
+      padding: "2px"
+    }
+  }, /*#__PURE__*/React__default.createElement(Grid, {
+    container: true,
+    direction: "row",
+    xs: 12,
+    className: undefined.rootGrid
+  }, /*#__PURE__*/React__default.createElement("div", {
+    className: undefined.externalContainer
+  }, /*#__PURE__*/React__default.createElement("div", null, externalNodes === null || externalNodes === void 0 ? void 0 : externalNodes.map(function (node) {
+    return /*#__PURE__*/React__default.createElement(ExternalNode, {
+      key: node.id,
+      node: node
+    });
+  }))), /*#__PURE__*/React__default.createElement(Grid, null, /*#__PURE__*/React__default.createElement(DndProvider, {
+    backend: MultiBackend,
+    options: getBackendOptions(),
+    debugMode: true
+  }, /*#__PURE__*/React__default.createElement(Tree, {
+    rootId: 0,
+    tree: tree,
+    extraAcceptTypes: [TEXT],
+    classes: {
+      root: undefined.treeRoot,
+      draggingSource: undefined.draggingSource,
+      dropTarget: undefined.dropTarget
+    },
+    render: function render(node, options) {
+      return /*#__PURE__*/React__default.createElement(CustomNode, _extends({
+        node: node
+      }, options));
+    },
+    dragPreviewRender: function dragPreviewRender(monitorProps) {
+      return /*#__PURE__*/React__default.createElement(CustomDragPreview, {
+        monitorProps: monitorProps
+      });
+    },
+    onDrop: handleDrop
+  })))), /*#__PURE__*/React__default.createElement(Grid, {
+    xs: 12,
+    container: true,
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+    flexDirection: {
+      xs: "column",
+      sm: "row"
+    }
+  }, /*#__PURE__*/React__default.createElement(Grid, {
+    container: true,
+    xs: 6,
+    justifyContent: "flex-start",
+    style: {
+      padding: "8px"
+    }
+  }, /*#__PURE__*/React__default.createElement(Grid, {
+    item: true
+  }, /*#__PURE__*/React__default.createElement(Button, {
+    variant: "outlined"
+  }, "Novo grupo")), /*#__PURE__*/React__default.createElement(Grid, {
+    item: true
+  }, /*#__PURE__*/React__default.createElement(Button, {
+    variant: "outlined",
+    onClick: handleLimpar
+  }, "Limpar"))), /*#__PURE__*/React__default.createElement(Grid, {
+    container: true,
+    xs: 6,
+    justifyContent: "flex-end",
+    style: {
+      padding: "8px"
+    }
+  }, /*#__PURE__*/React__default.createElement(Grid, {
+    item: true
+  }, /*#__PURE__*/React__default.createElement(Button, {
+    variant: "contained",
+    onClick: handleClose,
+    color: "error",
+    startIcon: /*#__PURE__*/React__default.createElement(CancelOutlinedIcon, null)
+  }, "Cancelar")), /*#__PURE__*/React__default.createElement(Grid, {
+    item: true
+  }, /*#__PURE__*/React__default.createElement(Button, {
+    variant: "contained",
+    onClick: handleSalvar,
+    startIcon: /*#__PURE__*/React__default.createElement(SaveOutlinedIcon, null)
+  }, "Salvar"))))));
+};
+
+var style$d = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  minWidth: 580,
+  minHeight: 340,
+  bgcolor: "#fff",
+  borderRadius: "5px",
+  boxShadow: 24,
+  p: 2
+};
+
+function ButtonsList(_ref) {
+  var listOptions = _ref.listOptions;
+
+  var _useState = useState(false),
+      open = _useState[0],
+      setOpen = _useState[1];
+
+  var handleOpen = function handleOpen() {
+    return setOpen(true);
+  };
+
+  var handleClose = function handleClose() {
+    return setOpen(false);
+  };
+
+  var _useSelectedRegisters = useSelectedRegisters(),
+      _useSelectedRegisters2 = _useSelectedRegisters.state,
+      selecteds = _useSelectedRegisters2.selecteds,
+      fields = _useSelectedRegisters2.fields,
+      options = _useSelectedRegisters2.options;
+
+  var generateObj = function generateObj() {
+    try {
+      var filteredArr = [];
+      selecteds === null || selecteds === void 0 ? void 0 : selecteds.forEach(function (element) {
+        var newObj = Object.keys(element).filter(function (key) {
+          return fields.includes(key);
+        }).reduce(function (obj, key) {
+          obj[key] = element[key];
+          return obj;
+        }, {});
+        filteredArr.push(newObj);
+      });
+      return Promise.resolve(generatePDF(filteredArr, fields, options)).then(function () {});
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  };
+
+  return /*#__PURE__*/React__default.createElement(Box, {
+    sx: {
+      width: "100%"
+    }
+  }, /*#__PURE__*/React__default.createElement(Typography, {
+    variant: "h5",
+    gutterBottom: true,
+    sx: {
+      color: "#455a64"
+    }
+  }, "Op\xE7\xF5es"), /*#__PURE__*/React__default.createElement(Divider, null), /*#__PURE__*/React__default.createElement(Grid, {
+    container: true,
+    rowSpacing: 1,
+    columnSpacing: {
+      xs: 1,
+      sm: 2,
+      md: 3
+    }
+  }, /*#__PURE__*/React__default.createElement(Grid, {
+    xs: 6
+  }, /*#__PURE__*/React__default.createElement(Button, {
+    variant: "contained",
+    startIcon: /*#__PURE__*/React__default.createElement(SearchIcon, null),
+    style: {
+      width: "100%"
+    },
+    onClick: function onClick() {
+      return generateObj();
+    }
+  }, "Visualizar")), /*#__PURE__*/React__default.createElement(Grid, {
+    xs: 6
+  }, /*#__PURE__*/React__default.createElement(Button, {
+    variant: "contained",
+    startIcon: /*#__PURE__*/React__default.createElement(DescriptionIcon, null),
+    style: {
+      width: "100%"
+    }
+  }, "Resumir")), /*#__PURE__*/React__default.createElement(Grid, {
+    xs: 6
+  }, /*#__PURE__*/React__default.createElement(Button, {
+    variant: "outlined",
+    startIcon: /*#__PURE__*/React__default.createElement(FilterAltIcon, null),
+    style: {
+      width: "100%"
+    }
+  }, "Filtrar")), /*#__PURE__*/React__default.createElement(Grid, {
+    xs: 6
+  }, /*#__PURE__*/React__default.createElement(Button, {
+    variant: "outlined",
+    startIcon: /*#__PURE__*/React__default.createElement(GroupWorkIcon, null),
+    style: {
+      width: "100%"
+    },
+    onClick: handleOpen
+  }, "Agrupar")), /*#__PURE__*/React__default.createElement(Grid, {
+    xs: 12
+  }, /*#__PURE__*/React__default.createElement(OptionsChecklist, {
+    title: "Detalhes do relat\xF3rio",
+    listOptions: listOptions
+  }))), /*#__PURE__*/React__default.createElement(Modal$1, {
+    open: open,
+    onClose: handleClose,
+    "aria-labelledby": "modal-modal-title",
+    "aria-describedby": "modal-modal-description"
+  }, /*#__PURE__*/React__default.createElement(Box, {
+    sx: style$d
+  }, /*#__PURE__*/React__default.createElement(Agrupamento, {
+    setOpen: setOpen,
+    handleClose: handleClose
+  }))));
+}
+
+var DataService = /*#__PURE__*/function () {
+  function DataService() {}
+
+  var _proto = DataService.prototype;
+
+  _proto.getData = function getData() {
+    return fetch("mocks/conveniados.json").then(function (res) {
+      return res.json();
+    }).then(function (d) {
+      return d.data;
+    });
+  };
+
+  return DataService;
+}();
+
+var DynaGrade = function DynaGrade() {
+  var _useState = useState([]),
+      registers = _useState[0],
+      setRegisters = _useState[1];
+
+  var configColumns = {
+    nome: {
+      field: "nome",
+      header: "Nome",
+      width: 230,
+      type: "string"
+    },
+    endereco: {
+      field: "endereco",
+      header: "Endereço",
+      width: 330,
+      type: "string"
+    },
+    telefone: {
+      field: "telefone",
+      header: "Telefone",
+      width: 160,
+      type: "string"
+    },
+    dependentes: {
+      field: "hasDependentes",
+      header: "Possui dependentes",
+      width: 160,
+      type: "string"
+    },
+    cidade: {
+      field: "cidade",
+      header: "Cidade",
+      width: 160,
+      type: "string"
+    }
+  };
+
+  var _useSelectedRegisters = useSelectedRegisters(),
+      _useSelectedRegisters2 = _useSelectedRegisters.state,
+      selecteds = _useSelectedRegisters2.selecteds,
+      fields = _useSelectedRegisters2.fields,
+      dispatch = _useSelectedRegisters.dispatch;
+
+  useMemo(function () {
+    var dataService = new DataService();
+    dataService.getData().then(function (data) {
+      return setRegisters(data);
+    });
+  }, []);
+
+  var onSelectRegister = function onSelectRegister(e) {
+    dispatch({
+      value: e,
+      type: "selecteds"
+    });
+  };
+
+  var _onColReorder = function onColReorder(e) {
+    var temp = [];
+    e.columns.forEach(function (e) {
+      temp.push(e.props.field);
+    });
+    dispatch({
+      value: temp,
+      type: "columnsOrder"
+    });
+  };
+
+  var dynamicColumns = fields.map(function (col, i) {
+    return /*#__PURE__*/React__default.createElement(Column, {
+      key: configColumns[col].field,
+      columnKey: configColumns[col].field,
+      field: configColumns[col].field,
+      header: configColumns[col].header,
+      filter: true,
+      filterPlaceholder: "Filtrar por " + configColumns[col].header
+    });
+  });
+  return /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/React__default.createElement(DataTable, {
+    value: registers,
+    reorderableColumns: true,
+    onColReorder: function onColReorder(e) {
+      return _onColReorder(e);
+    },
+    responsiveLayout: "scroll",
+    selection: selecteds,
+    onSelectionChange: function onSelectionChange(e) {
+      return onSelectRegister(e.value);
+    },
+    dataKey: "id",
+    selectionPageOnly: true,
+    paginator: true,
+    rows: 30,
+    size: "small",
+    showGridlines: true,
+    stripedRows: true
+  }, /*#__PURE__*/React__default.createElement(Column, {
+    selectionMode: "multiple",
+    headerStyle: {
+      width: "3em"
+    }
+  }), dynamicColumns)));
+};
+
+var availableFields = ["nome", "telefone", "endereco", "dependentes", "cidade"];
+var reportOptions = ["totalizar", "agrupar", "datahora"];
+var Principal = function Principal() {
+  var Item = styled(Paper$1)(function (_ref) {
+    var theme = _ref.theme;
+    return _extends({
+      backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff"
+    }, theme.typography.body2, {
+      padding: theme.spacing(1),
+      textAlign: "center",
+      color: theme.palette.text.secondary
+    });
+  });
+  return /*#__PURE__*/React__default.createElement(Box, {
+    sx: {
+      flexGrow: 1
+    }
+  }, /*#__PURE__*/React__default.createElement(Grid, {
+    container: true,
+    spacing: 2
+  }, /*#__PURE__*/React__default.createElement(Grid, {
+    xs: 3
+  }, /*#__PURE__*/React__default.createElement(Item, {
+    sx: {
+      marginBottom: "8px"
+    }
+  }, /*#__PURE__*/React__default.createElement(FieldsChecklist, {
+    title: "Campos disponiveis",
+    listOptions: availableFields
+  })), /*#__PURE__*/React__default.createElement(Item, {
+    sx: {
+      marginBottom: "8px"
+    }
+  }, /*#__PURE__*/React__default.createElement(ButtonsList, {
+    availableFields: availableFields,
+    listOptions: reportOptions
+  }))), /*#__PURE__*/React__default.createElement(Grid, {
+    xs: true
+  }, /*#__PURE__*/React__default.createElement(Item, null, /*#__PURE__*/React__default.createElement(DynaGrade, null)))));
+};
+
+function DynaReport() {
+  return /*#__PURE__*/React__default.createElement(DynaProvider, null, /*#__PURE__*/React__default.createElement(Principal, null));
+}
+
+export { AppContent$1 as AppContent, ArchivesContent, Conteiner, ConteinerItem, CustomBeneficiarieFields, CustomDataTable$1 as CustomDataTable, CustomDatePicker$1 as CustomDatePicker, CustomDialog$1 as CustomDialog, CustomInputSelect$1 as CustomInputSelect, CustomModal$1 as CustomModal, CustomTextField$1 as CustomTextField, CustomTimePicker$1 as CustomTimePicker, CustomToastMessage$1 as CustomToastMessage, DynaReport, FilesContent, FilesContentApi, FilesUpload$1 as FilesUpload, Header$1 as Header, HeaderAccordion$1 as HeaderAccordion, OperationDetail$1 as OperationDetail, OperationSection$1 as OperationSection, OperationTable$1 as OperationTable, PageBase$3 as PageBase, SaveComponent$1 as SaveComponent };
 //# sourceMappingURL=index.modern.js.map

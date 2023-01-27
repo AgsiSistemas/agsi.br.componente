@@ -30,6 +30,7 @@ import CustomBeneficiarieFields from './components/BeneficiarieFields/CustomBene
 import ArchivesContent from './components/ArchivesContent/ArchivesContent'
 import FilesContentApi from './components/FilesContentApi/FilesContentApi'
 import FilesContent from './components/FilesContent/FilesContent'
+import DynaReport from './components/DynaReport/DynaReport'
 
 export {
   Conteiner,
@@ -55,4 +56,5 @@ export {
   ArchivesContent,
   FilesContentApi,
   FilesContent,
+  DynaReport,
 };
