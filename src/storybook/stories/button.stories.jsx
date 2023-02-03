@@ -1,11 +1,9 @@
 import React from 'react'
-import Button from '@mui/material/Button'
+import DynaReport from '../../components/DynaReport/DynaReport'
 
 export default {
-  title: 'Button',
-  component: Button
+  title: 'DynaReport',
+  component: DynaReport
 }
 
-export const text = () => <Button variant='text'>Button</Button>
-export const contained = () => <Button variant='contained'>Button</Button>
-export const outlined = () => <Button variant='outlined'>Button</Button>
+export const TesteDynaReport = () => <DynaReport />
