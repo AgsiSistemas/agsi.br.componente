@@ -1,17 +1,17 @@
-import React from "react";
-import Typography from "@mui/material/Typography";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import { TypeIcon } from "./TypeIcon";
-import styles from "./CustomNode.module.css";
+import React from 'react'
+import Typography from '@mui/material/Typography'
+import ArrowRightIcon from '@mui/icons-material/ArrowRight'
+import { TypeIcon } from './TypeIcon'
+import styles from './CustomNode.module.css'
 
 export const CustomNode = (props) => {
-  const { droppable } = props.node;
-  const indent = props.depth * 24;
+  const { droppable } = props.node
+  const indent = props.depth * 24
 
   const handleToggle = (e) => {
-    e.stopPropagation();
-    props.onToggle(props.node.id);
-  };
+    e.stopPropagation()
+    props.onToggle(props.node.id)
+  }
 
   return (
     <div
@@ -20,7 +20,7 @@ export const CustomNode = (props) => {
     >
       <div
         className={`${styles.expandIconWrapper} ${
-          props.isOpen ? styles.isOpen : ""
+          props.isOpen ? styles.isOpen : ''
         }`}
       >
         {props.node.droppable && (
@@ -31,8 +31,8 @@ export const CustomNode = (props) => {
       </div>
       <TypeIcon droppable={droppable || false} />
       <div className={styles.labelGridItem}>
-        <Typography variant="body2">{props.node.text}</Typography>
+        <Typography variant='body2'>{props.node.text}</Typography>
       </div>
     </div>
-  );
-};
+  )
+}

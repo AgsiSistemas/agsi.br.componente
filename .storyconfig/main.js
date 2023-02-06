@@ -1,7 +1,8 @@
 module.exports = {
-  stories: ['../src/**/*.stories.js','../src/**/*.stories.jsx'],
+  stories: ['../src/**/*.stories.js','../src/**/*.stories.js'],
 	addons: [
 		'@storybook/addon-actions',
+		'storybook-css-modules',
 	],
 	features: {
 		babelModeV7: true,

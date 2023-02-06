@@ -29,9 +29,9 @@ export const Principal = () => {
   }));
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ minWidth:"840px" }}>
       <Grid container spacing={2}>
-        <Grid xs={3}>
+        <Grid xs={4} sm={4} md={4} lg={3} >
           <Item sx={{ marginBottom: "8px" }}>
             <FieldsChecklist
               title="Campos disponiveis"
@@ -47,7 +47,7 @@ export const Principal = () => {
           </Item>
         </Grid>
 
-        <Grid xs>
+        <Grid xs={8} sm={8} md={8} lg={9}>
           <Item>
             <DynaGrade />
           </Item>
