@@ -8,60 +8,53 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.0.64](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.63...v1.0.64) (2023-01-27)
 
-
 ### Bug Fixes
 
-* gitignore ([979a09a](https://github.com/AgsiSistemas/agsi.br.componente/commit/979a09aecd7e66560f8475368da860fa7c23f8d7))
+- gitignore ([979a09a](https://github.com/AgsiSistemas/agsi.br.componente/commit/979a09aecd7e66560f8475368da860fa7c23f8d7))
 
 ### [1.0.63](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.62...v1.0.63) (2023-01-18)
 
-
 ### Bug Fixes
 
-* Header Component. ([c744f27](https://github.com/AgsiSistemas/agsi.br.componente/commit/c744f27e9446bf730a72c8b7d26f4e03cecce818))
+- Header Component. ([c744f27](https://github.com/AgsiSistemas/agsi.br.componente/commit/c744f27e9446bf730a72c8b7d26f4e03cecce818))
 
 ### [1.0.62](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.61...v1.0.62) (2023-01-17)
 
 ### [1.0.61](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.60...v1.0.61) (2023-01-16)
 
-
 ### Bug Fixes
 
-* Header Component. ([41bb35f](https://github.com/AgsiSistemas/agsi.br.componente/commit/41bb35f3b0239995a8efa25330456fb272c2eef4))
+- Header Component. ([41bb35f](https://github.com/AgsiSistemas/agsi.br.componente/commit/41bb35f3b0239995a8efa25330456fb272c2eef4))
 
 ### [1.0.60](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.59...v1.0.60) (2023-01-16)
 
-
 ### Bug Fixes
 
-* Input Select marginTop ([3f54a46](https://github.com/AgsiSistemas/agsi.br.componente/commit/3f54a461b2478788f125f9b9086708291814cd31))
+- Input Select marginTop ([3f54a46](https://github.com/AgsiSistemas/agsi.br.componente/commit/3f54a461b2478788f125f9b9086708291814cd31))
 
 ### [1.0.59](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.58...v1.0.59) (2023-01-12)
 
 ### [1.0.58](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.57...v1.0.58) (2023-01-10)
 
-
 ### Bug Fixes
 
-* Components. ([2bd4b4b](https://github.com/AgsiSistemas/agsi.br.componente/commit/2bd4b4b084d0ca754fbc6ac92997e89161d5e2a8))
+- Components. ([2bd4b4b](https://github.com/AgsiSistemas/agsi.br.componente/commit/2bd4b4b084d0ca754fbc6ac92997e89161d5e2a8))
 
 ### [1.0.57](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.56...v1.0.57) (2023-01-06)
 
 ### [1.0.56](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.55...v1.0.56) (2023-01-06)
 
-
 ### Bug Fixes
 
-* CustomInputSelect. ([f8cbeb7](https://github.com/AgsiSistemas/agsi.br.componente/commit/f8cbeb7395de079116387096701a5499b23999db))
+- CustomInputSelect. ([f8cbeb7](https://github.com/AgsiSistemas/agsi.br.componente/commit/f8cbeb7395de079116387096701a5499b23999db))
 
 ### [1.0.55](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.54...v1.0.55) (2023-01-03)
 
 ### [1.0.54](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.53...v1.0.54) (2023-01-03)
 
-
 ### Bug Fixes
 
-* OperationTable. ([31cbdc0](https://github.com/AgsiSistemas/agsi.br.componente/commit/31cbdc07d57ce114444625d2ef8f7240467d7058))
+- OperationTable. ([31cbdc0](https://github.com/AgsiSistemas/agsi.br.componente/commit/31cbdc07d57ce114444625d2ef8f7240467d7058))
 
 ### [1.0.53](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.52...v1.0.53) (2023-01-02)
 
@@ -71,33 +64,29 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.0.50](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.49...v1.0.50) (2022-12-30)
 
-
 ### Bug Fixes
 
-* Bugs BeneficiariFields. ([d1a811b](https://github.com/AgsiSistemas/agsi.br.componente/commit/d1a811bd72bd94c4b681d64ee094b29b204481c2))
+- Bugs BeneficiariFields. ([d1a811b](https://github.com/AgsiSistemas/agsi.br.componente/commit/d1a811bd72bd94c4b681d64ee094b29b204481c2))
 
 ### [1.0.49](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.48...v1.0.49) (2022-12-30)
 
-
 ### Bug Fixes
 
-* BeneficiarieFields. ([099fa03](https://github.com/AgsiSistemas/agsi.br.componente/commit/099fa03b1f16264dd93f1e144e0082c24b66ccc6))
+- BeneficiarieFields. ([099fa03](https://github.com/AgsiSistemas/agsi.br.componente/commit/099fa03b1f16264dd93f1e144e0082c24b66ccc6))
 
 ### [1.0.48](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.47...v1.0.48) (2022-12-29)
 
 ### [1.0.47](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.46...v1.0.47) (2022-12-29)
 
-
 ### Bug Fixes
 
-* CustomDatePicker. ([4a648be](https://github.com/AgsiSistemas/agsi.br.componente/commit/4a648be1c0ab5b7538bc2599e09bd44f92683218))
+- CustomDatePicker. ([4a648be](https://github.com/AgsiSistemas/agsi.br.componente/commit/4a648be1c0ab5b7538bc2599e09bd44f92683218))
 
 ### [1.0.46](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.45...v1.0.46) (2022-12-27)
 
-
 ### Bug Fixes
 
-* Errors console. ([7c8c517](https://github.com/AgsiSistemas/agsi.br.componente/commit/7c8c5174445f38cb13cff6707d39fe03193f290a))
+- Errors console. ([7c8c517](https://github.com/AgsiSistemas/agsi.br.componente/commit/7c8c5174445f38cb13cff6707d39fe03193f290a))
 
 ### [1.0.45](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.44...v1.0.45) (2022-12-27)
 
@@ -119,10 +108,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.0.36](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.35...v1.0.36) (2022-12-21)
 
-
 ### Bug Fixes
 
-* ArchivesContent max size. ([8c87af8](https://github.com/AgsiSistemas/agsi.br.componente/commit/8c87af8902bfd768ea9352929ea75dbeb5df88b9))
+- ArchivesContent max size. ([8c87af8](https://github.com/AgsiSistemas/agsi.br.componente/commit/8c87af8902bfd768ea9352929ea75dbeb5df88b9))
 
 ### [1.0.35](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.34...v1.0.35) (2022-12-20)
 
@@ -132,10 +120,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.0.32](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.31...v1.0.32) (2022-12-15)
 
-
 ### Bug Fixes
 
-* component none notification ([13cc271](https://github.com/AgsiSistemas/agsi.br.componente/commit/13cc271ad1e60e2aa0f80f7b3815513b4ab029c3))
+- component none notification ([13cc271](https://github.com/AgsiSistemas/agsi.br.componente/commit/13cc271ad1e60e2aa0f80f7b3815513b4ab029c3))
 
 ### [1.0.31](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.30...v1.0.31) (2022-12-08)
 
@@ -153,57 +140,50 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.0.24](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.23...v1.0.24) (2022-12-06)
 
-
 ### Bug Fixes
 
-* CustomTimePicker. ([ff62815](https://github.com/AgsiSistemas/agsi.br.componente/commit/ff62815060599007e353e14b37c308880280b886))
-* CustomTimePicker. ([54a6233](https://github.com/AgsiSistemas/agsi.br.componente/commit/54a62336ac4f130ab29e1498a36e73e4835b1b8b))
+- CustomTimePicker. ([ff62815](https://github.com/AgsiSistemas/agsi.br.componente/commit/ff62815060599007e353e14b37c308880280b886))
+- CustomTimePicker. ([54a6233](https://github.com/AgsiSistemas/agsi.br.componente/commit/54a62336ac4f130ab29e1498a36e73e4835b1b8b))
 
 ### [1.0.23](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.22...v1.0.23) (2022-12-06)
 
-
 ### Bug Fixes
 
-* Container Wrap and new version. ([d325164](https://github.com/AgsiSistemas/agsi.br.componente/commit/d325164879a05e92c8e1cca4e6b6b699489ddc32))
+- Container Wrap and new version. ([d325164](https://github.com/AgsiSistemas/agsi.br.componente/commit/d325164879a05e92c8e1cca4e6b6b699489ddc32))
 
 ### [1.0.22](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.21...v1.0.22) (2022-12-06)
 
-
 ### Bug Fixes
 
-* CustomBeneficiariesFields. ([733b91f](https://github.com/AgsiSistemas/agsi.br.componente/commit/733b91f35f2e9fa57c25f15a069d4cacd3ef504a))
+- CustomBeneficiariesFields. ([733b91f](https://github.com/AgsiSistemas/agsi.br.componente/commit/733b91f35f2e9fa57c25f15a069d4cacd3ef504a))
 
 ### [1.0.21](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.20...v1.0.21) (2022-12-04)
 
-
 ### Bug Fixes
 
-* CustomDatePickerComponent. ([fbab326](https://github.com/AgsiSistemas/agsi.br.componente/commit/fbab32696b86401b7483d8fd2bfcc4bf95f4f4c5))
+- CustomDatePickerComponent. ([fbab326](https://github.com/AgsiSistemas/agsi.br.componente/commit/fbab32696b86401b7483d8fd2bfcc4bf95f4f4c5))
 
 ### [1.0.20](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.19...v1.0.20) (2022-12-02)
 
-
 ### Bug Fixes
 
-* Name required. ([c09cb59](https://github.com/AgsiSistemas/agsi.br.componente/commit/c09cb5925e60761857ee1d1c70407d0f7705bc77))
+- Name required. ([c09cb59](https://github.com/AgsiSistemas/agsi.br.componente/commit/c09cb5925e60761857ee1d1c70407d0f7705bc77))
 
 ### [1.0.19](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.18...v1.0.19) (2022-12-02)
 
 ### [1.0.18](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.17...v1.0.18) (2022-12-02)
 
-
 ### Bug Fixes
 
-* CustomBeneficiarieFieldsComponent. ([505b8a4](https://github.com/AgsiSistemas/agsi.br.componente/commit/505b8a4fdbab739d2d2d108a56addab47a76dc8e))
+- CustomBeneficiarieFieldsComponent. ([505b8a4](https://github.com/AgsiSistemas/agsi.br.componente/commit/505b8a4fdbab739d2d2d108a56addab47a76dc8e))
 
 ### [1.0.17](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.16...v1.0.17) (2022-11-21)
 
 ### [1.0.16](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.15...v1.0.16) (2022-11-21)
 
-
 ### Bug Fixes
 
-* PropTypes SaveComponents ([98b437a](https://github.com/AgsiSistemas/agsi.br.componente/commit/98b437a9a637f0c8920fba2394807c1c6e2d3ef3))
+- PropTypes SaveComponents ([98b437a](https://github.com/AgsiSistemas/agsi.br.componente/commit/98b437a9a637f0c8920fba2394807c1c6e2d3ef3))
 
 ### [1.0.15](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.14...v1.0.15) (2022-11-18)
 
@@ -215,17 +195,15 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.0.11](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.10...v1.0.11) (2022-11-09)
 
-
 ### Bug Fixes
 
-* Comp. FilesUpload. ([c35f1b3](https://github.com/AgsiSistemas/agsi.br.componente/commit/c35f1b3c04091049fbf399fa622be7cab4ef8292))
+- Comp. FilesUpload. ([c35f1b3](https://github.com/AgsiSistemas/agsi.br.componente/commit/c35f1b3c04091049fbf399fa622be7cab4ef8292))
 
 ### [1.0.10](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.9...v1.0.10) (2022-11-03)
 
-
 ### Bug Fixes
 
-* Padding Css DatePicker and TimePicker ([0a927db](https://github.com/AgsiSistemas/agsi.br.componente/commit/0a927dbbb9d2bba5e1a31b995f70f3ea48ea733e))
+- Padding Css DatePicker and TimePicker ([0a927db](https://github.com/AgsiSistemas/agsi.br.componente/commit/0a927dbbb9d2bba5e1a31b995f70f3ea48ea733e))
 
 ### [1.0.9](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.8...v1.0.9) (2022-10-20)
 
@@ -233,14 +211,13 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.0.7](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.2...v1.0.7) (2022-10-18)
 
-
 ### Bug Fixes
 
-* add FilesUpload to List Components ([d03b654](https://github.com/AgsiSistemas/agsi.br.componente/commit/d03b6546a82fba77d70fd2710de1453bc50b45fe))
-* AppContent Component margin ([cf98364](https://github.com/AgsiSistemas/agsi.br.componente/commit/cf98364326f86a33b4dcebf769590af012b3d039))
-* corrections to alert validation. ([ef3fdd2](https://github.com/AgsiSistemas/agsi.br.componente/commit/ef3fdd26922a8e0b7994b15d328fa802dd3d2be4))
-* OperationTable Component, Center contents ([5f48082](https://github.com/AgsiSistemas/agsi.br.componente/commit/5f48082d3081995a7a21926b3ffeff8fbefa3b10))
-* Save Component, MarginTop; ([93615c3](https://github.com/AgsiSistemas/agsi.br.componente/commit/93615c30d338485de0936a29c019646c0e3b5500))
+- add FilesUpload to List Components ([d03b654](https://github.com/AgsiSistemas/agsi.br.componente/commit/d03b6546a82fba77d70fd2710de1453bc50b45fe))
+- AppContent Component margin ([cf98364](https://github.com/AgsiSistemas/agsi.br.componente/commit/cf98364326f86a33b4dcebf769590af012b3d039))
+- corrections to alert validation. ([ef3fdd2](https://github.com/AgsiSistemas/agsi.br.componente/commit/ef3fdd26922a8e0b7994b15d328fa802dd3d2be4))
+- OperationTable Component, Center contents ([5f48082](https://github.com/AgsiSistemas/agsi.br.componente/commit/5f48082d3081995a7a21926b3ffeff8fbefa3b10))
+- Save Component, MarginTop; ([93615c3](https://github.com/AgsiSistemas/agsi.br.componente/commit/93615c30d338485de0936a29c019646c0e3b5500))
 
 ### [1.0.6](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.2...v1.0.6) (2022-10-02)
 

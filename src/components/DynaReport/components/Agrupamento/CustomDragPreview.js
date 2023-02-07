@@ -1,9 +1,9 @@
-import React from "react";
-import { TypeIcon } from "./TypeIcon";
-import styles from "./CustomDragPreview.module.css";
+import React from 'react'
+import { TypeIcon } from './TypeIcon'
+import styles from './CustomDragPreview.module.css'
 
 export const CustomDragPreview = (props) => {
-  const item = props.monitorProps.item;
+  const item = props.monitorProps.item
 
   return (
     <div className={styles.root}>
@@ -12,5 +12,5 @@ export const CustomDragPreview = (props) => {
       </div>
       <div className={styles.label}>{item.text}</div>
     </div>
-  );
-};
+  )
+}

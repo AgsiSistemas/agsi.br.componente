@@ -1,3 +1,3 @@
 export const beneficiarie = {
-    AUTH_BENEFICIARIO: "BENEFICIARIO"
+  AUTH_BENEFICIARIO: 'BENEFICIARIO'
 }

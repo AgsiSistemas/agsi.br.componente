@@ -1,24 +1,24 @@
-import * as React from 'react';
-import { useNavigate } from "react-router-dom";
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import MoreIcon from '@mui/icons-material/MoreVert';
-import AppsIcon from '@mui/icons-material/Apps';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import FolderSharedIcon from '@mui/icons-material/FolderShared';
-import Divider from '@mui/material/Divider';
-import HeaderApp from './HeaderApp';
-import Badge from '@mui/material/Badge';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import { Tooltip } from '@mui/material';
+import * as React from 'react'
+import { useNavigate } from 'react-router-dom'
+import AppBar from '@mui/material/AppBar'
+import Box from '@mui/material/Box'
+import Toolbar from '@mui/material/Toolbar'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
+import MenuItem from '@mui/material/MenuItem'
+import Menu from '@mui/material/Menu'
+import MenuIcon from '@mui/icons-material/Menu'
+import AccountCircle from '@mui/icons-material/AccountCircle'
+import MoreIcon from '@mui/icons-material/MoreVert'
+import AppsIcon from '@mui/icons-material/Apps'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ExitToAppIcon from '@mui/icons-material/ExitToApp'
+import FolderSharedIcon from '@mui/icons-material/FolderShared'
+import Divider from '@mui/material/Divider'
+import HeaderApp from './HeaderApp'
+import Badge from '@mui/material/Badge'
+import NotificationsIcon from '@mui/icons-material/Notifications'
+import { Tooltip } from '@mui/material'
 import MenuAppList from './MenuAppList'
 import './Header.css'
 
@@ -27,26 +27,23 @@ import {
   removeToken,
   getRememberMenuLocalStorage,
   roleUserBeneficiarie
-} from './HeaderUtils';
-import { getOperator } from './HeaderUtils.js';
-
+} from './HeaderUtils'
+import { getOperator } from './HeaderUtils.js'
 
 const Header = ({ title, listApp = [], notification }) => {
-
   var navigate = useNavigate()
 
-  const [openMenu, setOpenMenu] = React.useState(getRememberMenuLocalStorage());
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [openMenu, setOpenMenu] = React.useState(getRememberMenuLocalStorage())
+  const [anchorEl, setAnchorEl] = React.useState(null)
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
 
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const isMenuOpen = Boolean(anchorEl)
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
 
   const handleClick = (event) => {
     let remember = getRememberMenuLocalStorage()
     setOpenMenu(remember ? remember : !openMenu)
-
-  };
+  }
 
   // Change open or close apps Menus
   window.addEventListener('mousedown', function (e) {
@@ -63,37 +60,35 @@ const Header = ({ title, listApp = [], notification }) => {
       return
     }
 
-    if (!remember && openMenu)
-      setOpenMenu(false)
-
-  });
+    if (!remember && openMenu) setOpenMenu(false)
+  })
 
   const handleProfileMenuOpen = (event) => {
     let remember = getRememberMenuLocalStorage()
     if (!remember && openMenu) setOpenMenu(false)
-    setAnchorEl(event.currentTarget);
-  };
+    setAnchorEl(event.currentTarget)
+  }
 
   const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
+    setMobileMoreAnchorEl(null)
+  }
 
   const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
+    setAnchorEl(null)
+    handleMobileMenuClose()
+  }
 
   const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
+    setMobileMoreAnchorEl(event.currentTarget)
+  }
 
   const handleExit = () => {
     removeToken()
-    navigate("/")
+    navigate('/')
     window.location.reload()
   }
 
-  const menuId = 'primary-search-account-menu';
+  const menuId = 'primary-search-account-menu'
   const renderMenu = (
     <Menu
       onClose={handleMenuClose}
@@ -108,23 +103,22 @@ const Header = ({ title, listApp = [], notification }) => {
         <Divider sx={{ width: '90%', ml: 1 }} />
         <MenuItem onClick={handleMenuClose}>
           <ListItemIcon>
-            <FolderSharedIcon fontSize="small" />
+            <FolderSharedIcon fontSize='small' />
           </ListItemIcon>
           Perfil
         </MenuItem>
         <Divider />
         <MenuItem onClick={() => handleExit()}>
           <ListItemIcon>
-            <ExitToAppIcon fontSize="small" />
+            <ExitToAppIcon fontSize='small' />
           </ListItemIcon>
           Sair
         </MenuItem>
       </div>
     </Menu>
-  );
+  )
 
-
-  const mobileMenuId = 'primary-search-account-menu-mobile';
+  const mobileMenuId = 'primary-search-account-menu-mobile'
   const renderMobileMenu = (
     <Menu
       onClose={handleMobileMenuClose}
@@ -137,38 +131,34 @@ const Header = ({ title, listApp = [], notification }) => {
     >
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
-          size="small"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
+          size='small'
+          aria-label='account of current user'
+          aria-controls='primary-search-account-menu'
+          aria-haspopup='true'
+          color='inherit'
         >
           <AccountCircle />
         </IconButton>
         <p>Perfil</p>
       </MenuItem>
       <MenuItem onClick={handleClick}>
-        <IconButton
-          size="small"
-          aria-haspopup="true"
-          color="inherit"
-        >
+        <IconButton size='small' aria-haspopup='true' color='inherit'>
           <AppsIcon />
         </IconButton>
         <p>Módulos</p>
       </MenuItem>
     </Menu>
-  );
+  )
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar className='header-app-bar' position="fixed">
+      <AppBar className='header-app-bar' position='fixed'>
         <Toolbar>
           <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
+            size='large'
+            edge='start'
+            color='inherit'
+            aria-label='open drawer'
             sx={{ mr: 2 }}
             onClick={() => ToggleSideBar()}
           >
@@ -177,9 +167,9 @@ const Header = ({ title, listApp = [], notification }) => {
             </Tooltip>
           </IconButton>
           <Typography
-            variant="h6"
+            variant='h6'
             noWrap
-            component="div"
+            component='div'
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
             {title}
@@ -187,45 +177,51 @@ const Header = ({ title, listApp = [], notification }) => {
 
           <Box sx={{ flexGrow: 1 }} />
 
-          <Box sx={{ display: { xs: 'none', md: 'flex' }, marginRight: '15px' }}>
-            {notification &&
+          <Box
+            sx={{ display: { xs: 'none', md: 'flex' }, marginRight: '15px' }}
+          >
+            {notification && (
               <IconButton
-                size="large"
-                aria-label="show more"
-                aria-haspopup="true"
-                color="inherit"
+                size='large'
+                aria-label='show more'
+                aria-haspopup='true'
+                color='inherit'
               >
-                <Badge color="error" badgeContent={notification.notificationUnread}>
+                <Badge
+                  color='error'
+                  badgeContent={notification.notificationUnread}
+                >
                   <Tooltip title='Notificações'>
                     <NotificationsIcon onClick={notification.onClick} />
                   </Tooltip>
                 </Badge>
               </IconButton>
-            }
+            )}
           </Box>
 
           <Box id='menu-apps' sx={{ display: { xs: 'flex', md: 'flex' } }}>
-            {!roleUserBeneficiarie() && <IconButton
-              id="app-menu"
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="Módulos"
-              onClick={handleClick}
-            >
-              <Tooltip title='Aplicativos'>
-
-                <AppsIcon />
-              </Tooltip>
-            </IconButton>}
+            {!roleUserBeneficiarie() && (
+              <IconButton
+                id='app-menu'
+                size='large'
+                edge='start'
+                color='inherit'
+                aria-label='Módulos'
+                onClick={handleClick}
+              >
+                <Tooltip title='Aplicativos'>
+                  <AppsIcon />
+                </Tooltip>
+              </IconButton>
+            )}
             <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
+              size='large'
+              edge='end'
+              aria-label='account of current user'
               aria-controls={menuId}
-              aria-haspopup="true"
+              aria-haspopup='true'
               onClick={handleProfileMenuOpen}
-              color="inherit"
+              color='inherit'
             >
               <Tooltip title='Usuário'>
                 <AccountCircle />
@@ -248,28 +244,28 @@ const Header = ({ title, listApp = [], notification }) => {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-      <MenuAppList open={openMenu} >
-        <section className="grid grid-template-columns-4">
-          {
-            listApp.map((item, index) =>
-              <Box key={index}>
-                <HeaderApp index={index} title={item.title}
-                  onClick={() => {
-                    if (item.link.includes('http')) {
-                      window.open(item.link, "_blank")
-                    } else {
-                      navigate(item.link)
-                      window.location.reload()
-                    }
-                  }} />
-              </Box>
-            )
-          }
+      <MenuAppList open={openMenu}>
+        <section className='grid grid-template-columns-4'>
+          {listApp.map((item, index) => (
+            <Box key={index}>
+              <HeaderApp
+                index={index}
+                title={item.title}
+                onClick={() => {
+                  if (item.link.includes('http')) {
+                    window.open(item.link, '_blank')
+                  } else {
+                    navigate(item.link)
+                    window.location.reload()
+                  }
+                }}
+              />
+            </Box>
+          ))}
         </section>
       </MenuAppList>
-    </Box >
-  );
+    </Box>
+  )
 }
 
 export default React.memo(Header)
-

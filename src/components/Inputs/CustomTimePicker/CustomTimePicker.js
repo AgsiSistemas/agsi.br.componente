@@ -1,15 +1,24 @@
 import React from 'react'
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types'
 import './CustomTimePicker.scss'
 
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker'
 import { ptBR } from 'date-fns/locale'
-import { TextField } from '@mui/material';
+import { TextField } from '@mui/material'
 
-const CustomTimePicker = ({ id, label, value, mask, onChange, placeHolder, ampm, disabled, ...other }) => {
-
+const CustomTimePicker = ({
+  id,
+  label,
+  value,
+  mask,
+  onChange,
+  placeHolder,
+  ampm,
+  disabled,
+  ...other
+}) => {
   const [dateValidation, setDateValidation] = React.useState('')
 
   return (
@@ -19,12 +28,12 @@ const CustomTimePicker = ({ id, label, value, mask, onChange, placeHolder, ampm,
           label={label}
           value={value}
           disabled={disabled}
-          type="datetime-local"
+          type='datetime-local'
           ampm={ampm || false}
-          mask={mask || "__:__"}
+          mask={mask || '__:__'}
           onError={(e) => setDateValidation(e)}
           onChange={onChange}
-          renderInput={(params) =>
+          renderInput={(params) => (
             <TextField
               {...params}
               id={'custom-time-picker'}
@@ -32,12 +41,13 @@ const CustomTimePicker = ({ id, label, value, mask, onChange, placeHolder, ampm,
               sx={{ marginTop: '8px' }}
               inputProps={{
                 ...params.inputProps,
-                placeholder: placeHolder || "00:00",
+                placeholder: placeHolder || '00:00'
               }}
               error={!value || dateValidation}
               onKeyDown={(e) => e.preventDefault()}
               {...other}
-            />}
+            />
+          )}
         />
       </LocalizationProvider>
     </React.Fragment>
@@ -47,26 +57,23 @@ const CustomTimePicker = ({ id, label, value, mask, onChange, placeHolder, ampm,
 CustomTimePicker.propTypes = {
   id: PropTypes.string,
   label: PropTypes.string,
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object
-  ]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   mask: PropTypes.string,
   onChange: PropTypes.func,
   placeHolder: PropTypes.string,
   ampm: PropTypes.bool,
-  disabled: PropTypes.bool,
-};
+  disabled: PropTypes.bool
+}
 
 CustomTimePicker.defaultProp = {
-  id: "",
-  label: "",
+  id: '',
+  label: '',
   value: {},
-  mask: "__:__",
-  onChange: () => { },
-  placeHolder: "00:00",
+  mask: '__:__',
+  onChange: () => {},
+  placeHolder: '00:00',
   ampm: false,
-  disabled: false,
-};
+  disabled: false
+}
 
 export default React.memo(CustomTimePicker)
