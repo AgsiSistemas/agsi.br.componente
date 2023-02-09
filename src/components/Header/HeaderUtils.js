@@ -97,7 +97,7 @@ export function roleUserBeneficiarie() {
 
   const agsiJwt = localStorage.getItem('agsi-tk') ? parseJwt(localStorage.getItem('agsi-tk')) : ''
 
-  if (!agsiJwt) { return <AccessDenied /> }
+  // if (!agsiJwt) { return <AccessDenied /> }
 
   if (agsiJwt.authorities.includes(authorities.ROLE_BENEFICIARIO)) {
     return { 'wallet': agsiJwt.code }
