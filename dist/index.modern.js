@@ -1178,9 +1178,6 @@ var getRememberMenuLocalStorage = function getRememberMenuLocalStorage() {
 };
 function roleUserBeneficiarie() {
   var agsiJwt = localStorage.getItem('agsi-tk') ? parseJwt(localStorage.getItem('agsi-tk')) : '';
-  if (!agsiJwt) {
-    return /*#__PURE__*/React__default.createElement(AccessDenied, null);
-  }
   if (agsiJwt.authorities.includes(authorities.ROLE_BENEFICIARIO)) {
     return {
       'wallet': agsiJwt.code

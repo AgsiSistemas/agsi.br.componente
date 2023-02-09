@@ -11,7 +11,8 @@ server json/node_modules
 # production
 /build
 
-/dist/*
+/dist
+dist/
 
 # misc
 .DS_Store
@@ -19,6 +20,7 @@ server json/node_modules
 .env.development.local
 .env.test.local
 .env.production.local
+dist/
 
 npm-debug.log*
 yarn-debug.log*
