@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.67](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.66...v1.0.67) (2023-02-09)
+
+
+### Bug Fixes
+
+* import React header ([71ce6fc](https://github.com/AgsiSistemas/agsi.br.componente/commit/71ce6fc599930ecde7c7d9ed3d80cde5af548429))
+* Rc-tree ([db8230c](https://github.com/AgsiSistemas/agsi.br.componente/commit/db8230c54291d4ab6614e8fc33863caf78332b81))
+
 ### [1.0.66](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.65...v1.0.66) (2023-01-27)
 
 ### [1.0.65](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.64...v1.0.65) (2023-01-27)
