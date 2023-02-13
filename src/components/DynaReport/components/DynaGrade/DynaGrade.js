@@ -2,7 +2,6 @@ import 'primeicons/primeicons.css'
 import 'primereact/resources/themes/lara-light-indigo/theme.css'
 import 'primereact/resources/primereact.css'
 import 'primeflex/primeflex.css'
-import './index.css'
 
 import React, { useState, useMemo } from 'react'
 import { DataTable } from 'primereact/datatable'
@@ -13,7 +12,7 @@ export const DynaGrade = ({ conv }) => {
   const [registers, setRegisters] = useState([])
 
   const {
-    state: { selecteds, checkedFields },
+    state: { selecteds, checkedFields, columnsOrder },
     dispatch
   } = useSelectedRegisters()
 
@@ -33,17 +32,21 @@ export const DynaGrade = ({ conv }) => {
     dispatch({ value: temp, type: 'columnsOrder' })
   }
 
-  const dynamicColumns = checkedFields.map((field) => {
-    return (
-      <Column
-        key={field}
-        columnKey={field}
-        field={field}
-        header={field}
-        filter
-        filterPlaceholder={`Filtrar por ${field}`}
-      />
-    )
+  const dynamicColumns = columnsOrder.map((field) => {
+    if (checkedFields.includes(field)) {
+      return (
+        <Column
+          key={field}
+          columnKey={field}
+          field={field}
+          header={field}
+          filter
+          filterPlaceholder={`Filtrar por ${field}`}
+        />
+      )
+    } else {
+      return null
+    }
   })
 
   return (
