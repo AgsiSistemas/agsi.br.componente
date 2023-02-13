@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import Grid from '@mui/material/Unstable_Grid2'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-import { dicionary } from '../../utils/Constants'
 import Divider from '@mui/material/Divider'
 
 import { DndProvider } from 'react-dnd'
@@ -34,7 +33,7 @@ const formatExternalNodes = (nodes, group) => {
         id: element,
         parent: 0,
         droppable: false,
-        text: dicionary[element]
+        text: element
       })
     }
   })
@@ -52,7 +51,7 @@ const defaultGroup = [
 
 export const Agrupamento = ({ handleClose }) => {
   const {
-    state: { fields, agrupamento },
+    state: { checkedFields, agrupamento },
     dispatch
   } = useSelectedRegisters()
 
@@ -61,12 +60,12 @@ export const Agrupamento = ({ handleClose }) => {
   )
 
   const [externalNodes, setExternalNodes] = useState(
-    formatExternalNodes(fields, agrupamento)
+    formatExternalNodes(checkedFields, agrupamento)
   )
 
   useEffect(
-    () => setExternalNodes(formatExternalNodes(fields, agrupamento)),
-    [fields, agrupamento]
+    () => setExternalNodes(formatExternalNodes(checkedFields, agrupamento)),
+    [checkedFields, agrupamento]
   )
   useEffect(
     () => setTree(agrupamento.length > 0 ? agrupamento : defaultGroup),
@@ -96,7 +95,7 @@ export const Agrupamento = ({ handleClose }) => {
   }
   const handleLimpar = () => {
     setTree(agrupamento.length > 0 ? agrupamento : defaultGroup)
-    setExternalNodes(formatExternalNodes(fields, agrupamento))
+    setExternalNodes(formatExternalNodes(checkedFields, agrupamento))
   }
 
   return (

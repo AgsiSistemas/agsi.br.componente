@@ -8,6 +8,8 @@ function contextReducer(state, action) {
     return { ...state, columnsOrder: action.value }
   } else if (action.type === 'fields') {
     return { ...state, fields: action.value }
+  } else if (action.type === 'checkedFields') {
+    return { ...state, checkedFields: action.value }
   } else if (action.type === 'agrupamento') {
     return { ...state, agrupamento: action.value }
   } else if (action.type === 'options') {
@@ -18,8 +20,9 @@ function contextReducer(state, action) {
 function DynaProvider({ children }) {
   const [state, dispatch] = React.useReducer(contextReducer, {
     selecteds: [],
-    columnsOrder: [null, 'nome', 'telefone'],
-    fields: ['nome', 'telefone'],
+    columnsOrder: [],
+    fields: [],
+    checkedFields: [],
     agrupamento: [],
     options: []
   })

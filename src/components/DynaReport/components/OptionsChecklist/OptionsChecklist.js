@@ -8,7 +8,6 @@ import Checkbox from '@mui/material/Checkbox'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
-import { dicionary } from '../../utils/Constants'
 import Box from '@mui/material/Box'
 import { useSelectedRegisters } from '../../context/context'
 
@@ -48,9 +47,7 @@ export default function OptionsChecklist({ listOptions, title }) {
           return (
             <ListItem
               key={value}
-              secondaryAction={
-                <IconButton edge='end' aria-label='comments'></IconButton>
-              }
+              secondaryAction={<IconButton edge='end' aria-label='comments' />}
               disablePadding
             >
               <ListItemButton
@@ -67,7 +64,7 @@ export default function OptionsChecklist({ listOptions, title }) {
                     inputProps={{ 'aria-labelledby': labelId }}
                   />
                 </ListItemIcon>
-                <ListItemText id={labelId} primary={dicionary[value]} />
+                <ListItemText id={labelId} primary={value} />
               </ListItemButton>
             </ListItem>
           )

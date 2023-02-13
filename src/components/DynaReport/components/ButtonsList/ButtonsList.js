@@ -3,7 +3,7 @@ import Grid from '@mui/material/Unstable_Grid2'
 import Box from '@mui/material/Box'
 import SearchIcon from '@mui/icons-material/Search'
 import DescriptionIcon from '@mui/icons-material/Description'
-import FilterAltIcon from '@mui/icons-material/FilterAlt'
+import DataSaverOnIcon from '@mui/icons-material/DataSaverOn'
 import GroupWorkIcon from '@mui/icons-material/GroupWork'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
@@ -28,9 +28,14 @@ const style = {
 }
 
 function ButtonsList({ listOptions }) {
-  const [open, setOpen] = useState(false)
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+  const [openAgrupamento, setOpenAgrupamento] = useState(false)
+  const handleOpenAgrupamento = () => setOpenAgrupamento(true)
+  const handleCloseAgrupamento = () => setOpenAgrupamento(false)
+
+  const [openSomar, setOpenSomar] = useState(false)
+  const handleOpenSomar = () => setOpenSomar(true)
+  const handleCloseSomar = () => setOpenSomar(false)
+
   const {
     state: { selecteds, fields, options }
   } = useSelectedRegisters()
@@ -81,10 +86,11 @@ function ButtonsList({ listOptions }) {
         <Grid xs={6}>
           <Button
             variant='outlined'
-            startIcon={<FilterAltIcon />}
+            startIcon={<DataSaverOnIcon />}
             style={{ width: '100%' }}
+            onClick={handleOpenSomar}
           >
-            Filtrar
+            Somar
           </Button>
         </Grid>
         <Grid xs={6}>
@@ -92,7 +98,7 @@ function ButtonsList({ listOptions }) {
             variant='outlined'
             startIcon={<GroupWorkIcon />}
             style={{ width: '100%' }}
-            onClick={handleOpen}
+            onClick={handleOpenAgrupamento}
           >
             Agrupar
           </Button>
@@ -105,13 +111,26 @@ function ButtonsList({ listOptions }) {
         </Grid>
       </Grid>
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={openAgrupamento}
+        onClose={handleCloseAgrupamento}
         aria-labelledby='modal-modal-title'
         aria-describedby='modal-modal-description'
       >
         <Box sx={style}>
-          <Agrupamento setOpen={setOpen} handleClose={handleClose} />
+          <Agrupamento
+            setOpen={setOpenAgrupamento}
+            handleClose={handleCloseAgrupamento}
+          />
+        </Box>
+      </Modal>
+      <Modal
+        open={openSomar}
+        onClose={handleCloseSomar}
+        aria-labelledby='modal-modal-title'
+        aria-describedby='modal-modal-description'
+      >
+        <Box sx={style}>
+          <Agrupamento setOpen={setOpenSomar} handleClose={handleCloseSomar} />
         </Box>
       </Modal>
     </Box>

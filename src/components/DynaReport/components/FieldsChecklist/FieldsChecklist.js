@@ -8,19 +8,18 @@ import Checkbox from '@mui/material/Checkbox'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
-import { dicionary } from '../../utils/Constants'
 import Box from '@mui/material/Box'
 import { useSelectedRegisters } from '../../context/context'
 
-export default function FieldsChecklist({ listOptions, title }) {
+export default function FieldsChecklist() {
   const {
-    state: { fields },
+    state: { fields, checkedFields },
     dispatch
   } = useSelectedRegisters()
 
   const handleToggle = (value) => () => {
-    const currentIndex = fields.indexOf(value)
-    const newChecked = [...fields]
+    const currentIndex = checkedFields.indexOf(value)
+    const newChecked = [...checkedFields]
 
     if (currentIndex === -1) {
       newChecked.push(value)
@@ -28,13 +27,13 @@ export default function FieldsChecklist({ listOptions, title }) {
       newChecked.splice(currentIndex, 1)
     }
 
-    dispatch({ value: newChecked, type: 'fields' })
+    dispatch({ value: newChecked, type: 'checkedFields' })
   }
 
   return (
     <Box sx={{ p: 2 }}>
       <Typography variant='h5' gutterBottom sx={{ color: '#455a64' }}>
-        {title}
+        Campos disponiveis
       </Typography>
       <Divider />
       <List
@@ -43,15 +42,13 @@ export default function FieldsChecklist({ listOptions, title }) {
           maxWidth: 360
         }}
       >
-        {listOptions.map((value) => {
+        {fields.map((value) => {
           const labelId = `checkbox-list-label-${value}`
 
           return (
             <ListItem
               key={value}
-              secondaryAction={
-                <IconButton edge='end' aria-label='comments'></IconButton>
-              }
+              secondaryAction={<IconButton edge='end' aria-label='comments' />}
               disablePadding
             >
               <ListItemButton
@@ -62,13 +59,13 @@ export default function FieldsChecklist({ listOptions, title }) {
                 <ListItemIcon>
                   <Checkbox
                     edge='start'
-                    checked={fields.indexOf(value) !== -1}
+                    checked={checkedFields.indexOf(value) !== -1}
                     tabIndex={-1}
                     disableRipple
                     inputProps={{ 'aria-labelledby': labelId }}
                   />
                 </ListItemIcon>
-                <ListItemText id={labelId} primary={dicionary[value]} />
+                <ListItemText id={labelId} primary={value} />
               </ListItemButton>
             </ListItem>
           )
