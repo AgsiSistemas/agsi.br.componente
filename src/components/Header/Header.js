@@ -18,20 +18,22 @@ import Divider from '@mui/material/Divider';
 import HeaderApp from './HeaderApp';
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { Tooltip } from '@mui/material';
+import { Skeleton, Tooltip } from '@mui/material';
 import MenuAppList from './MenuAppList'
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import './Header.css'
 
 import {
   ToggleSideBar,
   removeToken,
   getRememberMenuLocalStorage,
-  roleUserBeneficiarie
+  roleUserBeneficiarie,
+  roleUserAGSI
 } from './HeaderUtils';
 import { getOperator } from './HeaderUtils.js';
 
 
-const Header = ({ title, listApp = [], notification }) => {
+const Header = ({ title, linkTitle, listApp = [], loadingListApp, notification, manageAccess }) => {
 
   var navigate = useNavigate()
 
@@ -93,6 +95,26 @@ const Header = ({ title, listApp = [], notification }) => {
     window.location.reload()
   }
 
+  const skeletonListApp = () => {
+    let n = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    if (!loadingListApp) return
+    if (loadingListApp) {
+      return (
+        n.map(() =>
+          <div className='box-menu'>
+            <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', margin: '10px' }}>
+
+              <Skeleton sx={{ marginBottom: '5px' }} variant="circular" width={40} height={40} />
+              <Skeleton variant="rectangular" width={60} height={10} />
+            </Box>
+
+          </div>
+        )
+      )
+    }
+
+  }
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -113,6 +135,21 @@ const Header = ({ title, listApp = [], notification }) => {
           Perfil
         </MenuItem>
         <Divider />
+        {(manageAccess && roleUserAGSI()) &&
+          <React.Fragment>
+
+            <MenuItem onClick={() => {
+              handleMenuClose()
+              manageAccess.onClick()
+            }}>
+              <ListItemIcon>
+                <ManageAccountsIcon fontSize="small" />
+              </ListItemIcon>
+              Gerenciar Acessos
+            </MenuItem>
+            <Divider />
+          </React.Fragment>
+        }
         <MenuItem onClick={() => handleExit()}>
           <ListItemIcon>
             <ExitToAppIcon fontSize="small" />
@@ -176,14 +213,20 @@ const Header = ({ title, listApp = [], notification }) => {
               <MenuIcon />
             </Tooltip>
           </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
+
+          <Box
+
           >
-            {title}
-          </Typography>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ display: { xs: 'none', sm: 'block' }, cursor: 'pointer' }}
+              onClick={() => linkTitle && navigate(linkTitle)}
+            >
+              {title}
+            </Typography>
+          </Box>
 
           <Box sx={{ flexGrow: 1 }} />
 
@@ -250,6 +293,7 @@ const Header = ({ title, listApp = [], notification }) => {
       {renderMenu}
       <MenuAppList open={openMenu} >
         <section className="grid grid-template-columns-4">
+          {skeletonListApp()}
           {
             listApp.map((item, index) =>
               <Box key={index}>

@@ -97,14 +97,23 @@ export function roleUserBeneficiarie() {
 
   const agsiJwt = localStorage.getItem('agsi-tk') ? parseJwt(localStorage.getItem('agsi-tk')) : ''
 
-  // if (!agsiJwt) { return <AccessDenied /> }
+  if (!agsiJwt) { return }
 
   if (agsiJwt.authorities.includes(authorities.ROLE_BENEFICIARIO)) {
+    console.log(agsiJwt.code);
     return { 'wallet': agsiJwt.code }
   }
   else {
     return false
   }
+}
+
+export const roleUserAGSI = () => {
+  const agsiJwt = localStorage.getItem('agsi-tk') ? parseJwt(localStorage.getItem('agsi-tk')) : ''
+  if (!agsiJwt) return false
+  if (agsiJwt.code.trim() == 'AGSI') return true
+
+  return false
 }
 
 export const parseJwt = (token) => {
