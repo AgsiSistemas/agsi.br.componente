@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.76](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.75...v1.0.76) (2023-02-14)
+
+
+### Bug Fixes
+
+* margin AppContent ([03128ab](https://github.com/AgsiSistemas/agsi.br.componente/commit/03128abd4b7df00da325a735f254346b127cf98f))
+
 ### [1.0.75](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.74...v1.0.75) (2023-02-13)
 
 ### [1.0.74](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.73...v1.0.74) (2023-02-13)
