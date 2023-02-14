@@ -1961,7 +1961,6 @@ var style$a = {
     paddingRight: '10px',
     marginRight: 'auto',
     marginLeft: 'auto',
-    marginTop: '80px',
     maxWidth: '1195px'
   }
 };
