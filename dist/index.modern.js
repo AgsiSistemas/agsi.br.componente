@@ -1,4 +1,4 @@
-import React__default, { memo, createElement, useState, forwardRef, useEffect, Fragment as Fragment$1, useRef, createContext, useReducer, useContext, useMemo } from 'react';
+import React__default, { memo, createElement, useState, forwardRef, useEffect, Fragment as Fragment$1, useRef, useReducer, createContext, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Tooltip from '@mui/material/Tooltip';
 import { styled, alpha } from '@mui/material/styles';
@@ -95,31 +95,26 @@ function _extends() {
   _extends = Object.assign ? Object.assign.bind() : function (target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = arguments[i];
-
       for (var key in source) {
         if (Object.prototype.hasOwnProperty.call(source, key)) {
           target[key] = source[key];
         }
       }
     }
-
     return target;
   };
   return _extends.apply(this, arguments);
 }
-
 function _objectWithoutPropertiesLoose(source, excluded) {
   if (source == null) return {};
   var target = {};
   var sourceKeys = Object.keys(source);
   var key, i;
-
   for (i = 0; i < sourceKeys.length; i++) {
     key = sourceKeys[i];
     if (excluded.indexOf(key) >= 0) continue;
     target[key] = source[key];
   }
-
   return target;
 }
 
@@ -146,7 +141,7 @@ Conteiner.propTypes = {
   children: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
 };
 Conteiner.defaultProp = {
-  className: "",
+  className: '',
   children: {}
 };
 var ConteinerItem = function ConteinerItem(props) {
@@ -162,7 +157,7 @@ ConteinerItem.propTypes = {
   children: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
 };
 ConteinerItem.defaultProp = {
-  className: ""
+  className: ''
 };
 
 var style$1 = {
@@ -184,7 +179,6 @@ var style$1 = {
     backgroundColor: 'rgb(236, 245, 250)!important'
   }
 };
-
 var PageBase = function PageBase(props) {
   return /*#__PURE__*/React__default.createElement("div", {
     id: props.id,
@@ -193,14 +187,12 @@ var PageBase = function PageBase(props) {
     style: _extends({}, style$1.page_base_header, props.style || {})
   }, /*#__PURE__*/React__default.createElement("label", null, props.header)), props.children);
 };
-
-var PageBase$1 = React__default.memo(PageBase);
+var PageBase$1 = /*#__PURE__*/React__default.memo(PageBase);
 
 var OperationDetail = function OperationDetail(props) {
   return /*#__PURE__*/React__default.createElement(PageBase$1, null, props.children);
 };
-
-var OperationDetail$1 = React__default.memo(OperationDetail);
+var OperationDetail$1 = /*#__PURE__*/React__default.memo(OperationDetail);
 
 var style$2 = {
   page_base_content: {
@@ -221,7 +213,6 @@ var style$2 = {
     backgroundColor: 'rgb(236, 245, 250)!important'
   }
 };
-
 var PageBase$2 = function PageBase(props) {
   return /*#__PURE__*/React__default.createElement("div", {
     id: props.id,
@@ -230,8 +221,7 @@ var PageBase$2 = function PageBase(props) {
     style: _extends({}, style$2.page_base_header, props.style || {})
   }, /*#__PURE__*/React__default.createElement("label", null, props.header)), props.children);
 };
-
-var PageBase$3 = React__default.memo(PageBase$2);
+var PageBase$3 = /*#__PURE__*/React__default.memo(PageBase$2);
 
 var style$3 = {
   header_accordion_conteiner: {
@@ -301,19 +291,16 @@ var AccordionDetails = styled(MuiAccordionDetails)(function (_ref3) {
 });
 function HeaderAccordion(props) {
   var _React$useState = useState('panel'),
-      expanded = _React$useState[0],
-      setExpanded = _React$useState[1];
-
+    expanded = _React$useState[0],
+    setExpanded = _React$useState[1];
   var handleChange = function handleChange(panel) {
     return function (event, newExpanded) {
       setExpanded(newExpanded ? panel : false);
     };
   };
-
   var handleDisableExpand = function handleDisableExpand(disabled, expanded) {
     if (disabled) return true;else return expanded === 'panel';
   };
-
   return /*#__PURE__*/createElement("div", null, /*#__PURE__*/createElement(Accordion, {
     id: "header-accordion-conteiner",
     style: style$3.header_accordion_conteiner,
@@ -349,7 +336,7 @@ HeaderAccordion.defaultProp = {
   disableAttachButton: false,
   disableExpandedButton: false
 };
-var HeaderAccordion$1 = memo(HeaderAccordion);
+var HeaderAccordion$1 = /*#__PURE__*/memo(HeaderAccordion);
 
 var style$4 = {
   search_modal: {
@@ -359,11 +346,9 @@ var style$4 = {
     flex: 'none!important'
   }
 };
-
 var CustomModal = function CustomModal(props) {
   var _React$useState = useState('paper'),
-      scroll = _React$useState[0];
-
+    scroll = _React$useState[0];
   return /*#__PURE__*/createElement("div", null, /*#__PURE__*/createElement(Dialog, {
     maxWidth: true,
     open: props.displayModal,
@@ -384,7 +369,6 @@ var CustomModal = function CustomModal(props) {
     onClick: props.onCloseDialog
   }, "Fechar")), props.buttonAdditional !== null && props.buttonAdditional))));
 };
-
 CustomModal.propTypes = {
   displayModal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   onClose: PropTypes.string,
@@ -396,12 +380,12 @@ CustomModal.defaultProp = {
   displayModal: false,
   onClose: function onClose() {},
   onCloseDialog: function onCloseDialog() {},
-  title: "",
+  title: '',
   buttonAdditional: null
 };
-var CustomModal$1 = memo(CustomModal);
+var CustomModal$1 = /*#__PURE__*/memo(CustomModal);
 
-var Alert = forwardRef(function Alert(props, ref) {
+var Alert = /*#__PURE__*/forwardRef(function Alert(props, ref) {
   return /*#__PURE__*/createElement(MuiAlert, _extends({
     elevation: 6,
     ref: ref,
@@ -410,9 +394,9 @@ var Alert = forwardRef(function Alert(props, ref) {
 });
 function CustomToastMessage(_ref) {
   var open = _ref.open,
-      message = _ref.message,
-      severity = _ref.severity,
-      handleClose = _ref.handleClose;
+    message = _ref.message,
+    severity = _ref.severity,
+    handleClose = _ref.handleClose;
   return /*#__PURE__*/createElement(Stack, {
     spacing: 2,
     sx: {
@@ -424,7 +408,7 @@ function CustomToastMessage(_ref) {
     onClose: handleClose
   }, /*#__PURE__*/createElement(Alert, {
     onClose: handleClose,
-    severity: severity || "success",
+    severity: severity || 'success',
     sx: {
       width: '100%'
     }
@@ -439,22 +423,18 @@ var style$5 = {
     marginTop: '2px'
   }
 };
-
 var handleDisplay = function handleDisplay(display) {
   if (display === undefined) return 'none';else {
     return display ? 'block' : 'none';
   }
 };
-
 var handleDisplayModal = function handleDisplayModal(displayModal) {
   if (displayModal === undefined) return 'none';else {
     return displayModal ? 'block' : 'none';
   }
 };
-
 var OperationSection = function OperationSection(props) {
   var _props$toastMessages, _props$toastMessages2, _props$toastMessages3;
-
   return /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement("h2", {
     style: style$5.operation_header_title
   }, props.title), /*#__PURE__*/React__default.createElement("h5", {
@@ -495,7 +475,6 @@ var OperationSection = function OperationSection(props) {
     }
   }));
 };
-
 OperationSection.propTypes = {
   title: PropTypes.string,
   subTitle: PropTypes.string,
@@ -514,23 +493,23 @@ OperationSection.propTypes = {
   })
 };
 OperationSection.defaultProp = {
-  title: "",
-  subTitle: "",
+  title: '',
+  subTitle: '',
   onCloseDialog: function onCloseDialog() {},
   displayModal: false,
   disableAttachButton: false,
   disableExpandedButton: false,
-  titleHeader: "",
+  titleHeader: '',
   onClick: function onClick() {},
   buttonAdditional: null,
   toastMessages: {
     open: false,
-    message: "",
-    severity: "",
+    message: '',
+    severity: '',
     handleClose: function handleClose() {}
   }
 };
-var OperationSection$1 = React__default.memo(OperationSection);
+var OperationSection$1 = /*#__PURE__*/React__default.memo(OperationSection);
 
 var style$6 = {
   operation_content_header: {
@@ -564,54 +543,45 @@ var style$6 = {
     zIndex: 1000
   }
 };
-
 var handleDisplay$1 = function handleDisplay(display) {
   if (display === undefined) return 'none';else {
     return display ? 'inline-flex' : 'none';
   }
 };
-
 var OperationTable = function OperationTable(props) {
   var _pageableData$pageabl;
-
   var onReportClick = props.onReportClick,
-      onAddClick = props.onAddClick,
-      deleteHandler = props.deleteHandler,
-      records = props.records,
-      columnList = props.columnList,
-      heigthDataTable = props.heigthDataTable,
-      display = props.display,
-      onClick = props.onClick,
-      sortField = props.sortField,
-      sortOrder = props.sortOrder,
-      paginatorButton = props.paginatorButton,
-      pageableData = props.pageableData;
+    onAddClick = props.onAddClick,
+    deleteHandler = props.deleteHandler,
+    records = props.records,
+    columnList = props.columnList,
+    heigthDataTable = props.heigthDataTable,
+    display = props.display,
+    onClick = props.onClick,
+    sortField = props.sortField,
+    sortOrder = props.sortOrder,
+    paginatorButton = props.paginatorButton,
+    pageableData = props.pageableData;
   var printIcon = props.printIcon == false ? props.printIcon : true;
-
   var _useState = useState(false),
-      loading = _useState[0],
-      setLoading = _useState[1];
-
+    loading = _useState[0],
+    setLoading = _useState[1];
   var _useState2 = useState(0),
-      first = _useState2[0],
-      setFirst = _useState2[1];
-
+    first = _useState2[0],
+    setFirst = _useState2[1];
   var _useState3 = useState(pageableData === null || pageableData === void 0 ? void 0 : (_pageableData$pageabl = pageableData.pageable) === null || _pageableData$pageabl === void 0 ? void 0 : _pageableData$pageabl.pageSize),
-      rows = _useState3[0],
-      setRows = _useState3[1];
-
+    rows = _useState3[0],
+    setRows = _useState3[1];
   var totalRecords = pageableData === null || pageableData === void 0 ? void 0 : pageableData.totalElements;
   useEffect(function () {
     setLoading(false);
   }, [pageableData]);
-
   var onPageChange = function onPageChange(e) {
     setLoading(true);
     paginatorButton.onClick(e);
     setFirst(e.first);
     setRows(e.rows);
   };
-
   var template = {
     layout: 'CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown'
   };
@@ -660,7 +630,7 @@ var OperationTable = function OperationTable(props) {
     responsiveLayout: "scroll",
     loading: loading,
     size: "small",
-    emptyMessage: "Nenhum resultado encontrado",
+    emptyMessage: 'Nenhum resultado encontrado',
     scrollHeight: heigthDataTable
   }, columnList.map(function (item, index) {
     if (item.body !== undefined) return /*#__PURE__*/React__default.createElement(Column, {
@@ -689,7 +659,7 @@ var OperationTable = function OperationTable(props) {
     first: first,
     rows: rows,
     totalRecords: totalRecords,
-    currentPageReportTemplate: "Mostrando {first} a {last} de {totalRecords}",
+    currentPageReportTemplate: 'Mostrando {first} a {last} de {totalRecords}',
     rowsPerPageOptions: [10, 20, 30, 50]
   }))))), /*#__PURE__*/React__default.createElement(Dialog, {
     open: deleteHandler === null || deleteHandler === void 0 ? void 0 : deleteHandler.displayDelete,
@@ -724,7 +694,6 @@ var OperationTable = function OperationTable(props) {
     autoFocus: true
   }, "Excluir"))));
 };
-
 OperationTable.propTypes = {
   onReportClick: PropTypes.func,
   onAddClick: PropTypes.func,
@@ -758,11 +727,11 @@ OperationTable.defaultProp = {
   onClick: function onClick() {},
   printIcon: true,
   paginatorButton: {
-    title: "Carregar mais..",
+    title: 'Carregar mais..',
     onClick: function onClick() {}
   }
 };
-var OperationTable$1 = React__default.memo(OperationTable);
+var OperationTable$1 = /*#__PURE__*/React__default.memo(OperationTable);
 
 var _excluded = ["children", "onClose"];
 var BootstrapDialog = styled(Dialog)(function (_ref) {
@@ -777,12 +746,10 @@ var BootstrapDialog = styled(Dialog)(function (_ref) {
     }
   };
 });
-
 var BootstrapDialogTitle = function BootstrapDialogTitle(props) {
   var children = props.children,
-      onClose = props.onClose,
-      other = _objectWithoutPropertiesLoose(props, _excluded);
-
+    onClose = props.onClose,
+    other = _objectWithoutPropertiesLoose(props, _excluded);
   return /*#__PURE__*/createElement(DialogTitle, _extends({
     sx: {
       m: 0,
@@ -801,17 +768,15 @@ var BootstrapDialogTitle = function BootstrapDialogTitle(props) {
     }
   }, /*#__PURE__*/createElement(CloseIcon, null)) : null);
 };
-
 BootstrapDialogTitle.propTypes = {
   children: PropTypes.node,
   onClose: PropTypes.func.isRequired
 };
-
 var CustomDialog = function CustomDialog(_ref2) {
   var title = _ref2.title,
-      message = _ref2.message,
-      open = _ref2.open,
-      onClose = _ref2.onClose;
+    message = _ref2.message,
+    open = _ref2.open,
+    onClose = _ref2.onClose;
   return /*#__PURE__*/createElement("div", null, /*#__PURE__*/createElement(BootstrapDialog, {
     onClose: onClose,
     "aria-labelledby": "customized-dialog-title",
@@ -828,7 +793,6 @@ var CustomDialog = function CustomDialog(_ref2) {
     onClick: onClose
   }, "Ok"))));
 };
-
 CustomDialog.propTypes = {
   title: PropTypes.string,
   message: PropTypes.string,
@@ -836,13 +800,13 @@ CustomDialog.propTypes = {
   onClose: PropTypes.func
 };
 CustomDialog.defaultProp = {
-  title: "",
-  message: "",
+  title: '',
+  message: '',
   open: false
 };
-var CustomDialog$1 = memo(CustomDialog);
+var CustomDialog$1 = /*#__PURE__*/memo(CustomDialog);
 
-var Alert$1 = forwardRef(function Alert(props, ref) {
+var Alert$1 = /*#__PURE__*/forwardRef(function Alert(props, ref) {
   return /*#__PURE__*/createElement(MuiAlert, _extends({
     elevation: 6,
     ref: ref,
@@ -851,9 +815,9 @@ var Alert$1 = forwardRef(function Alert(props, ref) {
 });
 function CustomToastMessage$1(_ref) {
   var open = _ref.open,
-      message = _ref.message,
-      severity = _ref.severity,
-      handleClose = _ref.handleClose;
+    message = _ref.message,
+    severity = _ref.severity,
+    handleClose = _ref.handleClose;
   return /*#__PURE__*/createElement(Stack, {
     spacing: 2,
     sx: {
@@ -865,7 +829,7 @@ function CustomToastMessage$1(_ref) {
     onClose: handleClose
   }, /*#__PURE__*/createElement(Alert$1, {
     onClose: handleClose,
-    severity: severity || "success",
+    severity: severity || 'success',
     sx: {
       width: '100%'
     }
@@ -891,27 +855,24 @@ var style$7 = {
     fontWeight: 'normal'
   }
 };
-
 var CustomDataTable = function CustomDataTable(props) {
   var records = props.records,
-      columnList = props.columnList,
-      heigthDataTable = props.heigthDataTable,
-      paginatorStep = props.paginatorStep,
-      displayBorder = props.displayBorder,
-      paginator = props.paginator,
-      displayExpander = props.displayExpander,
-      onRowExpand = props.onRowExpand,
-      onRowCollapse = props.onRowCollapse,
-      rowExpansionTemplate = props.rowExpansionTemplate,
-      paginatorButton = props.paginatorButton,
-      loading = props.loading;
+    columnList = props.columnList,
+    heigthDataTable = props.heigthDataTable,
+    paginatorStep = props.paginatorStep,
+    displayBorder = props.displayBorder,
+    paginator = props.paginator,
+    displayExpander = props.displayExpander,
+    onRowExpand = props.onRowExpand,
+    onRowCollapse = props.onRowCollapse,
+    rowExpansionTemplate = props.rowExpansionTemplate,
+    paginatorButton = props.paginatorButton,
+    loading = props.loading;
   var rowsTable = paginatorStep ? paginatorStep : 5;
   var pagArr = [rowsTable];
-
   var _useState = useState(null),
-      expandedRows = _useState[0],
-      setExpandedRows = _useState[1];
-
+    expandedRows = _useState[0],
+    setExpandedRows = _useState[1];
   var paginatorRight = paginatorButton !== undefined ? /*#__PURE__*/React__default.createElement(Button$1, {
     label: (paginatorButton === null || paginatorButton === void 0 ? void 0 : paginatorButton.title) !== undefined ? paginatorButton === null || paginatorButton === void 0 ? void 0 : paginatorButton.title : 'Carregar mais...',
     style: style$7.paginatorRight,
@@ -920,25 +881,20 @@ var CustomDataTable = function CustomDataTable(props) {
     className: "p-button-text",
     onClick: paginatorButton.onClick
   }) : /*#__PURE__*/React__default.createElement(React__default.Fragment, null);
-
   var calPerPage = function calPerPage() {
     var i = 0;
-
     while (i < 2) {
       i++;
       var inclement = pagArr[pagArr.length - 1] + rowsTable;
-
       if (!pagArr.includes(inclement) || !inclement == 50) {
         pagArr.push(inclement);
       }
     }
-
     pagArr.push(50);
     return pagArr.sort(function (a, b) {
       return a - b;
     });
   };
-
   return /*#__PURE__*/React__default.createElement("div", {
     style: displayBorder ? style$7.content_data_table_display_border : style$7.content_data_table
   }, /*#__PURE__*/React__default.createElement(DataTable, {
@@ -956,10 +912,10 @@ var CustomDataTable = function CustomDataTable(props) {
     selectionMode: "single",
     responsiveLayout: "scroll",
     paginatorTemplate: "CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown",
-    currentPageReportTemplate: "Mostrando {first} a {last} de {totalRecords}",
+    currentPageReportTemplate: 'Mostrando {first} a {last} de {totalRecords}',
     size: "small",
     rows: rowsTable,
-    emptyMessage: "Nenhum resultado encontrado",
+    emptyMessage: 'Nenhum resultado encontrado',
     rowsPerPageOptions: calPerPage(),
     scrollHeight: heigthDataTable
   }, displayExpander && /*#__PURE__*/React__default.createElement(Column, {
@@ -986,7 +942,6 @@ var CustomDataTable = function CustomDataTable(props) {
     });
   })));
 };
-
 CustomDataTable.propTypes = {
   records: PropTypes.arrayOf(PropTypes.object),
   columnList: PropTypes.arrayOf(PropTypes.object),
@@ -1008,11 +963,11 @@ CustomDataTable.defaultProp = {
   onRowExpand: function onRowExpand() {},
   onRowCollapse: function onRowCollapse() {},
   paginatorButton: {
-    title: "Carregar mais..",
+    title: 'Carregar mais..',
     onClick: function onClick() {}
   }
 };
-var CustomDataTable$1 = React__default.memo(CustomDataTable);
+var CustomDataTable$1 = /*#__PURE__*/React__default.memo(CustomDataTable);
 
 var style$8 = {
   save_component: {
@@ -1023,12 +978,11 @@ var style$8 = {
     marginRight: '5px'
   }
 };
-
 var MessageConfirmation = function MessageConfirmation(_ref) {
   var display = _ref.display,
-      onClose = _ref.onClose,
-      onCancelClick = _ref.onCancelClick,
-      onConfirmClick = _ref.onConfirmClick;
+    onClose = _ref.onClose,
+    onCancelClick = _ref.onCancelClick,
+    onConfirmClick = _ref.onConfirmClick;
   return /*#__PURE__*/React__default.createElement(Dialog, {
     open: display,
     onClose: onClose,
@@ -1052,22 +1006,18 @@ var MessageConfirmation = function MessageConfirmation(_ref) {
     autoFocus: true
   }, "Confirmar")));
 };
-
 var SaveComponent = function SaveComponent(_ref2) {
   var onCancelClick = _ref2.onCancelClick,
-      onSaveClick = _ref2.onSaveClick;
-
+    onSaveClick = _ref2.onSaveClick;
   var _React$useState = React__default.useState({
-    display: false,
-    confirmed: false
-  }),
-      displayConfirm = _React$useState[0],
-      setDisplayConfirm = _React$useState[1];
-
+      display: false,
+      confirmed: false
+    }),
+    displayConfirm = _React$useState[0],
+    setDisplayConfirm = _React$useState[1];
   var _React$useState2 = React__default.useState(false),
-      loading = _React$useState2[0],
-      setLoading = _React$useState2[1];
-
+    loading = _React$useState2[0],
+    setLoading = _React$useState2[1];
   return /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement(Conteiner, {
     style: style$8.save_component
   }, /*#__PURE__*/React__default.createElement(ConteinerItem, null, /*#__PURE__*/React__default.createElement(Button, {
@@ -1119,7 +1069,6 @@ var SaveComponent = function SaveComponent(_ref2) {
     }
   }));
 };
-
 SaveComponent.propTypes = {
   onCancelClick: PropTypes.func,
   onSaveClick: PropTypes.func
@@ -1128,7 +1077,7 @@ SaveComponent.defaultProp = {
   onCancelClick: function onCancelClick() {},
   onSaveClick: function onSaveClick() {}
 };
-var SaveComponent$1 = React__default.memo(SaveComponent);
+var SaveComponent$1 = /*#__PURE__*/React__default.memo(SaveComponent);
 
 var style$9 = {
   width: 85,
@@ -1143,7 +1092,7 @@ var style$9 = {
 };
 function HeaderApp(_ref) {
   var title = _ref.title,
-      onClick = _ref.onClick;
+    onClick = _ref.onClick;
   return /*#__PURE__*/createElement(Box, {
     sx: style$9,
     onClick: onClick
@@ -1156,8 +1105,8 @@ function HeaderApp(_ref) {
 }
 
 var authorities = {
-  ROLE_ROOT: "ROLE_ROOT",
-  ROLE_BENEFICIARIO: "ROLE_BENEFICIARIO"
+  ROLE_ROOT: 'ROLE_ROOT',
+  ROLE_BENEFICIARIO: 'ROLE_BENEFICIARIO'
 };
 
 var ToggleSideBar = function ToggleSideBar() {
@@ -1169,7 +1118,6 @@ var ToggleSideBar = function ToggleSideBar() {
 };
 var Search = styled('div')(function (_ref) {
   var _ref2;
-
   var theme = _ref.theme;
   return _ref2 = {
     position: 'relative',
@@ -1200,7 +1148,6 @@ var SearchIconWrapper = styled('div')(function (_ref3) {
 });
 var StyledInputBase = styled(InputBase)(function (_ref4) {
   var _MuiInputBaseInpu;
-
   var theme = _ref4.theme;
   return {
     color: 'inherit',
@@ -1229,11 +1176,9 @@ var getRememberMenuLocalStorage = function getRememberMenuLocalStorage() {
 };
 function roleUserBeneficiarie() {
   var agsiJwt = localStorage.getItem('agsi-tk') ? parseJwt(localStorage.getItem('agsi-tk')) : '';
-
   if (!agsiJwt) {
     return;
   }
-
   if (agsiJwt.authorities.includes(authorities.ROLE_BENEFICIARIO)) {
     console.log(agsiJwt.code);
     return {
@@ -1268,12 +1213,10 @@ var getOperator = function getOperator() {
 
 function MenuAppList(_ref) {
   var open = _ref.open,
-      children = _ref.children;
-
+    children = _ref.children;
   var _React$useState = useState(getRememberMenuLocalStorage()),
-      switchDisplayMenu = _React$useState[0],
-      setSwitchDisplayMenu = _React$useState[1];
-
+    switchDisplayMenu = _React$useState[0],
+    setSwitchDisplayMenu = _React$useState[1];
   return /*#__PURE__*/createElement(Fragment$1, null, /*#__PURE__*/createElement("div", {
     id: "basic-menu",
     className: open ? 'menu-app-list' : 'menu-app-list-none'
@@ -1305,76 +1248,61 @@ function MenuAppList(_ref) {
 
 var Header = function Header(_ref) {
   var title = _ref.title,
-      linkTitle = _ref.linkTitle,
-      _ref$listApp = _ref.listApp,
-      listApp = _ref$listApp === void 0 ? [] : _ref$listApp,
-      loadingListApp = _ref.loadingListApp,
-      notification = _ref.notification,
-      manageAccess = _ref.manageAccess;
+    linkTitle = _ref.linkTitle,
+    _ref$listApp = _ref.listApp,
+    listApp = _ref$listApp === void 0 ? [] : _ref$listApp,
+    loadingListApp = _ref.loadingListApp,
+    notification = _ref.notification,
+    manageAccess = _ref.manageAccess;
   var navigate = useNavigate();
-
   var _React$useState = useState(getRememberMenuLocalStorage()),
-      openMenu = _React$useState[0],
-      setOpenMenu = _React$useState[1];
-
+    openMenu = _React$useState[0],
+    setOpenMenu = _React$useState[1];
   var _React$useState2 = useState(null),
-      anchorEl = _React$useState2[0],
-      setAnchorEl = _React$useState2[1];
-
+    anchorEl = _React$useState2[0],
+    setAnchorEl = _React$useState2[1];
   var _React$useState3 = useState(null),
-      mobileMoreAnchorEl = _React$useState3[0],
-      setMobileMoreAnchorEl = _React$useState3[1];
-
+    mobileMoreAnchorEl = _React$useState3[0],
+    setMobileMoreAnchorEl = _React$useState3[1];
   var isMenuOpen = Boolean(anchorEl);
   var isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
   var handleClick = function handleClick(event) {
     var remember = getRememberMenuLocalStorage();
     setOpenMenu(remember ? remember : !openMenu);
   };
-
   window.addEventListener('mousedown', function (e) {
     var remember = getRememberMenuLocalStorage();
     var boxMenu = document.querySelector('.menu-app-list');
     var iconMenu = document.querySelector('#menu-apps');
     if (!boxMenu || !iconMenu) return;
-
     if (boxMenu.contains(e.target)) {
       return;
     }
-
     if (iconMenu.contains(e.target)) {
       return;
     }
-
     if (!remember && openMenu) setOpenMenu(false);
   });
-
   var handleProfileMenuOpen = function handleProfileMenuOpen(event) {
     var remember = getRememberMenuLocalStorage();
     if (!remember && openMenu) setOpenMenu(false);
     setAnchorEl(event.currentTarget);
   };
-
   var handleMobileMenuClose = function handleMobileMenuClose() {
     setMobileMoreAnchorEl(null);
   };
-
   var handleMenuClose = function handleMenuClose() {
     setAnchorEl(null);
     handleMobileMenuClose();
   };
-
   var handleExit = function handleExit() {
     removeToken();
     navigate("/");
     window.location.reload();
   };
-
   var skeletonListApp = function skeletonListApp() {
     var n = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     if (!loadingListApp) return;
-
     if (loadingListApp) {
       return n.map(function () {
         return /*#__PURE__*/createElement("div", {
@@ -1401,7 +1329,6 @@ var Header = function Header(_ref) {
       });
     }
   };
-
   var menuId = 'primary-search-account-menu';
   var renderMenu = /*#__PURE__*/createElement(Menu, {
     onClose: handleMenuClose,
@@ -1578,46 +1505,39 @@ var Header = function Header(_ref) {
     }));
   }))));
 };
-
-var Header$1 = memo(Header);
+var Header$1 = /*#__PURE__*/memo(Header);
 
 var _excluded$1 = ["title", "options", "loading", "value", "freeSolo", "onChange", "inputValue", "onInputChange", "validation", "loadingListOptions", "open", "disabled", "onKeyPress", "onOpen", "onblur", "maxLength"];
-
 var isNullValue = function isNullValue(value) {
-  return value === undefined || value === null || value === "";
+  return value === undefined || value === null || value === '';
 };
-
 var handleHelperText = function handleHelperText(value, validation) {
-  return isNullValue(value) && validation ? "Campo obrigatório" : "";
+  return isNullValue(value) && validation ? 'Campo obrigatório' : '';
 };
-
 var handleError = function handleError(value, validation) {
   return isNullValue(value) && validation;
 };
-
 function isNumber(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 }
-
 var CustomInputSelect = function CustomInputSelect(_ref) {
   var title = _ref.title,
-      options = _ref.options,
-      loading = _ref.loading,
-      value = _ref.value,
-      freeSolo = _ref.freeSolo,
-      onChange = _ref.onChange,
-      inputValue = _ref.inputValue,
-      onInputChange = _ref.onInputChange,
-      validation = _ref.validation,
-      loadingListOptions = _ref.loadingListOptions,
-      open = _ref.open,
-      disabled = _ref.disabled,
-      onKeyPress = _ref.onKeyPress,
-      onOpen = _ref.onOpen,
-      onblur = _ref.onblur,
-      maxLength = _ref.maxLength,
-      other = _objectWithoutPropertiesLoose(_ref, _excluded$1);
-
+    options = _ref.options,
+    loading = _ref.loading,
+    value = _ref.value,
+    freeSolo = _ref.freeSolo,
+    onChange = _ref.onChange,
+    inputValue = _ref.inputValue,
+    onInputChange = _ref.onInputChange,
+    validation = _ref.validation,
+    loadingListOptions = _ref.loadingListOptions,
+    open = _ref.open,
+    disabled = _ref.disabled,
+    onKeyPress = _ref.onKeyPress,
+    onOpen = _ref.onOpen,
+    onblur = _ref.onblur,
+    maxLength = _ref.maxLength,
+    other = _objectWithoutPropertiesLoose(_ref, _excluded$1);
   return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(Autocomplete, {
     style: {
       marginTop: '8px'
@@ -1675,7 +1595,6 @@ var CustomInputSelect = function CustomInputSelect(_ref) {
     }
   }));
 };
-
 CustomInputSelect.propTypes = {
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   options: PropTypes.arrayOf(PropTypes.any),
@@ -1694,7 +1613,7 @@ CustomInputSelect.propTypes = {
   loadingListOptions: PropTypes.bool
 };
 CustomInputSelect.defaultProp = {
-  title: "",
+  title: '',
   options: [],
   freeSolo: false,
   open: false,
@@ -1710,33 +1629,28 @@ CustomInputSelect.defaultProp = {
   disabled: false,
   loadingListOptions: false
 };
-var CustomInputSelect$1 = React__default.memo(CustomInputSelect);
+var CustomInputSelect$1 = /*#__PURE__*/React__default.memo(CustomInputSelect);
 
 var _excluded$2 = ["label", "id", "value", "disabled", "onChange", "validation", "multiline", "rows"];
-
 var isNullValue$1 = function isNullValue(value) {
-  return value === undefined || value === null || value === "";
+  return value === undefined || value === null || value === '';
 };
-
 var handleHelperText$1 = function handleHelperText(validation) {
-  return validation ? "Campo obrigatório" : "";
+  return validation ? 'Campo obrigatório' : '';
 };
-
 var handleError$1 = function handleError(value, validation) {
   return isNullValue$1(value) && validation;
 };
-
 var CustomTextField = function CustomTextField(_ref) {
   var label = _ref.label,
-      id = _ref.id,
-      value = _ref.value,
-      disabled = _ref.disabled,
-      onChange = _ref.onChange,
-      validation = _ref.validation,
-      multiline = _ref.multiline,
-      rows = _ref.rows,
-      other = _objectWithoutPropertiesLoose(_ref, _excluded$2);
-
+    id = _ref.id,
+    value = _ref.value,
+    disabled = _ref.disabled,
+    onChange = _ref.onChange,
+    validation = _ref.validation,
+    multiline = _ref.multiline,
+    rows = _ref.rows,
+    other = _objectWithoutPropertiesLoose(_ref, _excluded$2);
   return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(TextField, _extends({
     size: "small",
     label: label,
@@ -1753,10 +1667,9 @@ var CustomTextField = function CustomTextField(_ref) {
     value: value,
     onChange: onChange,
     error: handleError$1(value, validation),
-    helperText: value ? "" : handleHelperText$1(validation)
+    helperText: value ? '' : handleHelperText$1(validation)
   }, other)));
 };
-
 CustomTextField.propTypes = {
   label: PropTypes.string,
   id: PropTypes.string,
@@ -1768,8 +1681,8 @@ CustomTextField.propTypes = {
   validation: PropTypes.bool
 };
 CustomTextField.defaultProp = {
-  label: "",
-  id: "",
+  label: '',
+  id: '',
   value: {},
   multiline: false,
   rows: false,
@@ -1777,24 +1690,21 @@ CustomTextField.defaultProp = {
   onChange: function onChange() {},
   validation: false
 };
-var CustomTextField$1 = React__default.memo(CustomTextField);
+var CustomTextField$1 = /*#__PURE__*/React__default.memo(CustomTextField);
 
 var _excluded$3 = ["id", "label", "value", "mask", "onChange", "placeHolder", "ampm", "disabled"];
-
 var CustomTimePicker = function CustomTimePicker(_ref) {
   var label = _ref.label,
-      value = _ref.value,
-      mask = _ref.mask,
-      onChange = _ref.onChange,
-      placeHolder = _ref.placeHolder,
-      ampm = _ref.ampm,
-      disabled = _ref.disabled,
-      other = _objectWithoutPropertiesLoose(_ref, _excluded$3);
-
+    value = _ref.value,
+    mask = _ref.mask,
+    onChange = _ref.onChange,
+    placeHolder = _ref.placeHolder,
+    ampm = _ref.ampm,
+    disabled = _ref.disabled,
+    other = _objectWithoutPropertiesLoose(_ref, _excluded$3);
   var _React$useState = React__default.useState(''),
-      dateValidation = _React$useState[0],
-      setDateValidation = _React$useState[1];
-
+    dateValidation = _React$useState[0],
+    setDateValidation = _React$useState[1];
   return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(LocalizationProvider, {
     dateAdapter: AdapterDayjs,
     adapterLocale: 'ptBR'
@@ -1827,7 +1737,6 @@ var CustomTimePicker = function CustomTimePicker(_ref) {
     }
   })));
 };
-
 CustomTimePicker.propTypes = {
   id: PropTypes.string,
   label: PropTypes.string,
@@ -1848,41 +1757,36 @@ CustomTimePicker.defaultProp = {
   ampm: false,
   disabled: false
 };
-var CustomTimePicker$1 = React__default.memo(CustomTimePicker);
+var CustomTimePicker$1 = /*#__PURE__*/React__default.memo(CustomTimePicker);
 
 var _excluded$4 = ["label", "value", "minDate", "validation", "maxDate", "dateFormat", "onChange", "placeHolder", "helperText", "disabled", "noAlertNoneValue"];
-
 var CustomDatePicker = function CustomDatePicker(_ref) {
   var label = _ref.label,
-      value = _ref.value,
-      minDate = _ref.minDate,
-      validation = _ref.validation,
-      maxDate = _ref.maxDate,
-      dateFormat = _ref.dateFormat,
-      onChange = _ref.onChange,
-      placeHolder = _ref.placeHolder,
-      helperText = _ref.helperText,
-      disabled = _ref.disabled,
-      noAlertNoneValue = _ref.noAlertNoneValue,
-      other = _objectWithoutPropertiesLoose(_ref, _excluded$4);
-
+    value = _ref.value,
+    minDate = _ref.minDate,
+    validation = _ref.validation,
+    maxDate = _ref.maxDate,
+    dateFormat = _ref.dateFormat,
+    onChange = _ref.onChange,
+    placeHolder = _ref.placeHolder,
+    helperText = _ref.helperText,
+    disabled = _ref.disabled,
+    noAlertNoneValue = _ref.noAlertNoneValue,
+    other = _objectWithoutPropertiesLoose(_ref, _excluded$4);
   var _React$useState = React__default.useState(''),
-      dateValidation = _React$useState[0],
-      setDateValidation = _React$useState[1];
-
+    dateValidation = _React$useState[0],
+    setDateValidation = _React$useState[1];
   var handleHelperText = function handleHelperText() {
     if (!value && !noAlertNoneValue) return "Campo obrigatório!";
     if (dateValidation && helperText) return "Data ou Hora Invalida!";
     if (!value && validation) return "Campo obrigatório!";
     return "";
   };
-
   var handleError = function handleError() {
     if (!value && !noAlertNoneValue) return true;
     if (!value && validation) return true;
     return false;
   };
-
   return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(LocalizationProvider, {
     dateAdapter: AdapterDayjs,
     adapterLocale: 'ptBR'
@@ -1919,7 +1823,6 @@ var CustomDatePicker = function CustomDatePicker(_ref) {
     }
   })));
 };
-
 CustomDatePicker.propTypes = {
   id: PropTypes.string,
   label: PropTypes.string,
@@ -1946,7 +1849,7 @@ CustomDatePicker.defaultProp = {
   disabled: false,
   noAlertNoneValue: false
 };
-var CustomDatePicker$1 = React__default.memo(CustomDatePicker);
+var CustomDatePicker$1 = /*#__PURE__*/React__default.memo(CustomDatePicker);
 
 var style$a = {
   appcontent: {
@@ -1961,7 +1864,6 @@ var style$a = {
     maxWidth: '1195px'
   }
 };
-
 var AppContent = function AppContent(props) {
   return /*#__PURE__*/React__default.createElement("div", {
     style: style$a.appcontent
@@ -1977,32 +1879,28 @@ var AppContent = function AppContent(props) {
     color: "inherit"
   })), props.children);
 };
-
 AppContent.propTypes = {
   loading: PropTypes.bool
 };
 AppContent.defaultProp = {
   loading: false
 };
-var AppContent$1 = React__default.memo(AppContent);
+var AppContent$1 = /*#__PURE__*/React__default.memo(AppContent);
 
 var FilesUpload = function FilesUpload(_ref) {
   var value = _ref.value,
-      onChange = _ref.onChange,
-      disabledChoose = _ref.disabledChoose,
-      maxFileSizeMb = _ref.maxFileSizeMb,
-      typeAcceptFile = _ref.typeAcceptFile;
+    onChange = _ref.onChange,
+    disabledChoose = _ref.disabledChoose,
+    maxFileSizeMb = _ref.maxFileSizeMb,
+    typeAcceptFile = _ref.typeAcceptFile;
   var maxSizeUpload = maxFileSizeMb ? maxFileSizeMb * 1000000 : 1 * 1000000;
-
   var _useState = useState(0),
-      totalSize = _useState[0],
-      setTotalSize = _useState[1];
-
+    totalSize = _useState[0],
+    setTotalSize = _useState[1];
   var toast = useRef(null);
   var fileUploadRef = useRef(null);
   useEffect(function () {
     var _totalSize = totalSize;
-
     if (value) {
       value.map(function (file) {
         _totalSize += file.size;
@@ -2010,16 +1908,14 @@ var FilesUpload = function FilesUpload(_ref) {
       });
     }
   }, []);
-
   function formatBytes(bytes, decimals) {
     if (bytes == 0) return '0 Bytes';
     var k = 1000,
-        dm = decimals || 2,
-        sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
-        i = Math.floor(Math.log(bytes) / Math.log(k));
+      dm = decimals || 2,
+      sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+      i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
   }
-
   var onTemplateSelect = function onTemplateSelect(e) {
     var filesUpload = Array.from(e.files);
     var _totalSize = totalSize;
@@ -2028,7 +1924,6 @@ var FilesUpload = function FilesUpload(_ref) {
     filesUpload.map(function (file) {
       return totalSizeToAdd += file.size;
     });
-
     if (totalSizeToAdd > maxSizeUpload) {
       toast.current.show({
         severity: 'error',
@@ -2037,7 +1932,6 @@ var FilesUpload = function FilesUpload(_ref) {
       });
       return;
     }
-
     filesUpload.forEach(function (file) {
       if (totalSize + file.size > maxSizeUpload) {
         toast.current.show({
@@ -2047,11 +1941,9 @@ var FilesUpload = function FilesUpload(_ref) {
         });
         return;
       }
-
       function isExistFileUpload(listContent) {
         return listContent.name === file.name;
       }
-
       if (!list.find(isExistFileUpload)) {
         _totalSize += file.size;
         console.log(file.size);
@@ -2067,7 +1959,6 @@ var FilesUpload = function FilesUpload(_ref) {
     });
     setTotalSize(_totalSize);
   };
-
   var onTemplateUpload = function onTemplateUpload(e) {
     var _totalSize = 0;
     e.files.forEach(function (file) {
@@ -2075,27 +1966,25 @@ var FilesUpload = function FilesUpload(_ref) {
     });
     setTotalSize(_totalSize);
     toast.current.show({
-      severity: "info",
-      summary: "Success",
-      detail: "File Uploaded"
+      severity: 'info',
+      summary: 'Success',
+      detail: 'File Uploaded'
     });
   };
-
   var onTemplateClear = function onTemplateClear() {
     setTotalSize(0);
   };
-
   var headerTemplate = function headerTemplate(options) {
     var className = options.className,
-        chooseButton = options.chooseButton;
+      chooseButton = options.chooseButton;
     var valuePercent = totalSize / maxSizeUpload * 100;
-    var formatedValue = totalSize > 0 ? formatBytes(totalSize) : "0 B";
+    var formatedValue = totalSize > 0 ? formatBytes(totalSize) : '0 B';
     return /*#__PURE__*/React__default.createElement("div", {
       className: className,
       style: {
-        backgroundColor: "transparent",
-        display: "flex",
-        alignItems: "center"
+        backgroundColor: 'transparent',
+        display: 'flex',
+        alignItems: 'center'
       }
     }, !disabledChoose && chooseButton, /*#__PURE__*/React__default.createElement(ProgressBar, {
       value: valuePercent,
@@ -2103,29 +1992,27 @@ var FilesUpload = function FilesUpload(_ref) {
         return formatedValue + " / " + formatBytes(maxSizeUpload);
       },
       style: {
-        width: "300px",
-        height: "20px",
-        marginLeft: "auto"
+        width: '300px',
+        height: '20px',
+        marginLeft: 'auto'
       }
     }));
   };
-
   var chooseOptions = {
-    icon: "pi pi-fw pi-images",
+    icon: 'pi pi-fw pi-images',
     iconOnly: false,
-    className: "custom-choose-btn p-button-success p-button-rounded p-button-outlined"
+    className: 'custom-choose-btn p-button-success p-button-rounded p-button-outlined'
   };
   var uploadOptions = {
-    icon: "pi pi-fw pi-cloud-upload",
+    icon: 'pi pi-fw pi-cloud-upload',
     iconOnly: true,
-    className: "custom-upload-btn p-button-success p-button-rounded p-button-outlined"
+    className: 'custom-upload-btn p-button-success p-button-rounded p-button-outlined'
   };
   var cancelOptions = {
-    icon: "pi pi-fw pi-times",
+    icon: 'pi pi-fw pi-times',
     iconOnly: true,
-    className: "custom-cancel-btn p-button-danger p-button-rounded p-button-outlined"
+    className: 'custom-cancel-btn p-button-danger p-button-rounded p-button-outlined'
   };
-
   var showPdf = function showPdf(file) {
     var blob = new Blob([file], {
       type: 'application/pdf'
@@ -2133,7 +2020,6 @@ var FilesUpload = function FilesUpload(_ref) {
     var link = URL.createObjectURL(blob);
     window.open(link, '_blank');
   };
-
   return /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement(Toast, {
     ref: toast,
     style: {
@@ -2153,7 +2039,7 @@ var FilesUpload = function FilesUpload(_ref) {
     ref: fileUploadRef,
     name: "FilesUpload",
     multiple: true,
-    accept: typeAcceptFile ? typeAcceptFile : ".pdf,image/*",
+    accept: typeAcceptFile ? typeAcceptFile : '.pdf,image/*',
     maxFileSize: maxSizeUpload,
     onUpload: onTemplateUpload,
     onSelect: onTemplateSelect,
@@ -2172,7 +2058,7 @@ var FilesUpload = function FilesUpload(_ref) {
     }, /*#__PURE__*/React__default.createElement("div", {
       className: "item-img-fileName",
       style: {
-        width: "40%"
+        width: '40%'
       }
     }, file.type == 'application/pdf' && /*#__PURE__*/React__default.createElement(Tooltip, {
       title: "Visualizar PDF"
@@ -2207,7 +2093,6 @@ var FilesUpload = function FilesUpload(_ref) {
     }));
   }))));
 };
-
 FilesUpload.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func,
@@ -2222,7 +2107,7 @@ FilesUpload.defaultProp = {
   maxFileSizeMb: 1,
   typeAcceptFile: '.pdf,image/*'
 };
-var FilesUpload$1 = React__default.memo(FilesUpload);
+var FilesUpload$1 = /*#__PURE__*/React__default.memo(FilesUpload);
 
 // A type of promise-like that resolves synchronously and supports only one observer
 
@@ -2247,7 +2132,7 @@ var handleLoading = function handleLoading(text, isLoading) {
   return isLoading ? /*#__PURE__*/React__default.createElement(CircularProgress$1, null) : text;
 };
 var isNullValue$2 = function isNullValue(value) {
-  return value === undefined || value === null || value === "";
+  return value === undefined || value === null || value === '';
 };
 
 var maskText = function maskText(v) {
@@ -2259,75 +2144,65 @@ var maskText = function maskText(v) {
 var maskWallet = function maskWallet(v) {
   if (isNullValue$2(v)) return '';
   var value = v;
-  value = value.replace(/\D/g, "");
+  value = value.replace(/\D/g, '');
   value = value.replace(/(\d{4})(\d{2})/, '$1.$2');
   value = value.replace(/(\d{2})(\d{5})/, '$1.$2');
-  value = value.replace(/(\d{5})(\d{2})(\d{1})/, "$1.$2-$3");
+  value = value.replace(/(\d{5})(\d{2})(\d{1})/, '$1.$2-$3');
   return value;
 };
 
 var _CustomBeneficiarieFi;
-
 var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
   var label = _ref.label,
-      valueId = _ref.valueId,
-      onChangeId = _ref.onChangeId,
-      onChangeData = _ref.onChangeData,
-      valueName = _ref.valueName,
-      onChangeName = _ref.onChangeName,
-      validation = _ref.validation,
-      api = _ref.api,
-      disabled = _ref.disabled,
-      required = _ref.required;
+    valueId = _ref.valueId,
+    onChangeId = _ref.onChangeId,
+    onChangeData = _ref.onChangeData,
+    valueName = _ref.valueName,
+    onChangeName = _ref.onChangeName,
+    validation = _ref.validation,
+    api = _ref.api,
+    disabled = _ref.disabled,
+    required = _ref.required;
   var ResponseModel_v2 = {
-    "timestamp": "",
-    "status": 0,
-    "message": "",
-    "data": {
-      "content": []
+    timestamp: '',
+    status: 0,
+    message: '',
+    data: {
+      content: []
     }
   };
-
   var _useState = useState(false),
-      loadingBeneficiary = _useState[0],
-      setLoadingBeneficiary = _useState[1];
-
+    loadingBeneficiary = _useState[0],
+    setLoadingBeneficiary = _useState[1];
   var _React$useState = React__default.useState(false),
-      openBeneficiariesField = _React$useState[0],
-      setOpenBeneficiariesField = _React$useState[1];
-
+    openBeneficiariesField = _React$useState[0],
+    setOpenBeneficiariesField = _React$useState[1];
   var _React$useState2 = React__default.useState(false),
-      openWalletField = _React$useState2[0],
-      setOpenWalletField = _React$useState2[1];
-
+    openWalletField = _React$useState2[0],
+    setOpenWalletField = _React$useState2[1];
   var _useState2 = useState(ResponseModel_v2),
-      localBeneficiaries = _useState2[0],
-      setLocalBeneficiaries = _useState2[1];
-
+    localBeneficiaries = _useState2[0],
+    setLocalBeneficiaries = _useState2[1];
   var _useState3 = useState(''),
-      beneficiarieWalletInputValue = _useState3[0],
-      setBeneficiarieWalletInputValue = _useState3[1];
-
+    beneficiarieWalletInputValue = _useState3[0],
+    setBeneficiarieWalletInputValue = _useState3[1];
   var _useState4 = useState(''),
-      beneficiariesNameInputValue = _useState4[0],
-      setBeneficiariesNameInputValue = _useState4[1];
-
+    beneficiariesNameInputValue = _useState4[0],
+    setBeneficiariesNameInputValue = _useState4[1];
   var isRequired = function isRequired() {
     if (required) return ' *';else {
       return '';
     }
   };
-
   var handleOnChangeData = function handleOnChangeData(e) {
     if (onChangeData) {
       onChangeData(e);
     }
   };
-
   return /*#__PURE__*/React__default.createElement(Fragment$1, null, /*#__PURE__*/React__default.createElement(ConteinerItem, {
     className: "custom-beneficiarie-component-wallet"
   }, /*#__PURE__*/React__default.createElement(CustomInputSelect$1, {
-    title: handleLoading((!label ? "Carteirinha" : label[0]) + isRequired(), loadingBeneficiary),
+    title: handleLoading((!label ? 'Carteirinha' : label[0]) + isRequired(), loadingBeneficiary),
     freeSolo: true,
     open: openWalletField,
     options: localBeneficiaries.data.content.map(function (item, index) {
@@ -2342,14 +2217,12 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
     onChange: function onChange(event, newInputValue) {
       onChangeId(newInputValue);
       if (isNullValue$2(newInputValue)) onChangeName('');
-
       if (newInputValue !== null && newInputValue.name) {
         onChangeName({
           label: newInputValue.name,
           id: newInputValue.id
         });
       }
-
       setOpenWalletField(false);
     },
     inputValue: beneficiarieWalletInputValue,
@@ -2372,12 +2245,10 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
                   });
                   setOpenWalletField(true);
                 }
-
                 setLoadingBeneficiary(false);
               });
             }
           }();
-
           if (_temp && _temp.then) return _temp.then(function () {});
         }, function () {
           setLoadingBeneficiary(false);
@@ -2392,7 +2263,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
     maxLength: 18,
     validation: validation
   })), /*#__PURE__*/React__default.createElement(ConteinerItem, null, /*#__PURE__*/React__default.createElement(CustomInputSelect$1, {
-    title: handleLoading((!label ? "Nome Beneficiário" : label[1]) + isRequired(), loadingBeneficiary),
+    title: handleLoading((!label ? 'Nome Beneficiário' : label[1]) + isRequired(), loadingBeneficiary),
     freeSolo: true,
     open: openBeneficiariesField,
     options: localBeneficiaries.data.content.map(function (item, index) {
@@ -2409,26 +2280,22 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
     inputValue: beneficiariesNameInputValue,
     onInputChange: function onInputChange(event, newInputValue) {
       try {
-        var _temp4 = function _temp4() {
+        var _temp3 = function _temp3() {
           var item = localBeneficiaries.data.content.filter(function (x) {
             return x.name === newInputValue;
           })[0];
-
           if (!isNullValue$2(item)) {
             onChangeId(item.code);
             handleOnChangeData(item);
             setOpenBeneficiariesField(false);
           }
         };
-
         if (newInputValue == '') {
           onChangeId('');
           handleOnChangeData('');
         }
-
         setBeneficiariesNameInputValue(maskText(newInputValue));
-
-        var _temp5 = function () {
+        var _temp2 = function () {
           if (newInputValue && event.target.value.length >= 3) {
             setLoadingBeneficiary(true);
             return Promise.resolve(api.http.get("" + api.addressName(maskText(event.target.value)))).then(function (response) {
@@ -2438,8 +2305,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
             });
           }
         }();
-
-        return Promise.resolve(_temp5 && _temp5.then ? _temp5.then(_temp4) : _temp4(_temp5));
+        return Promise.resolve(_temp2 && _temp2.then ? _temp2.then(_temp3) : _temp3(_temp2));
       } catch (e) {
         return Promise.reject(e);
       }
@@ -2450,7 +2316,6 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
     validation: validation
   })));
 };
-
 CustomBeneficiarieFields.propTypes = (_CustomBeneficiarieFi = {
   valueId: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   valueName: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -2484,7 +2349,7 @@ var style$b = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: '80%',
-  height: "80%",
+  height: '80%',
   bgcolor: 'background.paper',
   border: '0px solid #000',
   boxShadow: 24,
@@ -2498,17 +2363,16 @@ var styleButtonClose = {
   left: '95%',
   color: '#000'
 };
-
 var ArchivesContent = function ArchivesContent(_ref) {
   var filesList = _ref.filesList,
-      editable = _ref.editable,
-      onDownload = _ref.onDownload,
-      onDelete = _ref.onDelete,
-      onUpload = _ref.onUpload,
-      onShowOnApi = _ref.onShowOnApi,
-      api = _ref.api,
-      maxFileSizeMb = _ref.maxFileSizeMb,
-      acceptTypes = _ref.acceptTypes;
+    editable = _ref.editable,
+    onDownload = _ref.onDownload,
+    onDelete = _ref.onDelete,
+    onUpload = _ref.onUpload,
+    onShowOnApi = _ref.onShowOnApi,
+    api = _ref.api,
+    maxFileSizeMb = _ref.maxFileSizeMb,
+    acceptTypes = _ref.acceptTypes;
   var initialStateFileDelete = {
     confirm: '',
     file: '',
@@ -2516,21 +2380,16 @@ var ArchivesContent = function ArchivesContent(_ref) {
     openDialog: false
   };
   var maxSizeUpload = maxFileSizeMb ? maxFileSizeMb * 1000000 : 10 * 1000000;
-
   var _useState = useState(''),
-      imgModal = _useState[0],
-      setImgModal = _useState[1];
-
+    imgModal = _useState[0],
+    setImgModal = _useState[1];
   var _useState2 = useState(initialStateFileDelete),
-      contentFileDelete = _useState2[0],
-      setContentFileDelete = _useState2[1];
-
+    contentFileDelete = _useState2[0],
+    setContentFileDelete = _useState2[1];
   var _useState3 = useState(false),
-      openModal = _useState3[0],
-      setOpenModal = _useState3[1];
-
+    openModal = _useState3[0],
+    setOpenModal = _useState3[1];
   var acceptTypesProps = acceptTypes ? acceptTypes : ['jpg', 'jpeg', 'png', 'pdf'];
-
   var handleCloseDialogDeleteFile = function handleCloseDialogDeleteFile() {
     setContentFileDelete({
       confirm: '',
@@ -2539,22 +2398,18 @@ var ArchivesContent = function ArchivesContent(_ref) {
       openDialog: false
     });
   };
-
   var handleOpen = function handleOpen() {
     return setOpenModal(true);
   };
-
   var handleClose = function handleClose() {
     return setOpenModal(false);
   };
-
   var handleGetDocumentApi = function handleGetDocumentApi(id, nameArchive) {
     onDownload({
       id: id,
       nameArchive: nameArchive
     });
   };
-
   var ShowArchives = function ShowArchives(file) {
     function get_url_extension(url) {
       if (url) {
@@ -2563,7 +2418,6 @@ var ArchivesContent = function ArchivesContent(_ref) {
         return '';
       }
     }
-
     if (file !== null && file !== void 0 && file.fileLink && get_url_extension(file.fileLink) == 'pdf') {
       return /*#__PURE__*/React__default.createElement(Tooltip$1, {
         title: "Visualizar PDF"
@@ -2573,7 +2427,6 @@ var ArchivesContent = function ArchivesContent(_ref) {
         }
       })));
     }
-
     if (file.fileLink && acceptTypesProps.includes(get_url_extension(file.fileLink))) {
       return /*#__PURE__*/React__default.createElement(Tooltip$1, {
         title: "Visualizar Imagem"
@@ -2583,7 +2436,6 @@ var ArchivesContent = function ArchivesContent(_ref) {
         }
       })));
     }
-
     if (onShowOnApi) {
       if (file.fileName.toLowerCase().includes('pdf')) {
         return /*#__PURE__*/React__default.createElement(Tooltip$1, {
@@ -2604,7 +2456,6 @@ var ArchivesContent = function ArchivesContent(_ref) {
       }
     }
   };
-
   var showImg = function showImg(id, fileLink, fileName) {
     if (fileLink) {
       setImgModal(fileLink);
@@ -2617,7 +2468,6 @@ var ArchivesContent = function ArchivesContent(_ref) {
       });
     }
   };
-
   var showOnApi = function showOnApi(id, nameArchive) {
     api.http.get("" + api.addressShow(id), {
       responseType: 'blob'
@@ -2628,7 +2478,6 @@ var ArchivesContent = function ArchivesContent(_ref) {
       handleOpen();
     });
   };
-
   var showOnApiPdf = function showOnApiPdf(id, nameArchive) {
     api.http.get("" + api.addressShow(id), {
       responseType: 'blob'
@@ -2640,13 +2489,11 @@ var ArchivesContent = function ArchivesContent(_ref) {
       window.open(link, '_blank');
     });
   };
-
   var showPdf = function showPdf(id, fileLink, fileName) {
     if (fileLink) {
       window.open(fileLink, '_blank').focus();
     }
   };
-
   var deleteArchive = function deleteArchive(id, fileName) {
     setContentFileDelete({
       confirm: '',
@@ -2655,22 +2502,18 @@ var ArchivesContent = function ArchivesContent(_ref) {
       openDialog: true
     });
   };
-
   useEffect(function () {
     if (contentFileDelete.confirm) {
       onDelete(contentFileDelete);
     }
   }, [contentFileDelete]);
-
   var SendFiles = function SendFiles(e) {
     if (e.target.files[0].size > maxSizeUpload) {
       alert("O Arquivo \xE9 muito grande para o destino. Tamanho Maximo: " + (maxFileSizeMb ? maxFileSizeMb : '10') + " MB");
       return;
     }
-
     onUpload(e);
   };
-
   return /*#__PURE__*/React__default.createElement(Fragment$1, null, /*#__PURE__*/React__default.createElement(TableContainer, {
     className: "conteiner-archive-component",
     component: Paper
@@ -2751,7 +2594,7 @@ var ArchivesContent = function ArchivesContent(_ref) {
     "aria-describedby": "alert-dialog-description"
   }, /*#__PURE__*/React__default.createElement(DialogTitle$1, {
     id: "alert-dialog-title"
-  }, "Tem Certeza que deseja Excluir: " + contentFileDelete.file), /*#__PURE__*/React__default.createElement(DialogContent$1, null, /*#__PURE__*/React__default.createElement(DialogContentText$1, {
+  }, 'Tem Certeza que deseja Excluir: ' + contentFileDelete.file), /*#__PURE__*/React__default.createElement(DialogContent$1, null, /*#__PURE__*/React__default.createElement(DialogContentText$1, {
     id: "alert-dialog-description"
   }, "A exclus\xE3o ser\xE1 permanente!")), /*#__PURE__*/React__default.createElement(DialogActions$1, null, /*#__PURE__*/React__default.createElement(Button$2, {
     onClick: handleCloseDialogDeleteFile
@@ -2767,7 +2610,6 @@ var ArchivesContent = function ArchivesContent(_ref) {
     autoFocus: true
   }, "Confirmar Exclus\xE3o"))));
 };
-
 ArchivesContent.propTypes = (_ArchivesContent$prop = {
   filesList: PropTypes.object
 }, _ArchivesContent$prop["filesList"] = PropTypes.shape({
@@ -2781,61 +2623,48 @@ ArchivesContent.defaultProp = {
 };
 
 var _FilesContentApi$prop;
-
 var FilesContentApi = function FilesContentApi(_ref) {
   var _fileList$;
-
   var acceptFileTypes = _ref.acceptFileTypes,
-      fileList = _ref.fileList,
-      editable = _ref.editable,
-      api = _ref.api,
-      maxFileSizeMb = _ref.maxFileSizeMb,
-      solicitationId = _ref.solicitationId,
-      onChange = _ref.onChange;
+    fileList = _ref.fileList,
+    editable = _ref.editable,
+    api = _ref.api,
+    maxFileSizeMb = _ref.maxFileSizeMb,
+    solicitationId = _ref.solicitationId,
+    onChange = _ref.onChange;
   var fileTypes = acceptFileTypes ? acceptFileTypes : ['jpg', 'jpeg', 'png', 'pdf'];
   var maxSizeUpload = maxFileSizeMb ? maxFileSizeMb * 1000000 : 10 * 1000000;
-
   var _useState = useState(false),
-      openModal = _useState[0],
-      setOpenModal = _useState[1];
-
+    openModal = _useState[0],
+    setOpenModal = _useState[1];
   var solicitation = fileList && fileList.length !== 0 ? (_fileList$ = fileList[0]) === null || _fileList$ === void 0 ? void 0 : _fileList$.solicitationId : solicitationId;
-
   var _useState2 = useState(''),
-      imgModal = _useState2[0],
-      setImgModal = _useState2[1];
-
+    imgModal = _useState2[0],
+    setImgModal = _useState2[1];
   var initialStateFileDelete = {
     confirm: '',
     file: '',
     fileId: '',
     openDialog: false
   };
-
   var _useState3 = useState(initialStateFileDelete),
-      contentFileDelete = _useState3[0],
-      setContentFileDelete = _useState3[1];
-
+    contentFileDelete = _useState3[0],
+    setContentFileDelete = _useState3[1];
   var _useState4 = useState(fileList ? fileList : []),
-      list = _useState4[0],
-      setList = _useState4[1];
-
+    list = _useState4[0],
+    setList = _useState4[1];
   var _useState5 = useState(false),
-      loadChange = _useState5[0],
-      setLoadChange = _useState5[1];
-
+    loadChange = _useState5[0],
+    setLoadChange = _useState5[1];
   useEffect(function () {
     if (onChange) onChange(list);
   }, [list]);
-
   var handleOpen = function handleOpen() {
     return setOpenModal(true);
   };
-
   var handleClose = function handleClose() {
     return setOpenModal(false);
   };
-
   var handleCloseDialogDeleteFile = function handleCloseDialogDeleteFile() {
     setContentFileDelete({
       confirm: '',
@@ -2844,7 +2673,6 @@ var FilesContentApi = function FilesContentApi(_ref) {
       openDialog: false
     });
   };
-
   var ShowArchives = function ShowArchives(file) {
     function get_url_extension(url) {
       if (url) {
@@ -2853,7 +2681,6 @@ var FilesContentApi = function FilesContentApi(_ref) {
         return '';
       }
     }
-
     if (get_url_extension(file.fileName) == 'pdf') {
       return /*#__PURE__*/React__default.createElement(Tooltip$1, {
         title: "Visualizar PDF"
@@ -2863,7 +2690,6 @@ var FilesContentApi = function FilesContentApi(_ref) {
         }
       })));
     }
-
     if (fileTypes.includes(get_url_extension(file.fileName))) {
       return /*#__PURE__*/React__default.createElement(Tooltip$1, {
         title: "Visualizar Imagem"
@@ -2874,13 +2700,11 @@ var FilesContentApi = function FilesContentApi(_ref) {
       })));
     }
   };
-
   var showImg = function showImg(id, fileLink, fileName) {
     if (!api) {
       alert('Sem Rotas de API');
       return;
     }
-
     setLoadChange(true);
     api.http.get("" + api.addressApiFile(id), {
       responseType: 'blob'
@@ -2892,13 +2716,11 @@ var FilesContentApi = function FilesContentApi(_ref) {
       setLoadChange(false);
     });
   };
-
   var showPdf = function showPdf(id, nameArchive) {
     if (!api) {
       alert('Sem Rotas de API');
       return;
     }
-
     setLoadChange(true);
     api.http.get("" + api.addressApiFile(id), {
       responseType: 'blob'
@@ -2914,13 +2736,11 @@ var FilesContentApi = function FilesContentApi(_ref) {
       setLoadChange(false);
     });
   };
-
   var handleGetDocumentApi = function handleGetDocumentApi(id, nameArchive) {
     if (!api) {
       alert('Sem Rotas de API');
       return;
     }
-
     setLoadChange(true);
     api.http.get("" + api.addressApiFile(id), {
       responseType: 'blob'
@@ -2936,33 +2756,30 @@ var FilesContentApi = function FilesContentApi(_ref) {
       setLoadChange(false);
     });
   };
-
   var SendFiles = function SendFiles(e) {
     if (!api) {
       alert('Sem Rotas de API');
       return;
     }
-
     if (e.target.files[0].size > maxSizeUpload) {
       alert("O Arquivo \xE9 muito grande para o destino. Tamanho Maximo: " + (maxFileSizeMb ? maxFileSizeMb : '10') + " MB");
       return;
     }
-
     var fileToSend = e.target.files[0];
     var formData = new FormData();
     formData.append('file', fileToSend);
     setLoadChange(true);
     var headers = {
-      "Content-Type": "multipart/form-data"
+      'Content-Type': 'multipart/form-data'
     };
     api.http.post("" + api.addressApiFile('', '', solicitation), formData, {
       headers: headers
     }).then(function (response) {
       if (response.data.status == 201) {
         var addRowFile = {
-          'fileId': response.data.data,
-          'fileName': fileToSend.name,
-          'originName': fileToSend.name
+          fileId: response.data.data,
+          fileName: fileToSend.name,
+          originName: fileToSend.name
         };
         setList(function (current) {
           return [].concat(current, [addRowFile]);
@@ -2977,7 +2794,6 @@ var FilesContentApi = function FilesContentApi(_ref) {
       setLoadChange(false);
     });
   };
-
   var deleteArchive = function deleteArchive(id, fileName) {
     setContentFileDelete({
       confirm: '',
@@ -2986,7 +2802,6 @@ var FilesContentApi = function FilesContentApi(_ref) {
       openDialog: true
     });
   };
-
   useEffect(function () {
     if (contentFileDelete.confirm) {
       if (!api) {
@@ -2994,7 +2809,6 @@ var FilesContentApi = function FilesContentApi(_ref) {
         setLoadChange(false);
         return;
       }
-
       api.http["delete"]("" + api.addressApiFile('', contentFileDelete.fileId, solicitation), {
         responseType: 'blob'
       }).then(function (response) {
@@ -3093,7 +2907,7 @@ var FilesContentApi = function FilesContentApi(_ref) {
     "aria-describedby": "alert-dialog-description"
   }, /*#__PURE__*/React__default.createElement(DialogTitle$1, {
     id: "alert-dialog-title"
-  }, "Tem Certeza que deseja Excluir: " + contentFileDelete.file), /*#__PURE__*/React__default.createElement(DialogContent$1, null, /*#__PURE__*/React__default.createElement(DialogContentText$1, {
+  }, 'Tem Certeza que deseja Excluir: ' + contentFileDelete.file), /*#__PURE__*/React__default.createElement(DialogContent$1, null, /*#__PURE__*/React__default.createElement(DialogContentText$1, {
     id: "alert-dialog-description"
   }, "A exclus\xE3o ser\xE1 permanente!")), /*#__PURE__*/React__default.createElement(DialogActions$1, null, /*#__PURE__*/React__default.createElement(Button$2, {
     onClick: handleCloseDialogDeleteFile
@@ -3110,7 +2924,6 @@ var FilesContentApi = function FilesContentApi(_ref) {
     autoFocus: true
   }, "Confirmar Exclus\xE3o"))));
 };
-
 FilesContentApi.propTypes = (_FilesContentApi$prop = {
   filesList: PropTypes.object
 }, _FilesContentApi$prop["filesList"] = PropTypes.shape({
@@ -3142,7 +2955,7 @@ var style$c = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: '80%',
-  height: "80%",
+  height: '80%',
   bgcolor: 'background.paper',
   border: '0px solid #000',
   boxShadow: 24,
@@ -3156,35 +2969,29 @@ var styleButtonClose$1 = {
   left: '95%',
   color: '#000'
 };
-
 var FilesContent = function FilesContent(_ref) {
   var filesList = _ref.filesList,
-      editable = _ref.editable,
-      onDownload = _ref.onDownload,
-      onDelete = _ref.onDelete,
-      onUpload = _ref.onUpload,
-      acceptTypes = _ref.acceptTypes;
+    editable = _ref.editable,
+    onDownload = _ref.onDownload,
+    onDelete = _ref.onDelete,
+    onUpload = _ref.onUpload,
+    acceptTypes = _ref.acceptTypes;
   var initialStateFileDelete = {
     confirm: '',
     file: '',
     fileId: '',
     openDialog: false
   };
-
   var _useState = useState(''),
-      imgModal = _useState[0],
-      setImgModal = _useState[1];
-
+    imgModal = _useState[0],
+    setImgModal = _useState[1];
   var _useState2 = useState(initialStateFileDelete),
-      contentFileDelete = _useState2[0],
-      setContentFileDelete = _useState2[1];
-
+    contentFileDelete = _useState2[0],
+    setContentFileDelete = _useState2[1];
   var _useState3 = useState(false),
-      openModal = _useState3[0],
-      setOpenModal = _useState3[1];
-
+    openModal = _useState3[0],
+    setOpenModal = _useState3[1];
   var acceptTypesProps = acceptTypes ? acceptTypes : ['jpg', 'jpeg', 'png', 'pdf'];
-
   var handleCloseDialogDeleteFile = function handleCloseDialogDeleteFile() {
     setContentFileDelete({
       confirm: '',
@@ -3193,27 +3000,22 @@ var FilesContent = function FilesContent(_ref) {
       openDialog: false
     });
   };
-
   var handleOpen = function handleOpen() {
     return setOpenModal(true);
   };
-
   var handleClose = function handleClose() {
     return setOpenModal(false);
   };
-
   var handleGetDocumentApi = function handleGetDocumentApi(id, nameArchive) {
     onDownload({
       id: id,
       nameArchive: nameArchive
     });
   };
-
   var ShowArchives = function ShowArchives(file) {
     function get_url_extension(url) {
       return url.split(/[#?]/)[0].split('.').pop().trim();
     }
-
     if (get_url_extension(file.fileLink) == 'pdf') {
       return /*#__PURE__*/React__default.createElement(Tooltip$1, {
         title: "Visualizar PDF"
@@ -3223,7 +3025,6 @@ var FilesContent = function FilesContent(_ref) {
         }
       })));
     }
-
     if (file.fileLink && acceptTypesProps.includes(get_url_extension(file.fileLink))) {
       return /*#__PURE__*/React__default.createElement(Tooltip$1, {
         title: "Visualizar Imagem"
@@ -3234,7 +3035,6 @@ var FilesContent = function FilesContent(_ref) {
       })));
     }
   };
-
   var showImg = function showImg(id, fileLink, fileName) {
     if (fileLink) {
       setImgModal(fileLink);
@@ -3247,13 +3047,11 @@ var FilesContent = function FilesContent(_ref) {
       });
     }
   };
-
   var showPdf = function showPdf(id, fileLink, fileName) {
     if (fileLink) {
       window.open(fileLink, '_blank').focus();
     }
   };
-
   var deleteArchive = function deleteArchive(id, fileName) {
     setContentFileDelete({
       confirm: '',
@@ -3262,17 +3060,14 @@ var FilesContent = function FilesContent(_ref) {
       openDialog: true
     });
   };
-
   useEffect(function () {
     if (contentFileDelete.confirm) {
       onDelete(contentFileDelete);
     }
   }, [contentFileDelete]);
-
   var SendFiles = function SendFiles(e) {
     onUpload(e);
   };
-
   return /*#__PURE__*/React__default.createElement(Fragment$1, null, /*#__PURE__*/React__default.createElement(TableContainer, {
     className: "conteiner-archive-component",
     component: Paper
@@ -3353,7 +3148,7 @@ var FilesContent = function FilesContent(_ref) {
     "aria-describedby": "alert-dialog-description"
   }, /*#__PURE__*/React__default.createElement(DialogTitle$1, {
     id: "alert-dialog-title"
-  }, "Tem Certeza que deseja Excluir: " + contentFileDelete.file), /*#__PURE__*/React__default.createElement(DialogContent$1, null, /*#__PURE__*/React__default.createElement(DialogContentText$1, {
+  }, 'Tem Certeza que deseja Excluir: ' + contentFileDelete.file), /*#__PURE__*/React__default.createElement(DialogContent$1, null, /*#__PURE__*/React__default.createElement(DialogContentText$1, {
     id: "alert-dialog-description"
   }, "A exclus\xE3o ser\xE1 permanente!")), /*#__PURE__*/React__default.createElement(DialogActions$1, null, /*#__PURE__*/React__default.createElement(Button$2, {
     onClick: handleCloseDialogDeleteFile
@@ -3369,7 +3164,6 @@ var FilesContent = function FilesContent(_ref) {
     autoFocus: true
   }, "Confirmar Exclus\xE3o"))));
 };
-
 FilesContent.propTypes = (_FilesContent$propTyp = {
   filesList: PropTypes.object
 }, _FilesContent$propTyp["filesList"] = PropTypes.shape({
@@ -3382,8 +3176,7 @@ FilesContent.defaultProp = {
   editable: false
 };
 
-var DynaContext = createContext();
-
+var DynaContext = /*#__PURE__*/createContext();
 function contextReducer(state, action) {
   if (action.type === 'selecteds') {
     return _extends({}, state, {
@@ -3411,21 +3204,18 @@ function contextReducer(state, action) {
     });
   }
 }
-
 function DynaProvider(_ref) {
   var children = _ref.children;
-
   var _React$useReducer = useReducer(contextReducer, {
-    selecteds: [],
-    columnsOrder: [],
-    fields: [],
-    checkedFields: [],
-    agrupamento: [],
-    options: []
-  }),
-      state = _React$useReducer[0],
-      dispatch = _React$useReducer[1];
-
+      selecteds: [],
+      columnsOrder: [],
+      fields: [],
+      checkedFields: [],
+      agrupamento: [],
+      options: []
+    }),
+    state = _React$useReducer[0],
+    dispatch = _React$useReducer[1];
   var value = {
     state: state,
     dispatch: dispatch
@@ -3434,42 +3224,35 @@ function DynaProvider(_ref) {
     value: value
   }, children);
 }
-
 function useSelectedRegisters() {
   var context = useContext(DynaContext);
-
   if (context === undefined) {
     throw new Error('useSelectedRegisters must be used within a DynaProvider');
   }
-
   return context;
 }
 
 function FieldsChecklist() {
   var _useSelectedRegisters = useSelectedRegisters(),
-      _useSelectedRegisters2 = _useSelectedRegisters.state,
-      fields = _useSelectedRegisters2.fields,
-      checkedFields = _useSelectedRegisters2.checkedFields,
-      dispatch = _useSelectedRegisters.dispatch;
-
+    _useSelectedRegisters2 = _useSelectedRegisters.state,
+    fields = _useSelectedRegisters2.fields,
+    checkedFields = _useSelectedRegisters2.checkedFields,
+    dispatch = _useSelectedRegisters.dispatch;
   var handleToggle = function handleToggle(value) {
     return function () {
       var currentIndex = checkedFields.indexOf(value);
       var newChecked = [].concat(checkedFields);
-
       if (currentIndex === -1) {
         newChecked.push(value);
       } else {
         newChecked.splice(currentIndex, 1);
       }
-
       dispatch({
         value: newChecked,
         type: 'checkedFields'
       });
     };
   };
-
   return /*#__PURE__*/createElement(Box, {
     sx: {
       p: 2
@@ -3536,17 +3319,14 @@ var mainHeaderStyle = {
   fontStyle: 'bold'
 };
 var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) {
-
   var hasDependentes = fields.includes('dependentes');
   var hasGroup = options.includes('agrupar');
   var doc = new jsPDF('p', 'pt', 'a4');
   var page = 1;
-
   var getUsuarioStyle = function getUsuarioStyle() {
     var result = {};
     fields.forEach(function (element, index) {
       var countExcludeFields = hasDependentes ? 2 : 1;
-
       if (fields.length > index + countExcludeFields) {
         result[index] = {
           cellWidth: getFieldWidth[element]
@@ -3555,7 +3335,6 @@ var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) 
     });
     return result;
   };
-
   var addPrimeiroNivel = function addPrimeiroNivel(Y, header, content) {
     autoTable(doc, {
       startY: Y > 116 ? Y + 5 : Y,
@@ -3568,7 +3347,6 @@ var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) 
       columnStyles: getUsuarioStyle()
     });
   };
-
   var addSegundoNivel = function addSegundoNivel(Y, header, content) {
     autoTable(doc, {
       startY: Y > 116 ? Y + 5 : Y,
@@ -3578,7 +3356,6 @@ var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) 
       columnStyles: getUsuarioStyle()
     });
   };
-
   var addTableFooter = function addTableFooter(Y, header, content) {
     autoTable(doc, {
       body: content,
@@ -3591,18 +3368,15 @@ var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) 
       }
     });
   };
-
   var addUsuario = function addUsuario(usuarios) {
     usuarios === null || usuarios === void 0 ? void 0 : usuarios.forEach(function (el) {
       var Y = doc.lastAutoTable.finalY;
       var usuarioContent = [];
       var newHeader = [];
-
       for (var _i = 0, _Object$entries = Object.entries(el); _i < _Object$entries.length; _i++) {
         var _Object$entries$_i = _Object$entries[_i],
-            key = _Object$entries$_i[0],
-            value = _Object$entries$_i[1];
-
+          key = _Object$entries$_i[0],
+          value = _Object$entries$_i[1];
         if (key !== 'dependentes' && key !== 'hasDependentes') {
           usuarioContent.push({
             content: value,
@@ -3613,20 +3387,15 @@ var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) 
           newHeader.push(dicionary[key]);
         }
       }
-
       if (page < doc.internal.getCurrentPageInfo().pageNumber) {
         page++;
         Y = 116;
       }
-
       addPrimeiroNivel(Y, newHeader, [usuarioContent]);
-
       if (hasDependentes) {
         addSegundoNivel(doc.lastAutoTable.finalY, null, Object.values(el.dependentes));
-
         if (options.includes('totalizar')) {
           var _el$dependentes;
-
           var total = 0;
           (_el$dependentes = el.dependentes) === null || _el$dependentes === void 0 ? void 0 : _el$dependentes.forEach(function (element) {
             total = total + element[2];
@@ -3642,11 +3411,9 @@ var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) 
       }
     });
   };
-
   autoTable(doc, {
     startY: 116
   });
-
   if (hasGroup) {
     var groupSections = [];
     selecteds.forEach(function (element) {
@@ -3667,9 +3434,7 @@ var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) 
   } else {
     addUsuario(selecteds);
   }
-
   var pageCount = doc.internal.getNumberOfPages();
-
   for (var i = 0; i < pageCount; i++) {
     doc.setLineWidth(1);
     doc.setPage(i);
@@ -3702,36 +3467,30 @@ var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) 
       }
     });
   }
-
   doc.save('Test.pdf');
 };
 
 function OptionsChecklist(_ref) {
   var listOptions = _ref.listOptions,
-      title = _ref.title;
-
+    title = _ref.title;
   var _useSelectedRegisters = useSelectedRegisters(),
-      options = _useSelectedRegisters.state.options,
-      dispatch = _useSelectedRegisters.dispatch;
-
+    options = _useSelectedRegisters.state.options,
+    dispatch = _useSelectedRegisters.dispatch;
   var handleToggle = function handleToggle(value) {
     return function () {
       var currentIndex = options.indexOf(value);
       var newChecked = [].concat(options);
-
       if (currentIndex === -1) {
         newChecked.push(value);
       } else {
         newChecked.splice(currentIndex, 1);
       }
-
       dispatch({
         value: newChecked,
         type: 'options'
       });
     };
   };
-
   return /*#__PURE__*/createElement(Box, {
     sx: {
       p: 2
@@ -3783,17 +3542,14 @@ var TypeIcon = function TypeIcon(props) {
   if (props.droppable) {
     return /*#__PURE__*/React__default.createElement(FolderIcon, null);
   }
-
   return /*#__PURE__*/React__default.createElement(DescriptionIcon, null);
 };
 
 var ExternalNode = function ExternalNode(props) {
   var droppable = props.node.droppable;
-
   var handleDragStart = function handleDragStart(e) {
     e.dataTransfer.setData('text', JSON.stringify(props.node));
   };
-
   return /*#__PURE__*/React__default.createElement("div", {
     draggable: true,
     className: undefined.root,
@@ -3812,12 +3568,10 @@ var ExternalNode = function ExternalNode(props) {
 var CustomNode = function CustomNode(props) {
   var droppable = props.node.droppable;
   var indent = props.depth * 24;
-
   var handleToggle = function handleToggle(e) {
     e.stopPropagation();
     props.onToggle(props.node.id);
   };
-
   return /*#__PURE__*/React__default.createElement("div", {
     className: "tree-node " + undefined.root,
     style: {
@@ -3865,7 +3619,6 @@ var formatExternalNodes = function formatExternalNodes(nodes, group) {
   });
   return newExternalNodes;
 };
-
 var defaultGroup = [{
   id: 1,
   parent: 0,
@@ -3874,33 +3627,27 @@ var defaultGroup = [{
 }];
 var Agrupamento = function Agrupamento(_ref) {
   var handleClose = _ref.handleClose;
-
   var _useSelectedRegisters = useSelectedRegisters(),
-      _useSelectedRegisters2 = _useSelectedRegisters.state,
-      checkedFields = _useSelectedRegisters2.checkedFields,
-      agrupamento = _useSelectedRegisters2.agrupamento,
-      dispatch = _useSelectedRegisters.dispatch;
-
+    _useSelectedRegisters2 = _useSelectedRegisters.state,
+    checkedFields = _useSelectedRegisters2.checkedFields,
+    agrupamento = _useSelectedRegisters2.agrupamento,
+    dispatch = _useSelectedRegisters.dispatch;
   var _useState = useState(agrupamento.length > 0 ? agrupamento : defaultGroup),
-      tree = _useState[0],
-      setTree = _useState[1];
-
+    tree = _useState[0],
+    setTree = _useState[1];
   var _useState2 = useState(formatExternalNodes(checkedFields, agrupamento)),
-      externalNodes = _useState2[0],
-      setExternalNodes = _useState2[1];
-
+    externalNodes = _useState2[0],
+    setExternalNodes = _useState2[1];
   useEffect(function () {
     return setExternalNodes(formatExternalNodes(checkedFields, agrupamento));
   }, [checkedFields, agrupamento]);
   useEffect(function () {
     return setTree(agrupamento.length > 0 ? agrupamento : defaultGroup);
   }, [agrupamento]);
-
   var handleDrop = function handleDrop(newTree, options) {
     var dropTargetId = options.dropTargetId,
-        monitor = options.monitor;
+      monitor = options.monitor;
     var itemType = monitor.getItemType();
-
     if (itemType === TEXT) {
       var nodeJson = monitor.getItem().text;
       var node = JSON.parse(nodeJson);
@@ -3911,10 +3658,8 @@ var Agrupamento = function Agrupamento(_ref) {
       }));
       return;
     }
-
     setTree(newTree);
   };
-
   var handleSalvar = function handleSalvar() {
     dispatch({
       value: tree,
@@ -3922,12 +3667,10 @@ var Agrupamento = function Agrupamento(_ref) {
     });
     handleClose();
   };
-
   var handleLimpar = function handleLimpar() {
     setTree(agrupamento.length > 0 ? agrupamento : defaultGroup);
     setExternalNodes(formatExternalNodes(checkedFields, agrupamento));
   };
-
   return /*#__PURE__*/React__default.createElement(Fragment, null, /*#__PURE__*/React__default.createElement(Typography, {
     variant: "h5",
     gutterBottom: true,
@@ -4039,40 +3782,31 @@ var style$d = {
   boxShadow: 24,
   p: 2
 };
-
 function ButtonsList(_ref) {
   var listOptions = _ref.listOptions;
-
   var _useState = useState(false),
-      openAgrupamento = _useState[0],
-      setOpenAgrupamento = _useState[1];
-
+    openAgrupamento = _useState[0],
+    setOpenAgrupamento = _useState[1];
   var handleOpenAgrupamento = function handleOpenAgrupamento() {
     return setOpenAgrupamento(true);
   };
-
   var handleCloseAgrupamento = function handleCloseAgrupamento() {
     return setOpenAgrupamento(false);
   };
-
   var _useState2 = useState(false),
-      openSomar = _useState2[0],
-      setOpenSomar = _useState2[1];
-
+    openSomar = _useState2[0],
+    setOpenSomar = _useState2[1];
   var handleOpenSomar = function handleOpenSomar() {
     return setOpenSomar(true);
   };
-
   var handleCloseSomar = function handleCloseSomar() {
     return setOpenSomar(false);
   };
-
   var _useSelectedRegisters = useSelectedRegisters(),
-      _useSelectedRegisters2 = _useSelectedRegisters.state,
-      selecteds = _useSelectedRegisters2.selecteds,
-      fields = _useSelectedRegisters2.fields,
-      options = _useSelectedRegisters2.options;
-
+    _useSelectedRegisters2 = _useSelectedRegisters.state,
+    selecteds = _useSelectedRegisters2.selecteds,
+    fields = _useSelectedRegisters2.fields,
+    options = _useSelectedRegisters2.options;
   var generateObj = function generateObj() {
     try {
       var filteredArr = [];
@@ -4090,7 +3824,6 @@ function ButtonsList(_ref) {
       return Promise.reject(e);
     }
   };
-
   return /*#__PURE__*/React__default.createElement(Box, {
     sx: {
       width: '100%'
@@ -4171,29 +3904,24 @@ function ButtonsList(_ref) {
 
 var DynaGrade = function DynaGrade(_ref) {
   var conv = _ref.conv;
-
   var _useState = useState([]),
-      registers = _useState[0],
-      setRegisters = _useState[1];
-
+    registers = _useState[0],
+    setRegisters = _useState[1];
   var _useSelectedRegisters = useSelectedRegisters(),
-      _useSelectedRegisters2 = _useSelectedRegisters.state,
-      selecteds = _useSelectedRegisters2.selecteds,
-      checkedFields = _useSelectedRegisters2.checkedFields,
-      columnsOrder = _useSelectedRegisters2.columnsOrder,
-      dispatch = _useSelectedRegisters.dispatch;
-
+    _useSelectedRegisters2 = _useSelectedRegisters.state,
+    selecteds = _useSelectedRegisters2.selecteds,
+    checkedFields = _useSelectedRegisters2.checkedFields,
+    columnsOrder = _useSelectedRegisters2.columnsOrder,
+    dispatch = _useSelectedRegisters.dispatch;
   useMemo(function () {
     setRegisters(conv);
   }, [conv]);
-
   var onSelectRegister = function onSelectRegister(e) {
     dispatch({
       value: e,
       type: 'selecteds'
     });
   };
-
   var _onColReorder = function onColReorder(e) {
     var temp = [];
     e.columns.forEach(function (e) {
@@ -4204,7 +3932,6 @@ var DynaGrade = function DynaGrade(_ref) {
       type: 'columnsOrder'
     });
   };
-
   var dynamicColumns = columnsOrder.map(function (field) {
     if (checkedFields.includes(field)) {
       return /*#__PURE__*/React__default.createElement(Column, {
@@ -4270,18 +3997,14 @@ var Principal = function Principal(_ref) {
       return Promise.reject(e);
     }
   };
-
   var api = _ref.api,
-      filter = _ref.filter;
-
+    filter = _ref.filter;
   var _useSelectedRegisters = useSelectedRegisters(),
-      fields = _useSelectedRegisters.state.fields,
-      dispatch = _useSelectedRegisters.dispatch;
-
+    fields = _useSelectedRegisters.state.fields,
+    dispatch = _useSelectedRegisters.dispatch;
   var _useState = useState(null),
-      data = _useState[0],
-      setData = _useState[1];
-
+    data = _useState[0],
+    setData = _useState[1];
   useEffect(function () {
     fetchData()["catch"](function (err) {
       return console.log(err);
@@ -4297,10 +4020,8 @@ var Principal = function Principal(_ref) {
       color: theme.palette.text.secondary
     });
   });
-
   var getFormattedData = function getFormattedData(_data) {
     var newData = [];
-
     _data.forEach(function (register, i) {
       var temp = {};
       fields.forEach(function (field, j) {
@@ -4308,10 +4029,8 @@ var Principal = function Principal(_ref) {
       });
       newData.push(temp);
     });
-
     return newData;
   };
-
   return /*#__PURE__*/React__default.createElement(Box, {
     sx: {
       minWidth: '840px'
@@ -4346,7 +4065,7 @@ var Principal = function Principal(_ref) {
 
 function DynaReport(_ref) {
   var api = _ref.api,
-      filter = _ref.filter;
+    filter = _ref.filter;
   return /*#__PURE__*/React__default.createElement(DynaProvider, null, /*#__PURE__*/React__default.createElement(Principal, {
     api: api,
     filter: filter

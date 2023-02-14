@@ -1,58 +1,56 @@
 .css-hyum1k-MuiToolbar-root {
-    min-height: 52px !important;
-    max-height: 55px !important;
+  min-height: 52px !important;
+  max-height: 55px !important;
 }
 
 .topbar {
-    top: 0;
-    position: fixed;
-    z-index: 100;
-    width: 100%;
-    height: 60px;
-    box-shadow: 0 2px 5px 0 RGB(0 0 0 / 26%);
-    padding: 8px;
-    height: 60px;
-    background-color: #38b6ff;
+  top: 0;
+  position: fixed;
+  z-index: 100;
+  width: 100%;
+  height: 60px;
+  box-shadow: 0 2px 5px 0 RGB(0 0 0 / 26%);
+  padding: 8px;
+  height: 60px;
+  background-color: #38b6ff;
 }
 
 .header-conteiner {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .header-item {
-    flex: 1;
-    margin-left: 10px;
+  flex: 1;
+  margin-left: 10px;
 }
 
 .grow-1 {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 .grow-2 {
-    flex-grow: 2;
+  flex-grow: 2;
 }
 
 .grow-4 {
-    flex-grow: 4;
+  flex-grow: 4;
 }
 
-
 .title-header {
-    font-size: 40px;
-    margin-left: 5px;
-    font-weight: bold;
-    color: white;
+  font-size: 40px;
+  margin-left: 5px;
+  font-weight: bold;
+  color: white;
 }
 
 .header-search-color {
-    color: white;
+  color: white;
 }
 
 .p-input-icon-left {
-
-    /* ::placeholder {   
+  /* ::placeholder {   
         color: white;
         opacity: 1;   
     }
@@ -67,171 +65,191 @@
 }
 
 .p-input-icon-left {
-    max-width: 300px;
+  max-width: 300px;
 }
 
 .title-header-search-margin {
-    margin-left: 30px;
+  margin-left: 30px;
 }
 
 .grid-template-columns-4 {
-    grid-template-columns: repeat(3, 1fr);
-    padding: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 10px;
 }
 
 .grid {
-    display: grid;
+  display: grid;
 }
 
-
 .button-size {
-    min-height: 80px;
-    min-width: 80px;
+  min-height: 80px;
+  min-width: 80px;
 }
 
 .box-menu {
-    margin-top: 10%;
-    text-align: center;
+  margin-top: 10%;
+  text-align: center;
 }
 
 .box-menu-icon {
-    font-size: 25px;
-    color: rgba(1, 142, 188, 0.6);
+  font-size: 25px;
+  color: rgba(1, 142, 188, 0.6);
 }
 
 p {
-    color: gray;
+  color: gray;
 }
 
 .menu-app-list {
-    width: 336px;
-    height: 300px;
-    right: 5px;
-    z-index: 1000;
-    margin-top: 57px;
-    position: fixed;
-    background-color: white;
-    color: #FFF;
-    text-align: center;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-    border-radius: 6px;
-    overflow-y: auto;
-    cursor: pointer;
+  width: 336px;
+  height: 300px;
+  right: 5px;
+  z-index: 1000;
+  margin-top: 57px;
+  position: fixed;
+  background-color: white;
+  color: #fff;
+  text-align: center;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  border-radius: 6px;
+  overflow-y: auto;
+  cursor: pointer;
 }
 
 .menu-app-list-none {
-    width: 336px;
-    height: 300px;
-    right: 5px;
-    z-index: 1000;
-    margin-top: 57px;
-    position: fixed;
-    background-color: white;
-    color: #FFF;
-    text-align: center;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-    border-radius: 6px;
-    overflow-y: auto;
-    cursor: pointer;
-    display: none;
+  width: 336px;
+  height: 300px;
+  right: 5px;
+  z-index: 1000;
+  margin-top: 57px;
+  position: fixed;
+  background-color: white;
+  color: #fff;
+  text-align: center;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  border-radius: 6px;
+  overflow-y: auto;
+  cursor: pointer;
+  display: none;
 }
 
 .header-component-current-operator {
-    pointer-events: none;
-    font-size: 10pt !important;
+  pointer-events: none;
+  font-size: 10pt !important;
 }
+
 #custom-time-picker {
   max-width: 45px !important;
-  width: 100%; }
-
+  width: 100%;
+}
 #custom-date-picker {
   min-width: 95px !important;
-  width: 100%; }
-
+  width: 100%;
+}
 .container {
   border: 1px dashed;
-  padding: 2rem; }
+  padding: 2rem;
+}
 
 .conteiner-dropzone {
   display: flex;
   justify-content: center;
-  padding: 1rem; }
+  padding: 1rem;
+}
 
 .p-fileupload-content {
   display: flex;
-  justify-content: center; }
+  justify-content: center;
+}
 
 .p-fileupload-content .flex-column {
   display: flex;
   flex-direction: column;
-  align-items: center; }
+  align-items: center;
+}
 
 .p-fileupload-content {
-  display: none; }
+  display: none;
+}
 
 .p-progressbar-label {
   display: flex !important;
-  color: #000 !important; }
+  color: #000 !important;
+}
 
 .p-progressbar-determinate .p-progressbar-label {
-  justify-content: center; }
+  justify-content: center;
+}
 
 .dropzone-pdf-icon {
   width: 100px;
   font-size: 50px;
   margin: 0 auto;
-  color: #f36767; }
+  color: #f36767;
+}
 
 .afterInput {
   border: 1px solid #dee2e6;
   border-radius: 0 0 5px 5px;
-  min-height: 70px; }
+  min-height: 70px;
+}
 
 .file-name {
   margin: auto;
   margin-left: 0;
-  text-overflow: ellipsis; }
+  text-overflow: ellipsis;
+}
 
 .card {
-  padding-top: 1rem; }
+  padding-top: 1rem;
+}
 
 .p-fileupload-files {
-  width: 100%; }
+  width: 100%;
+}
 
 .p-fileupload-row {
   max-height: 100px;
-  padding: none !important; }
+  padding: none !important;
+}
 
 .item-row {
   display: flex;
   align-items: center;
-  justify-content: space-around; }
+  justify-content: space-around;
+}
 
 .item-img-fileName {
   display: flex;
-  padding: 1rem; }
+  padding: 1rem;
+}
 
 .file-name {
-  padding-left: 1rem; }
-
+  padding-left: 1rem;
+}
 .custom-beneficiarie-component-wallet {
-  max-width: 200px; }
-
+  max-width: 200px;
+}
 .conteiner-archive-component {
-  margin: 10px 0 1rem 0; }
+  margin: 10px 0 1rem 0;
+}
 
 .table-header-archive-content {
-  background-color: #f6f5f5;
-  color: #e80e0e; }
+  background-color: rgb(246, 245, 245);
+  color: rgb(232, 14, 14);
+}
 
 .table-header-archive-content th {
-  color: #9d9d9d; }
-
+  color: rgb(157, 157, 157);
+}
 .dialog-button-close {
   position: absolute;
   top: 2%;
   left: 95%;
-  color: #000; }
+  color: #000;
+}
 
 .img-content-show {
   position: absolute;
@@ -245,8 +263,8 @@ p {
   box-shadow: 24;
   overflow: hidden;
   text-align: center;
-  padding: 4; }
-
+  padding: 4;
+}
 .root {
   align-items: center;
   display: flex;
