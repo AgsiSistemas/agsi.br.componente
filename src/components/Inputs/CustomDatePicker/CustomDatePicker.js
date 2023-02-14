@@ -2,11 +2,10 @@ import React from 'react'
 import PropTypes from "prop-types";
 import './CustomDatePicker.scss'
 
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-// import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-// import { ptBR } from 'date-fns/locale'
+import { ptBR } from 'date-fns/locale'
 import { TextField } from '@mui/material';
 
 const CustomDatePicker = ({ label, value, minDate, validation, maxDate, dateFormat, onChange, placeHolder, helperText, disabled, noAlertNoneValue, ...other }) => {
@@ -28,7 +27,7 @@ const CustomDatePicker = ({ label, value, minDate, validation, maxDate, dateForm
 
   return (
     <React.Fragment>
-      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={'ptBR'}>
+      <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
         <DatePicker
           label={label}
           value={value}

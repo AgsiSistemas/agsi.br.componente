@@ -53,9 +53,10 @@ import InputBase from '@mui/material/InputBase';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { ptBR } from 'date-fns/locale';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress$1 from '@mui/material/CircularProgress';
@@ -1706,8 +1707,8 @@ var CustomTimePicker = function CustomTimePicker(_ref) {
     dateValidation = _React$useState[0],
     setDateValidation = _React$useState[1];
   return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(LocalizationProvider, {
-    dateAdapter: AdapterDayjs,
-    adapterLocale: 'ptBR'
+    dateAdapter: AdapterDateFns,
+    adapterLocale: ptBR
   }, /*#__PURE__*/React__default.createElement(TimePicker, {
     label: label,
     value: value,
@@ -1788,8 +1789,8 @@ var CustomDatePicker = function CustomDatePicker(_ref) {
     return false;
   };
   return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(LocalizationProvider, {
-    dateAdapter: AdapterDayjs,
-    adapterLocale: 'ptBR'
+    dateAdapter: AdapterDateFns,
+    adapterLocale: ptBR
   }, /*#__PURE__*/React__default.createElement(DatePicker, {
     label: label,
     value: value,

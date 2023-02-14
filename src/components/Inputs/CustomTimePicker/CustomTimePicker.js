@@ -2,11 +2,10 @@ import React from 'react'
 import PropTypes from "prop-types";
 import './CustomTimePicker.scss'
 
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-// import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-// import { ptBR } from 'date-fns/locale'
+import { ptBR } from 'date-fns/locale'
 import { TextField } from '@mui/material';
 
 const CustomTimePicker = ({ id, label, value, mask, onChange, placeHolder, ampm, disabled, ...other }) => {
@@ -15,7 +14,7 @@ const CustomTimePicker = ({ id, label, value, mask, onChange, placeHolder, ampm,
 
   return (
     <React.Fragment>
-      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={'ptBR'}>
+      <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
         <TimePicker
           label={label}
           value={value}

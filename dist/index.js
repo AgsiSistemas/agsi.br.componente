@@ -56,9 +56,10 @@ var InputBase = _interopDefault(require('@mui/material/InputBase'));
 var ManageAccountsIcon = _interopDefault(require('@mui/icons-material/ManageAccounts'));
 var TextField = _interopDefault(require('@mui/material/TextField'));
 var Autocomplete = _interopDefault(require('@mui/material/Autocomplete'));
-var AdapterDayjs = require('@mui/x-date-pickers/AdapterDayjs');
+var AdapterDateFns = require('@mui/x-date-pickers/AdapterDateFns');
 var LocalizationProvider = require('@mui/x-date-pickers/LocalizationProvider');
 var TimePicker = require('@mui/x-date-pickers/TimePicker');
+var locale = require('date-fns/locale');
 var DatePicker = require('@mui/x-date-pickers/DatePicker');
 var Backdrop = _interopDefault(require('@mui/material/Backdrop'));
 var CircularProgress = _interopDefault(require('@mui/material/CircularProgress'));
@@ -1709,8 +1710,8 @@ var CustomTimePicker = function CustomTimePicker(_ref) {
     dateValidation = _React$useState[0],
     setDateValidation = _React$useState[1];
   return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(LocalizationProvider.LocalizationProvider, {
-    dateAdapter: AdapterDayjs.AdapterDayjs,
-    adapterLocale: 'ptBR'
+    dateAdapter: AdapterDateFns.AdapterDateFns,
+    adapterLocale: locale.ptBR
   }, /*#__PURE__*/React__default.createElement(TimePicker.TimePicker, {
     label: label,
     value: value,
@@ -1791,8 +1792,8 @@ var CustomDatePicker = function CustomDatePicker(_ref) {
     return false;
   };
   return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(LocalizationProvider.LocalizationProvider, {
-    dateAdapter: AdapterDayjs.AdapterDayjs,
-    adapterLocale: 'ptBR'
+    dateAdapter: AdapterDateFns.AdapterDateFns,
+    adapterLocale: locale.ptBR
   }, /*#__PURE__*/React__default.createElement(DatePicker.DatePicker, {
     label: label,
     value: value,
