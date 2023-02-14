@@ -1,15 +1,15 @@
-import * as React from 'react';
-import Tooltip from '@mui/material/Tooltip';
-import { styled } from '@mui/material/styles';
-import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
-import MuiAccordion from '@mui/material/Accordion';
-import MuiAccordionSummary from '@mui/material/AccordionSummary';
-import MuiAccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
-import PropTypes from "prop-types";
-import { Conteiner, ConteinerItem } from '../Conteiner/Conteiner';
-import PushPinIcon from '@mui/icons-material/PushPin';
-import IconButton from '@mui/material/IconButton';
+import * as React from 'react'
+import Tooltip from '@mui/material/Tooltip'
+import { styled } from '@mui/material/styles'
+import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp'
+import MuiAccordion from '@mui/material/Accordion'
+import MuiAccordionSummary from '@mui/material/AccordionSummary'
+import MuiAccordionDetails from '@mui/material/AccordionDetails'
+import Typography from '@mui/material/Typography'
+import PropTypes from 'prop-types'
+import { Conteiner, ConteinerItem } from '../Conteiner/Conteiner'
+import PushPinIcon from '@mui/icons-material/PushPin'
+import IconButton from '@mui/material/IconButton'
 
 const style = {
   header_accordion_conteiner: {
@@ -32,17 +32,25 @@ const Accordion = styled((props) => (
 ))(({ theme }) => ({
   border: `1px solid ${theme.palette.divider}`,
   '&:not(:last-child)': {
-    borderBottom: 0,
+    borderBottom: 0
   },
   '&:before': {
-    display: 'none',
-  },
-}));
+    display: 'none'
+  }
+}))
 
 const AccordionSummary = styled((props) => (
-
   <MuiAccordionSummary
-    expandIcon={!props.disableExpandedButton ? <ArrowForwardIosSharpIcon style={{ color: '#008EBC' }} sx={{ fontSize: '0.9rem' }} /> : <div></div>}
+    expandIcon={
+      !props.disableExpandedButton ? (
+        <ArrowForwardIosSharpIcon
+          style={{ color: '#008EBC' }}
+          sx={{ fontSize: '0.9rem' }}
+        />
+      ) : (
+        <div></div>
+      )
+    }
     {...props}
   />
 ))(({ theme }) => ({
@@ -51,78 +59,82 @@ const AccordionSummary = styled((props) => (
   flexDirection: 'row-reverse',
   display: 'flex',
   '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
-    transform: 'rotate(90deg)',
+    transform: 'rotate(90deg)'
   },
   '& .MuiAccordionSummary-content': {
-    marginLeft: theme.spacing(1),
-  },
-}));
+    marginLeft: theme.spacing(1)
+  }
+}))
 
 const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   padding: theme.spacing(2),
-  borderTop: '1px solid rgba(0, 0, 0, .125)',
-}));
+  borderTop: '1px solid rgba(0, 0, 0, .125)'
+}))
 
 export function HeaderAccordion(props) {
-  const [expanded, setExpanded] = React.useState('panel');
+  const [expanded, setExpanded] = React.useState('panel')
 
   const handleChange = (panel) => (event, newExpanded) => {
-    setExpanded(newExpanded ? panel : false);
-  };
+    setExpanded(newExpanded ? panel : false)
+  }
 
   const handleDisableExpand = (disabled, expanded) => {
-    if (disabled)
-      return true
-    else
-      return expanded === 'panel'
+    if (disabled) return true
+    else return expanded === 'panel'
   }
 
   return (
     <div>
       <Accordion
-        id="header-accordion-conteiner"
+        id='header-accordion-conteiner'
         style={style.header_accordion_conteiner}
         expanded={handleDisableExpand(props.disableExpandedButton, expanded)}
         onChange={handleChange('panel')}
       >
-        <AccordionSummary disableExpandedButton={props.disableExpandedButton} aria-controls="paneld-content" id="paneld-header">
+        <AccordionSummary
+          disableExpandedButton={props.disableExpandedButton}
+          aria-controls='paneld-content'
+          id='paneld-header'
+        >
           <Conteiner>
             <ConteinerItem>
-              <Typography style={{ fontSize: '1.2rem' }}>{props.header}</Typography>
+              <Typography style={{ fontSize: '1.2rem' }}>
+                {props.header}
+              </Typography>
             </ConteinerItem>
             <ConteinerItem style={style.header_accordion}>
-              {!props.disableAttachButton &&
+              {!props.disableAttachButton && (
                 <Tooltip title={props.titleTooltip}>
-                  <IconButton style={style.header_accordion_pin} size="small" onClick={props.onClick}>
+                  <IconButton
+                    style={style.header_accordion_pin}
+                    size='small'
+                    onClick={props.onClick}
+                  >
                     <PushPinIcon />
                   </IconButton>
-                </Tooltip>}
+                </Tooltip>
+              )}
             </ConteinerItem>
           </Conteiner>
         </AccordionSummary>
-        <AccordionDetails>
-          {props.children}
-        </AccordionDetails>
+        <AccordionDetails>{props.children}</AccordionDetails>
       </Accordion>
     </div>
-  );
+  )
 }
 
 HeaderAccordion.propTypes = {
-  header: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object
-  ]),
+  header: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   titleTooltip: PropTypes.string,
   disableAttachButton: PropTypes.bool,
-  disableExpandedButton: PropTypes.bool,
-};
+  disableExpandedButton: PropTypes.bool
+}
 
 HeaderAccordion.defaultProp = {
   header: {},
   titleTooltip: '',
   disableAttachButton: false,
   disableExpandedButton: false
-};
+}
 
-export default React.memo(HeaderAccordion);
+export default React.memo(HeaderAccordion)
