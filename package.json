@@ -1,6 +1,6 @@
 {
   "name": "@agsisistemas/agsi.br.componente",
-  "version": "1.0.78",
+  "version": "1.0.79",
   "description": "Made with create-react-library",
   "author": "AgsiSistemas",
   "license": "MIT",
@@ -50,7 +50,8 @@
     "@mui/lab": "^5.0.0-alpha.77",
     "@mui/material": "5.10.1",
     "@mui/styled-engine-sc": "^5.6.1",
-    "@mui/x-date-pickers": "^5.0.0-alpha.1",
+    "@mui/x-date-pickers": "^5.0.18",
+    "dayjs": "^1.11.7",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.5.28",
     "less": "^4.1.3",
