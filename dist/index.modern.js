@@ -30,8 +30,6 @@ import { Button as Button$1 } from 'primereact/button';
 import LoadingButton from '@mui/lab/LoadingButton';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
-import '@mui/icons-material/ArrowBack';
-import '@mui/icons-material/DeleteOutline';
 import CheckIcon from '@mui/icons-material/Check';
 import { useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
@@ -41,13 +39,11 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import '@mui/icons-material/MoreVert';
 import AppsIcon from '@mui/icons-material/Apps';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import FolderSharedIcon from '@mui/icons-material/FolderShared';
 import Divider from '@mui/material/Divider';
-import '@mui/icons-material/Widgets';
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { Tooltip as Tooltip$1, Skeleton, CircularProgress, TextField as TextField$1, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton as IconButton$1, Button as Button$2, Modal, Box as Box$1, Dialog as Dialog$1, DialogTitle as DialogTitle$1, DialogContent as DialogContent$1, DialogContentText as DialogContentText$1, DialogActions as DialogActions$1, LinearProgress } from '@mui/material';
@@ -57,10 +53,9 @@ import InputBase from '@mui/material/InputBase';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import { ptBR } from 'date-fns/locale';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress$1 from '@mui/material/CircularProgress';
@@ -81,6 +76,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Unstable_Grid2';
 import SearchIcon from '@mui/icons-material/Search';
 import DescriptionIcon from '@mui/icons-material/Description';
+import DataSaverOnIcon from '@mui/icons-material/DataSaverOn';
 import GroupWorkIcon from '@mui/icons-material/GroupWork';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -1800,8 +1796,8 @@ var CustomTimePicker = function CustomTimePicker(_ref) {
       setDateValidation = _React$useState[1];
 
   return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(LocalizationProvider, {
-    dateAdapter: AdapterDateFns,
-    adapterLocale: ptBR
+    dateAdapter: AdapterDayjs,
+    adapterLocale: 'ptBR'
   }, /*#__PURE__*/React__default.createElement(TimePicker, {
     label: label,
     value: value,
@@ -1888,8 +1884,8 @@ var CustomDatePicker = function CustomDatePicker(_ref) {
   };
 
   return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(LocalizationProvider, {
-    dateAdapter: AdapterDateFns,
-    adapterLocale: ptBR
+    dateAdapter: AdapterDayjs,
+    adapterLocale: 'ptBR'
   }, /*#__PURE__*/React__default.createElement(DatePicker, {
     label: label,
     value: value,
@@ -3385,17 +3381,6 @@ FilesContent.defaultProp = {
   editable: false
 };
 
-var dicionary = {
-  nome: "Nome",
-  endereco: "Endereço",
-  telefone: "Telefone",
-  dependentes: "Dependentes",
-  totalizar: "Totalizar",
-  datahora: "Mostrar data/hora",
-  cidade: "Cidade",
-  agrupar: "Agrupar"
-};
-
 var DynaContext = createContext();
 
 function contextReducer(state, action) {
@@ -3410,6 +3395,10 @@ function contextReducer(state, action) {
   } else if (action.type === 'fields') {
     return _extends({}, state, {
       fields: action.value
+    });
+  } else if (action.type === 'checkedFields') {
+    return _extends({}, state, {
+      checkedFields: action.value
     });
   } else if (action.type === 'agrupamento') {
     return _extends({}, state, {
@@ -3427,8 +3416,9 @@ function DynaProvider(_ref) {
 
   var _React$useReducer = useReducer(contextReducer, {
     selecteds: [],
-    columnsOrder: [null, 'nome', 'telefone'],
-    fields: ['nome', 'telefone'],
+    columnsOrder: [],
+    fields: [],
+    checkedFields: [],
     agrupamento: [],
     options: []
   }),
@@ -3454,18 +3444,17 @@ function useSelectedRegisters() {
   return context;
 }
 
-function FieldsChecklist(_ref) {
-  var listOptions = _ref.listOptions,
-      title = _ref.title;
-
+function FieldsChecklist() {
   var _useSelectedRegisters = useSelectedRegisters(),
-      fields = _useSelectedRegisters.state.fields,
+      _useSelectedRegisters2 = _useSelectedRegisters.state,
+      fields = _useSelectedRegisters2.fields,
+      checkedFields = _useSelectedRegisters2.checkedFields,
       dispatch = _useSelectedRegisters.dispatch;
 
   var handleToggle = function handleToggle(value) {
     return function () {
-      var currentIndex = fields.indexOf(value);
-      var newChecked = [].concat(fields);
+      var currentIndex = checkedFields.indexOf(value);
+      var newChecked = [].concat(checkedFields);
 
       if (currentIndex === -1) {
         newChecked.push(value);
@@ -3475,7 +3464,7 @@ function FieldsChecklist(_ref) {
 
       dispatch({
         value: newChecked,
-        type: "fields"
+        type: 'checkedFields'
       });
     };
   };
@@ -3488,14 +3477,14 @@ function FieldsChecklist(_ref) {
     variant: "h5",
     gutterBottom: true,
     sx: {
-      color: "#455a64"
+      color: '#455a64'
     }
-  }, title), /*#__PURE__*/createElement(Divider, null), /*#__PURE__*/createElement(List, {
+  }, "Campos disponiveis"), /*#__PURE__*/createElement(Divider, null), /*#__PURE__*/createElement(List, {
     sx: {
-      width: "100%",
+      width: '100%',
       maxWidth: 360
     }
-  }, listOptions.map(function (value) {
+  }, fields.map(function (value) {
     var labelId = "checkbox-list-label-" + value;
     return /*#__PURE__*/createElement(ListItem, {
       key: value,
@@ -3510,18 +3499,29 @@ function FieldsChecklist(_ref) {
       dense: true
     }, /*#__PURE__*/createElement(ListItemIcon, null, /*#__PURE__*/createElement(Checkbox, {
       edge: "start",
-      checked: fields.indexOf(value) !== -1,
+      checked: checkedFields.indexOf(value) !== -1,
       tabIndex: -1,
       disableRipple: true,
       inputProps: {
-        "aria-labelledby": labelId
+        'aria-labelledby': labelId
       }
     })), /*#__PURE__*/createElement(ListItemText, {
       id: labelId,
-      primary: dicionary[value]
+      primary: value
     })));
   })));
 }
+
+var dicionary = {
+  nome: 'Nome',
+  endereco: 'Endereço',
+  telefone: 'Telefone',
+  dependentes: 'Dependentes',
+  totalizar: 'Totalizar',
+  datahora: 'Mostrar data/hora',
+  cidade: 'Cidade',
+  agrupar: 'Agrupar'
+};
 
 var getFieldWidth = {
   nome: 160,
@@ -3532,13 +3532,13 @@ var getFieldWidth = {
 var mainHeaderStyle = {
   fillColor: [41, 89, 129],
   textColor: [255, 255, 255],
-  fontStyle: "bold"
+  fontStyle: 'bold'
 };
 var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) {
 
-  var hasDependentes = fields.includes("dependentes");
-  var hasGroup = options.includes("agrupar");
-  var doc = new jsPDF("p", "pt", "a4");
+  var hasDependentes = fields.includes('dependentes');
+  var hasGroup = options.includes('agrupar');
+  var doc = new jsPDF('p', 'pt', 'a4');
   var page = 1;
 
   var getUsuarioStyle = function getUsuarioStyle() {
@@ -3559,7 +3559,7 @@ var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) 
     autoTable(doc, {
       startY: Y > 116 ? Y + 5 : Y,
       head: header ? [header] : [],
-      pageBreak: "avoid",
+      pageBreak: 'avoid',
       margin: {
         top: 116
       },
@@ -3572,7 +3572,7 @@ var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) 
     autoTable(doc, {
       startY: Y > 116 ? Y + 5 : Y,
       head: header ? [header] : [],
-      pageBreak: "avoid",
+      pageBreak: 'avoid',
       body: content,
       columnStyles: getUsuarioStyle()
     });
@@ -3583,10 +3583,10 @@ var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) 
       body: content,
       head: header,
       startY: Y,
-      pageBreak: "avoid",
+      pageBreak: 'avoid',
       styles: {
         fillColor: [255, 0, 0],
-        halign: "right"
+        halign: 'right'
       }
     });
   };
@@ -3602,7 +3602,7 @@ var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) 
             key = _Object$entries$_i[0],
             value = _Object$entries$_i[1];
 
-        if (key !== "dependentes" && key !== "hasDependentes") {
+        if (key !== 'dependentes' && key !== 'hasDependentes') {
           usuarioContent.push({
             content: value,
             styles: {
@@ -3623,7 +3623,7 @@ var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) 
       if (hasDependentes) {
         addSegundoNivel(doc.lastAutoTable.finalY, null, Object.values(el.dependentes));
 
-        if (options.includes("totalizar")) {
+        if (options.includes('totalizar')) {
           var _el$dependentes;
 
           var total = 0;
@@ -3633,7 +3633,7 @@ var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) 
           addTableFooter(doc.lastAutoTable.finalY, null, [[{
             content: "Total: " + total.toFixed(2),
             styles: {
-              halign: "right",
+              halign: 'right',
               fillColor: [200, 200, 200]
             }
           }]]);
@@ -3653,9 +3653,9 @@ var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) 
     });
     groupSections.forEach(function (group) {
       autoTable(doc, {
-        body: [["Grupo: " + group]],
+        body: [['Grupo: ' + group]],
         startY: doc.lastAutoTable.finalY,
-        pageBreak: "avoid"
+        pageBreak: 'avoid'
       });
       var dataGroup = [];
       selecteds.forEach(function (element) {
@@ -3674,20 +3674,20 @@ var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) 
     doc.setPage(i);
     doc.line(20, 30, 580, 30);
     doc.setFontSize(9);
-    doc.text(534, 39, "Página " + doc.internal.getCurrentPageInfo().pageNumber + "/" + pageCount);
+    doc.text(534, 39, 'Página ' + doc.internal.getCurrentPageInfo().pageNumber + '/' + pageCount);
     doc.setFontSize(18);
-    doc.text(180, 45, "Relatório analítico de usuários");
+    doc.text(180, 45, 'Relatório analítico de usuários');
     doc.setFontSize(12);
-    doc.text(230, 63, "Ativos até 29/12/2022");
-    doc.text(184, 78, "Data de inclusão: 01/01/2022 a 29/12/2022");
+    doc.text(230, 63, 'Ativos até 29/12/2022');
+    doc.text(184, 78, 'Data de inclusão: 01/01/2022 a 29/12/2022');
     doc.line(20, 95, 580, 95);
     doc.setFontSize(9);
     var today = new Date();
     doc.text(493, 92, today.toLocaleString());
     autoTable(doc, {
       startY: 96,
-      pageBreak: "avoid",
-      body: [["Cod. Titular", "Titular", "Mensalidade"]],
+      pageBreak: 'avoid',
+      body: [['Cod. Titular', 'Titular', 'Mensalidade']],
       columnStyles: {
         0: _extends({
           cellWidth: 100
@@ -3696,13 +3696,13 @@ var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) 
           cellWidth: 240
         }, mainHeaderStyle),
         2: _extends({
-          cellWidth: "100%"
+          cellWidth: '100%'
         }, mainHeaderStyle)
       }
     });
   }
 
-  doc.save("Test.pdf");
+  doc.save('Test.pdf');
 };
 
 function OptionsChecklist(_ref) {
@@ -3726,7 +3726,7 @@ function OptionsChecklist(_ref) {
 
       dispatch({
         value: newChecked,
-        type: "options"
+        type: 'options'
       });
     };
   };
@@ -3739,11 +3739,11 @@ function OptionsChecklist(_ref) {
     variant: "h5",
     gutterBottom: true,
     sx: {
-      color: "#455a64"
+      color: '#455a64'
     }
   }, title), /*#__PURE__*/createElement(Divider, null), /*#__PURE__*/createElement(List, {
     sx: {
-      width: "100%",
+      width: '100%',
       maxWidth: 360
     }
   }, listOptions.map(function (value) {
@@ -3765,11 +3765,11 @@ function OptionsChecklist(_ref) {
       tabIndex: -1,
       disableRipple: true,
       inputProps: {
-        "aria-labelledby": labelId
+        'aria-labelledby': labelId
       }
     })), /*#__PURE__*/createElement(ListItemText, {
       id: labelId,
-      primary: dicionary[value]
+      primary: value
     })));
   })));
 }
@@ -3790,7 +3790,7 @@ var ExternalNode = function ExternalNode(props) {
   var droppable = props.node.droppable;
 
   var handleDragStart = function handleDragStart(e) {
-    e.dataTransfer.setData("text", JSON.stringify(props.node));
+    e.dataTransfer.setData('text', JSON.stringify(props.node));
   };
 
   return /*#__PURE__*/React__default.createElement("div", {
@@ -3823,7 +3823,7 @@ var CustomNode = function CustomNode(props) {
       paddingInlineStart: indent
     }
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: undefined.expandIconWrapper + " " + (props.isOpen ? undefined.isOpen : "")
+    className: undefined.expandIconWrapper + " " + (props.isOpen ? undefined.isOpen : '')
   }, props.node.droppable && /*#__PURE__*/React__default.createElement("div", {
     onClick: handleToggle
   }, /*#__PURE__*/React__default.createElement(ArrowRightIcon, null))), /*#__PURE__*/React__default.createElement(TypeIcon, {
@@ -3858,7 +3858,7 @@ var formatExternalNodes = function formatExternalNodes(nodes, group) {
         id: element,
         parent: 0,
         droppable: false,
-        text: dicionary[element]
+        text: element
       });
     }
   });
@@ -3869,14 +3869,14 @@ var defaultGroup = [{
   id: 1,
   parent: 0,
   droppable: true,
-  text: "Grupo 01"
+  text: 'Grupo 01'
 }];
 var Agrupamento = function Agrupamento(_ref) {
   var handleClose = _ref.handleClose;
 
   var _useSelectedRegisters = useSelectedRegisters(),
       _useSelectedRegisters2 = _useSelectedRegisters.state,
-      fields = _useSelectedRegisters2.fields,
+      checkedFields = _useSelectedRegisters2.checkedFields,
       agrupamento = _useSelectedRegisters2.agrupamento,
       dispatch = _useSelectedRegisters.dispatch;
 
@@ -3884,13 +3884,13 @@ var Agrupamento = function Agrupamento(_ref) {
       tree = _useState[0],
       setTree = _useState[1];
 
-  var _useState2 = useState(formatExternalNodes(fields, agrupamento)),
+  var _useState2 = useState(formatExternalNodes(checkedFields, agrupamento)),
       externalNodes = _useState2[0],
       setExternalNodes = _useState2[1];
 
   useEffect(function () {
-    return setExternalNodes(formatExternalNodes(fields, agrupamento));
-  }, [fields, agrupamento]);
+    return setExternalNodes(formatExternalNodes(checkedFields, agrupamento));
+  }, [checkedFields, agrupamento]);
   useEffect(function () {
     return setTree(agrupamento.length > 0 ? agrupamento : defaultGroup);
   }, [agrupamento]);
@@ -3917,21 +3917,21 @@ var Agrupamento = function Agrupamento(_ref) {
   var handleSalvar = function handleSalvar() {
     dispatch({
       value: tree,
-      type: "agrupamento"
+      type: 'agrupamento'
     });
     handleClose();
   };
 
   var handleLimpar = function handleLimpar() {
     setTree(agrupamento.length > 0 ? agrupamento : defaultGroup);
-    setExternalNodes(formatExternalNodes(fields, agrupamento));
+    setExternalNodes(formatExternalNodes(checkedFields, agrupamento));
   };
 
   return /*#__PURE__*/React__default.createElement(Fragment, null, /*#__PURE__*/React__default.createElement(Typography, {
     variant: "h5",
     gutterBottom: true,
     sx: {
-      padding: "8px 12px"
+      padding: '8px 12px'
     }
   }, "Op\xE7\xF5es de Agrupamento"), /*#__PURE__*/React__default.createElement(Divider, null), /*#__PURE__*/React__default.createElement(Grid, {
     container: true,
@@ -3940,7 +3940,7 @@ var Agrupamento = function Agrupamento(_ref) {
     alignItems: "flex-start",
     spacing: 2,
     style: {
-      padding: "2px"
+      padding: '2px'
     }
   }, /*#__PURE__*/React__default.createElement(Grid, {
     container: true,
@@ -3984,15 +3984,15 @@ var Agrupamento = function Agrupamento(_ref) {
     justifyContent: "space-between",
     alignItems: "flex-end",
     flexDirection: {
-      xs: "column",
-      sm: "row"
+      xs: 'column',
+      sm: 'row'
     }
   }, /*#__PURE__*/React__default.createElement(Grid, {
     container: true,
     xs: 6,
     justifyContent: "flex-start",
     style: {
-      padding: "8px"
+      padding: '8px'
     }
   }, /*#__PURE__*/React__default.createElement(Grid, {
     item: true
@@ -4008,7 +4008,7 @@ var Agrupamento = function Agrupamento(_ref) {
     xs: 6,
     justifyContent: "flex-end",
     style: {
-      padding: "8px"
+      padding: '8px'
     }
   }, /*#__PURE__*/React__default.createElement(Grid, {
     item: true
@@ -4027,14 +4027,14 @@ var Agrupamento = function Agrupamento(_ref) {
 };
 
 var style$d = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
   minWidth: 580,
   minHeight: 340,
-  bgcolor: "#fff",
-  borderRadius: "5px",
+  bgcolor: '#fff',
+  borderRadius: '5px',
   boxShadow: 24,
   p: 2
 };
@@ -4043,15 +4043,27 @@ function ButtonsList(_ref) {
   var listOptions = _ref.listOptions;
 
   var _useState = useState(false),
-      open = _useState[0],
-      setOpen = _useState[1];
+      openAgrupamento = _useState[0],
+      setOpenAgrupamento = _useState[1];
 
-  var handleOpen = function handleOpen() {
-    return setOpen(true);
+  var handleOpenAgrupamento = function handleOpenAgrupamento() {
+    return setOpenAgrupamento(true);
   };
 
-  var handleClose = function handleClose() {
-    return setOpen(false);
+  var handleCloseAgrupamento = function handleCloseAgrupamento() {
+    return setOpenAgrupamento(false);
+  };
+
+  var _useState2 = useState(false),
+      openSomar = _useState2[0],
+      setOpenSomar = _useState2[1];
+
+  var handleOpenSomar = function handleOpenSomar() {
+    return setOpenSomar(true);
+  };
+
+  var handleCloseSomar = function handleCloseSomar() {
+    return setOpenSomar(false);
   };
 
   var _useSelectedRegisters = useSelectedRegisters(),
@@ -4080,29 +4092,24 @@ function ButtonsList(_ref) {
 
   return /*#__PURE__*/React__default.createElement(Box, {
     sx: {
-      width: "100%"
+      width: '100%'
     }
   }, /*#__PURE__*/React__default.createElement(Typography, {
     variant: "h5",
     gutterBottom: true,
     sx: {
-      color: "#455a64"
+      color: '#455a64'
     }
   }, "Op\xE7\xF5es"), /*#__PURE__*/React__default.createElement(Divider, null), /*#__PURE__*/React__default.createElement(Grid, {
     container: true,
-    rowSpacing: 1,
-    columnSpacing: {
-      xs: 1,
-      sm: 2,
-      md: 3
-    }
+    rowSpacing: 1
   }, /*#__PURE__*/React__default.createElement(Grid, {
     xs: 6
   }, /*#__PURE__*/React__default.createElement(Button, {
     variant: "contained",
     startIcon: /*#__PURE__*/React__default.createElement(SearchIcon, null),
     style: {
-      width: "100%"
+      width: '100%'
     },
     onClick: function onClick() {
       return generateObj();
@@ -4113,114 +4120,76 @@ function ButtonsList(_ref) {
     variant: "contained",
     startIcon: /*#__PURE__*/React__default.createElement(DescriptionIcon, null),
     style: {
-      width: "100%"
+      width: '100%'
     }
   }, "Resumir")), /*#__PURE__*/React__default.createElement(Grid, {
     xs: 6
   }, /*#__PURE__*/React__default.createElement(Button, {
     variant: "outlined",
-    startIcon: /*#__PURE__*/React__default.createElement(FilterAltIcon, null),
+    startIcon: /*#__PURE__*/React__default.createElement(DataSaverOnIcon, null),
     style: {
-      width: "100%"
-    }
-  }, "Filtrar")), /*#__PURE__*/React__default.createElement(Grid, {
+      width: '100%'
+    },
+    onClick: handleOpenSomar
+  }, "Somar")), /*#__PURE__*/React__default.createElement(Grid, {
     xs: 6
   }, /*#__PURE__*/React__default.createElement(Button, {
     variant: "outlined",
     startIcon: /*#__PURE__*/React__default.createElement(GroupWorkIcon, null),
     style: {
-      width: "100%"
+      width: '100%'
     },
-    onClick: handleOpen
+    onClick: handleOpenAgrupamento
   }, "Agrupar")), /*#__PURE__*/React__default.createElement(Grid, {
     xs: 12
   }, /*#__PURE__*/React__default.createElement(OptionsChecklist, {
     title: "Detalhes do relat\xF3rio",
     listOptions: listOptions
   }))), /*#__PURE__*/React__default.createElement(Modal$1, {
-    open: open,
-    onClose: handleClose,
+    open: openAgrupamento,
+    onClose: handleCloseAgrupamento,
     "aria-labelledby": "modal-modal-title",
     "aria-describedby": "modal-modal-description"
   }, /*#__PURE__*/React__default.createElement(Box, {
     sx: style$d
   }, /*#__PURE__*/React__default.createElement(Agrupamento, {
-    setOpen: setOpen,
-    handleClose: handleClose
+    setOpen: setOpenAgrupamento,
+    handleClose: handleCloseAgrupamento
+  }))), /*#__PURE__*/React__default.createElement(Modal$1, {
+    open: openSomar,
+    onClose: handleCloseSomar,
+    "aria-labelledby": "modal-modal-title",
+    "aria-describedby": "modal-modal-description"
+  }, /*#__PURE__*/React__default.createElement(Box, {
+    sx: style$d
+  }, /*#__PURE__*/React__default.createElement(Agrupamento, {
+    setOpen: setOpenSomar,
+    handleClose: handleCloseSomar
   }))));
 }
 
-var DataService = /*#__PURE__*/function () {
-  function DataService() {}
+var DynaGrade = function DynaGrade(_ref) {
+  var conv = _ref.conv;
 
-  var _proto = DataService.prototype;
-
-  _proto.getData = function getData() {
-    return fetch("mocks/conveniados.json").then(function (res) {
-      return res.json();
-    }).then(function (d) {
-      return d.data;
-    });
-  };
-
-  return DataService;
-}();
-
-var DynaGrade = function DynaGrade() {
   var _useState = useState([]),
       registers = _useState[0],
       setRegisters = _useState[1];
 
-  var configColumns = {
-    nome: {
-      field: "nome",
-      header: "Nome",
-      width: 230,
-      type: "string"
-    },
-    endereco: {
-      field: "endereco",
-      header: "Endereço",
-      width: 330,
-      type: "string"
-    },
-    telefone: {
-      field: "telefone",
-      header: "Telefone",
-      width: 160,
-      type: "string"
-    },
-    dependentes: {
-      field: "hasDependentes",
-      header: "Possui dependentes",
-      width: 160,
-      type: "string"
-    },
-    cidade: {
-      field: "cidade",
-      header: "Cidade",
-      width: 160,
-      type: "string"
-    }
-  };
-
   var _useSelectedRegisters = useSelectedRegisters(),
       _useSelectedRegisters2 = _useSelectedRegisters.state,
       selecteds = _useSelectedRegisters2.selecteds,
-      fields = _useSelectedRegisters2.fields,
+      checkedFields = _useSelectedRegisters2.checkedFields,
+      columnsOrder = _useSelectedRegisters2.columnsOrder,
       dispatch = _useSelectedRegisters.dispatch;
 
   useMemo(function () {
-    var dataService = new DataService();
-    dataService.getData().then(function (data) {
-      return setRegisters(data);
-    });
-  }, []);
+    setRegisters(conv);
+  }, [conv]);
 
   var onSelectRegister = function onSelectRegister(e) {
     dispatch({
       value: e,
-      type: "selecteds"
+      type: 'selecteds'
     });
   };
 
@@ -4231,19 +4200,23 @@ var DynaGrade = function DynaGrade() {
     });
     dispatch({
       value: temp,
-      type: "columnsOrder"
+      type: 'columnsOrder'
     });
   };
 
-  var dynamicColumns = fields.map(function (col, i) {
-    return /*#__PURE__*/React__default.createElement(Column, {
-      key: configColumns[col].field,
-      columnKey: configColumns[col].field,
-      field: configColumns[col].field,
-      header: configColumns[col].header,
-      filter: true,
-      filterPlaceholder: "Filtrar por " + configColumns[col].header
-    });
+  var dynamicColumns = columnsOrder.map(function (field) {
+    if (checkedFields.includes(field)) {
+      return /*#__PURE__*/React__default.createElement(Column, {
+        key: field,
+        columnKey: field,
+        field: field,
+        header: field,
+        filter: true,
+        filterPlaceholder: "Filtrar por " + field
+      });
+    } else {
+      return null;
+    }
   });
   return /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement("div", {
     className: "card"
@@ -4268,54 +4241,115 @@ var DynaGrade = function DynaGrade() {
   }, /*#__PURE__*/React__default.createElement(Column, {
     selectionMode: "multiple",
     headerStyle: {
-      width: "3em"
+      width: '3em'
     }
   }), dynamicColumns)));
 };
 
-var availableFields = ["nome", "telefone", "endereco", "dependentes", "cidade"];
-var reportOptions = ["totalizar", "agrupar", "datahora"];
-var Principal = function Principal() {
-  var Item = styled(Paper$1)(function (_ref) {
-    var theme = _ref.theme;
+var reportOptions = ['Data/Hora', 'Paginação'];
+var Principal = function Principal(_ref) {
+  var fetchData = function fetchData() {
+    try {
+      return Promise.resolve(api.get(filter)).then(function (res) {
+        setData(res.data.data.lines);
+        dispatch({
+          value: res.data.data.columns,
+          type: 'fields'
+        });
+        dispatch({
+          value: res.data.data.columns,
+          type: 'checkedFields'
+        });
+        dispatch({
+          value: [null].concat(res.data.data.columns),
+          type: 'columnsOrder'
+        });
+      });
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  };
+
+  var api = _ref.api,
+      filter = _ref.filter;
+
+  var _useSelectedRegisters = useSelectedRegisters(),
+      fields = _useSelectedRegisters.state.fields,
+      dispatch = _useSelectedRegisters.dispatch;
+
+  var _useState = useState(null),
+      data = _useState[0],
+      setData = _useState[1];
+
+  useEffect(function () {
+    fetchData()["catch"](function (err) {
+      return console.log(err);
+    });
+  }, [api]);
+  var Item = styled(Paper$1)(function (_ref2) {
+    var theme = _ref2.theme;
     return _extends({
-      backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff"
+      backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff'
     }, theme.typography.body2, {
       padding: theme.spacing(1),
-      textAlign: "center",
+      textAlign: 'center',
       color: theme.palette.text.secondary
     });
   });
+
+  var getFormattedData = function getFormattedData(_data) {
+    var newData = [];
+
+    _data.forEach(function (register, i) {
+      var temp = {};
+      fields.forEach(function (field, j) {
+        temp[field] = register[j];
+      });
+      newData.push(temp);
+    });
+
+    return newData;
+  };
+
   return /*#__PURE__*/React__default.createElement(Box, {
     sx: {
-      flexGrow: 1
+      minWidth: '840px'
     }
   }, /*#__PURE__*/React__default.createElement(Grid, {
     container: true,
     spacing: 2
   }, /*#__PURE__*/React__default.createElement(Grid, {
-    xs: 3
+    xs: 4,
+    sm: 4,
+    md: 4,
+    lg: 3
   }, /*#__PURE__*/React__default.createElement(Item, {
     sx: {
-      marginBottom: "8px"
+      marginBottom: '8px'
     }
-  }, /*#__PURE__*/React__default.createElement(FieldsChecklist, {
-    title: "Campos disponiveis",
-    listOptions: availableFields
-  })), /*#__PURE__*/React__default.createElement(Item, {
+  }, /*#__PURE__*/React__default.createElement(FieldsChecklist, null)), /*#__PURE__*/React__default.createElement(Item, {
     sx: {
-      marginBottom: "8px"
+      marginBottom: '8px'
     }
   }, /*#__PURE__*/React__default.createElement(ButtonsList, {
-    availableFields: availableFields,
     listOptions: reportOptions
   }))), /*#__PURE__*/React__default.createElement(Grid, {
-    xs: true
-  }, /*#__PURE__*/React__default.createElement(Item, null, /*#__PURE__*/React__default.createElement(DynaGrade, null)))));
+    xs: 8,
+    sm: 8,
+    md: 8,
+    lg: 9
+  }, /*#__PURE__*/React__default.createElement(Item, null, data ? /*#__PURE__*/React__default.createElement(DynaGrade, {
+    conv: getFormattedData(data)
+  }) : null))));
 };
 
-function DynaReport() {
-  return /*#__PURE__*/React__default.createElement(DynaProvider, null, /*#__PURE__*/React__default.createElement(Principal, null));
+function DynaReport(_ref) {
+  var api = _ref.api,
+      filter = _ref.filter;
+  return /*#__PURE__*/React__default.createElement(DynaProvider, null, /*#__PURE__*/React__default.createElement(Principal, {
+    api: api,
+    filter: filter
+  }));
 }
 
 export { AppContent$1 as AppContent, ArchivesContent, Conteiner, ConteinerItem, CustomBeneficiarieFields, CustomDataTable$1 as CustomDataTable, CustomDatePicker$1 as CustomDatePicker, CustomDialog$1 as CustomDialog, CustomInputSelect$1 as CustomInputSelect, CustomModal$1 as CustomModal, CustomTextField$1 as CustomTextField, CustomTimePicker$1 as CustomTimePicker, CustomToastMessage$1 as CustomToastMessage, DynaReport, FilesContent, FilesContentApi, FilesUpload$1 as FilesUpload, Header$1 as Header, HeaderAccordion$1 as HeaderAccordion, OperationDetail$1 as OperationDetail, OperationSection$1 as OperationSection, OperationTable$1 as OperationTable, PageBase$3 as PageBase, SaveComponent$1 as SaveComponent };

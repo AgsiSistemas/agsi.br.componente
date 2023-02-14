@@ -9,7 +9,6 @@ import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
@@ -17,23 +16,23 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import AppsIcon from '@mui/icons-material/Apps';
 
-const style={
-  header_app_bar:{  
+const style = {
+  header_app_bar: {
     minHeight: '52px!important',
     maxHeight: '55px!important',
     backgroundColor: '#008EBC!important'
   }
 }
 
-const ToggleSideBar = () =>{
-  
-  if(document.getElementById("layout-sidebar").style.display === 'none'){
+const ToggleSideBar = () => {
+
+  if (document.getElementById("layout-sidebar").style.display === 'none') {
     document.getElementById("layout-sidebar").style.display = 'block'
-  }else{
-    if(document.getElementsByClassName("layout-reduce")[0] === undefined){
+  } else {
+    if (document.getElementsByClassName("layout-reduce")[0] === undefined) {
       document.getElementById("layout-sidebar").classList.add("layout-reduce");
       document.getElementById("sidebar").classList.add("sidebar-reduce");
-    }else{
+    } else {
       document.getElementById("layout-sidebar").classList.remove("layout-reduce");
       document.getElementById("sidebar").classList.remove("sidebar-reduce");
     }
@@ -191,7 +190,7 @@ const Header = (props) => {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
-            onClick={ ()=> ToggleSideBar() }
+            onClick={() => ToggleSideBar()}
           >
             <AppsIcon />
           </IconButton>
@@ -201,7 +200,7 @@ const Header = (props) => {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            { title }
+            {title}
           </Typography>
           <Search>
             <SearchIconWrapper>
