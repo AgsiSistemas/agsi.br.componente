@@ -1,0 +1,30 @@
+.treeRoot {
+  box-sizing: border-box;
+}
+
+.draggingSource {
+  opacity: 0.3;
+}
+
+.dropTarget {
+  background-color: #e8f0fe;
+}
+
+.rootGrid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  height: 100%;
+}
+
+.externalContainer {
+  border-right: solid 2px #eee;
+  display: grid;
+  grid-template-rows: 64px 1fr;
+  margin-top: 32px;
+  padding-right: 16px;
+  padding-left: 16px;
+  position: relative;
+  min-width: 200px;
+  min-height: 210px;
+  margin-bottom: 20px;
+}
