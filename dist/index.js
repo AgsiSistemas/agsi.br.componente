@@ -1542,6 +1542,12 @@ var CustomInputSelect = function CustomInputSelect(_ref) {
     onblur = _ref.onblur,
     maxLength = _ref.maxLength,
     other = _objectWithoutPropertiesLoose(_ref, _excluded$1);
+  var _useState = React.useState(null),
+    internalInputValue = _useState[0],
+    setInternalInputValue = _useState[1];
+  var handleInternalOnInputChange = function handleInternalOnInputChange(event, newValue) {
+    setInternalInputValue(newValue);
+  };
   return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(Autocomplete, {
     style: {
       marginTop: '8px'
@@ -1564,8 +1570,8 @@ var CustomInputSelect = function CustomInputSelect(_ref) {
     onBlur: onblur,
     value: value,
     onChange: onChange,
-    inputValue: inputValue,
-    onInputChange: onInputChange,
+    inputValue: inputValue ? inputValue : internalInputValue,
+    onInputChange: onInputChange ? onInputChange : handleInternalOnInputChange,
     onKeyPress: onKeyPress,
     isOptionEqualToValue: function isOptionEqualToValue(option, value) {
       return option.label === value.label;
@@ -1593,6 +1599,13 @@ var CustomInputSelect = function CustomInputSelect(_ref) {
               return x.id == inputValue;
             });
             onChange('mokEvent', values[0]);
+            return;
+          }
+          if (internalInputValue && (e.key == 'Enter' || e.key == 'Tab') && internalInputValue.length <= 2 && isNumber(internalInputValue)) {
+            var _values = options.filter(function (x) {
+              return x.id == internalInputValue;
+            });
+            onChange('mokEvent', _values[0]);
           }
         }
       }, other));
