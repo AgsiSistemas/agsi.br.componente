@@ -70,6 +70,7 @@ function ButtonsList({ listOptions }) {
             startIcon={<SearchIcon />}
             style={{ width: '100%' }}
             onClick={async () => generateObj()}
+            disabled={selecteds.length < 1}
           >
             Visualizar
           </Button>
@@ -79,6 +80,7 @@ function ButtonsList({ listOptions }) {
             variant='contained'
             startIcon={<DescriptionIcon />}
             style={{ width: '100%' }}
+            disabled={selecteds.length < 1}
           >
             Resumir
           </Button>
