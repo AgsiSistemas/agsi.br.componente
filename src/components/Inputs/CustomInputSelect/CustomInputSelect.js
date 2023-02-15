@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { CircularProgress } from '@mui/material'
 import TextField from '@mui/material/TextField'
@@ -20,6 +20,7 @@ function isNumber(n) {
   return !isNaN(parseFloat(n)) && isFinite(n)
 }
 
+
 const CustomInputSelect = ({
   title,
   options,
@@ -39,6 +40,14 @@ const CustomInputSelect = ({
   maxLength,
   ...other
 }) => {
+
+
+  const [internalInputValue, setInternalInputValue] = useState(null)
+
+  const handleInternalOnInputChange = (event, newValue) => {
+    setInternalInputValue(newValue)
+  }
+
   return (
     <React.Fragment>
       <Autocomplete
@@ -59,8 +68,8 @@ const CustomInputSelect = ({
         onBlur={onblur}
         value={value}
         onChange={onChange}
-        inputValue={inputValue}
-        onInputChange={onInputChange}
+        inputValue={inputValue ? inputValue : internalInputValue}
+        onInputChange={onInputChange ? onInputChange : handleInternalOnInputChange}
         onKeyPress={onKeyPress}
         isOptionEqualToValue={(option, value) => option.label === value.label}
         // onKeyPress={onKeyPress ? onKeyPress :
@@ -100,6 +109,16 @@ const CustomInputSelect = ({
               ) {
                 let values = options.filter((x) => x.id == inputValue)
                 onChange('mokEvent', values[0])
+                return
+              }
+              if (
+                internalInputValue &&
+                (e.key == 'Enter' || e.key == 'Tab') &&
+                internalInputValue.length <= 2 &&
+                isNumber(internalInputValue)
+              ) {
+                let values = options.filter((x) => x.id == internalInputValue)
+                onChange('mokEvent', values[0])
               }
             }}
             {...other}
@@ -135,11 +154,11 @@ CustomInputSelect.defaultProp = {
   open: false,
   loading: false,
   value: {},
-  onChange: () => {},
+  onChange: () => { },
   inputValue: {},
-  onInputChange: () => {},
-  onKeyPress: () => {},
-  onblur: () => {},
+  onInputChange: () => { },
+  onKeyPress: () => { },
+  onblur: () => { },
   validation: false,
   maxLength: null,
   disabled: false,
