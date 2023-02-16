@@ -99,7 +99,7 @@ export const Agrupamento = ({ handleClose }) => {
   }
 
   return (
-    <>
+    <React.Fragment>
       <Typography variant='h5' gutterBottom sx={{ padding: '8px 12px' }}>
         Opções de Agrupamento
       </Typography>
@@ -200,7 +200,7 @@ export const Agrupamento = ({ handleClose }) => {
           </Grid>
         </Grid>
       </Grid>
-    </>
+    </React.Fragment>
   )
 }
 

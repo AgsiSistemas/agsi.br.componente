@@ -47,7 +47,7 @@ function ButtonsList({ listOptions }) {
       const newObj = Object.keys(element)
         .filter((key) => fields.includes(key))
         .reduce((obj, key) => {
-          if (checkedFields.includes(key)) obj[key] = element[key]
+          if (checkedFields.includes(key)) obj[key] = element[key] ?? ''
           return obj
         }, {})
 

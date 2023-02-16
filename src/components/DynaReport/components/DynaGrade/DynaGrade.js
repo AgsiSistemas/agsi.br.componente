@@ -21,7 +21,12 @@ export const DynaGrade = ({ conv }) => {
   }, [conv])
 
   const onSelectRegister = (e) => {
-    dispatch({ value: e, type: 'selecteds' })
+    dispatch({
+      value: e.sort((a, b) => {
+        return a.id - b.id
+      }),
+      type: 'selecteds'
+    })
   }
 
   const onColReorder = (e) => {
