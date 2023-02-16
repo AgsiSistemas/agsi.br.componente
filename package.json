@@ -21,7 +21,8 @@
     "test:watch": "react-scripts test --env=jsdom",
     "predeploy": "cd example && npm install && npm run build",
     "deploy": "gh-pages -d example/build",
-    "storybook": "NODE_OPTIONS=--openssl-legacy-provider && start-storybook -p 9001 -c .storyconfig"
+    "storybook": "set NODE_OPTIONS=--openssl-legacy-provider && start-storybook -p 9001 -c .storyconfig",
+    "storybook_mac": "NODE_OPTIONS=--openssl-legacy-provider && start-storybook -p 9001 -c .storyconfig"
   },
   "peerDependencies": {
     "@date-io/date-fns": "^2.13.1",

@@ -37,7 +37,7 @@ function ButtonsList({ listOptions }) {
   const handleCloseSomar = () => setOpenSomar(false)
 
   const {
-    state: { selecteds, fields, options }
+    state: { selecteds, fields, checkedFields, options }
   } = useSelectedRegisters()
 
   const generateObj = async () => {
@@ -47,14 +47,13 @@ function ButtonsList({ listOptions }) {
       const newObj = Object.keys(element)
         .filter((key) => fields.includes(key))
         .reduce((obj, key) => {
-          obj[key] = element[key]
+          if (checkedFields.includes(key)) obj[key] = element[key]
           return obj
         }, {})
 
       filteredArr.push(newObj)
     })
-
-    await generatePDF(filteredArr, fields, options)
+    await generatePDF(filteredArr, checkedFields, options)
   }
 
   return (
@@ -70,6 +69,7 @@ function ButtonsList({ listOptions }) {
             startIcon={<SearchIcon />}
             style={{ width: '100%' }}
             onClick={async () => generateObj()}
+            disabled={selecteds.length < 1}
           >
             Visualizar
           </Button>
@@ -79,6 +79,7 @@ function ButtonsList({ listOptions }) {
             variant='contained'
             startIcon={<DescriptionIcon />}
             style={{ width: '100%' }}
+            disabled={selecteds.length < 1}
           >
             Resumir
           </Button>

@@ -7,17 +7,29 @@ import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Unstable_Grid2'
 import { useSelectedRegisters } from '../../context/context'
+import Backdrop from '@mui/material/Backdrop'
+import CircularProgress from '@mui/material/CircularProgress'
 
 const reportOptions = ['Data/Hora', 'Paginação']
 
 export const Principal = ({ api, filter }) => {
+  const [data, setData] = useState(null)
+  const [loading, setLoading] = React.useState(false)
+
   const {
     state: { fields },
     dispatch
   } = useSelectedRegisters()
-  const [data, setData] = useState(null)
+
+  const clearComponent = () => {
+    setData(null)
+    dispatch({ value: [], type: 'fields' })
+    dispatch({ value: [], type: 'checkedFields' })
+    dispatch({ value: [], type: 'columnsOrder' })
+  }
 
   async function fetchData() {
+    setLoading(true)
     const res = await api.get(filter)
     setData(res.data.data.lines)
     dispatch({ value: res.data.data.columns, type: 'fields' })
@@ -26,9 +38,11 @@ export const Principal = ({ api, filter }) => {
       value: [null, ...res.data.data.columns],
       type: 'columnsOrder'
     })
+    setLoading(false)
   }
 
   useEffect(() => {
+    clearComponent()
     fetchData().catch((err) => console.log(err))
   }, [api])
 
@@ -48,6 +62,7 @@ export const Principal = ({ api, filter }) => {
       fields.forEach((field, j) => {
         temp[field] = register[j]
       })
+      temp.id = i
       newData.push(temp)
     })
     return newData
@@ -72,6 +87,12 @@ export const Principal = ({ api, filter }) => {
           </Item>
         </Grid>
       </Grid>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}
+      >
+        <CircularProgress color='inherit' />
+      </Backdrop>
     </Box>
   )
 }

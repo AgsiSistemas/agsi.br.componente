@@ -1,6 +1,5 @@
 import { jsPDF } from 'jspdf'
 import autoTable from 'jspdf-autotable'
-import { dicionary } from './Constants'
 
 const getFieldWidth = {
   nome: 160,
@@ -15,12 +14,25 @@ const mainHeaderStyle = {
   fontStyle: 'bold'
 }
 
+const getColumnStyles = (qtdColumns) => {
+  const tempWidth = 515.3 / qtdColumns
+  const tempObj = {}
+
+  for (let index = 0; index < qtdColumns; index++) {
+    tempObj[index] = {
+      cellWidth: tempWidth,
+      ...mainHeaderStyle
+    }
+  }
+  return tempObj
+}
+
 export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
   //DEFINICOES DE VARIAVEIS
   const hasDependentes = fields.includes('dependentes')
   const hasGroup = options.includes('agrupar')
 
-  let doc = new jsPDF('p', 'pt', 'a4')
+  const doc = new jsPDF('p', 'pt', 'a4')
   let page = 1
 
   //CRIA OBJ DE STYLE
@@ -37,9 +49,10 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
 
   //ADICIONA REGISTRO EM PRIMEIRO NIVEL
   const addPrimeiroNivel = (Y, header, content) => {
+    console.log('header', header)
     autoTable(doc, {
       startY: Y > 116 ? Y + 5 : Y,
-      head: header ? [header] : [],
+      head: header && agrupamento.length > 0 ? [header] : [],
       pageBreak: 'avoid',
       margin: { top: 116 },
       body: content,
@@ -68,10 +81,12 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
     })
   }
 
-  //ADICIONA USUARIO
-  const addUsuario = (usuarios) => {
-    //PARA CADA USUARIO
-    usuarios?.forEach((el) => {
+  //ADICIONA REGISTRO
+  const addtable = (data) => {
+    const cellWidth = 515.3 / fields.length
+
+    //PARA CADA REGISTRO
+    data?.forEach((el) => {
       let Y = doc.lastAutoTable.finalY
       const usuarioContent = []
       const newHeader = []
@@ -80,9 +95,9 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
         if (key !== 'dependentes' && key !== 'hasDependentes') {
           usuarioContent.push({
             content: value,
-            styles: { fillColor: [255, 255, 255] }
+            styles: { fillColor: [255, 255, 255], cellWidth: cellWidth }
           })
-          newHeader.push(dicionary[key])
+          newHeader.push(key)
         }
       }
 
@@ -145,10 +160,10 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
       selecteds.forEach((element) => {
         if (element.cidade === group) dataGroup.push(element)
       })
-      addUsuario(dataGroup)
+      addtable(dataGroup)
     })
   } else {
-    addUsuario(selecteds)
+    addtable(selecteds)
   }
 
   //HEADER
@@ -180,21 +195,8 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
     autoTable(doc, {
       startY: 96,
       pageBreak: 'avoid',
-      body: [['Cod. Titular', 'Titular', 'Mensalidade']],
-      columnStyles: {
-        0: {
-          cellWidth: 100,
-          ...mainHeaderStyle
-        },
-        1: {
-          cellWidth: 240,
-          ...mainHeaderStyle
-        },
-        2: {
-          cellWidth: '100%',
-          ...mainHeaderStyle
-        }
-      }
+      body: [fields],
+      columnStyles: getColumnStyles(fields.length)
     })
   }
 
