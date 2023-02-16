@@ -11,6 +11,7 @@ import Divider from '@mui/material/Divider'
 import { generatePDF } from '../../utils/RelatorioPDF'
 import OptionsChecklist from '../OptionsChecklist/OptionsChecklist'
 import Agrupamento from '../Agrupamento/Agrupamento'
+import Somar from '../Somar/Somar'
 import Modal from '@mui/material/Modal'
 import { useSelectedRegisters } from '../../context/context'
 
@@ -19,15 +20,15 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  minWidth: 580,
-  minHeight: 340,
+  width: 580,
+  height: 400,
   bgcolor: '#fff',
   borderRadius: '5px',
   boxShadow: 24,
   p: 2
 }
 
-function ButtonsList({ listOptions }) {
+function ButtonsList({ listOptions, sumOptions }) {
   const [openAgrupamento, setOpenAgrupamento] = useState(false)
   const handleOpenAgrupamento = () => setOpenAgrupamento(true)
   const handleCloseAgrupamento = () => setOpenAgrupamento(false)
@@ -131,7 +132,7 @@ function ButtonsList({ listOptions }) {
         aria-describedby='modal-modal-description'
       >
         <Box sx={style}>
-          <Agrupamento setOpen={setOpenSomar} handleClose={handleCloseSomar} />
+          <Somar options={sumOptions} handleClose={handleCloseSomar} />
         </Box>
       </Modal>
     </Box>
