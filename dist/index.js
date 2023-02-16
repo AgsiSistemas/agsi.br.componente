@@ -1542,7 +1542,7 @@ var CustomInputSelect = function CustomInputSelect(_ref) {
     onblur = _ref.onblur,
     maxLength = _ref.maxLength,
     other = _objectWithoutPropertiesLoose(_ref, _excluded$1);
-  var _useState = React.useState(null),
+  var _useState = React.useState(''),
     internalInputValue = _useState[0],
     setInternalInputValue = _useState[1];
   var handleInternalOnInputChange = function handleInternalOnInputChange(event, newValue) {
@@ -3313,17 +3313,6 @@ function FieldsChecklist() {
   })));
 }
 
-var dicionary = {
-  nome: 'Nome',
-  endereco: 'Endereço',
-  telefone: 'Telefone',
-  dependentes: 'Dependentes',
-  totalizar: 'Totalizar',
-  datahora: 'Mostrar data/hora',
-  cidade: 'Cidade',
-  agrupar: 'Agrupar'
-};
-
 var getFieldWidth = {
   nome: 160,
   endereco: 120,
@@ -3335,7 +3324,20 @@ var mainHeaderStyle = {
   textColor: [255, 255, 255],
   fontStyle: 'bold'
 };
+var getColumnStyles = function getColumnStyles(qtdColumns) {
+  var tempWidth = 515.3 / qtdColumns;
+  var tempObj = {};
+  for (var index = 0; index < qtdColumns; index++) {
+    tempObj[index] = _extends({
+      cellWidth: tempWidth
+    }, mainHeaderStyle);
+  }
+  return tempObj;
+};
 var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) {
+  if (agrupamento === void 0) {
+    agrupamento = [];
+  }
   var hasDependentes = fields.includes('dependentes');
   var hasGroup = options.includes('agrupar');
   var doc = new jspdf.jsPDF('p', 'pt', 'a4');
@@ -3353,9 +3355,10 @@ var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) 
     return result;
   };
   var addPrimeiroNivel = function addPrimeiroNivel(Y, header, content) {
+    console.log('header', header);
     autoTable(doc, {
       startY: Y > 116 ? Y + 5 : Y,
-      head: header ? [header] : [],
+      head: header && agrupamento.length > 0 ? [header] : [],
       pageBreak: 'avoid',
       margin: {
         top: 116
@@ -3385,8 +3388,9 @@ var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) 
       }
     });
   };
-  var addUsuario = function addUsuario(usuarios) {
-    usuarios === null || usuarios === void 0 ? void 0 : usuarios.forEach(function (el) {
+  var addtable = function addtable(data) {
+    var cellWidth = 515.3 / fields.length;
+    data === null || data === void 0 ? void 0 : data.forEach(function (el) {
       var Y = doc.lastAutoTable.finalY;
       var usuarioContent = [];
       var newHeader = [];
@@ -3398,10 +3402,11 @@ var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) 
           usuarioContent.push({
             content: value,
             styles: {
-              fillColor: [255, 255, 255]
+              fillColor: [255, 255, 255],
+              cellWidth: cellWidth
             }
           });
-          newHeader.push(dicionary[key]);
+          newHeader.push(key);
         }
       }
       if (page < doc.internal.getCurrentPageInfo().pageNumber) {
@@ -3446,10 +3451,10 @@ var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) 
       selecteds.forEach(function (element) {
         if (element.cidade === group) dataGroup.push(element);
       });
-      addUsuario(dataGroup);
+      addtable(dataGroup);
     });
   } else {
-    addUsuario(selecteds);
+    addtable(selecteds);
   }
   var pageCount = doc.internal.getNumberOfPages();
   for (var i = 0; i < pageCount; i++) {
@@ -3470,18 +3475,8 @@ var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) 
     autoTable(doc, {
       startY: 96,
       pageBreak: 'avoid',
-      body: [['Cod. Titular', 'Titular', 'Mensalidade']],
-      columnStyles: {
-        0: _extends({
-          cellWidth: 100
-        }, mainHeaderStyle),
-        1: _extends({
-          cellWidth: 240
-        }, mainHeaderStyle),
-        2: _extends({
-          cellWidth: '100%'
-        }, mainHeaderStyle)
-      }
+      body: [fields],
+      columnStyles: getColumnStyles(fields.length)
     });
   }
   doc.save('Test.pdf');
@@ -3821,6 +3816,7 @@ function ButtonsList(_ref) {
     _useSelectedRegisters2 = _useSelectedRegisters.state,
     selecteds = _useSelectedRegisters2.selecteds,
     fields = _useSelectedRegisters2.fields,
+    checkedFields = _useSelectedRegisters2.checkedFields,
     options = _useSelectedRegisters2.options;
   var generateObj = function generateObj() {
     try {
@@ -3829,12 +3825,12 @@ function ButtonsList(_ref) {
         var newObj = Object.keys(element).filter(function (key) {
           return fields.includes(key);
         }).reduce(function (obj, key) {
-          obj[key] = element[key];
+          if (checkedFields.includes(key)) obj[key] = element[key];
           return obj;
         }, {});
         filteredArr.push(newObj);
       });
-      return Promise.resolve(generatePDF(filteredArr, fields, options)).then(function () {});
+      return Promise.resolve(generatePDF(filteredArr, checkedFields, options)).then(function () {});
     } catch (e) {
       return Promise.reject(e);
     }
@@ -3862,7 +3858,8 @@ function ButtonsList(_ref) {
     },
     onClick: function onClick() {
       return generateObj();
-    }
+    },
+    disabled: selecteds.length < 1
   }, "Visualizar")), /*#__PURE__*/React__default.createElement(Grid, {
     xs: 6
   }, /*#__PURE__*/React__default.createElement(Button, {
@@ -3870,7 +3867,8 @@ function ButtonsList(_ref) {
     startIcon: /*#__PURE__*/React__default.createElement(DescriptionIcon, null),
     style: {
       width: '100%'
-    }
+    },
+    disabled: selecteds.length < 1
   }, "Resumir")), /*#__PURE__*/React__default.createElement(Grid, {
     xs: 6
   }, /*#__PURE__*/React__default.createElement(Button, {
@@ -3993,6 +3991,7 @@ var reportOptions = ['Data/Hora', 'Paginação'];
 var Principal = function Principal(_ref) {
   var fetchData = function fetchData() {
     try {
+      setLoading(true);
       return Promise.resolve(api.get(filter)).then(function (res) {
         setData(res.data.data.lines);
         dispatch({
@@ -4007,6 +4006,7 @@ var Principal = function Principal(_ref) {
           value: [null].concat(res.data.data.columns),
           type: 'columnsOrder'
         });
+        setLoading(false);
       });
     } catch (e) {
       return Promise.reject(e);
@@ -4014,13 +4014,32 @@ var Principal = function Principal(_ref) {
   };
   var api = _ref.api,
     filter = _ref.filter;
-  var _useSelectedRegisters = useSelectedRegisters(),
-    fields = _useSelectedRegisters.state.fields,
-    dispatch = _useSelectedRegisters.dispatch;
   var _useState = React.useState(null),
     data = _useState[0],
     setData = _useState[1];
+  var _React$useState = React__default.useState(false),
+    loading = _React$useState[0],
+    setLoading = _React$useState[1];
+  var _useSelectedRegisters = useSelectedRegisters(),
+    fields = _useSelectedRegisters.state.fields,
+    dispatch = _useSelectedRegisters.dispatch;
+  var clearComponent = function clearComponent() {
+    setData(null);
+    dispatch({
+      value: [],
+      type: 'fields'
+    });
+    dispatch({
+      value: [],
+      type: 'checkedFields'
+    });
+    dispatch({
+      value: [],
+      type: 'columnsOrder'
+    });
+  };
   React.useEffect(function () {
+    clearComponent();
     fetchData()["catch"](function (err) {
       return console.log(err);
     });
@@ -4042,6 +4061,7 @@ var Principal = function Principal(_ref) {
       fields.forEach(function (field, j) {
         temp[field] = register[j];
       });
+      temp.id = i;
       newData.push(temp);
     });
     return newData;
@@ -4075,7 +4095,17 @@ var Principal = function Principal(_ref) {
     lg: 9
   }, /*#__PURE__*/React__default.createElement(Item, null, data ? /*#__PURE__*/React__default.createElement(DynaGrade, {
     conv: getFormattedData(data)
-  }) : null))));
+  }) : null))), /*#__PURE__*/React__default.createElement(Backdrop, {
+    sx: {
+      color: '#fff',
+      zIndex: function zIndex(theme) {
+        return theme.zIndex.drawer + 1;
+      }
+    },
+    open: loading
+  }, /*#__PURE__*/React__default.createElement(CircularProgress, {
+    color: "inherit"
+  })));
 };
 
 function DynaReport(_ref) {

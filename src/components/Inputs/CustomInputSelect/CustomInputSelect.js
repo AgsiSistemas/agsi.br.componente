@@ -42,7 +42,7 @@ const CustomInputSelect = ({
 }) => {
 
 
-  const [internalInputValue, setInternalInputValue] = useState(null)
+  const [internalInputValue, setInternalInputValue] = useState('')
 
   const handleInternalOnInputChange = (event, newValue) => {
     setInternalInputValue(newValue)
