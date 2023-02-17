@@ -31,7 +31,7 @@ export const Principal = ({ api, filter }) => {
   async function fetchData() {
     setLoading(true)
     const res = await api.get(filter)
-    setData(res.data.data.lines)
+    setData(res.data.data)
     dispatch({ value: res.data.data.columns, type: 'fields' })
     dispatch({ value: res.data.data.columns, type: 'checkedFields' })
     dispatch({
@@ -57,7 +57,7 @@ export const Principal = ({ api, filter }) => {
   const getFormattedData = (_data) => {
     const newData = []
 
-    _data.forEach((register, i) => {
+    _data?.forEach((register, i) => {
       const temp = {}
       fields.forEach((field, j) => {
         temp[field] = register[j]
@@ -67,7 +67,6 @@ export const Principal = ({ api, filter }) => {
     })
     return newData
   }
-
   return (
     <Box sx={{ minWidth: '840px' }}>
       <Grid container spacing={2}>
@@ -77,13 +76,16 @@ export const Principal = ({ api, filter }) => {
           </Item>
 
           <Item sx={{ marginBottom: '8px' }}>
-            <ButtonList listOptions={reportOptions} />
+            <ButtonList
+              listOptions={reportOptions}
+              sumOptions={data?.summableFields}
+            />
           </Item>
         </Grid>
 
         <Grid xs={8} sm={8} md={8} lg={9}>
           <Item>
-            {data ? <DynaGrade conv={getFormattedData(data)} /> : null}
+            <DynaGrade conv={getFormattedData(data?.lines)} />
           </Item>
         </Grid>
       </Grid>

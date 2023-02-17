@@ -1,12 +1,7 @@
 import { jsPDF } from 'jspdf'
 import autoTable from 'jspdf-autotable'
 
-const getFieldWidth = {
-  nome: 160,
-  endereco: 120,
-  telefone: 100,
-  dependentes: 0
-}
+const startPageY = 130
 
 const mainHeaderStyle = {
   fillColor: [41, 89, 129],
@@ -35,38 +30,24 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
   const doc = new jsPDF('p', 'pt', 'a4')
   let page = 1
 
-  //CRIA OBJ DE STYLE
-  const getUsuarioStyle = () => {
-    const result = {}
-    fields.forEach((element, index) => {
-      const countExcludeFields = hasDependentes ? 2 : 1
-      if (fields.length > index + countExcludeFields) {
-        result[index] = { cellWidth: getFieldWidth[element] }
-      }
-    })
-    return result
-  }
-
   //ADICIONA REGISTRO EM PRIMEIRO NIVEL
   const addPrimeiroNivel = (Y, header, content) => {
-    console.log('header', header)
     autoTable(doc, {
-      startY: Y > 116 ? Y + 5 : Y,
+      startY: Y > startPageY ? Y + 5 : Y,
       head: header && agrupamento.length > 0 ? [header] : [],
       pageBreak: 'avoid',
-      margin: { top: 116 },
-      body: content,
-      columnStyles: getUsuarioStyle()
+      margin: { top: startPageY },
+      body: content
     })
   }
 
   const addSegundoNivel = (Y, header, content) => {
     autoTable(doc, {
-      startY: Y > 116 ? Y + 5 : Y,
+      startY: Y > startPageY ? Y + 5 : Y,
       head: header ? [header] : [],
       pageBreak: 'avoid',
-      body: content,
-      columnStyles: getUsuarioStyle()
+      body: content
+      // columnStyles:
     })
   }
 
@@ -88,12 +69,12 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
     //PARA CADA REGISTRO
     data?.forEach((el) => {
       let Y = doc.lastAutoTable.finalY
-      const usuarioContent = []
+      const tempContent = []
       const newHeader = []
 
       for (const [key, value] of Object.entries(el)) {
         if (key !== 'dependentes' && key !== 'hasDependentes') {
-          usuarioContent.push({
+          tempContent.push({
             content: value,
             styles: { fillColor: [255, 255, 255], cellWidth: cellWidth }
           })
@@ -104,10 +85,10 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
       //RESETA INICIO DE TABELA NA QUEBRA DE PAGINA
       if (page < doc.internal.getCurrentPageInfo().pageNumber) {
         page++
-        Y = 116
+        Y = startPageY
       }
 
-      addPrimeiroNivel(Y, newHeader, [usuarioContent])
+      addPrimeiroNivel(Y, newHeader, [tempContent])
 
       //DEPENDENTES
       if (hasDependentes) {
@@ -139,7 +120,7 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
 
   // TABELA PARA DEFINIR INICIO DA CRIACAO DE TABELAS
   autoTable(doc, {
-    startY: 116
+    startY: startPageY
   })
 
   //VERIFICA SE TEM AGRUPAMENTO
@@ -179,7 +160,7 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
       'Página ' + doc.internal.getCurrentPageInfo().pageNumber + '/' + pageCount
     )
     doc.setFontSize(18)
-    doc.text(180, 45, 'Relatório analítico de usuários')
+    doc.text(212, 45, 'Relatório dinâmico')
 
     doc.setFontSize(12)
     doc.text(230, 63, 'Ativos até 29/12/2022')

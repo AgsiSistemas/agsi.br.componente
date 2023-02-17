@@ -18,6 +18,7 @@ import styles from './App.module.css'
 import { useSelectedRegisters } from '../../context/context'
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined'
+import Stack from '@mui/material/Stack'
 
 const formatExternalNodes = (nodes, group) => {
   const newExternalNodes = []
@@ -99,22 +100,20 @@ export const Agrupamento = ({ handleClose }) => {
   }
 
   return (
-    <>
-      <Typography variant='h5' gutterBottom sx={{ padding: '8px 12px' }}>
-        Opções de Agrupamento
-      </Typography>
-      <Divider />
-      <Grid
-        container
+    <React.Fragment>
+      <Stack
         direction='column'
         justifyContent='space-between'
-        alignItems='flex-start'
-        spacing={2}
-        style={{
-          padding: '2px'
-          // minHeight: "300px",
-        }}
+        alignItems='stretch'
+        spacing={0}
+        style={{ height: '100%' }}
       >
+        <div>
+          <Typography variant='h5' gutterBottom sx={{ padding: '8px 12px' }}>
+            Opções de Agrupamento
+          </Typography>
+          <Divider />
+        </div>
         <Grid container direction='row' xs={12} className={styles.rootGrid}>
           <div className={styles.externalContainer}>
             <div>
@@ -149,13 +148,13 @@ export const Agrupamento = ({ handleClose }) => {
             </DndProvider>
           </Grid>
         </Grid>
-
         <Grid
           xs={12}
           container
           justifyContent='space-between'
           alignItems='flex-end'
           flexDirection={{ xs: 'column', sm: 'row' }}
+          spacing={2}
         >
           <Grid
             container
@@ -199,8 +198,8 @@ export const Agrupamento = ({ handleClose }) => {
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
-    </>
+      </Stack>
+    </React.Fragment>
   )
 }
 

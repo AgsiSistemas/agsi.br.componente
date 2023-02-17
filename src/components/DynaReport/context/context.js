@@ -14,6 +14,8 @@ function contextReducer(state, action) {
     return { ...state, agrupamento: action.value }
   } else if (action.type === 'options') {
     return { ...state, options: action.value }
+  } else if (action.type === 'somar') {
+    return { ...state, somar: action.value }
   }
 }
 
@@ -24,7 +26,8 @@ function DynaProvider({ children }) {
     fields: [],
     checkedFields: [],
     agrupamento: [],
-    options: []
+    options: [],
+    somar: ''
   })
   const value = { state, dispatch }
 
