@@ -88,6 +88,9 @@ var reactDnd = require('react-dnd');
 var reactDndTreeview = require('@minoru/react-dnd-treeview');
 var FolderIcon = _interopDefault(require('@mui/icons-material/Folder'));
 var ArrowRightIcon = _interopDefault(require('@mui/icons-material/ArrowRight'));
+var Radio = _interopDefault(require('@mui/material/Radio'));
+var RadioGroup = _interopDefault(require('@mui/material/RadioGroup'));
+var FormControl = _interopDefault(require('@mui/material/FormControl'));
 var Modal = _interopDefault(require('@mui/material/Modal'));
 require('primeicons/primeicons.css');
 require('primereact/resources/themes/lara-light-indigo/theme.css');
@@ -3219,6 +3222,10 @@ function contextReducer(state, action) {
     return _extends({}, state, {
       options: action.value
     });
+  } else if (action.type === 'somar') {
+    return _extends({}, state, {
+      somar: action.value
+    });
   }
 }
 function DynaProvider(_ref) {
@@ -3229,7 +3236,8 @@ function DynaProvider(_ref) {
       fields: [],
       checkedFields: [],
       agrupamento: [],
-      options: []
+      options: [],
+      somar: ''
     }),
     state = _React$useReducer[0],
     dispatch = _React$useReducer[1];
@@ -3313,12 +3321,7 @@ function FieldsChecklist() {
   })));
 }
 
-var getFieldWidth = {
-  nome: 160,
-  endereco: 120,
-  telefone: 100,
-  dependentes: 0
-};
+var startPageY = 130;
 var mainHeaderStyle = {
   fillColor: [41, 89, 129],
   textColor: [255, 255, 255],
@@ -3342,38 +3345,23 @@ var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) 
   var hasGroup = options.includes('agrupar');
   var doc = new jspdf.jsPDF('p', 'pt', 'a4');
   var page = 1;
-  var getUsuarioStyle = function getUsuarioStyle() {
-    var result = {};
-    fields.forEach(function (element, index) {
-      var countExcludeFields = hasDependentes ? 2 : 1;
-      if (fields.length > index + countExcludeFields) {
-        result[index] = {
-          cellWidth: getFieldWidth[element]
-        };
-      }
-    });
-    return result;
-  };
   var addPrimeiroNivel = function addPrimeiroNivel(Y, header, content) {
-    console.log('header', header);
     autoTable(doc, {
-      startY: Y > 116 ? Y + 5 : Y,
+      startY: Y > startPageY ? Y + 5 : Y,
       head: header && agrupamento.length > 0 ? [header] : [],
       pageBreak: 'avoid',
       margin: {
-        top: 116
+        top: startPageY
       },
-      body: content,
-      columnStyles: getUsuarioStyle()
+      body: content
     });
   };
   var addSegundoNivel = function addSegundoNivel(Y, header, content) {
     autoTable(doc, {
-      startY: Y > 116 ? Y + 5 : Y,
+      startY: Y > startPageY ? Y + 5 : Y,
       head: header ? [header] : [],
       pageBreak: 'avoid',
-      body: content,
-      columnStyles: getUsuarioStyle()
+      body: content
     });
   };
   var addTableFooter = function addTableFooter(Y, header, content) {
@@ -3392,14 +3380,14 @@ var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) 
     var cellWidth = 515.3 / fields.length;
     data === null || data === void 0 ? void 0 : data.forEach(function (el) {
       var Y = doc.lastAutoTable.finalY;
-      var usuarioContent = [];
+      var tempContent = [];
       var newHeader = [];
       for (var _i = 0, _Object$entries = Object.entries(el); _i < _Object$entries.length; _i++) {
         var _Object$entries$_i = _Object$entries[_i],
           key = _Object$entries$_i[0],
           value = _Object$entries$_i[1];
         if (key !== 'dependentes' && key !== 'hasDependentes') {
-          usuarioContent.push({
+          tempContent.push({
             content: value,
             styles: {
               fillColor: [255, 255, 255],
@@ -3411,9 +3399,9 @@ var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) 
       }
       if (page < doc.internal.getCurrentPageInfo().pageNumber) {
         page++;
-        Y = 116;
+        Y = startPageY;
       }
-      addPrimeiroNivel(Y, newHeader, [usuarioContent]);
+      addPrimeiroNivel(Y, newHeader, [tempContent]);
       if (hasDependentes) {
         addSegundoNivel(doc.lastAutoTable.finalY, null, Object.values(el.dependentes));
         if (options.includes('totalizar')) {
@@ -3434,7 +3422,7 @@ var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) 
     });
   };
   autoTable(doc, {
-    startY: 116
+    startY: startPageY
   });
   if (hasGroup) {
     var groupSections = [];
@@ -3464,7 +3452,7 @@ var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) 
     doc.setFontSize(9);
     doc.text(534, 39, 'Página ' + doc.internal.getCurrentPageInfo().pageNumber + '/' + pageCount);
     doc.setFontSize(18);
-    doc.text(180, 45, 'Relatório analítico de usuários');
+    doc.text(212, 45, 'Relatório dinâmico');
     doc.setFontSize(12);
     doc.text(230, 63, 'Ativos até 29/12/2022');
     doc.text(184, 78, 'Data de inclusão: 01/01/2022 a 29/12/2022');
@@ -3681,22 +3669,21 @@ var Agrupamento = function Agrupamento(_ref) {
     setTree(agrupamento.length > 0 ? agrupamento : defaultGroup);
     setExternalNodes(formatExternalNodes(checkedFields, agrupamento));
   };
-  return /*#__PURE__*/React__default.createElement(Fragment, null, /*#__PURE__*/React__default.createElement(Typography, {
+  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(Stack, {
+    direction: "column",
+    justifyContent: "space-between",
+    alignItems: "stretch",
+    spacing: 0,
+    style: {
+      height: '100%'
+    }
+  }, /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement(Typography, {
     variant: "h5",
     gutterBottom: true,
     sx: {
       padding: '8px 12px'
     }
-  }, "Op\xE7\xF5es de Agrupamento"), /*#__PURE__*/React__default.createElement(Divider, null), /*#__PURE__*/React__default.createElement(Grid, {
-    container: true,
-    direction: "column",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    spacing: 2,
-    style: {
-      padding: '2px'
-    }
-  }, /*#__PURE__*/React__default.createElement(Grid, {
+  }, "Op\xE7\xF5es de Agrupamento"), /*#__PURE__*/React__default.createElement(Divider, null)), /*#__PURE__*/React__default.createElement(Grid, {
     container: true,
     direction: "row",
     xs: 12,
@@ -3740,7 +3727,8 @@ var Agrupamento = function Agrupamento(_ref) {
     flexDirection: {
       xs: 'column',
       sm: 'row'
-    }
+    },
+    spacing: 2
   }, /*#__PURE__*/React__default.createElement(Grid, {
     container: true,
     xs: 6,
@@ -3780,20 +3768,124 @@ var Agrupamento = function Agrupamento(_ref) {
   }, "Salvar"))))));
 };
 
+var Somar = function Somar(_ref) {
+  var handleClose = _ref.handleClose,
+    options = _ref.options;
+  var _useState = React.useState(''),
+    value = _useState[0],
+    setValue = _useState[1];
+  var _useSelectedRegisters = useSelectedRegisters(),
+    dispatch = _useSelectedRegisters.dispatch;
+  var handleSalvar = function handleSalvar() {
+    dispatch({
+      value: value,
+      type: 'somar'
+    });
+    handleClose();
+  };
+  var handleLimpar = function handleLimpar() {
+    setValue('');
+  };
+  var handleChange = function handleChange(event) {
+    setValue(event.target.value);
+  };
+  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(Stack, {
+    direction: "column",
+    justifyContent: "space-between",
+    alignItems: "stretch",
+    spacing: 0,
+    style: {
+      height: '100%'
+    }
+  }, /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement(Typography, {
+    variant: "h5",
+    gutterBottom: true,
+    sx: {
+      padding: '8px 12px'
+    }
+  }, "Op\xE7\xF5es de Soma"), /*#__PURE__*/React__default.createElement(Divider, null)), /*#__PURE__*/React__default.createElement(Grid, {
+    container: true,
+    direction: "row",
+    xs: 12,
+    style: {
+      overflowY: 'auto',
+      height: '100%',
+      padding: '2px'
+    }
+  }, /*#__PURE__*/React__default.createElement(FormControl, {
+    component: "fieldset"
+  }, /*#__PURE__*/React__default.createElement(RadioGroup, {
+    "aria-label": "gender",
+    name: "gender1",
+    value: value,
+    onChange: handleChange,
+    row: true
+  }, options.map(function (value) {
+    return /*#__PURE__*/React__default.createElement(FormControlLabel, {
+      value: value,
+      control: /*#__PURE__*/React__default.createElement(Radio, null),
+      label: value
+    });
+  })))), /*#__PURE__*/React__default.createElement(Grid, {
+    xs: 12,
+    container: true,
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+    flexDirection: {
+      xs: 'column',
+      sm: 'row'
+    },
+    spacing: 2
+  }, /*#__PURE__*/React__default.createElement(Grid, {
+    container: true,
+    xs: 6,
+    justifyContent: "flex-start",
+    style: {
+      padding: '8px'
+    }
+  }, /*#__PURE__*/React__default.createElement(Grid, {
+    item: true
+  }, /*#__PURE__*/React__default.createElement(Button, {
+    variant: "outlined",
+    onClick: handleLimpar
+  }, "Limpar"))), /*#__PURE__*/React__default.createElement(Grid, {
+    container: true,
+    xs: 6,
+    justifyContent: "flex-end",
+    style: {
+      padding: '8px'
+    }
+  }, /*#__PURE__*/React__default.createElement(Grid, {
+    item: true
+  }, /*#__PURE__*/React__default.createElement(Button, {
+    variant: "contained",
+    onClick: handleClose,
+    color: "error",
+    startIcon: /*#__PURE__*/React__default.createElement(CancelOutlinedIcon, null)
+  }, "Cancelar")), /*#__PURE__*/React__default.createElement(Grid, {
+    item: true
+  }, /*#__PURE__*/React__default.createElement(Button, {
+    variant: "contained",
+    onClick: handleSalvar,
+    startIcon: /*#__PURE__*/React__default.createElement(SaveOutlinedIcon, null)
+  }, "Salvar"))))));
+};
+
 var style$d = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  minWidth: 580,
-  minHeight: 340,
+  width: 580,
+  height: 400,
   bgcolor: '#fff',
   borderRadius: '5px',
   boxShadow: 24,
   p: 2
 };
 function ButtonsList(_ref) {
-  var listOptions = _ref.listOptions;
+  var listOptions = _ref.listOptions,
+    sumOptions = _ref.sumOptions;
   var _useState = React.useState(false),
     openAgrupamento = _useState[0],
     setOpenAgrupamento = _useState[1];
@@ -3825,7 +3917,8 @@ function ButtonsList(_ref) {
         var newObj = Object.keys(element).filter(function (key) {
           return fields.includes(key);
         }).reduce(function (obj, key) {
-          if (checkedFields.includes(key)) obj[key] = element[key];
+          var _element$key;
+          if (checkedFields.includes(key)) obj[key] = (_element$key = element[key]) != null ? _element$key : '';
           return obj;
         }, {});
         filteredArr.push(newObj);
@@ -3909,8 +4002,8 @@ function ButtonsList(_ref) {
     "aria-describedby": "modal-modal-description"
   }, /*#__PURE__*/React__default.createElement(Box, {
     sx: style$d
-  }, /*#__PURE__*/React__default.createElement(Agrupamento, {
-    setOpen: setOpenSomar,
+  }, /*#__PURE__*/React__default.createElement(Somar, {
+    options: sumOptions,
     handleClose: handleCloseSomar
   }))));
 }
@@ -3931,7 +4024,9 @@ var DynaGrade = function DynaGrade(_ref) {
   }, [conv]);
   var onSelectRegister = function onSelectRegister(e) {
     dispatch({
-      value: e,
+      value: e.sort(function (a, b) {
+        return a.id - b.id;
+      }),
       type: 'selecteds'
     });
   };
@@ -3993,7 +4088,7 @@ var Principal = function Principal(_ref) {
     try {
       setLoading(true);
       return Promise.resolve(api.get(filter)).then(function (res) {
-        setData(res.data.data.lines);
+        setData(res.data.data);
         dispatch({
           value: res.data.data.columns,
           type: 'fields'
@@ -4056,7 +4151,7 @@ var Principal = function Principal(_ref) {
   });
   var getFormattedData = function getFormattedData(_data) {
     var newData = [];
-    _data.forEach(function (register, i) {
+    _data === null || _data === void 0 ? void 0 : _data.forEach(function (register, i) {
       var temp = {};
       fields.forEach(function (field, j) {
         temp[field] = register[j];
@@ -4087,15 +4182,16 @@ var Principal = function Principal(_ref) {
       marginBottom: '8px'
     }
   }, /*#__PURE__*/React__default.createElement(ButtonsList, {
-    listOptions: reportOptions
+    listOptions: reportOptions,
+    sumOptions: data === null || data === void 0 ? void 0 : data.summableFields
   }))), /*#__PURE__*/React__default.createElement(Grid, {
     xs: 8,
     sm: 8,
     md: 8,
     lg: 9
-  }, /*#__PURE__*/React__default.createElement(Item, null, data ? /*#__PURE__*/React__default.createElement(DynaGrade, {
-    conv: getFormattedData(data)
-  }) : null))), /*#__PURE__*/React__default.createElement(Backdrop, {
+  }, /*#__PURE__*/React__default.createElement(Item, null, /*#__PURE__*/React__default.createElement(DynaGrade, {
+    conv: getFormattedData(data === null || data === void 0 ? void 0 : data.lines)
+  })))), /*#__PURE__*/React__default.createElement(Backdrop, {
     sx: {
       color: '#fff',
       zIndex: function zIndex(theme) {

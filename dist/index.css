@@ -360,4 +360,5 @@ p {
   min-width: 200px;
   min-height: 210px;
   margin-bottom: 20px;
+  overflow-x: auto;
 }
