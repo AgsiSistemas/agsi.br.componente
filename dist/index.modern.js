@@ -42,7 +42,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import AppsIcon from '@mui/icons-material/Apps';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import FolderSharedIcon from '@mui/icons-material/FolderShared';
+import '@mui/icons-material/FolderShared';
 import Divider from '@mui/material/Divider';
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -1355,11 +1355,7 @@ var Header = function Header(_ref) {
       width: '90%',
       ml: 1
     }
-  }), /*#__PURE__*/createElement(MenuItem, {
-    onClick: handleMenuClose
-  }, /*#__PURE__*/createElement(ListItemIcon, null, /*#__PURE__*/createElement(FolderSharedIcon, {
-    fontSize: "small"
-  })), "Perfil"), /*#__PURE__*/createElement(Divider, null), manageAccess && roleUserAGSI() && /*#__PURE__*/createElement(Fragment, null, /*#__PURE__*/createElement(MenuItem, {
+  }), manageAccess && roleUserAGSI() && /*#__PURE__*/createElement(Fragment, null, /*#__PURE__*/createElement(MenuItem, {
     onClick: function onClick() {
       handleMenuClose();
       manageAccess.onClick();
@@ -1389,14 +1385,6 @@ var Header = function Header(_ref) {
     },
     keepMounted: true
   }, /*#__PURE__*/createElement(MenuItem, {
-    onClick: handleProfileMenuOpen
-  }, /*#__PURE__*/createElement(IconButton, {
-    size: "small",
-    "aria-label": "account of current user",
-    "aria-controls": "primary-search-account-menu",
-    "aria-haspopup": "true",
-    color: "inherit"
-  }, /*#__PURE__*/createElement(AccountCircle, null)), /*#__PURE__*/createElement("p", null, "Perfil")), /*#__PURE__*/createElement(MenuItem, {
     onClick: handleClick
   }, /*#__PURE__*/createElement(IconButton, {
     size: "small",
@@ -1410,7 +1398,7 @@ var Header = function Header(_ref) {
   }, /*#__PURE__*/createElement(AppBar, {
     className: "header-app-bar",
     position: "fixed"
-  }, /*#__PURE__*/createElement(Toolbar, null, /*#__PURE__*/createElement(IconButton, {
+  }, /*#__PURE__*/createElement(Toolbar, null, linkTitle !== '/' && /*#__PURE__*/createElement(IconButton, {
     size: "large",
     edge: "start",
     color: "inherit",

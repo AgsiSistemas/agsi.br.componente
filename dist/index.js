@@ -45,7 +45,7 @@ var AccountCircle = _interopDefault(require('@mui/icons-material/AccountCircle')
 var AppsIcon = _interopDefault(require('@mui/icons-material/Apps'));
 var ListItemIcon = _interopDefault(require('@mui/material/ListItemIcon'));
 var ExitToAppIcon = _interopDefault(require('@mui/icons-material/ExitToApp'));
-var FolderSharedIcon = _interopDefault(require('@mui/icons-material/FolderShared'));
+require('@mui/icons-material/FolderShared');
 var Divider = _interopDefault(require('@mui/material/Divider'));
 var Badge = _interopDefault(require('@mui/material/Badge'));
 var NotificationsIcon = _interopDefault(require('@mui/icons-material/Notifications'));
@@ -1358,11 +1358,7 @@ var Header = function Header(_ref) {
       width: '90%',
       ml: 1
     }
-  }), /*#__PURE__*/React.createElement(MenuItem, {
-    onClick: handleMenuClose
-  }, /*#__PURE__*/React.createElement(ListItemIcon, null, /*#__PURE__*/React.createElement(FolderSharedIcon, {
-    fontSize: "small"
-  })), "Perfil"), /*#__PURE__*/React.createElement(Divider, null), manageAccess && roleUserAGSI() && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(MenuItem, {
+  }), manageAccess && roleUserAGSI() && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(MenuItem, {
     onClick: function onClick() {
       handleMenuClose();
       manageAccess.onClick();
@@ -1392,14 +1388,6 @@ var Header = function Header(_ref) {
     },
     keepMounted: true
   }, /*#__PURE__*/React.createElement(MenuItem, {
-    onClick: handleProfileMenuOpen
-  }, /*#__PURE__*/React.createElement(IconButton, {
-    size: "small",
-    "aria-label": "account of current user",
-    "aria-controls": "primary-search-account-menu",
-    "aria-haspopup": "true",
-    color: "inherit"
-  }, /*#__PURE__*/React.createElement(AccountCircle, null)), /*#__PURE__*/React.createElement("p", null, "Perfil")), /*#__PURE__*/React.createElement(MenuItem, {
     onClick: handleClick
   }, /*#__PURE__*/React.createElement(IconButton, {
     size: "small",
@@ -1413,7 +1401,7 @@ var Header = function Header(_ref) {
   }, /*#__PURE__*/React.createElement(AppBar, {
     className: "header-app-bar",
     position: "fixed"
-  }, /*#__PURE__*/React.createElement(Toolbar, null, /*#__PURE__*/React.createElement(IconButton, {
+  }, /*#__PURE__*/React.createElement(Toolbar, null, linkTitle !== '/' && /*#__PURE__*/React.createElement(IconButton, {
     size: "large",
     edge: "start",
     color: "inherit",

@@ -127,13 +127,13 @@ const Header = ({ title, linkTitle, listApp = [], loadingListApp, notification, 
       <div style={{ minWidth: '200px' }}>
         <MenuItem className='header-component-current-operator'>{`Usuário: ${getOperator()}`}</MenuItem>
         <Divider sx={{ width: '90%', ml: 1 }} />
-        <MenuItem onClick={handleMenuClose}>
+        {/* <MenuItem onClick={handleMenuClose}>
           <ListItemIcon>
             <FolderSharedIcon fontSize="small" />
           </ListItemIcon>
           Perfil
         </MenuItem>
-        <Divider />
+        <Divider /> */}
         {(manageAccess && roleUserAGSI()) &&
           <React.Fragment>
 
@@ -171,7 +171,7 @@ const Header = ({ title, linkTitle, listApp = [], loadingListApp, notification, 
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       keepMounted
     >
-      <MenuItem onClick={handleProfileMenuOpen}>
+      {/* <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="small"
           aria-label="account of current user"
@@ -182,7 +182,7 @@ const Header = ({ title, linkTitle, listApp = [], loadingListApp, notification, 
           <AccountCircle />
         </IconButton>
         <p>Perfil</p>
-      </MenuItem>
+      </MenuItem> */}
       <MenuItem onClick={handleClick}>
         <IconButton
           size="small"
@@ -200,18 +200,20 @@ const Header = ({ title, linkTitle, listApp = [], loadingListApp, notification, 
     <Box sx={{ flexGrow: 1 }}>
       <AppBar className='header-app-bar' position="fixed">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-            onClick={() => ToggleSideBar()}
-          >
-            <Tooltip title='Menu'>
-              <MenuIcon />
-            </Tooltip>
-          </IconButton>
+          {linkTitle !== '/' &&
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              sx={{ mr: 2 }}
+              onClick={() => ToggleSideBar()}
+            >
+              <Tooltip title='Menu'>
+                <MenuIcon />
+              </Tooltip>
+            </IconButton>
+          }
 
           <Box
 
