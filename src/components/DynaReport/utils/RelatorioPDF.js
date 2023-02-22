@@ -23,14 +23,14 @@ const getColumnStyles = (qtdColumns) => {
 }
 
 export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
-  //DEFINICOES DE VARIAVEIS
+  // DEFINICOES DE VARIAVEIS
   const hasDependentes = fields.includes('dependentes')
   const hasGroup = options.includes('agrupar')
 
   const doc = new jsPDF('p', 'pt', 'a4')
   let page = 1
 
-  //ADICIONA REGISTRO EM PRIMEIRO NIVEL
+  // ADICIONA REGISTRO EM PRIMEIRO NIVEL
   const addPrimeiroNivel = (Y, header, content) => {
     autoTable(doc, {
       startY: Y > startPageY ? Y + 5 : Y,
@@ -51,7 +51,7 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
     })
   }
 
-  //ADICIONA LINHA FINAL DA TABELA
+  // ADICIONA LINHA FINAL DA TABELA
   const addTableFooter = (Y, header, content) => {
     autoTable(doc, {
       body: content,
@@ -62,12 +62,12 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
     })
   }
 
-  //ADICIONA REGISTRO
+  // ADICIONA REGISTRO
   const addtable = (data) => {
     const cellWidth = 515.3 / fields.length
 
-    //PARA CADA REGISTRO
-    data?.forEach((el) => {
+    // PARA CADA REGISTRO
+    data.forEach((el) => {
       let Y = doc.lastAutoTable.finalY
       const tempContent = []
       const newHeader = []
@@ -82,7 +82,7 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
         }
       }
 
-      //RESETA INICIO DE TABELA NA QUEBRA DE PAGINA
+      // RESETA INICIO DE TABELA NA QUEBRA DE PAGINA
       if (page < doc.internal.getCurrentPageInfo().pageNumber) {
         page++
         Y = startPageY
@@ -90,7 +90,7 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
 
       addPrimeiroNivel(Y, newHeader, [tempContent])
 
-      //DEPENDENTES
+      // DEPENDENTES
       if (hasDependentes) {
         addSegundoNivel(
           doc.lastAutoTable.finalY,
@@ -98,10 +98,10 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
           Object.values(el.dependentes)
         )
 
-        //TOTAL
+        // TOTAL
         if (options.includes('totalizar')) {
           let total = 0
-          el.dependentes?.forEach((element) => {
+          el.dependentes.forEach((element) => {
             total = total + element[2]
           })
 
@@ -123,7 +123,7 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
     startY: startPageY
   })
 
-  //VERIFICA SE TEM AGRUPAMENTO
+  // VERIFICA SE TEM AGRUPAMENTO
   if (hasGroup) {
     const groupSections = []
     selecteds.forEach((element) => {
@@ -147,7 +147,7 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
     addtable(selecteds)
   }
 
-  //HEADER
+  // HEADER
   var pageCount = doc.internal.getNumberOfPages()
   for (let i = 0; i < pageCount; i++) {
     doc.setLineWidth(1)

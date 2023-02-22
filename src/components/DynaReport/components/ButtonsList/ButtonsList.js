@@ -9,6 +9,7 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
 import { generatePDF } from '../../utils/RelatorioPDF'
+import { PDFBasic } from '../../utils/PDFBasic'
 import OptionsChecklist from '../OptionsChecklist/OptionsChecklist'
 import Agrupamento from '../Agrupamento/Agrupamento'
 import Somar from '../Somar/Somar'
@@ -44,7 +45,7 @@ function ButtonsList({ listOptions, sumOptions }) {
   const generateObj = async () => {
     const filteredArr = []
 
-    selecteds?.forEach((element) => {
+    selecteds.forEach((element) => {
       const newObj = Object.keys(element)
         .filter((key) => fields.includes(key))
         .reduce((obj, key) => {
@@ -55,6 +56,21 @@ function ButtonsList({ listOptions, sumOptions }) {
       filteredArr.push(newObj)
     })
     await generatePDF(filteredArr, checkedFields, options)
+  }
+  const generatePDFBasic = async () => {
+    const filteredArr = []
+
+    selecteds.forEach((element) => {
+      const newObj = Object.keys(element)
+        .filter((key) => fields.includes(key))
+        .reduce((obj, key) => {
+          if (checkedFields.includes(key)) obj[key] = element[key] ?? ''
+          return obj
+        }, {})
+
+      filteredArr.push(newObj)
+    })
+    await PDFBasic(filteredArr, checkedFields, options)
   }
 
   return (
@@ -80,6 +96,7 @@ function ButtonsList({ listOptions, sumOptions }) {
             variant='contained'
             startIcon={<DescriptionIcon />}
             style={{ width: '100%' }}
+            onClick={async () => generatePDFBasic()}
             disabled={selecteds.length < 1}
           >
             Resumir

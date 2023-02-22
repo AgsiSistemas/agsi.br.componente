@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Grid from '@mui/material/Unstable_Grid2'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
@@ -14,7 +14,10 @@ import FormControl from '@mui/material/FormControl'
 
 export const Somar = ({ handleClose, options }) => {
   const [value, setValue] = useState('')
-  const { dispatch } = useSelectedRegisters()
+  const {
+    state: { somar },
+    dispatch
+  } = useSelectedRegisters()
 
   const handleSalvar = () => {
     dispatch({ value: value, type: 'somar' })
@@ -28,6 +31,10 @@ export const Somar = ({ handleClose, options }) => {
   const handleChange = (event) => {
     setValue(event.target.value)
   }
+
+  useEffect(() => {
+    setValue(somar)
+  }, [])
 
   return (
     <React.Fragment>
@@ -62,6 +69,7 @@ export const Somar = ({ handleClose, options }) => {
               {options.map((value) => {
                 return (
                   <FormControlLabel
+                    key={value}
                     value={value}
                     control={<Radio />}
                     label={value}
