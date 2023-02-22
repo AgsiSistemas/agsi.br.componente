@@ -41,37 +41,24 @@ const formatExternalNodes = (nodes, group) => {
   return newExternalNodes
 }
 
-const defaultGroup = [
-  {
-    id: 1,
-    parent: 0,
-    droppable: true,
-    text: 'Grupo 01'
-  }
-]
-
 export const Agrupamento = ({ handleClose }) => {
   const {
-    state: { checkedFields, agrupamento },
+    state: { checkedFields, agrupamento, savedTree },
     dispatch
   } = useSelectedRegisters()
 
-  const [tree, setTree] = useState(
-    agrupamento.length > 0 ? agrupamento : defaultGroup
-  )
+  const [tree, setTree] = useState(savedTree)
 
   const [externalNodes, setExternalNodes] = useState(
-    formatExternalNodes(checkedFields, agrupamento)
+    formatExternalNodes(checkedFields, savedTree)
   )
 
   useEffect(
-    () => setExternalNodes(formatExternalNodes(checkedFields, agrupamento)),
-    [checkedFields, agrupamento]
+    () => setExternalNodes(formatExternalNodes(checkedFields, savedTree)),
+    [checkedFields, savedTree]
   )
-  useEffect(
-    () => setTree(agrupamento.length > 0 ? agrupamento : defaultGroup),
-    [agrupamento]
-  )
+
+  useEffect(() => setTree(savedTree), [savedTree])
 
   const handleDrop = (newTree, options) => {
     const { dropTargetId, monitor } = options
@@ -91,12 +78,35 @@ export const Agrupamento = ({ handleClose }) => {
   }
 
   const handleSalvar = () => {
-    dispatch({ value: tree, type: 'agrupamento' })
+    const tempAgrupamento = []
+    tree.forEach((el) => {
+      if (el.id !== 1) {
+        tempAgrupamento.push(el.id)
+      }
+    })
+    dispatch({ value: tempAgrupamento, type: 'agrupamento' })
+    dispatch({ value: tree, type: 'savedTree' })
     handleClose()
   }
   const handleLimpar = () => {
-    setTree(agrupamento.length > 0 ? agrupamento : defaultGroup)
-    setExternalNodes(formatExternalNodes(checkedFields, agrupamento))
+    setTree([
+      {
+        id: 1,
+        parent: 0,
+        droppable: true,
+        text: 'Grupo 01'
+      }
+    ])
+    setExternalNodes(
+      formatExternalNodes(checkedFields, [
+        {
+          id: 1,
+          parent: 0,
+          droppable: true,
+          text: 'Grupo 01'
+        }
+      ])
+    )
   }
 
   return (

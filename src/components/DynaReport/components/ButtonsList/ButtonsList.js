@@ -39,7 +39,7 @@ function ButtonsList({ listOptions, sumOptions }) {
   const handleCloseSomar = () => setOpenSomar(false)
 
   const {
-    state: { selecteds, fields, checkedFields, options }
+    state: { selecteds, fields, checkedFields, options, agrupamento }
   } = useSelectedRegisters()
 
   const generateObj = async () => {
@@ -55,8 +55,10 @@ function ButtonsList({ listOptions, sumOptions }) {
 
       filteredArr.push(newObj)
     })
-    await generatePDF(filteredArr, checkedFields, options)
+
+    await generatePDF(filteredArr, checkedFields, options, agrupamento)
   }
+
   const generatePDFBasic = async () => {
     const filteredArr = []
 

@@ -16,6 +16,8 @@ function contextReducer(state, action) {
     return { ...state, options: action.value }
   } else if (action.type === 'somar') {
     return { ...state, somar: action.value }
+  } else if (action.type === 'savedTree') {
+    return { ...state, savedTree: action.value }
   }
 }
 
@@ -26,6 +28,14 @@ function DynaProvider({ children }) {
     fields: [],
     checkedFields: [],
     agrupamento: [],
+    savedTree: [
+      {
+        id: 1,
+        parent: 0,
+        droppable: true,
+        text: 'Grupo 01'
+      }
+    ],
     options: [],
     somar: ''
   })

@@ -13,7 +13,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 import { Typography } from '@mui/material'
 import ErrorIcon from '@mui/icons-material/Error'
 
-const reportOptions = ['Data/Hora', 'Paginação']
+const reportOptions = ['Data/Hora', 'Paginação', 'Ocultar campo de agrupamento']
 
 export const Principal = ({ api, filter }) => {
   const [data, setData] = useState(null)

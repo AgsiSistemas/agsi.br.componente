@@ -24,17 +24,16 @@ const getColumnStyles = (qtdColumns) => {
 
 export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
   // DEFINICOES DE VARIAVEIS
-  const hasDependentes = fields.includes('dependentes')
-  const hasGroup = options.includes('agrupar')
-
   const doc = new jsPDF('p', 'pt', 'a4')
   let page = 1
+
+  const hideGroupField = options.includes('Ocultar campo de agrupamento')
 
   // ADICIONA REGISTRO EM PRIMEIRO NIVEL
   const addPrimeiroNivel = (Y, header, content) => {
     autoTable(doc, {
       startY: Y > startPageY ? Y + 5 : Y,
-      head: header && agrupamento.length > 0 ? [header] : [],
+      head: header ? [header] : [],
       pageBreak: 'avoid',
       margin: { top: startPageY },
       body: content
@@ -64,7 +63,9 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
 
   // ADICIONA REGISTRO
   const addtable = (data) => {
-    const cellWidth = 515.3 / fields.length
+    console.log('Object.keys(data).length', Object.keys(data[0]).length)
+    const cellWidth = 515.3 / (fields.length - agrupamento.length)
+    //  const cellWidth = 515.3 / Object.keys(data[0]).length
 
     // PARA CADA REGISTRO
     data.forEach((el) => {
@@ -73,13 +74,11 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
       const newHeader = []
 
       for (const [key, value] of Object.entries(el)) {
-        if (key !== 'dependentes' && key !== 'hasDependentes') {
-          tempContent.push({
-            content: value,
-            styles: { fillColor: [255, 255, 255], cellWidth: cellWidth }
-          })
-          newHeader.push(key)
-        }
+        tempContent.push({
+          content: value,
+          styles: { fillColor: [255, 255, 255], cellWidth: cellWidth }
+        })
+        newHeader.push(key)
       }
 
       // RESETA INICIO DE TABELA NA QUEBRA DE PAGINA
@@ -88,33 +87,33 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
         Y = startPageY
       }
 
-      addPrimeiroNivel(Y, newHeader, [tempContent])
+      addPrimeiroNivel(Y, null, [tempContent])
 
       // DEPENDENTES
-      if (hasDependentes) {
-        addSegundoNivel(
-          doc.lastAutoTable.finalY,
-          null,
-          Object.values(el.dependentes)
-        )
+      // if (hasDependentes) {
+      //   addSegundoNivel(
+      //     doc.lastAutoTable.finalY,
+      //     null,
+      //     Object.values(el.dependentes)
+      //   )
 
-        // TOTAL
-        if (options.includes('totalizar')) {
-          let total = 0
-          el.dependentes.forEach((element) => {
-            total = total + element[2]
-          })
+      //   // TOTAL
+      //   if (options.includes('totalizar')) {
+      //     let total = 0
+      //     el.dependentes.forEach((element) => {
+      //       total = total + element[2]
+      //     })
 
-          addTableFooter(doc.lastAutoTable.finalY, null, [
-            [
-              {
-                content: `Total: ${total.toFixed(2)}`,
-                styles: { halign: 'right', fillColor: [200, 200, 200] }
-              }
-            ]
-          ])
-        }
-      }
+      //     addTableFooter(doc.lastAutoTable.finalY, null, [
+      //       [
+      //         {
+      //           content: `Total: ${total.toFixed(2)}`,
+      //           styles: { halign: 'right', fillColor: [200, 200, 200] }
+      //         }
+      //       ]
+      //     ])
+      //   }
+      // }
     })
   }
 
@@ -124,24 +123,43 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
   })
 
   // VERIFICA SE TEM AGRUPAMENTO
-  if (hasGroup) {
+  if (agrupamento.length > 0) {
     const groupSections = []
-    selecteds.forEach((element) => {
-      if (!groupSections.includes(element.cidade))
-        groupSections.push(element.cidade)
+    const dataSections = []
+
+    // const selectedsClone = selecteds.map((x) => x)
+    // const selectedsClone = JSON.parse(JSON.stringify(selecteds))
+    // COM ERRO NO RELATORIO APOS REMOVER O AGRUPAMENTO
+    var selectedsClone = selecteds.slice(0)
+
+    selectedsClone.forEach((element) => {
+      if (!groupSections.includes(element[agrupamento[0]]))
+        groupSections.push(element[agrupamento[0]])
+    })
+
+    groupSections.forEach((section) => {
+      const tempDataSection = []
+      selectedsClone.forEach((register) => {
+        if (register[agrupamento[0]] === section) {
+          // if (hideGroupField) {
+          //   delete register[agrupamento[0]]
+          // }
+          console.log('register', register)
+          tempDataSection.push(register)
+        }
+      })
+
+      dataSections[section] = tempDataSection
     })
 
     groupSections.forEach((group) => {
       autoTable(doc, {
-        body: [['Grupo: ' + group]],
+        body: [[`Grupo: ${agrupamento[0]} ${group}`]],
         startY: doc.lastAutoTable.finalY,
         pageBreak: 'avoid'
       })
-      const dataGroup = []
-      selecteds.forEach((element) => {
-        if (element.cidade === group) dataGroup.push(element)
-      })
-      addtable(dataGroup)
+
+      addtable(dataSections[group])
     })
   } else {
     addtable(selecteds)
@@ -172,11 +190,18 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
     var today = new Date()
     doc.text(493, 92, today.toLocaleString())
 
+    const filteredHeader = fields
+
+    if (hideGroupField) {
+      const index = filteredHeader.indexOf(agrupamento[0])
+      filteredHeader.splice(index, 1)
+    }
+
     // TABELA
     autoTable(doc, {
       startY: 96,
       pageBreak: 'avoid',
-      body: [fields],
+      body: [filteredHeader],
       columnStyles: getColumnStyles(fields.length)
     })
   }
