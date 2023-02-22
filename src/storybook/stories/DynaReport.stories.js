@@ -9,7 +9,7 @@ export default {
 
 const instance = axios.create({
   baseURL: 'http://191.13.138.172:9890/',
-  timeout: 1000,
+  timeout: 3000,
   headers: {
     Authorization: 'Bearer request your access'
   }
