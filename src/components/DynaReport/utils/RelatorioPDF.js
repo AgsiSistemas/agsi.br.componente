@@ -27,7 +27,7 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
   const doc = new jsPDF('p', 'pt', 'a4')
   let page = 1
 
-  const hideGroupField = options.includes('Ocultar campo de agrupamento')
+  const hideGroupField = !options.includes('Mostrar campo de agrupamento')
 
   // ADICIONA REGISTRO EM PRIMEIRO NIVEL
   const addPrimeiroNivel = (Y, header, content) => {
@@ -63,9 +63,7 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
 
   // ADICIONA REGISTRO
   const addtable = (data) => {
-    console.log('Object.keys(data).length', Object.keys(data[0]).length)
     const cellWidth = 515.3 / (fields.length - agrupamento.length)
-    //  const cellWidth = 515.3 / Object.keys(data[0]).length
 
     // PARA CADA REGISTRO
     data.forEach((el) => {
@@ -127,10 +125,7 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
     const groupSections = []
     const dataSections = []
 
-    // const selectedsClone = selecteds.map((x) => x)
-    // const selectedsClone = JSON.parse(JSON.stringify(selecteds))
-    // COM ERRO NO RELATORIO APOS REMOVER O AGRUPAMENTO
-    var selectedsClone = selecteds.slice(0)
+    const selectedsClone = [...selecteds]
 
     selectedsClone.forEach((element) => {
       if (!groupSections.includes(element[agrupamento[0]]))
@@ -141,10 +136,9 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
       const tempDataSection = []
       selectedsClone.forEach((register) => {
         if (register[agrupamento[0]] === section) {
-          // if (hideGroupField) {
-          //   delete register[agrupamento[0]]
-          // }
-          console.log('register', register)
+          if (hideGroupField) {
+            delete register[agrupamento[0]]
+          }
           tempDataSection.push(register)
         }
       })
