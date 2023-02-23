@@ -56,7 +56,7 @@ function ButtonsList({ listOptions, sumOptions }) {
       filteredArr.push(newObj)
     })
 
-    await generatePDF(filteredArr, checkedFields, options, agrupamento)
+    await generatePDF(filteredArr, [...checkedFields], options, agrupamento)
   }
 
   const generatePDFBasic = async () => {

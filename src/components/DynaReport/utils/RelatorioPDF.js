@@ -22,6 +22,24 @@ const getColumnStyles = (qtdColumns) => {
   return tempObj
 }
 
+const isArrayInArray = (arr, item) => {
+  const asString = JSON.stringify(item)
+
+  const contains = arr.some(function (ele) {
+    return JSON.stringify(ele) === asString
+  })
+  return contains
+}
+
+const getGroupHeader = (agrupamento, grupos) => {
+  let text = ''
+  agrupamento.forEach((element, i) => {
+    if (i > 0 && i < agrupamento.length - 1) text = text + ','
+    text = text + ` ${element}: ${grupos[i]}`
+  })
+  return text
+}
+
 export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
   // DEFINICOES DE VARIAVEIS
   const doc = new jsPDF('p', 'pt', 'a4')
@@ -63,7 +81,8 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
 
   // ADICIONA REGISTRO
   const addtable = (data) => {
-    const cellWidth = 515.3 / (fields.length - agrupamento.length)
+    const cellWidth =
+      515.3 / (fields.length - (hideGroupField ? agrupamento.length : 0))
 
     // PARA CADA REGISTRO
     data.forEach((el) => {
@@ -123,37 +142,48 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
   // VERIFICA SE TEM AGRUPAMENTO
   if (agrupamento.length > 0) {
     const groupSections = []
-    const dataSections = []
 
     const selectedsClone = [...selecteds]
 
     selectedsClone.forEach((element) => {
-      if (!groupSections.includes(element[agrupamento[0]]))
-        groupSections.push(element[agrupamento[0]])
+      const tempGrupo = []
+      agrupamento.forEach((grupo) => {
+        tempGrupo.push(element[grupo])
+      })
+
+      if (!isArrayInArray(groupSections, tempGrupo)) {
+        groupSections.push(tempGrupo)
+      }
     })
 
     groupSections.forEach((section) => {
       const tempDataSection = []
       selectedsClone.forEach((register) => {
-        if (register[agrupamento[0]] === section) {
+        let addToGroup = true
+
+        section.forEach((element, index) => {
+          if (register[agrupamento[index]] !== element) {
+            addToGroup = false
+          }
+        })
+
+        if (addToGroup) {
           if (hideGroupField) {
-            delete register[agrupamento[0]]
+            agrupamento.forEach((grupo) => {
+              delete register[grupo]
+            })
           }
           tempDataSection.push(register)
         }
       })
 
-      dataSections[section] = tempDataSection
-    })
-
-    groupSections.forEach((group) => {
       autoTable(doc, {
-        body: [[`Grupo: ${agrupamento[0]} ${group}`]],
+        body: [[getGroupHeader(agrupamento, section)]],
         startY: doc.lastAutoTable.finalY,
         pageBreak: 'avoid'
       })
 
-      addtable(dataSections[group])
+      addtable(tempDataSection)
     })
   } else {
     addtable(selecteds)
@@ -187,8 +217,12 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
     const filteredHeader = fields
 
     if (hideGroupField) {
-      const index = filteredHeader.indexOf(agrupamento[0])
-      filteredHeader.splice(index, 1)
+      agrupamento.forEach((grupo) => {
+        if (filteredHeader.includes(grupo)) {
+          const index = filteredHeader.indexOf(grupo)
+          filteredHeader.splice(index, 1)
+        }
+      })
     }
 
     // TABELA
@@ -196,7 +230,7 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
       startY: 96,
       pageBreak: 'avoid',
       body: [filteredHeader],
-      columnStyles: getColumnStyles(fields.length)
+      columnStyles: getColumnStyles(filteredHeader.length)
     })
   }
 
