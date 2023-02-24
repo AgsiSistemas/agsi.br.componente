@@ -47,6 +47,19 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
 
   const hideGroupField = !options.includes('Mostrar campo de agrupamento')
 
+  // ATUALIZA PAGINA E RETORNA Y
+  const pageUpd = (Y) => {
+    if (page < doc.internal.getCurrentPageInfo().pageNumber) {
+      page++
+      return startPageY
+    } else if (Y > 780) {
+      page++
+      doc.addPage()
+      return startPageY
+    }
+    return Y
+  }
+
   // ADICIONA REGISTRO EM PRIMEIRO NIVEL
   const addPrimeiroNivel = (Y, header, content) => {
     autoTable(doc, {
@@ -98,11 +111,7 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
         newHeader.push(key)
       }
 
-      // RESETA INICIO DE TABELA NA QUEBRA DE PAGINA
-      if (page < doc.internal.getCurrentPageInfo().pageNumber) {
-        page++
-        Y = startPageY
-      }
+      Y = pageUpd(Y)
 
       addPrimeiroNivel(Y, null, [tempContent])
 
@@ -157,6 +166,7 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
     })
 
     groupSections.forEach((section) => {
+      let Y = doc.lastAutoTable.finalY
       const tempDataSection = []
       selectedsClone.forEach((register) => {
         let addToGroup = true
@@ -177,9 +187,11 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
         }
       })
 
+      Y = pageUpd(Y)
+
       autoTable(doc, {
         body: [[getGroupHeader(agrupamento, section)]],
-        startY: doc.lastAutoTable.finalY,
+        startY: Y,
         pageBreak: 'avoid'
       })
 
