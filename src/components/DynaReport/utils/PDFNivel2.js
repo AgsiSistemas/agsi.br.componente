@@ -1,46 +1,14 @@
 import { jsPDF } from 'jspdf'
 import autoTable from 'jspdf-autotable'
+import {
+  startPageY,
+  getColumnStyles,
+  getGroupsStyles,
+  isArrayInArray,
+  getGroupHeader
+} from './Methods'
 
-const startPageY = 130
-
-const mainHeaderStyle = {
-  fillColor: [41, 89, 129],
-  textColor: [255, 255, 255],
-  fontStyle: 'bold'
-}
-
-const getColumnStyles = (qtdColumns) => {
-  const tempWidth = 515.3 / qtdColumns
-  const tempObj = {}
-
-  for (let index = 0; index < qtdColumns; index++) {
-    tempObj[index] = {
-      cellWidth: tempWidth,
-      ...mainHeaderStyle
-    }
-  }
-  return tempObj
-}
-
-const isArrayInArray = (arr, item) => {
-  const asString = JSON.stringify(item)
-
-  const contains = arr.some(function (ele) {
-    return JSON.stringify(ele) === asString
-  })
-  return contains
-}
-
-const getGroupHeader = (agrupamento, grupos) => {
-  let text = ''
-  agrupamento.forEach((element, i) => {
-    if (i > 0 && i < agrupamento.length - 1) text = text + ','
-    text = text + ` ${element}: ${grupos[i]}`
-  })
-  return text
-}
-
-export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
+export const PDFNivel2 = (selecteds, fields, options, agrupamento = []) => {
   // DEFINICOES DE VARIAVEIS
   const doc = new jsPDF('p', 'pt', 'a4')
   let page = 1
@@ -68,27 +36,6 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
       pageBreak: 'avoid',
       margin: { top: startPageY },
       body: content
-    })
-  }
-
-  const addSegundoNivel = (Y, header, content) => {
-    autoTable(doc, {
-      startY: Y > startPageY ? Y + 5 : Y,
-      head: header ? [header] : [],
-      pageBreak: 'avoid',
-      body: content
-      // columnStyles:
-    })
-  }
-
-  // ADICIONA LINHA FINAL DA TABELA
-  const addTableFooter = (Y, header, content) => {
-    autoTable(doc, {
-      body: content,
-      head: header,
-      startY: Y,
-      pageBreak: 'avoid',
-      styles: { fillColor: [255, 0, 0], halign: 'right' }
     })
   }
 
@@ -149,57 +96,112 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
   })
 
   // VERIFICA SE TEM AGRUPAMENTO
-  if (agrupamento.length > 0) {
-    const groupSections = []
+  const groupSections1 = []
+  const selectedsClone = [...selecteds]
+  const agrupamentoNivel1 = agrupamento[0]
+  const agrupamentoNivel2 = agrupamento[1]
 
-    const selectedsClone = [...selecteds]
+  selectedsClone.forEach((element) => {
+    const tempGrupo = []
+    agrupamentoNivel1.forEach((grupo) => {
+      tempGrupo.push(element[grupo])
+    })
 
-    selectedsClone.forEach((element) => {
-      const tempGrupo = []
-      agrupamento.forEach((grupo) => {
-        tempGrupo.push(element[grupo])
+    if (!isArrayInArray(groupSections1, tempGrupo)) {
+      groupSections1.push(tempGrupo)
+    }
+  })
+
+  groupSections1.forEach((section1) => {
+    let Y = doc.lastAutoTable.finalY
+    const tempDataSection1 = []
+    selectedsClone.forEach((register) => {
+      let addToGroup = true
+
+      section1.forEach((element, index) => {
+        if (register[agrupamentoNivel1[index]] !== element) {
+          addToGroup = false
+        }
       })
 
-      if (!isArrayInArray(groupSections, tempGrupo)) {
-        groupSections.push(tempGrupo)
+      if (addToGroup) {
+        if (hideGroupField) {
+          agrupamentoNivel1.forEach((grupo) => {
+            delete register[grupo]
+          })
+        }
+        tempDataSection1.push(register)
       }
     })
 
-    groupSections.forEach((section) => {
-      let Y = doc.lastAutoTable.finalY
-      const tempDataSection = []
-      selectedsClone.forEach((register) => {
+    Y = pageUpd(Y)
+
+    autoTable(doc, {
+      body: [[getGroupHeader(agrupamentoNivel1, section1)]],
+      startY: Y,
+      pageBreak: 'avoid',
+      columnStyles: {
+        0: {
+          fillColor: [236, 245, 250],
+          textColor: [0, 0, 0],
+          fontStyle: 'bold'
+        }
+      }
+    })
+
+    // NIVEL 2
+    const groupSections2 = []
+    tempDataSection1.forEach((element) => {
+      const tempGrupo = []
+      agrupamentoNivel2.forEach((grupo) => {
+        tempGrupo.push(element[grupo])
+      })
+
+      if (!isArrayInArray(groupSections2, tempGrupo)) {
+        groupSections2.push(tempGrupo)
+      }
+    })
+
+    groupSections2.forEach((section2) => {
+      const tempDataSection2 = []
+      // Y = pageUpd(Y)
+      autoTable(doc, {
+        body: [agrupamentoNivel2],
+        startY: doc.lastAutoTable.finalY,
+        pageBreak: 'avoid',
+        columnStyles: getGroupsStyles(section2.length, true)
+      })
+      autoTable(doc, {
+        body: [section2],
+        startY: doc.lastAutoTable.finalY,
+        pageBreak: 'avoid',
+        columnStyles: getGroupsStyles(section2.length, false)
+      })
+
+      tempDataSection1.forEach((register) => {
         let addToGroup = true
 
-        section.forEach((element, index) => {
-          if (register[agrupamento[index]] !== element) {
+        section2.forEach((element, index) => {
+          if (register[agrupamentoNivel2[index]] !== element) {
             addToGroup = false
           }
         })
 
         if (addToGroup) {
           if (hideGroupField) {
-            agrupamento.forEach((grupo) => {
+            agrupamentoNivel2.forEach((grupo) => {
               delete register[grupo]
             })
           }
-          tempDataSection.push(register)
+          tempDataSection2.push(register)
         }
       })
-
-      Y = pageUpd(Y)
-
-      autoTable(doc, {
-        body: [[getGroupHeader(agrupamento, section)]],
-        startY: Y,
-        pageBreak: 'avoid'
-      })
-
-      addtable(tempDataSection)
+      addtable(tempDataSection2)
     })
-  } else {
-    addtable(selecteds)
-  }
+    autoTable(doc, {
+      startY: doc.lastAutoTable.finalY + 8
+    })
+  })
 
   // HEADER
   var pageCount = doc.internal.getNumberOfPages()
@@ -229,7 +231,13 @@ export const generatePDF = (selecteds, fields, options, agrupamento = []) => {
     const filteredHeader = fields
 
     if (hideGroupField) {
-      agrupamento.forEach((grupo) => {
+      agrupamento[0].forEach((grupo) => {
+        if (filteredHeader.includes(grupo)) {
+          const index = filteredHeader.indexOf(grupo)
+          filteredHeader.splice(index, 1)
+        }
+      })
+      agrupamento[1].forEach((grupo) => {
         if (filteredHeader.includes(grupo)) {
           const index = filteredHeader.indexOf(grupo)
           filteredHeader.splice(index, 1)

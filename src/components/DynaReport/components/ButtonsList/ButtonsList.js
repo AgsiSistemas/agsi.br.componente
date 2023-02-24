@@ -8,7 +8,8 @@ import GroupWorkIcon from '@mui/icons-material/GroupWork'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
-import { generatePDF } from '../../utils/RelatorioPDF'
+import { PDFNivel1 } from '../../utils/PDFNivel1'
+import { PDFNivel2 } from '../../utils/PDFNivel2'
 import { PDFBasic } from '../../utils/PDFBasic'
 import OptionsChecklist from '../OptionsChecklist/OptionsChecklist'
 import Agrupamento from '../Agrupamento/Agrupamento'
@@ -42,7 +43,7 @@ function ButtonsList({ listOptions, sumOptions }) {
     state: { selecteds, fields, checkedFields, options, agrupamento }
   } = useSelectedRegisters()
 
-  const generateObj = async () => {
+  const generatePDFNivel1 = async () => {
     const filteredArr = []
 
     selecteds.forEach((element) => {
@@ -55,8 +56,11 @@ function ButtonsList({ listOptions, sumOptions }) {
 
       filteredArr.push(newObj)
     })
-
-    await generatePDF(filteredArr, [...checkedFields], options, agrupamento)
+    if (agrupamento.length > 1) {
+      await PDFNivel2(filteredArr, [...checkedFields], options, agrupamento)
+    } else {
+      await PDFNivel1(filteredArr, [...checkedFields], options, agrupamento[0])
+    }
   }
 
   const generatePDFBasic = async () => {
@@ -87,7 +91,7 @@ function ButtonsList({ listOptions, sumOptions }) {
             variant='contained'
             startIcon={<SearchIcon />}
             style={{ width: '100%' }}
-            onClick={async () => generateObj()}
+            onClick={async () => generatePDFNivel1()}
             disabled={selecteds.length < 1}
           >
             Visualizar
