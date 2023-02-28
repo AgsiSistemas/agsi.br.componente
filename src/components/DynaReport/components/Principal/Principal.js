@@ -43,6 +43,14 @@ export const Principal = ({ api, filter }) => {
       value: [null, ...res.data.data.columns],
       type: 'columnsOrder'
     })
+    dispatch({
+      value: res.data.data.summableFields,
+      type: 'somar'
+    })
+    dispatch({
+      value: res.data.data.summableFields,
+      type: 'summableFields'
+    })
     setLoading(false)
   }
 
@@ -104,10 +112,7 @@ export const Principal = ({ api, filter }) => {
           </Item>
 
           <Item sx={{ marginBottom: '8px' }}>
-            <ButtonList
-              listOptions={reportOptions}
-              sumOptions={data?.summableFields}
-            />
+            <ButtonList listOptions={reportOptions} />
           </Item>
         </Grid>
 

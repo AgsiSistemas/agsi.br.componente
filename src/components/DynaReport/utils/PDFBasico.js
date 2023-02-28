@@ -3,30 +3,18 @@ import autoTable from 'jspdf-autotable'
 
 const startPageY = 76
 
-export const PDFBasic = (selecteds, fields, options, agrupamento = []) => {
+export const PDFBasico = (selecteds, fields, options, agrupamento = []) => {
   // DEFINICOES DE VARIAVEIS
   const doc = new jsPDF('p', 'pt', 'a4')
 
   // ADICIONA REGISTRO
   const addtable = (data) => {
-    const tempContent = []
-    const newHeader = []
-    for (const [key, value] of Object.entries(data)) {
-      if (key !== 'dependentes' && key !== 'hasDependentes') {
-        tempContent.push({
-          content: value
-          // styles: { cellWidth: cellWidth }
-        })
-        newHeader.push(key)
-      }
-    }
-
-    const test = data.map((el) => {
+    const newBody = data.map((el) => {
       return Object.values(el)
     })
 
     autoTable(doc, {
-      body: test,
+      body: newBody,
       head: [fields],
       pageBreak: 'avoid',
       headStyles: {

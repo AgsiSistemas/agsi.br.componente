@@ -6,34 +6,46 @@ import Divider from '@mui/material/Divider'
 import { useSelectedRegisters } from '../../context/context'
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined'
-import Radio from '@mui/material/Radio'
 import Stack from '@mui/material/Stack'
-import RadioGroup from '@mui/material/RadioGroup'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import FormControl from '@mui/material/FormControl'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemText from '@mui/material/ListItemText'
+import ListItemButton from '@mui/material/ListItemButton'
+import IconButton from '@mui/material/IconButton'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import Checkbox from '@mui/material/Checkbox'
 
-export const Somar = ({ handleClose, options }) => {
-  const [value, setValue] = useState('')
+export const Somar = ({ handleClose }) => {
+  const [selecteds, setSelecteds] = useState([])
   const {
-    state: { somar },
+    state: { somar, summableFields },
     dispatch
   } = useSelectedRegisters()
 
   const handleSalvar = () => {
-    dispatch({ value: value, type: 'somar' })
+    dispatch({ value: selecteds, type: 'somar' })
     handleClose()
   }
 
   const handleLimpar = () => {
-    setValue('')
+    setSelecteds([])
   }
 
-  const handleChange = (event) => {
-    setValue(event.target.value)
+  const handleToggle = (value) => () => {
+    const currentIndex = selecteds.indexOf(value)
+    const newChecked = [...selecteds]
+
+    if (currentIndex === -1) {
+      newChecked.push(value)
+    } else {
+      newChecked.splice(currentIndex, 1)
+    }
+
+    setSelecteds(newChecked)
   }
 
   useEffect(() => {
-    setValue(somar)
+    setSelecteds(somar)
   }, [])
 
   return (
@@ -58,26 +70,43 @@ export const Somar = ({ handleClose, options }) => {
           xs={12}
           style={{ overflowY: 'auto', height: '100%', padding: '2px' }}
         >
-          <FormControl component='fieldset'>
-            <RadioGroup
-              aria-label='gender'
-              name='gender1'
-              value={value}
-              onChange={handleChange}
-              row
-            >
-              {options.map((value) => {
-                return (
-                  <FormControlLabel
-                    key={value}
-                    value={value}
-                    control={<Radio />}
-                    label={value}
-                  />
-                )
-              })}
-            </RadioGroup>
-          </FormControl>
+          <List
+            sx={{
+              width: '100%',
+              maxWidth: 360
+            }}
+          >
+            {summableFields.map((value) => {
+              const labelId = `checkbox-list-label-${value}`
+
+              return (
+                <ListItem
+                  key={value}
+                  secondaryAction={
+                    <IconButton edge='end' aria-label='comments' />
+                  }
+                  disablePadding
+                >
+                  <ListItemButton
+                    role={undefined}
+                    onClick={handleToggle(value)}
+                    dense
+                  >
+                    <ListItemIcon>
+                      <Checkbox
+                        edge='start'
+                        checked={selecteds.indexOf(value) !== -1}
+                        tabIndex={-1}
+                        disableRipple
+                        inputProps={{ 'aria-labelledby': labelId }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText id={labelId} primary={value} />
+                  </ListItemButton>
+                </ListItem>
+              )
+            })}
+          </List>
         </Grid>
         <Grid
           xs={12}

@@ -4,15 +4,48 @@ import {
   startPageY,
   getColumnStyles,
   isArrayInArray,
-  getGroupHeader
+  getGroupHeader,
+  addSum,
+  getFilteredHeader
 } from './Methods'
 
-export const PDFNivel1 = (selecteds, fields, options, agrupamento = []) => {
+export const PDFNivel1 = (
+  selecteds,
+  fields,
+  options,
+  agrupamento = [],
+  somar = []
+) => {
   // DEFINICOES DE VARIAVEIS
   const doc = new jsPDF('p', 'pt', 'a4')
   let page = 1
 
   const hideGroupField = !options.includes('Mostrar campo de agrupamento')
+
+  const addSumFooter = (dataSection) => {
+    const somaContent = []
+    const filteredHeader = getFilteredHeader(
+      fields,
+      agrupamento,
+      hideGroupField
+    )
+
+    filteredHeader.forEach((element, index) => {
+      if (somar.includes(element)) {
+        const sumWithInitial = dataSection.reduce(
+          (acc, data) => acc + Number(data[element]),
+          0
+        )
+        somaContent.push(
+          somaContent.length === 0 ? `Σ ${sumWithInitial}` : sumWithInitial
+        )
+        // } else if (index > 0) {
+      } else {
+        somaContent.push(somaContent.length === 0 ? `Σ` : null)
+      }
+    })
+    addSum(doc.lastAutoTable.finalY, null, somaContent, doc, autoTable)
+  }
 
   // ATUALIZA PAGINA E RETORNA Y
   const pageUpd = (Y) => {
@@ -30,7 +63,7 @@ export const PDFNivel1 = (selecteds, fields, options, agrupamento = []) => {
   // ADICIONA REGISTRO EM PRIMEIRO NIVEL
   const addPrimeiroNivel = (Y, header, content) => {
     autoTable(doc, {
-      startY: Y > startPageY ? Y + 5 : Y,
+      startY: Y > startPageY ? Y : startPageY,
       head: header ? [header] : [],
       pageBreak: 'avoid',
       margin: { top: startPageY },
@@ -44,17 +77,17 @@ export const PDFNivel1 = (selecteds, fields, options, agrupamento = []) => {
       515.3 / (fields.length - (hideGroupField ? agrupamento.length : 0))
 
     // PARA CADA REGISTRO
-    data.forEach((el) => {
+    data.forEach((el, index) => {
       let Y = doc.lastAutoTable.finalY
       const tempContent = []
-      const newHeader = []
-
       for (const [key, value] of Object.entries(el)) {
         tempContent.push({
           content: value,
-          styles: { fillColor: [255, 255, 255], cellWidth: cellWidth }
+          styles: {
+            fillColor: index % 2 === 0 ? [252, 252, 252] : [245, 245, 245],
+            cellWidth: cellWidth
+          }
         })
-        newHeader.push(key)
       }
 
       Y = pageUpd(Y)
@@ -112,13 +145,28 @@ export const PDFNivel1 = (selecteds, fields, options, agrupamento = []) => {
       autoTable(doc, {
         body: [[getGroupHeader(agrupamento, section)]],
         startY: Y,
-        pageBreak: 'avoid'
+        pageBreak: 'avoid',
+        columnStyles: {
+          0: {
+            fillColor: [205, 214, 236],
+            textColor: [0, 0, 0],
+            fontStyle: 'bold'
+          }
+        }
       })
 
       addtable(tempDataSection)
+      if (somar.length > 0) addSumFooter(tempDataSection)
+      autoTable(doc, {
+        startY: doc.lastAutoTable.finalY + 2
+      })
     })
   } else {
     addtable(selecteds)
+    if (somar.length > 0) addSumFooter(selecteds)
+    autoTable(doc, {
+      startY: doc.lastAutoTable.finalY + 2
+    })
   }
 
   // HEADER
@@ -146,16 +194,11 @@ export const PDFNivel1 = (selecteds, fields, options, agrupamento = []) => {
     var today = new Date()
     doc.text(493, 92, today.toLocaleString())
 
-    const filteredHeader = fields
-
-    if (hideGroupField) {
-      agrupamento.forEach((grupo) => {
-        if (filteredHeader.includes(grupo)) {
-          const index = filteredHeader.indexOf(grupo)
-          filteredHeader.splice(index, 1)
-        }
-      })
-    }
+    const filteredHeader = getFilteredHeader(
+      fields,
+      agrupamento,
+      hideGroupField
+    )
 
     // TABELA
     autoTable(doc, {
