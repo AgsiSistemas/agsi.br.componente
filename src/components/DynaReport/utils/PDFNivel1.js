@@ -6,7 +6,9 @@ import {
   isArrayInArray,
   getGroupHeader,
   addSum,
-  getFilteredHeader
+  getFilteredHeader,
+  pageUpd,
+  retratoWidth
 } from './Methods'
 
 export const PDFNivel1 = (
@@ -30,7 +32,7 @@ export const PDFNivel1 = (
       hideGroupField
     )
 
-    filteredHeader.forEach((element, index) => {
+    filteredHeader.forEach((element) => {
       if (somar.includes(element)) {
         const sumWithInitial = dataSection.reduce(
           (acc, data) => acc + Number(data[element]),
@@ -39,25 +41,11 @@ export const PDFNivel1 = (
         somaContent.push(
           somaContent.length === 0 ? `Σ ${sumWithInitial}` : sumWithInitial
         )
-        // } else if (index > 0) {
       } else {
         somaContent.push(somaContent.length === 0 ? `Σ` : null)
       }
     })
     addSum(doc.lastAutoTable.finalY, null, somaContent, doc, autoTable)
-  }
-
-  // ATUALIZA PAGINA E RETORNA Y
-  const pageUpd = (Y) => {
-    if (page < doc.internal.getCurrentPageInfo().pageNumber) {
-      page++
-      return startPageY
-    } else if (Y > 780) {
-      page++
-      doc.addPage()
-      return startPageY
-    }
-    return Y
   }
 
   // ADICIONA REGISTRO EM PRIMEIRO NIVEL
@@ -74,11 +62,10 @@ export const PDFNivel1 = (
   // ADICIONA REGISTRO
   const addtable = (data) => {
     const cellWidth =
-      515.3 / (fields.length - (hideGroupField ? agrupamento.length : 0))
+      retratoWidth / (fields.length - (hideGroupField ? agrupamento.length : 0))
 
     // PARA CADA REGISTRO
     data.forEach((el, index) => {
-      let Y = doc.lastAutoTable.finalY
       const tempContent = []
       for (const [key, value] of Object.entries(el)) {
         tempContent.push({
@@ -90,7 +77,7 @@ export const PDFNivel1 = (
         })
       }
 
-      Y = pageUpd(Y)
+      const Y = pageUpd(doc.lastAutoTable.finalY, doc, page)
 
       addPrimeiroNivel(Y, null, [tempContent])
     })
@@ -140,7 +127,7 @@ export const PDFNivel1 = (
         }
       })
 
-      Y = pageUpd(Y)
+      Y = pageUpd(Y, doc, page, 750)
 
       autoTable(doc, {
         body: [[getGroupHeader(agrupamento, section)]],

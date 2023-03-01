@@ -1,4 +1,5 @@
 export const startPageY = 130
+export const retratoWidth = 515.3
 
 export const mainHeaderStyle = {
   fillColor: [41, 89, 129],
@@ -7,7 +8,7 @@ export const mainHeaderStyle = {
 }
 
 export const getColumnStyles = (qtdColumns) => {
-  const tempWidth = 515.3 / qtdColumns
+  const tempWidth = retratoWidth / qtdColumns
   const tempObj = {}
 
   for (let index = 0; index < qtdColumns; index++) {
@@ -20,7 +21,7 @@ export const getColumnStyles = (qtdColumns) => {
 }
 
 export const getGroupsStyles = (qtdColumns, bold) => {
-  const tempWidth = 515.3 / qtdColumns
+  const tempWidth = retratoWidth / qtdColumns
   const tempObj = {}
 
   for (let index = 0; index < qtdColumns; index++) {
@@ -33,7 +34,7 @@ export const getGroupsStyles = (qtdColumns, bold) => {
 }
 
 export const getHeaderStyles = (qtdColumns) => {
-  const tempWidth = 515.3 / qtdColumns
+  const tempWidth = retratoWidth / qtdColumns
   const tempObj = {}
 
   for (let index = 0; index < qtdColumns; index++) {
@@ -65,7 +66,7 @@ export const getGroupHeader = (agrupamento, grupos) => {
 }
 
 export const addSum = (Y, header, content, doc, autoTable) => {
-  const tempWidth = 515.3 / content.length
+  const tempWidth = retratoWidth / content.length
   const tempObj = {}
 
   for (let index = 0; index < content.length; index++) {
@@ -102,4 +103,16 @@ export const getFilteredHeader = (fields, agrupamento, hideGroupField) => {
     })
   }
   return temp
+}
+
+export const pageUpd = (Y, doc, page, max = 780) => {
+  if (page < doc.internal.getCurrentPageInfo().pageNumber) {
+    page++
+  }
+  if (Y > max) {
+    doc.addPage()
+    return startPageY
+  } else {
+    return Y
+  }
 }

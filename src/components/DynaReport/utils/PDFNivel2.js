@@ -3,12 +3,13 @@ import autoTable from 'jspdf-autotable'
 import {
   startPageY,
   getColumnStyles,
-  getGroupsStyles,
   isArrayInArray,
   getGroupHeader,
   addSum,
   getFilteredHeader,
-  getHeaderStyles
+  getHeaderStyles,
+  pageUpd,
+  retratoWidth
 } from './Methods'
 
 export const PDFNivel2 = (
@@ -32,7 +33,7 @@ export const PDFNivel2 = (
       filteredHeader = getFilteredHeader(filteredHeader, grupo, hideGroupField)
     })
 
-    filteredHeader.forEach((element, index) => {
+    filteredHeader.forEach((element) => {
       if (somar.includes(element)) {
         const sumWithInitial = dataSection.reduce(
           (acc, data) => acc + Number(data[element]),
@@ -49,19 +50,6 @@ export const PDFNivel2 = (
     addSum(doc.lastAutoTable.finalY, null, somaContent, doc, autoTable)
   }
 
-  // ATUALIZA PAGINA E RETORNA Y
-  const pageUpd = (Y, max = 780) => {
-    if (page < doc.internal.getCurrentPageInfo().pageNumber) {
-      page++
-      return startPageY
-    } else if (Y > max) {
-      page++
-      doc.addPage()
-      return startPageY
-    }
-    return Y
-  }
-
   // ADICIONA REGISTRO EM PRIMEIRO NIVEL
   const addPrimeiroNivel = (Y, header, content) => {
     autoTable(doc, {
@@ -76,13 +64,12 @@ export const PDFNivel2 = (
   // ADICIONA REGISTRO
   const addtable = (data) => {
     const cellWidth =
-      515.3 /
+      retratoWidth /
       (fields.length -
         (hideGroupField ? agrupamento[0].length + agrupamento[1].length : 0))
 
     // PARA CADA REGISTRO
     data.forEach((el) => {
-      let Y = doc.lastAutoTable.finalY
       const tempContent = []
       const newHeader = []
 
@@ -94,7 +81,7 @@ export const PDFNivel2 = (
         newHeader.push(key)
       }
 
-      Y = pageUpd(Y)
+      const Y = pageUpd(doc.lastAutoTable.finalY, doc, page)
 
       addPrimeiroNivel(Y, null, [tempContent])
     })
@@ -144,7 +131,7 @@ export const PDFNivel2 = (
       }
     })
 
-    Y = pageUpd(Y, 750)
+    Y = pageUpd(Y, doc, page, 750)
     autoTable(doc, {
       body: [[getGroupHeader(agrupamentoNivel1, section1)]],
       startY: Y,
@@ -174,15 +161,18 @@ export const PDFNivel2 = (
     groupSections2.forEach((section2) => {
       const tempDataSection2 = []
 
+      Y = pageUpd(doc.lastAutoTable.finalY, doc, page, 750)
       autoTable(doc, {
         body: [agrupamentoNivel2],
-        startY: doc.lastAutoTable.finalY,
+        startY: Y,
         pageBreak: 'avoid',
         columnStyles: getHeaderStyles(section2.length)
       })
+
+      Y = pageUpd(doc.lastAutoTable.finalY, doc, page, 750)
       autoTable(doc, {
         body: [section2],
-        startY: doc.lastAutoTable.finalY,
+        startY: Y,
         pageBreak: 'avoid',
         columnStyles: getHeaderStyles(section2.length)
       })
