@@ -159,6 +159,13 @@ const Header = ({ title, linkTitle, listApp = [], loadingListApp, notification, 
     </Menu>
   );
 
+  const handleRedirectLinkNameMenu = (link) => {
+    if (!link) return
+
+    navigate(link)
+    window.location.reload()
+  }
+
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
@@ -223,7 +230,7 @@ const Header = ({ title, linkTitle, listApp = [], loadingListApp, notification, 
               noWrap
               component="div"
               sx={{ display: { xs: 'none', sm: 'block' }, cursor: 'pointer' }}
-              onClick={() => linkTitle && navigate(linkTitle)}
+              onClick={() => linkTitle && handleRedirectLinkNameMenu(linkTitle)}
             >
               {title}
             </Typography>

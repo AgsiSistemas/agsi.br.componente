@@ -1369,6 +1369,11 @@ var Header = function Header(_ref) {
   }, /*#__PURE__*/createElement(ListItemIcon, null, /*#__PURE__*/createElement(ExitToAppIcon, {
     fontSize: "small"
   })), "Sair")));
+  var handleRedirectLinkNameMenu = function handleRedirectLinkNameMenu(link) {
+    if (!link) return;
+    navigate(link);
+    window.location.reload();
+  };
   var mobileMenuId = 'primary-search-account-menu-mobile';
   var renderMobileMenu = /*#__PURE__*/createElement(Menu, {
     onClose: handleMobileMenuClose,
@@ -1423,7 +1428,7 @@ var Header = function Header(_ref) {
       cursor: 'pointer'
     },
     onClick: function onClick() {
-      return linkTitle && navigate(linkTitle);
+      return linkTitle && handleRedirectLinkNameMenu(linkTitle);
     }
   }, title)), /*#__PURE__*/createElement(Box, {
     sx: {
