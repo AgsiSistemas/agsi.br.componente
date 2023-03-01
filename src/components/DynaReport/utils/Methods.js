@@ -116,3 +116,64 @@ export const pageUpd = (Y, doc, page, max = 780) => {
     return Y
   }
 }
+
+export const addheader = (
+  doc,
+  autoTable,
+  fields,
+  agrupamento,
+  title,
+  hideGroupField,
+  addHeader = true
+) => {
+  var pageCount = doc.internal.getNumberOfPages()
+  for (let i = 0; i < pageCount; i++) {
+    const fullWidth = doc.internal.pageSize.getWidth()
+
+    doc.setLineWidth(1)
+    doc.setPage(i)
+    doc.line(20, 30, 580, 30)
+    doc.setFontSize(9)
+    doc.text(
+      fullWidth - 18,
+      39,
+      'Página ' +
+        doc.internal.getCurrentPageInfo().pageNumber +
+        '/' +
+        pageCount,
+      { align: 'right' }
+    )
+    doc.setFontSize(18)
+    doc.text(fullWidth / 2, 45, title, { align: 'center' })
+    doc.setFontSize(12)
+    doc.text(fullWidth / 2, 63, 'Ativos até 29/12/2022', { align: 'center' })
+    doc.text(fullWidth / 2, 78, 'Data de inclusão: 01/01/2022 a 29/12/2022', {
+      align: 'center'
+    })
+
+    doc.line(20, 95, 580, 95)
+    doc.setFontSize(9)
+    var today = new Date()
+    doc.text(fullWidth - 18, 92, today.toLocaleString(), { align: 'right' })
+
+    const filteredHeader = getFilteredHeader(
+      fields,
+      agrupamento,
+      hideGroupField
+    )
+
+    // TABELA
+    if (addHeader) {
+      doc.setDrawColor(0)
+      doc.setFillColor(49, 88, 130)
+      doc.rect(40, 96, 515.3, 33, 'F')
+
+      autoTable(doc, {
+        startY: 96,
+        pageBreak: 'avoid',
+        body: [filteredHeader],
+        columnStyles: getColumnStyles(filteredHeader.length)
+      })
+    }
+  }
+}

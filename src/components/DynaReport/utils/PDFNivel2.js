@@ -2,14 +2,14 @@ import { jsPDF } from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import {
   startPageY,
-  getColumnStyles,
   isArrayInArray,
   getGroupHeader,
   addSum,
   getFilteredHeader,
   getHeaderStyles,
   pageUpd,
-  retratoWidth
+  retratoWidth,
+  addheader
 } from './Methods'
 
 export const PDFNivel2 = (
@@ -17,7 +17,8 @@ export const PDFNivel2 = (
   fields,
   options,
   agrupamento = [],
-  somar = []
+  somar = [],
+  title
 ) => {
   // DEFINICOES DE VARIAVEIS
   const doc = new jsPDF('p', 'pt', 'a4')
@@ -207,55 +208,7 @@ export const PDFNivel2 = (
   })
 
   // HEADER
-  var pageCount = doc.internal.getNumberOfPages()
-  for (let i = 0; i < pageCount; i++) {
-    doc.setLineWidth(1)
-    doc.setPage(i)
-    doc.line(20, 30, 580, 30)
-    doc.setFontSize(9)
-    doc.text(
-      534,
-      39,
-      'Página ' + doc.internal.getCurrentPageInfo().pageNumber + '/' + pageCount
-    )
-    doc.setFontSize(18)
-    doc.text(212, 45, 'Relatório dinâmico')
-
-    doc.setFontSize(12)
-    doc.text(230, 63, 'Ativos até 29/12/2022')
-    doc.text(184, 78, 'Data de inclusão: 01/01/2022 a 29/12/2022')
-
-    doc.line(20, 95, 580, 95)
-
-    doc.setFontSize(9)
-    var today = new Date()
-    doc.text(493, 92, today.toLocaleString())
-
-    const filteredHeader = fields
-
-    if (hideGroupField) {
-      agrupamento[0].forEach((grupo) => {
-        if (filteredHeader.includes(grupo)) {
-          const index = filteredHeader.indexOf(grupo)
-          filteredHeader.splice(index, 1)
-        }
-      })
-      agrupamento[1].forEach((grupo) => {
-        if (filteredHeader.includes(grupo)) {
-          const index = filteredHeader.indexOf(grupo)
-          filteredHeader.splice(index, 1)
-        }
-      })
-    }
-
-    // TABELA
-    autoTable(doc, {
-      startY: 96,
-      pageBreak: 'avoid',
-      body: [filteredHeader],
-      columnStyles: getColumnStyles(filteredHeader.length)
-    })
-  }
+  addheader(doc, autoTable, fields, agrupamento.flat(), title, hideGroupField)
 
   doc.save('Test.pdf')
 }

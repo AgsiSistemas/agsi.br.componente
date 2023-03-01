@@ -15,7 +15,7 @@ import ErrorIcon from '@mui/icons-material/Error'
 
 const reportOptions = ['Data/Hora', 'Paginação', 'Mostrar campo de agrupamento']
 
-export const Principal = ({ api, filter }) => {
+export const Principal = ({ api, filter, title }) => {
   const [data, setData] = useState(null)
   const [loading, setLoading] = React.useState(false)
   const [error, setError] = React.useState(false)
@@ -37,6 +37,7 @@ export const Principal = ({ api, filter }) => {
     setLoading(true)
     const res = await api.get(filter)
     setData(res.data.data)
+    dispatch({ value: title, type: 'title' })
     dispatch({ value: res.data.data.columns, type: 'fields' })
     dispatch({ value: res.data.data.columns, type: 'checkedFields' })
     dispatch({

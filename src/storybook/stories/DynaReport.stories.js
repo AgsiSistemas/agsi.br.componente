@@ -60,7 +60,7 @@ export const TesteDynaReport = () => {
   return (
     <DynaReport
       api={instance}
-      title='Teste'
+      title='Relatório pelo storybook'
       filter='sab/reports/statistics/internal-customer-service?solutionDateInitial=2023-01-01&solutionDateFinal=2023-01-09'
     />
   )

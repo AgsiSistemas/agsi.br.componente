@@ -40,7 +40,15 @@ function ButtonsList({ listOptions }) {
   const handleCloseSomar = () => setOpenSomar(false)
 
   const {
-    state: { selecteds, fields, checkedFields, options, agrupamento, somar }
+    state: {
+      selecteds,
+      fields,
+      checkedFields,
+      options,
+      agrupamento,
+      somar,
+      title
+    }
   } = useSelectedRegisters()
 
   const generatePDFNivel1 = async () => {
@@ -62,7 +70,8 @@ function ButtonsList({ listOptions }) {
         [...checkedFields],
         options,
         agrupamento,
-        somar
+        somar,
+        title
       )
     } else {
       await PDFNivel1(
@@ -70,7 +79,8 @@ function ButtonsList({ listOptions }) {
         [...checkedFields],
         options,
         agrupamento[0],
-        somar
+        somar,
+        title
       )
     }
   }
@@ -88,7 +98,7 @@ function ButtonsList({ listOptions }) {
 
       filteredArr.push(newObj)
     })
-    await PDFBasico(filteredArr, checkedFields, options)
+    await PDFBasico(filteredArr, checkedFields, title)
   }
 
   return (

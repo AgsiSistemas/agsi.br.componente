@@ -20,6 +20,8 @@ function contextReducer(state, action) {
     return { ...state, summableFields: action.value }
   } else if (action.type === 'savedTree') {
     return { ...state, savedTree: action.value }
+  } else if (action.type === 'title') {
+    return { ...state, title: action.value }
   }
 }
 
@@ -40,7 +42,8 @@ function DynaProvider({ children }) {
     ],
     options: [],
     somar: [],
-    summableFields: []
+    summableFields: [],
+    title: ''
   })
   const value = { state, dispatch }
 
