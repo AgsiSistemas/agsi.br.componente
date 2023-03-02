@@ -88,15 +88,13 @@ var reactDnd = require('react-dnd');
 var reactDndTreeview = require('@minoru/react-dnd-treeview');
 var FolderIcon = _interopDefault(require('@mui/icons-material/Folder'));
 var ArrowRightIcon = _interopDefault(require('@mui/icons-material/ArrowRight'));
-var Radio = _interopDefault(require('@mui/material/Radio'));
-var RadioGroup = _interopDefault(require('@mui/material/RadioGroup'));
-var FormControl = _interopDefault(require('@mui/material/FormControl'));
 var Modal = _interopDefault(require('@mui/material/Modal'));
 require('primeicons/primeicons.css');
 require('primereact/resources/themes/lara-light-indigo/theme.css');
 require('primereact/resources/primereact.css');
 require('primeflex/primeflex.css');
 var Paper = _interopDefault(require('@mui/material/Paper'));
+var ErrorIcon = _interopDefault(require('@mui/icons-material/Error'));
 
 function _extends() {
   _extends = Object.assign ? Object.assign.bind() : function (target) {
@@ -3219,6 +3217,18 @@ function contextReducer(state, action) {
     return _extends({}, state, {
       somar: action.value
     });
+  } else if (action.type === 'summableFields') {
+    return _extends({}, state, {
+      summableFields: action.value
+    });
+  } else if (action.type === 'savedTree') {
+    return _extends({}, state, {
+      savedTree: action.value
+    });
+  } else if (action.type === 'title') {
+    return _extends({}, state, {
+      title: action.value
+    });
   }
 }
 function DynaProvider(_ref) {
@@ -3229,8 +3239,16 @@ function DynaProvider(_ref) {
       fields: [],
       checkedFields: [],
       agrupamento: [],
+      savedTree: [{
+        id: 1,
+        parent: 0,
+        droppable: true,
+        text: 'Grupo 01'
+      }],
       options: [],
-      somar: ''
+      somar: [],
+      summableFields: [],
+      title: ''
     }),
     state = _React$useReducer[0],
     dispatch = _React$useReducer[1];
@@ -3315,13 +3333,14 @@ function FieldsChecklist() {
 }
 
 var startPageY = 130;
+var retratoWidth = 515.3;
 var mainHeaderStyle = {
   fillColor: [41, 89, 129],
   textColor: [255, 255, 255],
   fontStyle: 'bold'
 };
 var getColumnStyles = function getColumnStyles(qtdColumns) {
-  var tempWidth = 515.3 / qtdColumns;
+  var tempWidth = retratoWidth / qtdColumns;
   var tempObj = {};
   for (var index = 0; index < qtdColumns; index++) {
     tempObj[index] = _extends({
@@ -3330,18 +3349,159 @@ var getColumnStyles = function getColumnStyles(qtdColumns) {
   }
   return tempObj;
 };
-var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) {
+var getHeaderStyles = function getHeaderStyles(qtdColumns) {
+  var tempWidth = retratoWidth / qtdColumns;
+  var tempObj = {};
+  for (var index = 0; index < qtdColumns; index++) {
+    tempObj[index] = {
+      cellWidth: tempWidth,
+      fontStyle: 'bold',
+      fillColor: [236, 245, 250]
+    };
+  }
+  return tempObj;
+};
+var isArrayInArray = function isArrayInArray(arr, item) {
+  var asString = JSON.stringify(item);
+  var contains = arr.some(function (ele) {
+    return JSON.stringify(ele) === asString;
+  });
+  return contains;
+};
+var getGroupHeader = function getGroupHeader(agrupamento, grupos) {
+  var text = '';
+  agrupamento.forEach(function (element, i) {
+    text = text + (" " + element + ": " + grupos[i]);
+    if (i < agrupamento.length - 1) text = text + ',';
+  });
+  return text;
+};
+var addSum = function addSum(Y, header, content, doc, autoTable) {
+  var tempWidth = retratoWidth / content.length;
+  var tempObj = {};
+  for (var index = 0; index < content.length; index++) {
+    tempObj[index] = {
+      cellWidth: tempWidth,
+      textColor: [0, 0, 0],
+      fillColor: [180, 180, 180],
+      lineColor: [0, 0, 0],
+      lineWidth: typeof content[index] === 'number' && index > 0 || index === 0 && content[index].length > 1 ? {
+        top: 0.5,
+        right: 0,
+        bottom: 0,
+        left: 0
+      } : 0
+    };
+  }
+  autoTable(doc, {
+    body: [content],
+    head: header,
+    startY: Y,
+    pageBreak: 'avoid',
+    columnStyles: tempObj
+  });
+};
+var getFilteredHeader = function getFilteredHeader(fields, agrupamento, hideGroupField) {
+  var temp = fields.slice();
+  if (hideGroupField) {
+    agrupamento.forEach(function (grupo) {
+      if (temp.includes(grupo)) {
+        var index = temp.indexOf(grupo);
+        temp.splice(index, 1);
+      }
+    });
+  }
+  return temp;
+};
+var pageUpd = function pageUpd(Y, doc, page, max) {
+  if (max === void 0) {
+    max = 780;
+  }
+  if (page < doc.internal.getCurrentPageInfo().pageNumber) {
+    page++;
+  }
+  if (Y > max) {
+    doc.addPage();
+    return startPageY;
+  } else {
+    return Y;
+  }
+};
+var addheader = function addheader(doc, autoTable, fields, agrupamento, title, hideGroupField, addHeader) {
+  if (addHeader === void 0) {
+    addHeader = true;
+  }
+  var pageCount = doc.internal.getNumberOfPages();
+  for (var i = 0; i < pageCount; i++) {
+    var fullWidth = doc.internal.pageSize.getWidth();
+    doc.setLineWidth(1);
+    doc.setPage(i);
+    doc.line(20, 30, 580, 30);
+    doc.setFontSize(9);
+    doc.text(fullWidth - 18, 39, 'Página ' + doc.internal.getCurrentPageInfo().pageNumber + '/' + pageCount, {
+      align: 'right'
+    });
+    doc.setFontSize(18);
+    doc.text(fullWidth / 2, 45, title, {
+      align: 'center'
+    });
+    doc.setFontSize(12);
+    doc.text(fullWidth / 2, 63, 'Ativos até 29/12/2022', {
+      align: 'center'
+    });
+    doc.text(fullWidth / 2, 78, 'Data de inclusão: 01/01/2022 a 29/12/2022', {
+      align: 'center'
+    });
+    doc.line(20, 95, 580, 95);
+    doc.setFontSize(9);
+    var today = new Date();
+    doc.text(fullWidth - 18, 92, today.toLocaleString(), {
+      align: 'right'
+    });
+    var filteredHeader = getFilteredHeader(fields, agrupamento, hideGroupField);
+    if (addHeader) {
+      doc.setDrawColor(0);
+      doc.setFillColor(49, 88, 130);
+      doc.rect(40, 96, 515.3, 33, 'F');
+      autoTable(doc, {
+        startY: 96,
+        pageBreak: 'avoid',
+        body: [filteredHeader],
+        columnStyles: getColumnStyles(filteredHeader.length)
+      });
+    }
+  }
+};
+
+var PDFNivel1 = function PDFNivel1(selecteds, fields, options, agrupamento, somar, title) {
   if (agrupamento === void 0) {
     agrupamento = [];
   }
-  var hasDependentes = fields.includes('dependentes');
-  var hasGroup = options.includes('agrupar');
+  if (somar === void 0) {
+    somar = [];
+  }
   var doc = new jspdf.jsPDF('p', 'pt', 'a4');
   var page = 1;
+  var hideGroupField = !options.includes('Mostrar campo de agrupamento');
+  var addSumFooter = function addSumFooter(dataSection) {
+    var somaContent = [];
+    var filteredHeader = getFilteredHeader(fields, agrupamento, hideGroupField);
+    filteredHeader.forEach(function (element) {
+      if (somar.includes(element)) {
+        var sumWithInitial = dataSection.reduce(function (acc, data) {
+          return acc + Number(data[element]);
+        }, 0);
+        somaContent.push(somaContent.length === 0 ? "\u03A3 " + sumWithInitial : sumWithInitial);
+      } else {
+        somaContent.push(somaContent.length === 0 ? "\u03A3" : null);
+      }
+    });
+    addSum(doc.lastAutoTable.finalY, null, somaContent, doc, autoTable);
+  };
   var addPrimeiroNivel = function addPrimeiroNivel(Y, header, content) {
     autoTable(doc, {
-      startY: Y > startPageY ? Y + 5 : Y,
-      head: header && agrupamento.length > 0 ? [header] : [],
+      startY: Y > startPageY ? Y : startPageY,
+      head: header ? [header] : [],
       pageBreak: 'avoid',
       margin: {
         top: startPageY
@@ -3349,117 +3509,273 @@ var generatePDF = function generatePDF(selecteds, fields, options, agrupamento) 
       body: content
     });
   };
-  var addSegundoNivel = function addSegundoNivel(Y, header, content) {
-    autoTable(doc, {
-      startY: Y > startPageY ? Y + 5 : Y,
-      head: header ? [header] : [],
-      pageBreak: 'avoid',
-      body: content
-    });
-  };
-  var addTableFooter = function addTableFooter(Y, header, content) {
-    autoTable(doc, {
-      body: content,
-      head: header,
-      startY: Y,
-      pageBreak: 'avoid',
-      styles: {
-        fillColor: [255, 0, 0],
-        halign: 'right'
-      }
-    });
-  };
   var addtable = function addtable(data) {
-    var cellWidth = 515.3 / fields.length;
-    data === null || data === void 0 ? void 0 : data.forEach(function (el) {
-      var Y = doc.lastAutoTable.finalY;
+    var cellWidth = retratoWidth / (fields.length - (hideGroupField ? agrupamento.length : 0));
+    data.forEach(function (el, index) {
       var tempContent = [];
-      var newHeader = [];
       for (var _i = 0, _Object$entries = Object.entries(el); _i < _Object$entries.length; _i++) {
         var _Object$entries$_i = _Object$entries[_i],
-          key = _Object$entries$_i[0],
           value = _Object$entries$_i[1];
-        if (key !== 'dependentes' && key !== 'hasDependentes') {
-          tempContent.push({
-            content: value,
-            styles: {
-              fillColor: [255, 255, 255],
-              cellWidth: cellWidth
-            }
-          });
-          newHeader.push(key);
-        }
+        tempContent.push({
+          content: value,
+          styles: {
+            fillColor: index % 2 === 0 ? [252, 252, 252] : [245, 245, 245],
+            cellWidth: cellWidth
+          }
+        });
       }
-      if (page < doc.internal.getCurrentPageInfo().pageNumber) {
-        page++;
-        Y = startPageY;
-      }
-      addPrimeiroNivel(Y, newHeader, [tempContent]);
-      if (hasDependentes) {
-        addSegundoNivel(doc.lastAutoTable.finalY, null, Object.values(el.dependentes));
-        if (options.includes('totalizar')) {
-          var _el$dependentes;
-          var total = 0;
-          (_el$dependentes = el.dependentes) === null || _el$dependentes === void 0 ? void 0 : _el$dependentes.forEach(function (element) {
-            total = total + element[2];
-          });
-          addTableFooter(doc.lastAutoTable.finalY, null, [[{
-            content: "Total: " + total.toFixed(2),
-            styles: {
-              halign: 'right',
-              fillColor: [200, 200, 200]
-            }
-          }]]);
-        }
-      }
+      var Y = pageUpd(doc.lastAutoTable.finalY, doc, page);
+      addPrimeiroNivel(Y, null, [tempContent]);
     });
   };
   autoTable(doc, {
     startY: startPageY
   });
-  if (hasGroup) {
+  if (agrupamento.length > 0) {
     var groupSections = [];
-    selecteds.forEach(function (element) {
-      if (!groupSections.includes(element.cidade)) groupSections.push(element.cidade);
+    var selectedsClone = [].concat(selecteds);
+    selectedsClone.forEach(function (element) {
+      var tempGrupo = [];
+      agrupamento.forEach(function (grupo) {
+        tempGrupo.push(element[grupo]);
+      });
+      if (!isArrayInArray(groupSections, tempGrupo)) {
+        groupSections.push(tempGrupo);
+      }
     });
-    groupSections.forEach(function (group) {
+    groupSections.forEach(function (section) {
+      var Y = doc.lastAutoTable.finalY;
+      var tempDataSection = [];
+      selectedsClone.forEach(function (register) {
+        var addToGroup = true;
+        section.forEach(function (element, index) {
+          if (register[agrupamento[index]] !== element) {
+            addToGroup = false;
+          }
+        });
+        if (addToGroup) {
+          if (hideGroupField) {
+            agrupamento.forEach(function (grupo) {
+              delete register[grupo];
+            });
+          }
+          tempDataSection.push(register);
+        }
+      });
+      Y = pageUpd(Y, doc, page, 750);
       autoTable(doc, {
-        body: [['Grupo: ' + group]],
-        startY: doc.lastAutoTable.finalY,
-        pageBreak: 'avoid'
+        body: [[getGroupHeader(agrupamento, section)]],
+        startY: Y,
+        pageBreak: 'avoid',
+        columnStyles: {
+          0: {
+            fillColor: [205, 214, 236],
+            textColor: [0, 0, 0],
+            fontStyle: 'bold'
+          }
+        }
       });
-      var dataGroup = [];
-      selecteds.forEach(function (element) {
-        if (element.cidade === group) dataGroup.push(element);
+      addtable(tempDataSection);
+      if (somar.length > 0) addSumFooter(tempDataSection);
+      autoTable(doc, {
+        startY: doc.lastAutoTable.finalY + 2
       });
-      addtable(dataGroup);
     });
   } else {
     addtable(selecteds);
-  }
-  var pageCount = doc.internal.getNumberOfPages();
-  for (var i = 0; i < pageCount; i++) {
-    doc.setLineWidth(1);
-    doc.setPage(i);
-    doc.line(20, 30, 580, 30);
-    doc.setFontSize(9);
-    doc.text(534, 39, 'Página ' + doc.internal.getCurrentPageInfo().pageNumber + '/' + pageCount);
-    doc.setFontSize(18);
-    doc.text(212, 45, 'Relatório dinâmico');
-    doc.setFontSize(12);
-    doc.text(230, 63, 'Ativos até 29/12/2022');
-    doc.text(184, 78, 'Data de inclusão: 01/01/2022 a 29/12/2022');
-    doc.line(20, 95, 580, 95);
-    doc.setFontSize(9);
-    var today = new Date();
-    doc.text(493, 92, today.toLocaleString());
+    if (somar.length > 0) addSumFooter(selecteds);
     autoTable(doc, {
-      startY: 96,
-      pageBreak: 'avoid',
-      body: [fields],
-      columnStyles: getColumnStyles(fields.length)
+      startY: doc.lastAutoTable.finalY + 2
     });
   }
+  addheader(doc, autoTable, fields, agrupamento, title, hideGroupField);
+  doc.save('Test.pdf');
+};
+
+var PDFNivel2 = function PDFNivel2(selecteds, fields, options, agrupamento, somar, title) {
+  if (agrupamento === void 0) {
+    agrupamento = [];
+  }
+  if (somar === void 0) {
+    somar = [];
+  }
+  var doc = new jspdf.jsPDF('p', 'pt', 'a4');
+  var page = 1;
+  var hideGroupField = !options.includes('Mostrar campo de agrupamento');
+  var addSumFooter = function addSumFooter(dataSection) {
+    var somaContent = [];
+    var filteredHeader = fields.slice();
+    agrupamento.forEach(function (grupo) {
+      filteredHeader = getFilteredHeader(filteredHeader, grupo, hideGroupField);
+    });
+    filteredHeader.forEach(function (element) {
+      if (somar.includes(element)) {
+        var sumWithInitial = dataSection.reduce(function (acc, data) {
+          return acc + Number(data[element]);
+        }, 0);
+        somaContent.push(somaContent.length === 0 ? "\u03A3 " + sumWithInitial : sumWithInitial);
+      } else {
+        somaContent.push(somaContent.length === 0 ? "\u03A3" : null);
+      }
+    });
+    addSum(doc.lastAutoTable.finalY, null, somaContent, doc, autoTable);
+  };
+  var addPrimeiroNivel = function addPrimeiroNivel(Y, header, content) {
+    autoTable(doc, {
+      startY: Y > startPageY ? Y : startPageY,
+      head: header ? [header] : [],
+      pageBreak: 'avoid',
+      margin: {
+        top: startPageY
+      },
+      body: content
+    });
+  };
+  var addtable = function addtable(data) {
+    var cellWidth = retratoWidth / (fields.length - (hideGroupField ? agrupamento[0].length + agrupamento[1].length : 0));
+    data.forEach(function (el) {
+      var tempContent = [];
+      for (var _i = 0, _Object$entries = Object.entries(el); _i < _Object$entries.length; _i++) {
+        var _Object$entries$_i = _Object$entries[_i],
+          value = _Object$entries$_i[1];
+        tempContent.push({
+          content: value,
+          styles: {
+            fillColor: [255, 255, 255],
+            cellWidth: cellWidth
+          }
+        });
+      }
+      var Y = pageUpd(doc.lastAutoTable.finalY, doc, page);
+      addPrimeiroNivel(Y, null, [tempContent]);
+    });
+  };
+  autoTable(doc, {
+    startY: startPageY
+  });
+  var groupSections1 = [];
+  var selectedsClone = [].concat(selecteds);
+  var agrupamentoNivel1 = agrupamento[0];
+  var agrupamentoNivel2 = agrupamento[1];
+  selectedsClone.forEach(function (element) {
+    var tempGrupo = [];
+    agrupamentoNivel1.forEach(function (grupo) {
+      tempGrupo.push(element[grupo]);
+    });
+    if (!isArrayInArray(groupSections1, tempGrupo)) {
+      groupSections1.push(tempGrupo);
+    }
+  });
+  groupSections1.forEach(function (section1) {
+    var Y = doc.lastAutoTable.finalY;
+    var tempDataSection1 = [];
+    selectedsClone.forEach(function (register) {
+      var addToGroup = true;
+      section1.forEach(function (element, index) {
+        if (register[agrupamentoNivel1[index]] !== element) {
+          addToGroup = false;
+        }
+      });
+      if (addToGroup) {
+        if (hideGroupField) {
+          agrupamentoNivel1.forEach(function (grupo) {
+            delete register[grupo];
+          });
+        }
+        tempDataSection1.push(register);
+      }
+    });
+    Y = pageUpd(Y, doc, page, 750);
+    autoTable(doc, {
+      body: [[getGroupHeader(agrupamentoNivel1, section1)]],
+      startY: Y,
+      pageBreak: 'avoid',
+      columnStyles: {
+        0: {
+          fillColor: [205, 214, 236],
+          textColor: [0, 0, 0],
+          fontStyle: 'bold'
+        }
+      }
+    });
+    var groupSections2 = [];
+    tempDataSection1.forEach(function (element) {
+      var tempGrupo = [];
+      agrupamentoNivel2.forEach(function (grupo) {
+        tempGrupo.push(element[grupo]);
+      });
+      if (!isArrayInArray(groupSections2, tempGrupo)) {
+        groupSections2.push(tempGrupo);
+      }
+    });
+    groupSections2.forEach(function (section2) {
+      var tempDataSection2 = [];
+      Y = pageUpd(doc.lastAutoTable.finalY, doc, page, 750);
+      autoTable(doc, {
+        body: [agrupamentoNivel2],
+        startY: Y,
+        pageBreak: 'avoid',
+        columnStyles: getHeaderStyles(section2.length)
+      });
+      Y = pageUpd(doc.lastAutoTable.finalY, doc, page, 750);
+      autoTable(doc, {
+        body: [section2],
+        startY: Y,
+        pageBreak: 'avoid',
+        columnStyles: getHeaderStyles(section2.length)
+      });
+      tempDataSection1.forEach(function (register) {
+        var addToGroup = true;
+        section2.forEach(function (element, index) {
+          if (register[agrupamentoNivel2[index]] !== element) {
+            addToGroup = false;
+          }
+        });
+        if (addToGroup) {
+          if (hideGroupField) {
+            agrupamentoNivel2.forEach(function (grupo) {
+              delete register[grupo];
+            });
+          }
+          tempDataSection2.push(register);
+        }
+      });
+      addtable(tempDataSection2);
+      if (somar.length > 0) addSumFooter(tempDataSection2);
+      autoTable(doc, {
+        startY: doc.lastAutoTable.finalY + 2
+      });
+    });
+    autoTable(doc, {
+      startY: doc.lastAutoTable.finalY + 2
+    });
+  });
+  addheader(doc, autoTable, fields, agrupamento.flat(), title, hideGroupField);
+  doc.save('Test.pdf');
+};
+
+var PDFBasico = function PDFBasico(selecteds, fields, title) {
+  var doc = new jspdf.jsPDF('p', 'pt', 'a4');
+  var addtable = function addtable(data) {
+    var newBody = data.map(function (el) {
+      return Object.values(el);
+    });
+    autoTable(doc, {
+      startY: doc.lastAutoTable.finalY,
+      body: newBody,
+      head: [fields],
+      headStyles: {
+        fillColor: [41, 89, 129],
+        textColor: [255, 255, 255],
+        fontStyle: 'bold'
+      },
+      margin: {
+        top: startPageY - 34
+      }
+    });
+  };
+  addtable(selecteds);
+  addheader(doc, autoTable, fields, [], title, false, false);
   doc.save('Test.pdf');
 };
 
@@ -3610,31 +3926,30 @@ var formatExternalNodes = function formatExternalNodes(nodes, group) {
   });
   return newExternalNodes;
 };
-var defaultGroup = [{
-  id: 1,
-  parent: 0,
-  droppable: true,
-  text: 'Grupo 01'
-}];
 var Agrupamento = function Agrupamento(_ref) {
   var handleClose = _ref.handleClose;
   var _useSelectedRegisters = useSelectedRegisters(),
     _useSelectedRegisters2 = _useSelectedRegisters.state,
     checkedFields = _useSelectedRegisters2.checkedFields,
-    agrupamento = _useSelectedRegisters2.agrupamento,
+    savedTree = _useSelectedRegisters2.savedTree,
     dispatch = _useSelectedRegisters.dispatch;
-  var _useState = React.useState(agrupamento.length > 0 ? agrupamento : defaultGroup),
+  var _useState = React.useState(savedTree),
     tree = _useState[0],
     setTree = _useState[1];
-  var _useState2 = React.useState(formatExternalNodes(checkedFields, agrupamento)),
-    externalNodes = _useState2[0],
-    setExternalNodes = _useState2[1];
+  var _useState2 = React.useState(savedTree.some(function (obj) {
+      return obj.id === 11;
+    })),
+    secondLevel = _useState2[0],
+    setSecondLevel = _useState2[1];
+  var _useState3 = React.useState(formatExternalNodes(checkedFields, savedTree)),
+    externalNodes = _useState3[0],
+    setExternalNodes = _useState3[1];
   React.useEffect(function () {
-    return setExternalNodes(formatExternalNodes(checkedFields, agrupamento));
-  }, [checkedFields, agrupamento]);
+    return setExternalNodes(formatExternalNodes(checkedFields, savedTree));
+  }, [checkedFields, savedTree]);
   React.useEffect(function () {
-    return setTree(agrupamento.length > 0 ? agrupamento : defaultGroup);
-  }, [agrupamento]);
+    return setTree(savedTree);
+  }, [savedTree]);
   var handleDrop = function handleDrop(newTree, options) {
     var dropTargetId = options.dropTargetId,
       monitor = options.monitor;
@@ -3652,15 +3967,55 @@ var Agrupamento = function Agrupamento(_ref) {
     setTree(newTree);
   };
   var handleSalvar = function handleSalvar() {
+    var grupo1 = [];
+    var grupo2 = [];
+    tree.forEach(function (el) {
+      if (el.parent === 1) {
+        grupo1.push(el.id);
+      } else if (el.parent === 11) {
+        grupo2.push(el.id);
+      }
+    });
+    if (grupo2.length > 0) {
+      dispatch({
+        value: [grupo1, grupo2],
+        type: 'agrupamento'
+      });
+    } else {
+      dispatch({
+        value: [grupo1],
+        type: 'agrupamento'
+      });
+    }
     dispatch({
       value: tree,
-      type: 'agrupamento'
+      type: 'savedTree'
     });
     handleClose();
   };
   var handleLimpar = function handleLimpar() {
-    setTree(agrupamento.length > 0 ? agrupamento : defaultGroup);
-    setExternalNodes(formatExternalNodes(checkedFields, agrupamento));
+    setSecondLevel(false);
+    setTree([{
+      id: 1,
+      parent: 0,
+      droppable: true,
+      text: 'Grupo 01'
+    }]);
+    setExternalNodes(formatExternalNodes(checkedFields, [{
+      id: 1,
+      parent: 0,
+      droppable: true,
+      text: 'Grupo 01'
+    }]));
+  };
+  var handleNewGroup = function handleNewGroup() {
+    setSecondLevel(true);
+    setTree([].concat(tree, [{
+      id: 11,
+      parent: 0,
+      droppable: true,
+      text: 'Grupo 02'
+    }]));
   };
   return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(Stack, {
     direction: "column",
@@ -3696,6 +4051,7 @@ var Agrupamento = function Agrupamento(_ref) {
     rootId: 0,
     tree: tree,
     extraAcceptTypes: [TEXT],
+    initialOpen: true,
     classes: {
       root: undefined.treeRoot,
       draggingSource: undefined.draggingSource,
@@ -3732,7 +4088,9 @@ var Agrupamento = function Agrupamento(_ref) {
   }, /*#__PURE__*/React__default.createElement(Grid, {
     item: true
   }, /*#__PURE__*/React__default.createElement(Button, {
-    variant: "outlined"
+    variant: "outlined",
+    disabled: secondLevel,
+    onClick: handleNewGroup
   }, "Novo grupo")), /*#__PURE__*/React__default.createElement(Grid, {
     item: true
   }, /*#__PURE__*/React__default.createElement(Button, {
@@ -3762,26 +4120,40 @@ var Agrupamento = function Agrupamento(_ref) {
 };
 
 var Somar = function Somar(_ref) {
-  var handleClose = _ref.handleClose,
-    options = _ref.options;
-  var _useState = React.useState(''),
-    value = _useState[0],
-    setValue = _useState[1];
+  var handleClose = _ref.handleClose;
+  var _useState = React.useState([]),
+    selecteds = _useState[0],
+    setSelecteds = _useState[1];
   var _useSelectedRegisters = useSelectedRegisters(),
+    _useSelectedRegisters2 = _useSelectedRegisters.state,
+    somar = _useSelectedRegisters2.somar,
+    summableFields = _useSelectedRegisters2.summableFields,
     dispatch = _useSelectedRegisters.dispatch;
   var handleSalvar = function handleSalvar() {
     dispatch({
-      value: value,
+      value: selecteds,
       type: 'somar'
     });
     handleClose();
   };
   var handleLimpar = function handleLimpar() {
-    setValue('');
+    setSelecteds([]);
   };
-  var handleChange = function handleChange(event) {
-    setValue(event.target.value);
+  var handleToggle = function handleToggle(value) {
+    return function () {
+      var currentIndex = selecteds.indexOf(value);
+      var newChecked = [].concat(selecteds);
+      if (currentIndex === -1) {
+        newChecked.push(value);
+      } else {
+        newChecked.splice(currentIndex, 1);
+      }
+      setSelecteds(newChecked);
+    };
   };
+  React.useEffect(function () {
+    setSelecteds(somar);
+  }, []);
   return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(Stack, {
     direction: "column",
     justifyContent: "space-between",
@@ -3805,21 +4177,37 @@ var Somar = function Somar(_ref) {
       height: '100%',
       padding: '2px'
     }
-  }, /*#__PURE__*/React__default.createElement(FormControl, {
-    component: "fieldset"
-  }, /*#__PURE__*/React__default.createElement(RadioGroup, {
-    "aria-label": "gender",
-    name: "gender1",
-    value: value,
-    onChange: handleChange,
-    row: true
-  }, options.map(function (value) {
-    return /*#__PURE__*/React__default.createElement(FormControlLabel, {
-      value: value,
-      control: /*#__PURE__*/React__default.createElement(Radio, null),
-      label: value
-    });
-  })))), /*#__PURE__*/React__default.createElement(Grid, {
+  }, /*#__PURE__*/React__default.createElement(List, {
+    sx: {
+      width: '100%',
+      maxWidth: 360
+    }
+  }, summableFields.map(function (value) {
+    var labelId = "checkbox-list-label-" + value;
+    return /*#__PURE__*/React__default.createElement(ListItem, {
+      key: value,
+      secondaryAction: /*#__PURE__*/React__default.createElement(IconButton, {
+        edge: "end",
+        "aria-label": "comments"
+      }),
+      disablePadding: true
+    }, /*#__PURE__*/React__default.createElement(ListItemButton, {
+      role: undefined,
+      onClick: handleToggle(value),
+      dense: true
+    }, /*#__PURE__*/React__default.createElement(ListItemIcon, null, /*#__PURE__*/React__default.createElement(Checkbox, {
+      edge: "start",
+      checked: selecteds.indexOf(value) !== -1,
+      tabIndex: -1,
+      disableRipple: true,
+      inputProps: {
+        'aria-labelledby': labelId
+      }
+    })), /*#__PURE__*/React__default.createElement(ListItemText, {
+      id: labelId,
+      primary: value
+    })));
+  }))), /*#__PURE__*/React__default.createElement(Grid, {
     xs: 12,
     container: true,
     justifyContent: "space-between",
@@ -3877,8 +4265,7 @@ var style$d = {
   p: 2
 };
 function ButtonsList(_ref) {
-  var listOptions = _ref.listOptions,
-    sumOptions = _ref.sumOptions;
+  var listOptions = _ref.listOptions;
   var _useState = React.useState(false),
     openAgrupamento = _useState[0],
     setOpenAgrupamento = _useState[1];
@@ -3902,11 +4289,14 @@ function ButtonsList(_ref) {
     selecteds = _useSelectedRegisters2.selecteds,
     fields = _useSelectedRegisters2.fields,
     checkedFields = _useSelectedRegisters2.checkedFields,
-    options = _useSelectedRegisters2.options;
-  var generateObj = function generateObj() {
+    options = _useSelectedRegisters2.options,
+    agrupamento = _useSelectedRegisters2.agrupamento,
+    somar = _useSelectedRegisters2.somar,
+    title = _useSelectedRegisters2.title;
+  var generatePDFNivel1 = function generatePDFNivel1() {
     try {
       var filteredArr = [];
-      selecteds === null || selecteds === void 0 ? void 0 : selecteds.forEach(function (element) {
+      selecteds.forEach(function (element) {
         var newObj = Object.keys(element).filter(function (key) {
           return fields.includes(key);
         }).reduce(function (obj, key) {
@@ -3916,7 +4306,32 @@ function ButtonsList(_ref) {
         }, {});
         filteredArr.push(newObj);
       });
-      return Promise.resolve(generatePDF(filteredArr, checkedFields, options)).then(function () {});
+      var _temp = function () {
+        if (agrupamento.length > 1) {
+          return Promise.resolve(PDFNivel2(filteredArr, [].concat(checkedFields), options, agrupamento, somar, title)).then(function () {});
+        } else {
+          return Promise.resolve(PDFNivel1(filteredArr, [].concat(checkedFields), options, agrupamento[0], somar, title)).then(function () {});
+        }
+      }();
+      return Promise.resolve(_temp && _temp.then ? _temp.then(function () {}) : void 0);
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  };
+  var generatePDFBasico = function generatePDFBasico() {
+    try {
+      var filteredArr = [];
+      selecteds.forEach(function (element) {
+        var newObj = Object.keys(element).filter(function (key) {
+          return fields.includes(key);
+        }).reduce(function (obj, key) {
+          var _element$key2;
+          if (checkedFields.includes(key)) obj[key] = (_element$key2 = element[key]) != null ? _element$key2 : '';
+          return obj;
+        }, {});
+        filteredArr.push(newObj);
+      });
+      return Promise.resolve(PDFBasico(filteredArr, checkedFields, title)).then(function () {});
     } catch (e) {
       return Promise.reject(e);
     }
@@ -3943,7 +4358,7 @@ function ButtonsList(_ref) {
       width: '100%'
     },
     onClick: function onClick() {
-      return generateObj();
+      return generatePDFNivel1();
     },
     disabled: selecteds.length < 1
   }, "Visualizar")), /*#__PURE__*/React__default.createElement(Grid, {
@@ -3953,6 +4368,9 @@ function ButtonsList(_ref) {
     startIcon: /*#__PURE__*/React__default.createElement(DescriptionIcon, null),
     style: {
       width: '100%'
+    },
+    onClick: function onClick() {
+      return generatePDFBasico();
     },
     disabled: selecteds.length < 1
   }, "Resumir")), /*#__PURE__*/React__default.createElement(Grid, {
@@ -3996,7 +4414,6 @@ function ButtonsList(_ref) {
   }, /*#__PURE__*/React__default.createElement(Box, {
     sx: style$d
   }, /*#__PURE__*/React__default.createElement(Somar, {
-    options: sumOptions,
     handleClose: handleCloseSomar
   }))));
 }
@@ -4075,13 +4492,17 @@ var DynaGrade = function DynaGrade(_ref) {
   }), dynamicColumns)));
 };
 
-var reportOptions = ['Data/Hora', 'Paginação'];
+var reportOptions = ['Data/Hora', 'Paginação', 'Mostrar campo de agrupamento'];
 var Principal = function Principal(_ref) {
   var fetchData = function fetchData() {
     try {
       setLoading(true);
       return Promise.resolve(api.get(filter)).then(function (res) {
         setData(res.data.data);
+        dispatch({
+          value: title,
+          type: 'title'
+        });
         dispatch({
           value: res.data.data.columns,
           type: 'fields'
@@ -4094,6 +4515,14 @@ var Principal = function Principal(_ref) {
           value: [null].concat(res.data.data.columns),
           type: 'columnsOrder'
         });
+        dispatch({
+          value: res.data.data.summableFields,
+          type: 'somar'
+        });
+        dispatch({
+          value: res.data.data.summableFields,
+          type: 'summableFields'
+        });
         setLoading(false);
       });
     } catch (e) {
@@ -4101,18 +4530,23 @@ var Principal = function Principal(_ref) {
     }
   };
   var api = _ref.api,
-    filter = _ref.filter;
+    filter = _ref.filter,
+    title = _ref.title;
   var _useState = React.useState(null),
     data = _useState[0],
     setData = _useState[1];
   var _React$useState = React__default.useState(false),
     loading = _React$useState[0],
     setLoading = _React$useState[1];
+  var _React$useState2 = React__default.useState(false),
+    error = _React$useState2[0],
+    setError = _React$useState2[1];
   var _useSelectedRegisters = useSelectedRegisters(),
     fields = _useSelectedRegisters.state.fields,
     dispatch = _useSelectedRegisters.dispatch;
   var clearComponent = function clearComponent() {
     setData(null);
+    setError(false);
     dispatch({
       value: [],
       type: 'fields'
@@ -4127,10 +4561,7 @@ var Principal = function Principal(_ref) {
     });
   };
   React.useEffect(function () {
-    clearComponent();
-    fetchData()["catch"](function (err) {
-      return console.log(err);
-    });
+    handleFetch();
   }, [api]);
   var Item = styles.styled(Paper)(function (_ref2) {
     var theme = _ref2.theme;
@@ -4154,6 +4585,26 @@ var Principal = function Principal(_ref) {
     });
     return newData;
   };
+  var handleFetch = function handleFetch() {
+    clearComponent();
+    fetchData()["catch"](function (err) {
+      console.log(err);
+      setError(true);
+    });
+  };
+  if (error) {
+    return /*#__PURE__*/React__default.createElement(Grid, {
+      sx: {
+        textAlign: 'center',
+        paddingY: '8px',
+        backgroundColor: 'rgb(236, 245, 250)'
+      }
+    }, /*#__PURE__*/React__default.createElement(ErrorIcon, {
+      fontSize: "large"
+    }), /*#__PURE__*/React__default.createElement(material.Typography, null, "N\xE3o foi poss\xEDvel se comunicar com o servidor"), /*#__PURE__*/React__default.createElement(Button, {
+      onClick: handleFetch
+    }, "Tentar novamente"));
+  }
   return /*#__PURE__*/React__default.createElement(Box, {
     sx: {
       minWidth: '840px'
@@ -4175,8 +4626,7 @@ var Principal = function Principal(_ref) {
       marginBottom: '8px'
     }
   }, /*#__PURE__*/React__default.createElement(ButtonsList, {
-    listOptions: reportOptions,
-    sumOptions: data === null || data === void 0 ? void 0 : data.summableFields
+    listOptions: reportOptions
   }))), /*#__PURE__*/React__default.createElement(Grid, {
     xs: 8,
     sm: 8,
@@ -4197,13 +4647,8 @@ var Principal = function Principal(_ref) {
   })));
 };
 
-function DynaReport(_ref) {
-  var api = _ref.api,
-    filter = _ref.filter;
-  return /*#__PURE__*/React__default.createElement(DynaProvider, null, /*#__PURE__*/React__default.createElement(Principal, {
-    api: api,
-    filter: filter
-  }));
+function DynaReport(props) {
+  return /*#__PURE__*/React__default.createElement(DynaProvider, null, /*#__PURE__*/React__default.createElement(Principal, props));
 }
 
 exports.AppContent = AppContent$1;
