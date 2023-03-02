@@ -1642,7 +1642,7 @@ CustomInputSelect.defaultProp = {
 };
 var CustomInputSelect$1 = /*#__PURE__*/React__default.memo(CustomInputSelect);
 
-var _excluded$2 = ["label", "id", "value", "disabled", "onChange", "validation", "multiline", "rows"];
+var _excluded$2 = ["label", "id", "value", "disabled", "onChange", "validation", "multiline", "rows", "inputProps"];
 var isNullValue$1 = function isNullValue(value) {
   return value === undefined || value === null || value === '';
 };
@@ -1661,6 +1661,7 @@ var CustomTextField = function CustomTextField(_ref) {
     validation = _ref.validation,
     multiline = _ref.multiline,
     rows = _ref.rows,
+    inputProps = _ref.inputProps,
     other = _objectWithoutPropertiesLoose(_ref, _excluded$2);
   return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(TextField, _extends({
     size: "small",
@@ -1678,7 +1679,8 @@ var CustomTextField = function CustomTextField(_ref) {
     value: value,
     onChange: onChange,
     error: handleError$1(value, validation),
-    helperText: value ? '' : handleHelperText$1(validation)
+    helperText: value ? '' : handleHelperText$1(validation),
+    inputProps: inputProps
   }, other)));
 };
 CustomTextField.propTypes = {

@@ -25,6 +25,7 @@ const CustomTextField = ({
   validation,
   multiline,
   rows,
+  inputProps,
   ...other
 }) => {
   return (
@@ -44,6 +45,7 @@ const CustomTextField = ({
         onChange={onChange}
         error={handleError(value, validation)}
         helperText={value ? '' : handleHelperText(validation)}
+        inputProps={inputProps}
         {...other}
       />
     </React.Fragment>
@@ -68,7 +70,7 @@ CustomTextField.defaultProp = {
   multiline: false,
   rows: false,
   disabled: false,
-  onChange: () => {},
+  onChange: () => { },
   validation: false
 }
 
