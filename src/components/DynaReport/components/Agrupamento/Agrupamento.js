@@ -41,37 +41,27 @@ const formatExternalNodes = (nodes, group) => {
   return newExternalNodes
 }
 
-const defaultGroup = [
-  {
-    id: 1,
-    parent: 0,
-    droppable: true,
-    text: 'Grupo 01'
-  }
-]
-
 export const Agrupamento = ({ handleClose }) => {
   const {
-    state: { checkedFields, agrupamento },
+    state: { checkedFields, savedTree },
     dispatch
   } = useSelectedRegisters()
 
-  const [tree, setTree] = useState(
-    agrupamento.length > 0 ? agrupamento : defaultGroup
+  const [tree, setTree] = useState(savedTree)
+  const [secondLevel, setSecondLevel] = useState(
+    savedTree.some((obj) => obj.id === 11)
   )
 
   const [externalNodes, setExternalNodes] = useState(
-    formatExternalNodes(checkedFields, agrupamento)
+    formatExternalNodes(checkedFields, savedTree)
   )
 
   useEffect(
-    () => setExternalNodes(formatExternalNodes(checkedFields, agrupamento)),
-    [checkedFields, agrupamento]
+    () => setExternalNodes(formatExternalNodes(checkedFields, savedTree)),
+    [checkedFields, savedTree]
   )
-  useEffect(
-    () => setTree(agrupamento.length > 0 ? agrupamento : defaultGroup),
-    [agrupamento]
-  )
+
+  useEffect(() => setTree(savedTree), [savedTree])
 
   const handleDrop = (newTree, options) => {
     const { dropTargetId, monitor } = options
@@ -91,12 +81,58 @@ export const Agrupamento = ({ handleClose }) => {
   }
 
   const handleSalvar = () => {
-    dispatch({ value: tree, type: 'agrupamento' })
+    const grupo1 = []
+    const grupo2 = []
+    tree.forEach((el) => {
+      if (el.parent === 1) {
+        grupo1.push(el.id)
+      } else if (el.parent === 11) {
+        grupo2.push(el.id)
+      }
+    })
+    if (grupo2.length > 0) {
+      dispatch({ value: [grupo1, grupo2], type: 'agrupamento' })
+    } else {
+      dispatch({ value: [grupo1], type: 'agrupamento' })
+    }
+
+    dispatch({ value: tree, type: 'savedTree' })
     handleClose()
   }
+
   const handleLimpar = () => {
-    setTree(agrupamento.length > 0 ? agrupamento : defaultGroup)
-    setExternalNodes(formatExternalNodes(checkedFields, agrupamento))
+    setSecondLevel(false)
+    setTree([
+      {
+        id: 1,
+        parent: 0,
+        droppable: true,
+        text: 'Grupo 01'
+      }
+    ])
+    setExternalNodes(
+      formatExternalNodes(checkedFields, [
+        {
+          id: 1,
+          parent: 0,
+          droppable: true,
+          text: 'Grupo 01'
+        }
+      ])
+    )
+  }
+
+  const handleNewGroup = () => {
+    setSecondLevel(true)
+    setTree([
+      ...tree,
+      {
+        id: 11,
+        parent: 0,
+        droppable: true,
+        text: 'Grupo 02'
+      }
+    ])
   }
 
   return (
@@ -132,6 +168,7 @@ export const Agrupamento = ({ handleClose }) => {
                 rootId={0}
                 tree={tree}
                 extraAcceptTypes={[NativeTypes.TEXT]}
+                initialOpen
                 classes={{
                   root: styles.treeRoot,
                   draggingSource: styles.draggingSource,
@@ -163,7 +200,13 @@ export const Agrupamento = ({ handleClose }) => {
             style={{ padding: '8px' }}
           >
             <Grid item>
-              <Button variant='outlined'>Novo grupo</Button>
+              <Button
+                variant='outlined'
+                disabled={secondLevel}
+                onClick={handleNewGroup}
+              >
+                Novo grupo
+              </Button>
             </Grid>
             <Grid item>
               <Button variant='outlined' onClick={handleLimpar}>

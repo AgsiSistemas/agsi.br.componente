@@ -8,7 +8,9 @@ import GroupWorkIcon from '@mui/icons-material/GroupWork'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
-import { generatePDF } from '../../utils/RelatorioPDF'
+import { PDFNivel1 } from '../../utils/PDFNivel1'
+import { PDFNivel2 } from '../../utils/PDFNivel2'
+import { PDFBasico } from '../../utils/PDFBasico'
 import OptionsChecklist from '../OptionsChecklist/OptionsChecklist'
 import Agrupamento from '../Agrupamento/Agrupamento'
 import Somar from '../Somar/Somar'
@@ -28,7 +30,7 @@ const style = {
   p: 2
 }
 
-function ButtonsList({ listOptions, sumOptions }) {
+function ButtonsList({ listOptions }) {
   const [openAgrupamento, setOpenAgrupamento] = useState(false)
   const handleOpenAgrupamento = () => setOpenAgrupamento(true)
   const handleCloseAgrupamento = () => setOpenAgrupamento(false)
@@ -38,13 +40,21 @@ function ButtonsList({ listOptions, sumOptions }) {
   const handleCloseSomar = () => setOpenSomar(false)
 
   const {
-    state: { selecteds, fields, checkedFields, options }
+    state: {
+      selecteds,
+      fields,
+      checkedFields,
+      options,
+      agrupamento,
+      somar,
+      title
+    }
   } = useSelectedRegisters()
 
-  const generateObj = async () => {
+  const generatePDFNivel1 = async () => {
     const filteredArr = []
 
-    selecteds?.forEach((element) => {
+    selecteds.forEach((element) => {
       const newObj = Object.keys(element)
         .filter((key) => fields.includes(key))
         .reduce((obj, key) => {
@@ -54,7 +64,41 @@ function ButtonsList({ listOptions, sumOptions }) {
 
       filteredArr.push(newObj)
     })
-    await generatePDF(filteredArr, checkedFields, options)
+    if (agrupamento.length > 1) {
+      await PDFNivel2(
+        filteredArr,
+        [...checkedFields],
+        options,
+        agrupamento,
+        somar,
+        title
+      )
+    } else {
+      await PDFNivel1(
+        filteredArr,
+        [...checkedFields],
+        options,
+        agrupamento[0],
+        somar,
+        title
+      )
+    }
+  }
+
+  const generatePDFBasico = async () => {
+    const filteredArr = []
+
+    selecteds.forEach((element) => {
+      const newObj = Object.keys(element)
+        .filter((key) => fields.includes(key))
+        .reduce((obj, key) => {
+          if (checkedFields.includes(key)) obj[key] = element[key] ?? ''
+          return obj
+        }, {})
+
+      filteredArr.push(newObj)
+    })
+    await PDFBasico(filteredArr, checkedFields, title)
   }
 
   return (
@@ -69,7 +113,7 @@ function ButtonsList({ listOptions, sumOptions }) {
             variant='contained'
             startIcon={<SearchIcon />}
             style={{ width: '100%' }}
-            onClick={async () => generateObj()}
+            onClick={async () => generatePDFNivel1()}
             disabled={selecteds.length < 1}
           >
             Visualizar
@@ -80,6 +124,7 @@ function ButtonsList({ listOptions, sumOptions }) {
             variant='contained'
             startIcon={<DescriptionIcon />}
             style={{ width: '100%' }}
+            onClick={async () => generatePDFBasico()}
             disabled={selecteds.length < 1}
           >
             Resumir
@@ -132,7 +177,7 @@ function ButtonsList({ listOptions, sumOptions }) {
         aria-describedby='modal-modal-description'
       >
         <Box sx={style}>
-          <Somar options={sumOptions} handleClose={handleCloseSomar} />
+          <Somar handleClose={handleCloseSomar} />
         </Box>
       </Modal>
     </Box>

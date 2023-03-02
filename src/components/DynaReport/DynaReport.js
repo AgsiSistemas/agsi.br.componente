@@ -2,10 +2,10 @@ import React from 'react'
 import Principal from './components/Principal/Principal'
 import { DynaProvider } from './context/context'
 
-function DynaReport({ api, filter }) {
+function DynaReport(props) {
   return (
     <DynaProvider>
-      <Principal api={api} filter={filter} />
+      <Principal {...props} />
     </DynaProvider>
   )
 }
