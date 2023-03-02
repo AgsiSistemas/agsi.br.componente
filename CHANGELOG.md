@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.93](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.92...v1.0.93) (2023-03-02)
+
+
+### Bug Fixes
+
+* header nameApp onClick reload window ([d2e7166](https://github.com/AgsiSistemas/agsi.br.componente/commit/d2e7166f4de36f4287a0f76682f23fca5d30f762))
+
 ### [1.0.92](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.91...v1.0.92) (2023-03-01)
 
 
