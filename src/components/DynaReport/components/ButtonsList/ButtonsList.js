@@ -47,16 +47,25 @@ function ButtonsList({ listOptions }) {
       options,
       agrupamento,
       somar,
-      title
+      title,
+      columnsOrder
     }
   } = useSelectedRegisters()
 
   const generatePDFNivel1 = async () => {
     const filteredArr = []
+    const orderedFields = [
+      ...columnsOrder.filter((n) => checkedFields.includes(n))
+    ].slice()
+
+    const objModel = {}
+    orderedFields.forEach((field, index) => {
+      objModel[field] = index
+    })
 
     selecteds.forEach((element) => {
       const newObj = Object.keys(element)
-        .filter((key) => fields.includes(key))
+        .filter((key) => orderedFields.includes(key))
         .reduce((obj, key) => {
           if (checkedFields.includes(key)) obj[key] = element[key] ?? ''
           return obj
@@ -64,10 +73,22 @@ function ButtonsList({ listOptions }) {
 
       filteredArr.push(newObj)
     })
+
+    const formattedSelecteds = filteredArr.map((o) =>
+      Object.assign(
+        {},
+        ...Object.keys(o)
+          .sort((a, b) => objModel[a] - objModel[b])
+          .map((x) => {
+            return { [x]: o[x] }
+          })
+      )
+    )
+
     if (agrupamento.length > 1) {
       await PDFNivel2(
-        filteredArr,
-        [...checkedFields],
+        formattedSelecteds,
+        orderedFields,
         options,
         agrupamento,
         somar,
@@ -75,8 +96,8 @@ function ButtonsList({ listOptions }) {
       )
     } else {
       await PDFNivel1(
-        filteredArr,
-        [...checkedFields],
+        formattedSelecteds,
+        orderedFields,
         options,
         agrupamento[0],
         somar,
@@ -115,6 +136,7 @@ function ButtonsList({ listOptions }) {
             style={{ width: '100%' }}
             onClick={async () => generatePDFNivel1()}
             disabled={selecteds.length < 1}
+            size='small'
           >
             Visualizar
           </Button>
@@ -126,6 +148,7 @@ function ButtonsList({ listOptions }) {
             style={{ width: '100%' }}
             onClick={async () => generatePDFBasico()}
             disabled={selecteds.length < 1}
+            size='small'
           >
             Resumir
           </Button>
@@ -136,6 +159,7 @@ function ButtonsList({ listOptions }) {
             startIcon={<DataSaverOnIcon />}
             style={{ width: '100%' }}
             onClick={handleOpenSomar}
+            size='small'
           >
             Somar
           </Button>
@@ -146,6 +170,7 @@ function ButtonsList({ listOptions }) {
             startIcon={<GroupWorkIcon />}
             style={{ width: '100%' }}
             onClick={handleOpenAgrupamento}
+            size='small'
           >
             Agrupar
           </Button>

@@ -76,7 +76,7 @@ export const PDFNivel2 = (
 
       for (const [key, value] of Object.entries(el)) {
         tempContent.push({
-          content: value,
+          content: value.trim(),
           styles: { fillColor: [255, 255, 255], cellWidth: cellWidth }
         })
         newHeader.push(key)

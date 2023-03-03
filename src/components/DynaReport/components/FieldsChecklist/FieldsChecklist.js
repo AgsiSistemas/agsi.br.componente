@@ -55,6 +55,7 @@ export default function FieldsChecklist() {
                 role={undefined}
                 onClick={handleToggle(value)}
                 dense
+                sx={{ height: '36px' }}
               >
                 <ListItemIcon>
                   <Checkbox

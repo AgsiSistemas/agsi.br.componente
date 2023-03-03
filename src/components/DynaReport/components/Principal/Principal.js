@@ -13,9 +13,15 @@ import CircularProgress from '@mui/material/CircularProgress'
 import { Typography } from '@mui/material'
 import ErrorIcon from '@mui/icons-material/Error'
 
-const reportOptions = ['Data/Hora', 'Paginação', 'Mostrar campo de agrupamento']
+const reportOptions = ['Mostrar campo de agrupamento', 'Data/Hora', 'Paginação']
 
-export const Principal = ({ api, filter, title }) => {
+export const Principal = ({
+  api,
+  filter,
+  title = null,
+  subTitle = null,
+  text = null
+}) => {
   const [data, setData] = useState(null)
   const [loading, setLoading] = React.useState(false)
   const [error, setError] = React.useState(false)
@@ -37,7 +43,11 @@ export const Principal = ({ api, filter, title }) => {
     setLoading(true)
     const res = await api.get(filter)
     setData(res.data.data)
-    dispatch({ value: title, type: 'title' })
+
+    dispatch({
+      value: [String(title ?? ''), String(subTitle ?? ''), String(text ?? '')],
+      type: 'title'
+    })
     dispatch({ value: res.data.data.columns, type: 'fields' })
     dispatch({ value: res.data.data.columns, type: 'checkedFields' })
     dispatch({

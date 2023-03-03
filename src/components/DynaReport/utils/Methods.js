@@ -59,8 +59,8 @@ export const isArrayInArray = (arr, item) => {
 export const getGroupHeader = (agrupamento, grupos) => {
   let text = ''
   agrupamento.forEach((element, i) => {
-    text = text + ` ${element}: ${grupos[i]}`
-    if (i < agrupamento.length - 1) text = text + ','
+    text = text + `${element.trim()}: ${grupos[i].trim()}`
+    if (i < agrupamento.length - 1) text = text + ', '
   })
   return text
 }
@@ -144,12 +144,10 @@ export const addheader = (
       { align: 'right' }
     )
     doc.setFontSize(18)
-    doc.text(fullWidth / 2, 45, title, { align: 'center' })
+    doc.text(fullWidth / 2, 45, title[0], { align: 'center' })
     doc.setFontSize(12)
-    doc.text(fullWidth / 2, 63, 'Ativos até 29/12/2022', { align: 'center' })
-    doc.text(fullWidth / 2, 78, 'Data de inclusão: 01/01/2022 a 29/12/2022', {
-      align: 'center'
-    })
+    doc.text(fullWidth / 2, 63, title[1], { align: 'center' })
+    doc.text(fullWidth / 2, 78, title[2], { align: 'center' })
 
     doc.line(20, 95, 580, 95)
     doc.setFontSize(9)
