@@ -7,6 +7,12 @@ import React, { useState, useMemo } from 'react'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
 import { useSelectedRegisters } from '../../context/context'
+const style = {
+  item: {
+    fontSize: '0.9rem',
+    padding: '0.3rem 0.3rem'
+  }
+}
 
 export const DynaGrade = ({ conv }) => {
   const [registers, setRegisters] = useState([])
@@ -47,6 +53,8 @@ export const DynaGrade = ({ conv }) => {
           header={field}
           filter
           filterPlaceholder={`Filtrar por ${field}`}
+          sortable
+          style={style.item}
         />
       )
     } else {
@@ -65,12 +73,13 @@ export const DynaGrade = ({ conv }) => {
           selection={selecteds}
           onSelectionChange={(e) => onSelectRegister(e.value)}
           dataKey='id'
-          selectionPageOnly
           paginator
           rows={30}
           size='small'
           showGridlines
           stripedRows
+          sortMode='multiple'
+          emptyMessage='Nenhum resultado encontrado'
         >
           <Column selectionMode='multiple' headerStyle={{ width: '3em' }} />
           {dynamicColumns}

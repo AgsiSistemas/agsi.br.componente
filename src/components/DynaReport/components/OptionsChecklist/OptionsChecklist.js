@@ -2,7 +2,6 @@ import * as React from 'react'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Checkbox from '@mui/material/Checkbox'
 import IconButton from '@mui/material/IconButton'
@@ -10,6 +9,14 @@ import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
 import Box from '@mui/material/Box'
 import { useSelectedRegisters } from '../../context/context'
+import { styled } from '@mui/material/styles'
+
+const ThemedListItem = styled(ListItem)({
+  '& .MuiListItemButton-root': {
+    paddingLeft: 0,
+    paddingRight: 0
+  }
+})
 
 export default function OptionsChecklist({ listOptions, title }) {
   const {
@@ -45,7 +52,7 @@ export default function OptionsChecklist({ listOptions, title }) {
           const labelId = `checkbox-list-label-${value}`
 
           return (
-            <ListItem
+            <ThemedListItem
               key={value}
               secondaryAction={<IconButton edge='end' aria-label='comments' />}
               disablePadding
@@ -54,19 +61,18 @@ export default function OptionsChecklist({ listOptions, title }) {
                 role={undefined}
                 onClick={handleToggle(value)}
                 dense
+                sx={{ height: '36px' }}
               >
-                <ListItemIcon>
-                  <Checkbox
-                    edge='start'
-                    checked={options.indexOf(value) !== -1}
-                    tabIndex={-1}
-                    disableRipple
-                    inputProps={{ 'aria-labelledby': labelId }}
-                  />
-                </ListItemIcon>
+                <Checkbox
+                  edge='start'
+                  checked={options.indexOf(value) !== -1}
+                  tabIndex={-1}
+                  disableRipple
+                  inputProps={{ 'aria-labelledby': labelId }}
+                />
                 <ListItemText id={labelId} primary={value} />
               </ListItemButton>
-            </ListItem>
+            </ThemedListItem>
           )
         })}
       </List>
