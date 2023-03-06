@@ -16,9 +16,9 @@ import ErrorIcon from '@mui/icons-material/Error'
 const reportOptions = [
   'Horizontal (paisagem)',
   'Contador de registros',
-  'Mostrar campo de agrupamento',
-  'Data/Hora',
-  'Paginação'
+  'Mostrar campo de agrupamento'
+  // 'Data/Hora',
+  // 'Paginação'
 ]
 
 export const Principal = ({
