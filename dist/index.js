@@ -2228,7 +2228,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
     disabled: disabled,
     value: valueId,
     onChange: function onChange(event, newInputValue) {
-      onChangeId(newInputValue);
+      onChangeId(newInputValue.label);
       if (isNullValue$2(newInputValue)) onChangeName('');
       if (newInputValue !== null && newInputValue.name) {
         onChangeName({
@@ -2244,7 +2244,6 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
     },
     onKeyUp: function onKeyUp(event) {
       try {
-        console.log(event.target.value.length);
         return Promise.resolve(_catch(function () {
           var _temp = function () {
             if (event.key === 'Tab' || event.target.value.length > 15) {
@@ -2311,8 +2310,9 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
         var _temp2 = function () {
           if (newInputValue && event.target.value.length >= 3) {
             setLoadingBeneficiary(true);
-            return Promise.resolve(api.http.get("" + api.addressName(maskText(event.target.value)))).then(function (response) {
+            return Promise.resolve(api.http.get("" + api.addressName(maskText(event.target.value))).then(function (response) {
               setLocalBeneficiaries(response.data);
+            })).then(function () {
               setLoadingBeneficiary(false);
               setOpenBeneficiariesField(true);
             });

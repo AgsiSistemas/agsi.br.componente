@@ -75,7 +75,8 @@ const CustomBeneficiarieFields = ({
           disabled={disabled}
           value={valueId}
           onChange={(event, newInputValue) => {
-            onChangeId(newInputValue)
+            // console.log(newInputValue)
+            onChangeId(newInputValue.label)
             if (isNullValue(newInputValue)) onChangeName('')
             if (newInputValue !== null && newInputValue.name) {
               onChangeName({ label: newInputValue.name, id: newInputValue.id })
@@ -87,7 +88,6 @@ const CustomBeneficiarieFields = ({
             setBeneficiarieWalletInputValue(maskWallet(newInputValue))
           }}
           onKeyUp={async (event) => {
-            console.log(event.target.value.length)
             try {
               if (event.key === 'Tab' || event.target.value.length > 15) {
                 setLoadingBeneficiary(true)
@@ -139,10 +139,11 @@ const CustomBeneficiarieFields = ({
 
             if (newInputValue && event.target.value.length >= 3) {
               setLoadingBeneficiary(true)
-              let response = await api.http.get(
+              await api.http.get(
                 `${api.addressName(maskText(event.target.value))}`
-              )
-              setLocalBeneficiaries(response.data)
+              ).then((response) => {
+                setLocalBeneficiaries(response.data)
+              })
               setLoadingBeneficiary(false)
               setOpenBeneficiariesField(true)
             }
@@ -199,12 +200,12 @@ CustomBeneficiarieFields.propTypes = {
 CustomBeneficiarieFields.defaultProp = {
   valueId: {},
   valueName: {},
-  onChangeId: () => {},
-  onChangeName: () => {},
+  onChangeId: () => { },
+  onChangeName: () => { },
   validation: '',
   api: {
-    addressCode: () => {},
-    addressName: () => {}
+    addressCode: () => { },
+    addressName: () => { }
   },
   disabled: false,
   required: false
