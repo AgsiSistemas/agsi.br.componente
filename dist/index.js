@@ -3318,7 +3318,10 @@ function FieldsChecklist() {
     }, /*#__PURE__*/React.createElement(ListItemButton, {
       role: undefined,
       onClick: handleToggle(value),
-      dense: true
+      dense: true,
+      sx: {
+        height: '36px'
+      }
     }, /*#__PURE__*/React.createElement(ListItemIcon, null, /*#__PURE__*/React.createElement(Checkbox, {
       edge: "start",
       checked: checkedFields.indexOf(value) !== -1,
@@ -3335,14 +3338,17 @@ function FieldsChecklist() {
 }
 
 var startPageY = 130;
-var retratoWidth = 515.3;
+var tableWidth = 0;
+var setTableWidth = function setTableWidth(newWidth) {
+  tableWidth = newWidth;
+};
 var mainHeaderStyle = {
   fillColor: [41, 89, 129],
   textColor: [255, 255, 255],
   fontStyle: 'bold'
 };
 var getColumnStyles = function getColumnStyles(qtdColumns) {
-  var tempWidth = retratoWidth / qtdColumns;
+  var tempWidth = tableWidth / qtdColumns;
   var tempObj = {};
   for (var index = 0; index < qtdColumns; index++) {
     tempObj[index] = _extends({
@@ -3352,7 +3358,7 @@ var getColumnStyles = function getColumnStyles(qtdColumns) {
   return tempObj;
 };
 var getHeaderStyles = function getHeaderStyles(qtdColumns) {
-  var tempWidth = retratoWidth / qtdColumns;
+  var tempWidth = tableWidth / qtdColumns;
   var tempObj = {};
   for (var index = 0; index < qtdColumns; index++) {
     tempObj[index] = {
@@ -3373,13 +3379,13 @@ var isArrayInArray = function isArrayInArray(arr, item) {
 var getGroupHeader = function getGroupHeader(agrupamento, grupos) {
   var text = '';
   agrupamento.forEach(function (element, i) {
-    text = text + (" " + element + ": " + grupos[i]);
-    if (i < agrupamento.length - 1) text = text + ',';
+    text = text + (element.trim() + ": " + grupos[i].trim());
+    if (i < agrupamento.length - 1) text = text + ', ';
   });
   return text;
 };
 var addSum = function addSum(Y, header, content, doc, autoTable) {
-  var tempWidth = retratoWidth / content.length;
+  var tempWidth = tableWidth / content.length;
   var tempObj = {};
   for (var index = 0; index < content.length; index++) {
     tempObj[index] = {
@@ -3401,6 +3407,22 @@ var addSum = function addSum(Y, header, content, doc, autoTable) {
     startY: Y,
     pageBreak: 'avoid',
     columnStyles: tempObj
+  });
+};
+var addCount = function addCount(Y, header, content, doc, autoTable) {
+  autoTable(doc, {
+    body: [content],
+    head: header,
+    startY: Y,
+    pageBreak: 'avoid',
+    columnStyles: {
+      0: {
+        cellWidth: tableWidth,
+        textColor: [0, 0, 0],
+        fillColor: [180, 180, 180],
+        lineColor: [0, 0, 0]
+      }
+    }
   });
 };
 var getFilteredHeader = function getFilteredHeader(fields, agrupamento, hideGroupField) {
@@ -3438,33 +3460,33 @@ var addheader = function addheader(doc, autoTable, fields, agrupamento, title, h
     var fullWidth = doc.internal.pageSize.getWidth();
     doc.setLineWidth(1);
     doc.setPage(i);
-    doc.line(20, 30, 580, 30);
+    doc.line(20, 30, fullWidth - 20, 30);
     doc.setFontSize(9);
-    doc.text(fullWidth - 18, 39, 'Página ' + doc.internal.getCurrentPageInfo().pageNumber + '/' + pageCount, {
+    doc.text(fullWidth - 20, 39, 'Página ' + doc.internal.getCurrentPageInfo().pageNumber + '/' + pageCount, {
       align: 'right'
     });
     doc.setFontSize(18);
-    doc.text(fullWidth / 2, 45, title, {
+    doc.text(fullWidth / 2, 45, title[0], {
       align: 'center'
     });
     doc.setFontSize(12);
-    doc.text(fullWidth / 2, 63, 'Ativos até 29/12/2022', {
+    doc.text(fullWidth / 2, 63, title[1], {
       align: 'center'
     });
-    doc.text(fullWidth / 2, 78, 'Data de inclusão: 01/01/2022 a 29/12/2022', {
+    doc.text(fullWidth / 2, 78, title[2], {
       align: 'center'
     });
-    doc.line(20, 95, 580, 95);
+    doc.line(20, 95, fullWidth - 20, 95);
     doc.setFontSize(9);
     var today = new Date();
-    doc.text(fullWidth - 18, 92, today.toLocaleString(), {
+    doc.text(fullWidth - 20, 92, today.toLocaleString(), {
       align: 'right'
     });
     var filteredHeader = getFilteredHeader(fields, agrupamento, hideGroupField);
     if (addHeader) {
       doc.setDrawColor(0);
       doc.setFillColor(49, 88, 130);
-      doc.rect(40, 96, 515.3, 33, 'F');
+      doc.rect(40, 96, fullWidth - 80, 33, 'F');
       autoTable(doc, {
         startY: 96,
         pageBreak: 'avoid',
@@ -3482,7 +3504,10 @@ var PDFNivel1 = function PDFNivel1(selecteds, fields, options, agrupamento, soma
   if (somar === void 0) {
     somar = [];
   }
-  var doc = new jspdf.jsPDF('p', 'pt', 'a4');
+  var isHorizontal = options.includes('Horizontal (paisagem)');
+  var isCounting = options.includes('Contador de registros');
+  var maxLength = isHorizontal ? '461' : '750';
+  var doc = new jspdf.jsPDF(isHorizontal ? 'l' : 'p', 'pt', 'a4');
   var page = 1;
   var hideGroupField = !options.includes('Mostrar campo de agrupamento');
   var addSumFooter = function addSumFooter(dataSection) {
@@ -3500,6 +3525,10 @@ var PDFNivel1 = function PDFNivel1(selecteds, fields, options, agrupamento, soma
     });
     addSum(doc.lastAutoTable.finalY, null, somaContent, doc, autoTable);
   };
+  var addCountFooter = function addCountFooter(dataSection) {
+    var contadorContent = ["Reg:  " + dataSection.length];
+    addCount(doc.lastAutoTable.finalY, null, contadorContent, doc, autoTable);
+  };
   var addPrimeiroNivel = function addPrimeiroNivel(Y, header, content) {
     autoTable(doc, {
       startY: Y > startPageY ? Y : startPageY,
@@ -3512,21 +3541,21 @@ var PDFNivel1 = function PDFNivel1(selecteds, fields, options, agrupamento, soma
     });
   };
   var addtable = function addtable(data) {
-    var cellWidth = retratoWidth / (fields.length - (hideGroupField ? agrupamento.length : 0));
+    var cellWidth = tableWidth / (fields.length - (hideGroupField ? agrupamento.length : 0));
     data.forEach(function (el, index) {
       var tempContent = [];
       for (var _i = 0, _Object$entries = Object.entries(el); _i < _Object$entries.length; _i++) {
         var _Object$entries$_i = _Object$entries[_i],
           value = _Object$entries$_i[1];
         tempContent.push({
-          content: value,
+          content: value.trim(),
           styles: {
             fillColor: index % 2 === 0 ? [252, 252, 252] : [245, 245, 245],
             cellWidth: cellWidth
           }
         });
       }
-      var Y = pageUpd(doc.lastAutoTable.finalY, doc, page);
+      var Y = pageUpd(doc.lastAutoTable.finalY, doc, page, maxLength);
       addPrimeiroNivel(Y, null, [tempContent]);
     });
   };
@@ -3564,7 +3593,7 @@ var PDFNivel1 = function PDFNivel1(selecteds, fields, options, agrupamento, soma
           tempDataSection.push(register);
         }
       });
-      Y = pageUpd(Y, doc, page, 750);
+      Y = pageUpd(Y, doc, page, maxLength);
       autoTable(doc, {
         body: [[getGroupHeader(agrupamento, section)]],
         startY: Y,
@@ -3579,6 +3608,7 @@ var PDFNivel1 = function PDFNivel1(selecteds, fields, options, agrupamento, soma
       });
       addtable(tempDataSection);
       if (somar.length > 0) addSumFooter(tempDataSection);
+      if (isCounting) addCountFooter(tempDataSection);
       autoTable(doc, {
         startY: doc.lastAutoTable.finalY + 2
       });
@@ -3586,12 +3616,13 @@ var PDFNivel1 = function PDFNivel1(selecteds, fields, options, agrupamento, soma
   } else {
     addtable(selecteds);
     if (somar.length > 0) addSumFooter(selecteds);
+    if (isCounting) addCountFooter(selecteds);
     autoTable(doc, {
       startY: doc.lastAutoTable.finalY + 2
     });
   }
   addheader(doc, autoTable, fields, agrupamento, title, hideGroupField);
-  doc.save('Test.pdf');
+  doc.save((title[0] === '' ? 'Título não definido' : title[0]) + ".pdf");
 };
 
 var PDFNivel2 = function PDFNivel2(selecteds, fields, options, agrupamento, somar, title) {
@@ -3601,7 +3632,10 @@ var PDFNivel2 = function PDFNivel2(selecteds, fields, options, agrupamento, soma
   if (somar === void 0) {
     somar = [];
   }
-  var doc = new jspdf.jsPDF('p', 'pt', 'a4');
+  var isHorizontal = options.includes('Horizontal (paisagem)');
+  var isCounting = options.includes('Contador de registros');
+  var maxLength = isHorizontal ? '461' : '750';
+  var doc = new jspdf.jsPDF(isHorizontal ? 'l' : 'p', 'pt', 'a4');
   var page = 1;
   var hideGroupField = !options.includes('Mostrar campo de agrupamento');
   var addSumFooter = function addSumFooter(dataSection) {
@@ -3622,6 +3656,10 @@ var PDFNivel2 = function PDFNivel2(selecteds, fields, options, agrupamento, soma
     });
     addSum(doc.lastAutoTable.finalY, null, somaContent, doc, autoTable);
   };
+  var addCountFooter = function addCountFooter(dataSection) {
+    var contadorContent = ["Reg:  " + dataSection.length];
+    addCount(doc.lastAutoTable.finalY, null, contadorContent, doc, autoTable);
+  };
   var addPrimeiroNivel = function addPrimeiroNivel(Y, header, content) {
     autoTable(doc, {
       startY: Y > startPageY ? Y : startPageY,
@@ -3634,21 +3672,21 @@ var PDFNivel2 = function PDFNivel2(selecteds, fields, options, agrupamento, soma
     });
   };
   var addtable = function addtable(data) {
-    var cellWidth = retratoWidth / (fields.length - (hideGroupField ? agrupamento[0].length + agrupamento[1].length : 0));
-    data.forEach(function (el) {
+    var cellWidth = tableWidth / (fields.length - (hideGroupField ? agrupamento[0].length + agrupamento[1].length : 0));
+    data.forEach(function (el, index) {
       var tempContent = [];
       for (var _i = 0, _Object$entries = Object.entries(el); _i < _Object$entries.length; _i++) {
         var _Object$entries$_i = _Object$entries[_i],
           value = _Object$entries$_i[1];
         tempContent.push({
-          content: value,
+          content: value.trim(),
           styles: {
-            fillColor: [255, 255, 255],
+            fillColor: index % 2 === 0 ? [252, 252, 252] : [245, 245, 245],
             cellWidth: cellWidth
           }
         });
       }
-      var Y = pageUpd(doc.lastAutoTable.finalY, doc, page);
+      var Y = pageUpd(doc.lastAutoTable.finalY, doc, page, maxLength);
       addPrimeiroNivel(Y, null, [tempContent]);
     });
   };
@@ -3687,7 +3725,7 @@ var PDFNivel2 = function PDFNivel2(selecteds, fields, options, agrupamento, soma
         tempDataSection1.push(register);
       }
     });
-    Y = pageUpd(Y, doc, page, 750);
+    Y = pageUpd(Y, doc, page, maxLength);
     autoTable(doc, {
       body: [[getGroupHeader(agrupamentoNivel1, section1)]],
       startY: Y,
@@ -3712,17 +3750,16 @@ var PDFNivel2 = function PDFNivel2(selecteds, fields, options, agrupamento, soma
     });
     groupSections2.forEach(function (section2) {
       var tempDataSection2 = [];
-      Y = pageUpd(doc.lastAutoTable.finalY, doc, page, 750);
+      Y = pageUpd(doc.lastAutoTable.finalY, doc, page, maxLength);
       autoTable(doc, {
         body: [agrupamentoNivel2],
         startY: Y,
         pageBreak: 'avoid',
         columnStyles: getHeaderStyles(section2.length)
       });
-      Y = pageUpd(doc.lastAutoTable.finalY, doc, page, 750);
       autoTable(doc, {
         body: [section2],
-        startY: Y,
+        startY: doc.lastAutoTable.finalY,
         pageBreak: 'avoid',
         columnStyles: getHeaderStyles(section2.length)
       });
@@ -3744,6 +3781,7 @@ var PDFNivel2 = function PDFNivel2(selecteds, fields, options, agrupamento, soma
       });
       addtable(tempDataSection2);
       if (somar.length > 0) addSumFooter(tempDataSection2);
+      if (isCounting) addCountFooter(tempDataSection2);
       autoTable(doc, {
         startY: doc.lastAutoTable.finalY + 2
       });
@@ -3753,7 +3791,7 @@ var PDFNivel2 = function PDFNivel2(selecteds, fields, options, agrupamento, soma
     });
   });
   addheader(doc, autoTable, fields, agrupamento.flat(), title, hideGroupField);
-  doc.save('Test.pdf');
+  doc.save((title[0] === '' ? 'Título não definido' : title[0]) + ".pdf");
 };
 
 var PDFBasico = function PDFBasico(selecteds, fields, title) {
@@ -3778,9 +3816,15 @@ var PDFBasico = function PDFBasico(selecteds, fields, title) {
   };
   addtable(selecteds);
   addheader(doc, autoTable, fields, [], title, false, false);
-  doc.save('Test.pdf');
+  doc.save((title[0] === '' ? 'Título não definido' : title[0] + ' resumido') + " .pdf");
 };
 
+var ThemedListItem = styles.styled(ListItem)({
+  '& .MuiListItemButton-root': {
+    paddingLeft: 0,
+    paddingRight: 0
+  }
+});
 function OptionsChecklist(_ref) {
   var listOptions = _ref.listOptions,
     title = _ref.title;
@@ -3819,7 +3863,7 @@ function OptionsChecklist(_ref) {
     }
   }, listOptions.map(function (value) {
     var labelId = "checkbox-list-label-" + value;
-    return /*#__PURE__*/React.createElement(ListItem, {
+    return /*#__PURE__*/React.createElement(ThemedListItem, {
       key: value,
       secondaryAction: /*#__PURE__*/React.createElement(IconButton, {
         edge: "end",
@@ -3829,8 +3873,11 @@ function OptionsChecklist(_ref) {
     }, /*#__PURE__*/React.createElement(ListItemButton, {
       role: undefined,
       onClick: handleToggle(value),
-      dense: true
-    }, /*#__PURE__*/React.createElement(ListItemIcon, null, /*#__PURE__*/React.createElement(Checkbox, {
+      dense: true,
+      sx: {
+        height: '36px'
+      }
+    }, /*#__PURE__*/React.createElement(Checkbox, {
       edge: "start",
       checked: options.indexOf(value) !== -1,
       tabIndex: -1,
@@ -3838,7 +3885,7 @@ function OptionsChecklist(_ref) {
       inputProps: {
         'aria-labelledby': labelId
       }
-    })), /*#__PURE__*/React.createElement(ListItemText, {
+    }), /*#__PURE__*/React.createElement(ListItemText, {
       id: labelId,
       primary: value
     })));
@@ -4196,7 +4243,10 @@ var Somar = function Somar(_ref) {
     }, /*#__PURE__*/React__default.createElement(ListItemButton, {
       role: undefined,
       onClick: handleToggle(value),
-      dense: true
+      dense: true,
+      sx: {
+        height: '36px'
+      }
     }, /*#__PURE__*/React__default.createElement(ListItemIcon, null, /*#__PURE__*/React__default.createElement(Checkbox, {
       edge: "start",
       checked: selecteds.indexOf(value) !== -1,
@@ -4294,13 +4344,21 @@ function ButtonsList(_ref) {
     options = _useSelectedRegisters2.options,
     agrupamento = _useSelectedRegisters2.agrupamento,
     somar = _useSelectedRegisters2.somar,
-    title = _useSelectedRegisters2.title;
+    title = _useSelectedRegisters2.title,
+    columnsOrder = _useSelectedRegisters2.columnsOrder;
   var generatePDFNivel1 = function generatePDFNivel1() {
     try {
       var filteredArr = [];
+      var orderedFields = [].concat(columnsOrder.filter(function (n) {
+        return checkedFields.includes(n);
+      })).slice();
+      var objModel = {};
+      orderedFields.forEach(function (field, index) {
+        objModel[field] = index;
+      });
       selecteds.forEach(function (element) {
         var newObj = Object.keys(element).filter(function (key) {
-          return fields.includes(key);
+          return orderedFields.includes(key);
         }).reduce(function (obj, key) {
           var _element$key;
           if (checkedFields.includes(key)) obj[key] = (_element$key = element[key]) != null ? _element$key : '';
@@ -4308,11 +4366,20 @@ function ButtonsList(_ref) {
         }, {});
         filteredArr.push(newObj);
       });
+      var formattedSelecteds = filteredArr.map(function (o) {
+        return Object.assign.apply(Object, [{}].concat(Object.keys(o).sort(function (a, b) {
+          return objModel[a] - objModel[b];
+        }).map(function (x) {
+          var _ref2;
+          return _ref2 = {}, _ref2[x] = o[x], _ref2;
+        })));
+      });
+      setTableWidth(options.includes('Horizontal (paisagem)') ? '761.89' : '515.3');
       var _temp = function () {
         if (agrupamento.length > 1) {
-          return Promise.resolve(PDFNivel2(filteredArr, [].concat(checkedFields), options, agrupamento, somar, title)).then(function () {});
+          return Promise.resolve(PDFNivel2(formattedSelecteds, orderedFields, options, agrupamento, somar, title)).then(function () {});
         } else {
-          return Promise.resolve(PDFNivel1(filteredArr, [].concat(checkedFields), options, agrupamento[0], somar, title)).then(function () {});
+          return Promise.resolve(PDFNivel1(formattedSelecteds, orderedFields, options, agrupamento[0], somar, title)).then(function () {});
         }
       }();
       return Promise.resolve(_temp && _temp.then ? _temp.then(function () {}) : void 0);
@@ -4333,6 +4400,7 @@ function ButtonsList(_ref) {
         }, {});
         filteredArr.push(newObj);
       });
+      setTableWidth(options.includes('Horizontal (paisagem)') ? '761.89' : '515.3');
       return Promise.resolve(PDFBasico(filteredArr, checkedFields, title)).then(function () {});
     } catch (e) {
       return Promise.reject(e);
@@ -4362,7 +4430,8 @@ function ButtonsList(_ref) {
     onClick: function onClick() {
       return generatePDFNivel1();
     },
-    disabled: selecteds.length < 1
+    disabled: selecteds.length < 1,
+    size: "small"
   }, "Visualizar")), /*#__PURE__*/React__default.createElement(Grid, {
     xs: 6
   }, /*#__PURE__*/React__default.createElement(Button, {
@@ -4374,7 +4443,8 @@ function ButtonsList(_ref) {
     onClick: function onClick() {
       return generatePDFBasico();
     },
-    disabled: selecteds.length < 1
+    disabled: selecteds.length < 1,
+    size: "small"
   }, "Resumir")), /*#__PURE__*/React__default.createElement(Grid, {
     xs: 6
   }, /*#__PURE__*/React__default.createElement(Button, {
@@ -4383,7 +4453,8 @@ function ButtonsList(_ref) {
     style: {
       width: '100%'
     },
-    onClick: handleOpenSomar
+    onClick: handleOpenSomar,
+    size: "small"
   }, "Somar")), /*#__PURE__*/React__default.createElement(Grid, {
     xs: 6
   }, /*#__PURE__*/React__default.createElement(Button, {
@@ -4392,7 +4463,8 @@ function ButtonsList(_ref) {
     style: {
       width: '100%'
     },
-    onClick: handleOpenAgrupamento
+    onClick: handleOpenAgrupamento,
+    size: "small"
   }, "Agrupar")), /*#__PURE__*/React__default.createElement(Grid, {
     xs: 12
   }, /*#__PURE__*/React__default.createElement(OptionsChecklist, {
@@ -4420,6 +4492,12 @@ function ButtonsList(_ref) {
   }))));
 }
 
+var style$e = {
+  item: {
+    fontSize: '0.9rem',
+    padding: '0.3rem 0.3rem'
+  }
+};
 var DynaGrade = function DynaGrade(_ref) {
   var conv = _ref.conv;
   var _useState = React.useState([]),
@@ -4460,7 +4538,9 @@ var DynaGrade = function DynaGrade(_ref) {
         field: field,
         header: field,
         filter: true,
-        filterPlaceholder: "Filtrar por " + field
+        filterPlaceholder: "Filtrar por " + field,
+        sortable: true,
+        style: style$e.item
       });
     } else {
       return null;
@@ -4480,12 +4560,13 @@ var DynaGrade = function DynaGrade(_ref) {
       return onSelectRegister(e.value);
     },
     dataKey: "id",
-    selectionPageOnly: true,
     paginator: true,
     rows: 30,
     size: "small",
     showGridlines: true,
-    stripedRows: true
+    stripedRows: true,
+    sortMode: "multiple",
+    emptyMessage: "Nenhum resultado encontrado"
   }, /*#__PURE__*/React__default.createElement(column.Column, {
     selectionMode: "multiple",
     headerStyle: {
@@ -4494,7 +4575,7 @@ var DynaGrade = function DynaGrade(_ref) {
   }), dynamicColumns)));
 };
 
-var reportOptions = ['Data/Hora', 'Paginação', 'Mostrar campo de agrupamento'];
+var reportOptions = ['Horizontal (paisagem)', 'Contador de registros', 'Mostrar campo de agrupamento', 'Data/Hora', 'Paginação'];
 var Principal = function Principal(_ref) {
   var fetchData = function fetchData() {
     try {
@@ -4502,7 +4583,7 @@ var Principal = function Principal(_ref) {
       return Promise.resolve(api.get(filter)).then(function (res) {
         setData(res.data.data);
         dispatch({
-          value: title,
+          value: [String(title != null ? title : ''), String(subTitle != null ? subTitle : ''), String(text != null ? text : '')],
           type: 'title'
         });
         dispatch({
@@ -4533,7 +4614,12 @@ var Principal = function Principal(_ref) {
   };
   var api = _ref.api,
     filter = _ref.filter,
-    title = _ref.title;
+    _ref$title = _ref.title,
+    title = _ref$title === void 0 ? null : _ref$title,
+    _ref$subTitle = _ref.subTitle,
+    subTitle = _ref$subTitle === void 0 ? null : _ref$subTitle,
+    _ref$text = _ref.text,
+    text = _ref$text === void 0 ? null : _ref$text;
   var _useState = React.useState(null),
     data = _useState[0],
     setData = _useState[1];
