@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.96](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.95...v1.0.96) (2023-03-06)
+
+
+### Bug Fixes
+
+* CustomBeneficiarie wallet code ([70732aa](https://github.com/AgsiSistemas/agsi.br.componente/commit/70732aa638ae9307f54add32abeeee2e1eaedd64))
+
 ### [1.0.95](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.94...v1.0.95) (2023-03-06)
 
 ### [1.0.94](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.93...v1.0.94) (2023-03-02)
