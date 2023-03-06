@@ -5,9 +5,10 @@ import {
   isArrayInArray,
   getGroupHeader,
   addSum,
+  addCount,
   getFilteredHeader,
   pageUpd,
-  retratoWidth,
+  tableWidth,
   addheader
 } from './Methods'
 
@@ -20,7 +21,10 @@ export const PDFNivel1 = (
   title
 ) => {
   // DEFINICOES DE VARIAVEIS
-  const doc = new jsPDF('p', 'pt', 'a4')
+  const isHorizontal = options.includes('Horizontal (paisagem)')
+  const isCounting = options.includes('Contador de registros')
+  const maxLength = isHorizontal ? '461' : '750'
+  const doc = new jsPDF(isHorizontal ? 'l' : 'p', 'pt', 'a4')
   let page = 1
 
   const hideGroupField = !options.includes('Mostrar campo de agrupamento')
@@ -49,6 +53,11 @@ export const PDFNivel1 = (
     addSum(doc.lastAutoTable.finalY, null, somaContent, doc, autoTable)
   }
 
+  const addCountFooter = (dataSection) => {
+    const contadorContent = [`Reg:  ${dataSection.length}`]
+    addCount(doc.lastAutoTable.finalY, null, contadorContent, doc, autoTable)
+  }
+
   // ADICIONA REGISTRO EM PRIMEIRO NIVEL
   const addPrimeiroNivel = (Y, header, content) => {
     autoTable(doc, {
@@ -63,7 +72,7 @@ export const PDFNivel1 = (
   // ADICIONA REGISTRO
   const addtable = (data) => {
     const cellWidth =
-      retratoWidth / (fields.length - (hideGroupField ? agrupamento.length : 0))
+      tableWidth / (fields.length - (hideGroupField ? agrupamento.length : 0))
 
     // PARA CADA REGISTRO
     data.forEach((el, index) => {
@@ -78,7 +87,7 @@ export const PDFNivel1 = (
         })
       }
 
-      const Y = pageUpd(doc.lastAutoTable.finalY, doc, page)
+      const Y = pageUpd(doc.lastAutoTable.finalY, doc, page, maxLength)
 
       addPrimeiroNivel(Y, null, [tempContent])
     })
@@ -128,7 +137,7 @@ export const PDFNivel1 = (
         }
       })
 
-      Y = pageUpd(Y, doc, page, 750)
+      Y = pageUpd(Y, doc, page, maxLength)
 
       autoTable(doc, {
         body: [[getGroupHeader(agrupamento, section)]],
@@ -145,6 +154,7 @@ export const PDFNivel1 = (
 
       addtable(tempDataSection)
       if (somar.length > 0) addSumFooter(tempDataSection)
+      if (isCounting) addCountFooter(tempDataSection)
       autoTable(doc, {
         startY: doc.lastAutoTable.finalY + 2
       })
@@ -152,6 +162,7 @@ export const PDFNivel1 = (
   } else {
     addtable(selecteds)
     if (somar.length > 0) addSumFooter(selecteds)
+    if (isCounting) addCountFooter(selecteds)
     autoTable(doc, {
       startY: doc.lastAutoTable.finalY + 2
     })
@@ -160,5 +171,5 @@ export const PDFNivel1 = (
   // HEADER
   addheader(doc, autoTable, fields, agrupamento, title, hideGroupField)
 
-  doc.save('Test.pdf')
+  doc.save(`${title[0] === '' ? 'Título não definido' : title[0]}.pdf`)
 }

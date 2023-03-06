@@ -13,7 +13,13 @@ import CircularProgress from '@mui/material/CircularProgress'
 import { Typography } from '@mui/material'
 import ErrorIcon from '@mui/icons-material/Error'
 
-const reportOptions = ['Mostrar campo de agrupamento', 'Data/Hora', 'Paginação']
+const reportOptions = [
+  'Horizontal (paisagem)',
+  'Contador de registros',
+  'Mostrar campo de agrupamento',
+  'Data/Hora',
+  'Paginação'
+]
 
 export const Principal = ({
   api,

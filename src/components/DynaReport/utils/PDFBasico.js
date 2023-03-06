@@ -30,5 +30,7 @@ export const PDFBasico = (selecteds, fields, title) => {
   // HEADER
   addheader(doc, autoTable, fields, [], title, false, false)
 
-  doc.save('Test.pdf')
+  doc.save(
+    `${title[0] === '' ? 'Título não definido' : title[0] + ' resumido'} .pdf`
+  )
 }

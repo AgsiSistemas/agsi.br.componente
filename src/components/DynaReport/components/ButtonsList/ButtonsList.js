@@ -16,6 +16,7 @@ import Agrupamento from '../Agrupamento/Agrupamento'
 import Somar from '../Somar/Somar'
 import Modal from '@mui/material/Modal'
 import { useSelectedRegisters } from '../../context/context'
+import { setTableWidth } from '../../utils/Methods'
 
 const style = {
   position: 'absolute',
@@ -85,6 +86,10 @@ function ButtonsList({ listOptions }) {
       )
     )
 
+    setTableWidth(
+      options.includes('Horizontal (paisagem)') ? '761.89' : '515.3'
+    )
+
     if (agrupamento.length > 1) {
       await PDFNivel2(
         formattedSelecteds,
@@ -119,6 +124,9 @@ function ButtonsList({ listOptions }) {
 
       filteredArr.push(newObj)
     })
+    setTableWidth(
+      options.includes('Horizontal (paisagem)') ? '761.89' : '515.3'
+    )
     await PDFBasico(filteredArr, checkedFields, title)
   }
 

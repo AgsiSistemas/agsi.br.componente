@@ -1,5 +1,9 @@
 export const startPageY = 130
-export const retratoWidth = 515.3
+export let tableWidth = 0
+
+export const setTableWidth = (newWidth) => {
+  tableWidth = newWidth
+}
 
 export const mainHeaderStyle = {
   fillColor: [41, 89, 129],
@@ -8,7 +12,7 @@ export const mainHeaderStyle = {
 }
 
 export const getColumnStyles = (qtdColumns) => {
-  const tempWidth = retratoWidth / qtdColumns
+  const tempWidth = tableWidth / qtdColumns
   const tempObj = {}
 
   for (let index = 0; index < qtdColumns; index++) {
@@ -21,7 +25,7 @@ export const getColumnStyles = (qtdColumns) => {
 }
 
 export const getGroupsStyles = (qtdColumns, bold) => {
-  const tempWidth = retratoWidth / qtdColumns
+  const tempWidth = tableWidth / qtdColumns
   const tempObj = {}
 
   for (let index = 0; index < qtdColumns; index++) {
@@ -34,7 +38,7 @@ export const getGroupsStyles = (qtdColumns, bold) => {
 }
 
 export const getHeaderStyles = (qtdColumns) => {
-  const tempWidth = retratoWidth / qtdColumns
+  const tempWidth = tableWidth / qtdColumns
   const tempObj = {}
 
   for (let index = 0; index < qtdColumns; index++) {
@@ -66,7 +70,7 @@ export const getGroupHeader = (agrupamento, grupos) => {
 }
 
 export const addSum = (Y, header, content, doc, autoTable) => {
-  const tempWidth = retratoWidth / content.length
+  const tempWidth = tableWidth / content.length
   const tempObj = {}
 
   for (let index = 0; index < content.length; index++) {
@@ -89,6 +93,23 @@ export const addSum = (Y, header, content, doc, autoTable) => {
     startY: Y,
     pageBreak: 'avoid',
     columnStyles: tempObj
+  })
+}
+
+export const addCount = (Y, header, content, doc, autoTable) => {
+  autoTable(doc, {
+    body: [content],
+    head: header,
+    startY: Y,
+    pageBreak: 'avoid',
+    columnStyles: {
+      0: {
+        cellWidth: tableWidth,
+        textColor: [0, 0, 0],
+        fillColor: [180, 180, 180],
+        lineColor: [0, 0, 0]
+      }
+    }
   })
 }
 
@@ -132,10 +153,10 @@ export const addheader = (
 
     doc.setLineWidth(1)
     doc.setPage(i)
-    doc.line(20, 30, 580, 30)
+    doc.line(20, 30, fullWidth - 20, 30)
     doc.setFontSize(9)
     doc.text(
-      fullWidth - 18,
+      fullWidth - 20,
       39,
       'Página ' +
         doc.internal.getCurrentPageInfo().pageNumber +
@@ -149,10 +170,10 @@ export const addheader = (
     doc.text(fullWidth / 2, 63, title[1], { align: 'center' })
     doc.text(fullWidth / 2, 78, title[2], { align: 'center' })
 
-    doc.line(20, 95, 580, 95)
+    doc.line(20, 95, fullWidth - 20, 95)
     doc.setFontSize(9)
     var today = new Date()
-    doc.text(fullWidth - 18, 92, today.toLocaleString(), { align: 'right' })
+    doc.text(fullWidth - 20, 92, today.toLocaleString(), { align: 'right' })
 
     const filteredHeader = getFilteredHeader(
       fields,
@@ -164,7 +185,7 @@ export const addheader = (
     if (addHeader) {
       doc.setDrawColor(0)
       doc.setFillColor(49, 88, 130)
-      doc.rect(40, 96, 515.3, 33, 'F')
+      doc.rect(40, 96, fullWidth - 80, 33, 'F')
 
       autoTable(doc, {
         startY: 96,
