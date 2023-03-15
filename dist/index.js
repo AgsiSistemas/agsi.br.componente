@@ -2262,6 +2262,9 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
     },
     inputValue: beneficiarieWalletInputValue,
     onInputChange: function onInputChange(event, newInputValue) {
+      if (newInputValue == '') {
+        onChangeName('');
+      }
       setBeneficiarieWalletInputValue(maskWallet(newInputValue));
     },
     onKeyUp: function onKeyUp(event) {
@@ -2291,8 +2294,31 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
         return Promise.reject(e);
       }
     },
-    onblur: function onblur() {
-      return setOpenWalletField(false);
+    onBlur: function onBlur(event) {
+      try {
+        var _temp2 = _catch(function () {
+          setLoadingBeneficiary(true);
+          return Promise.resolve(api.http.get("" + api.addressCode(event.target.value))).then(function (response) {
+            var _response$data$data;
+            if ((_response$data$data = response.data.data) !== null && _response$data$data !== void 0 && _response$data$data.name) {
+              var _response$data$data2, _response$data$data3, _response$data$data4;
+              onChangeId((_response$data$data2 = response.data.data) === null || _response$data$data2 === void 0 ? void 0 : _response$data$data2.code);
+              onChangeName({
+                label: (_response$data$data3 = response.data.data) === null || _response$data$data3 === void 0 ? void 0 : _response$data$data3.name,
+                id: (_response$data$data4 = response.data.data) === null || _response$data$data4 === void 0 ? void 0 : _response$data$data4.code
+              });
+            }
+            setOpenWalletField(false);
+            setLoadingBeneficiary(false);
+          });
+        }, function () {
+          setOpenWalletField(false);
+          setLoadingBeneficiary(false);
+        });
+        return Promise.resolve(_temp2 && _temp2.then ? _temp2.then(function () {}) : void 0);
+      } catch (e) {
+        return Promise.reject(e);
+      }
     },
     maxLength: 18,
     validation: validation
@@ -2314,7 +2340,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
     inputValue: beneficiariesNameInputValue,
     onInputChange: function onInputChange(event, newInputValue) {
       try {
-        var _temp3 = function _temp3() {
+        var _temp4 = function _temp4() {
           var item = localBeneficiaries.data.content.filter(function (x) {
             return x.name === newInputValue;
           })[0];
@@ -2329,7 +2355,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
           handleOnChangeData('');
         }
         setBeneficiariesNameInputValue(maskText(newInputValue));
-        var _temp2 = function () {
+        var _temp3 = function () {
           if (newInputValue && event.target.value.length >= 3) {
             setLoadingBeneficiary(true);
             return Promise.resolve(api.http.get("" + api.addressName(maskText(event.target.value))).then(function (response) {
@@ -2340,7 +2366,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
             });
           }
         }();
-        return Promise.resolve(_temp2 && _temp2.then ? _temp2.then(_temp3) : _temp3(_temp2));
+        return Promise.resolve(_temp3 && _temp3.then ? _temp3.then(_temp4) : _temp4(_temp3));
       } catch (e) {
         return Promise.reject(e);
       }
