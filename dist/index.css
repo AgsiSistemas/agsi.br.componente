@@ -362,3 +362,7 @@ p {
   margin-bottom: 20px;
   overflow-x: auto;
 }
+
+.p-datatable.p-datatable-sm .p-datatable-tbody > tr > td {
+  padding: 0.3rem 0.4rem;
+}

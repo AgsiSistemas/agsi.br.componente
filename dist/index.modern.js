@@ -85,6 +85,12 @@ import { DndProvider } from 'react-dnd';
 import { MultiBackend, getBackendOptions, Tree } from '@minoru/react-dnd-treeview';
 import FolderIcon from '@mui/icons-material/Folder';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import RadioGroup from '@mui/material/RadioGroup';
+import Radio from '@mui/material/Radio';
+import FormLabel from '@mui/material/FormLabel';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
 import Modal$1 from '@mui/material/Modal';
 import 'primeicons/primeicons.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
@@ -3336,11 +3342,7 @@ function FieldsChecklist() {
       });
     };
   };
-  return /*#__PURE__*/createElement(Box, {
-    sx: {
-      p: 2
-    }
-  }, /*#__PURE__*/createElement(Typography, {
+  return /*#__PURE__*/createElement(Box, null, /*#__PURE__*/createElement(Typography, {
     variant: "h5",
     gutterBottom: true,
     sx: {
@@ -3864,12 +3866,175 @@ var PDFBasico = function PDFBasico(selecteds, fields, title) {
   doc.save((title[0] === '' ? 'Título não definido' : title[0] + ' resumido') + " .pdf");
 };
 
-var ThemedListItem = styled(ListItem)({
-  '& .MuiListItemButton-root': {
-    paddingLeft: 0,
-    paddingRight: 0
+var PDFSintetico = function PDFSintetico(selecteds, fields, options, agrupamento, somar, title) {
+  if (agrupamento === void 0) {
+    agrupamento = [];
   }
-});
+  if (somar === void 0) {
+    somar = [];
+  }
+  var isHorizontal = options.includes('Horizontal (paisagem)');
+  var isCounting = options.includes('Contador de registros');
+  var maxLength = isHorizontal ? '461' : '750';
+  var doc = new jsPDF(isHorizontal ? 'l' : 'p', 'pt', 'a4');
+  var page = 1;
+  var hideGroupField = !options.includes('Mostrar campo de agrupamento');
+  var addSumFooter = function addSumFooter(dataSection) {
+    var somaContent = [];
+    var filteredHeader = fields.slice();
+    agrupamento.forEach(function (grupo) {
+      filteredHeader = getFilteredHeader(filteredHeader, grupo, hideGroupField);
+    });
+    filteredHeader.forEach(function (element) {
+      if (somar.includes(element)) {
+        var sumWithInitial = dataSection.reduce(function (acc, data) {
+          return acc + Number(data[element]);
+        }, 0);
+        somaContent.push(somaContent.length === 0 ? "\u03A3 " + sumWithInitial : sumWithInitial);
+      } else {
+        somaContent.push(somaContent.length === 0 ? "\u03A3" : null);
+      }
+    });
+    addSum(doc.lastAutoTable.finalY, null, somaContent, doc, autoTable);
+  };
+  var addCountFooter = function addCountFooter(dataSection) {
+    var contadorContent = ["Reg:  " + dataSection.length];
+    addCount(doc.lastAutoTable.finalY, null, contadorContent, doc, autoTable);
+  };
+  var addPrimeiroNivel = function addPrimeiroNivel(Y, header, content) {
+    autoTable(doc, {
+      startY: Y > startPageY ? Y : startPageY,
+      head: header ? [header] : [],
+      pageBreak: 'avoid',
+      margin: {
+        top: startPageY
+      },
+      body: content
+    });
+  };
+  var addtable = function addtable(data) {
+    var cellWidth = tableWidth / (fields.length - (hideGroupField ? agrupamento[0].length + agrupamento[1].length : 0));
+    data.forEach(function (el, index) {
+      var tempContent = [];
+      for (var _i = 0, _Object$entries = Object.entries(el); _i < _Object$entries.length; _i++) {
+        var _Object$entries$_i = _Object$entries[_i],
+          value = _Object$entries$_i[1];
+        tempContent.push({
+          content: value.trim(),
+          styles: {
+            fillColor: index % 2 === 0 ? [252, 252, 252] : [245, 245, 245],
+            cellWidth: cellWidth
+          }
+        });
+      }
+      var Y = pageUpd(doc.lastAutoTable.finalY, doc, page, maxLength);
+      addPrimeiroNivel(Y, null, [tempContent]);
+    });
+  };
+  autoTable(doc, {
+    startY: startPageY
+  });
+  var groupSections1 = [];
+  var selectedsClone = [].concat(selecteds);
+  var agrupamentoNivel1 = agrupamento[0];
+  var agrupamentoNivel2 = agrupamento[1];
+  selectedsClone.forEach(function (element) {
+    var tempGrupo = [];
+    agrupamentoNivel1.forEach(function (grupo) {
+      tempGrupo.push(element[grupo]);
+    });
+    if (!isArrayInArray(groupSections1, tempGrupo)) {
+      groupSections1.push(tempGrupo);
+    }
+  });
+  groupSections1.forEach(function (section1) {
+    var Y = doc.lastAutoTable.finalY;
+    var tempDataSection1 = [];
+    selectedsClone.forEach(function (register) {
+      var addToGroup = true;
+      section1.forEach(function (element, index) {
+        if (register[agrupamentoNivel1[index]] !== element) {
+          addToGroup = false;
+        }
+      });
+      if (addToGroup) {
+        if (hideGroupField) {
+          agrupamentoNivel1.forEach(function (grupo) {
+            delete register[grupo];
+          });
+        }
+        tempDataSection1.push(register);
+      }
+    });
+    Y = pageUpd(Y, doc, page, maxLength);
+    autoTable(doc, {
+      body: [[getGroupHeader(agrupamentoNivel1, section1)]],
+      startY: Y,
+      pageBreak: 'avoid',
+      columnStyles: {
+        0: {
+          fillColor: [205, 214, 236],
+          textColor: [0, 0, 0],
+          fontStyle: 'bold'
+        }
+      }
+    });
+    var groupSections2 = [];
+    tempDataSection1.forEach(function (element) {
+      var tempGrupo = [];
+      agrupamentoNivel2.forEach(function (grupo) {
+        tempGrupo.push(element[grupo]);
+      });
+      if (!isArrayInArray(groupSections2, tempGrupo)) {
+        groupSections2.push(tempGrupo);
+      }
+    });
+    groupSections2.forEach(function (section2) {
+      var tempDataSection2 = [];
+      Y = pageUpd(doc.lastAutoTable.finalY, doc, page, maxLength);
+      autoTable(doc, {
+        body: [agrupamentoNivel2],
+        startY: Y,
+        pageBreak: 'avoid',
+        columnStyles: getHeaderStyles(section2.length)
+      });
+      autoTable(doc, {
+        body: [section2],
+        startY: doc.lastAutoTable.finalY,
+        pageBreak: 'avoid',
+        columnStyles: getHeaderStyles(section2.length)
+      });
+      tempDataSection1.forEach(function (register) {
+        var addToGroup = true;
+        section2.forEach(function (element, index) {
+          if (register[agrupamentoNivel2[index]] !== element) {
+            addToGroup = false;
+          }
+        });
+        if (addToGroup) {
+          if (hideGroupField) {
+            agrupamentoNivel2.forEach(function (grupo) {
+              delete register[grupo];
+            });
+          }
+          tempDataSection2.push(register);
+        }
+      });
+      addtable(tempDataSection2);
+      if (somar.length > 0) addSumFooter(tempDataSection2);
+      if (isCounting) addCountFooter(tempDataSection2);
+      autoTable(doc, {
+        startY: doc.lastAutoTable.finalY + 2
+      });
+    });
+    autoTable(doc, {
+      startY: doc.lastAutoTable.finalY + 2
+    });
+  });
+  addheader(doc, autoTable, fields, agrupamento.flat(), title, hideGroupField);
+  doc.save((title[0] === '' ? 'Título não definido' : title[0] + 'sintético') + ".pdf");
+};
+
 function OptionsChecklist(_ref) {
   var listOptions = _ref.listOptions,
     title = _ref.title;
@@ -3891,11 +4056,7 @@ function OptionsChecklist(_ref) {
       });
     };
   };
-  return /*#__PURE__*/createElement(Box, {
-    sx: {
-      p: 2
-    }
-  }, /*#__PURE__*/createElement(Typography, {
+  return /*#__PURE__*/createElement(Box, null, /*#__PURE__*/createElement(Typography, {
     variant: "h5",
     gutterBottom: true,
     sx: {
@@ -3908,7 +4069,7 @@ function OptionsChecklist(_ref) {
     }
   }, listOptions.map(function (value) {
     var labelId = "checkbox-list-label-" + value;
-    return /*#__PURE__*/createElement(ThemedListItem, {
+    return /*#__PURE__*/createElement(ListItem, {
       key: value,
       secondaryAction: /*#__PURE__*/createElement(IconButton, {
         edge: "end",
@@ -4204,14 +4365,14 @@ var Agrupamento = function Agrupamento(_ref) {
   }, /*#__PURE__*/React__default.createElement(Button, {
     variant: "contained",
     onClick: handleClose,
-    color: "error",
     startIcon: /*#__PURE__*/React__default.createElement(CancelOutlinedIcon, null)
   }, "Cancelar")), /*#__PURE__*/React__default.createElement(Grid, {
     item: true
   }, /*#__PURE__*/React__default.createElement(Button, {
     variant: "contained",
     onClick: handleSalvar,
-    startIcon: /*#__PURE__*/React__default.createElement(SaveOutlinedIcon, null)
+    startIcon: /*#__PURE__*/React__default.createElement(SaveOutlinedIcon, null),
+    color: "success"
   }, "Salvar"))))));
 };
 
@@ -4340,15 +4501,481 @@ var Somar = function Somar(_ref) {
   }, /*#__PURE__*/React__default.createElement(Button, {
     variant: "contained",
     onClick: handleClose,
-    color: "error",
     startIcon: /*#__PURE__*/React__default.createElement(CancelOutlinedIcon, null)
   }, "Cancelar")), /*#__PURE__*/React__default.createElement(Grid, {
     item: true
   }, /*#__PURE__*/React__default.createElement(Button, {
     variant: "contained",
     onClick: handleSalvar,
-    startIcon: /*#__PURE__*/React__default.createElement(SaveOutlinedIcon, null)
+    startIcon: /*#__PURE__*/React__default.createElement(SaveOutlinedIcon, null),
+    color: "success"
   }, "Salvar"))))));
+};
+
+var modelosMock = [{
+  name: 'Teste modelo 1',
+  options: ['Horizontal (paisagem)', 'Contador de registros', 'Mostrar campo de agrupamento'],
+  group: [{
+    id: 1,
+    parent: 0,
+    droppable: true,
+    text: 'Grupo 01'
+  }, {
+    id: 'Código',
+    parent: 1,
+    droppable: false,
+    text: 'Código'
+  }, {
+    id: 11,
+    parent: 0,
+    droppable: true,
+    text: 'Grupo 02'
+  }, {
+    id: 'Quantidade',
+    parent: 11,
+    droppable: false,
+    text: 'Quantidade'
+  }],
+  columnsOrder: [null, 'Quantidade', 'Código', 'Atendimento', 'Operador'],
+  checkedFields: ['Código', 'Operador', 'Quantidade', 'Atendimento'],
+  sum: ['Quantidade']
+}, {
+  name: 'Teste modelo 2',
+  options: ['Horizontal (paisagem)'],
+  group: [{
+    id: 1,
+    parent: 0,
+    droppable: true,
+    text: 'Grupo 01'
+  }, {
+    id: 'Operador',
+    parent: 1,
+    droppable: false,
+    text: 'Operador'
+  }],
+  columnsOrder: [null, 'Código', 'Cód. Motivo Relato', 'Quantidade', 'Motivo Relato', 'Atendimento', 'Operador'],
+  checkedFields: ['Código', 'Atendimento', 'Cód. Motivo Relato', 'Motivo Relato', 'Operador', 'Quantidade'],
+  sum: ['Quantidade']
+}];
+var Modelos = function Modelos(_ref) {
+  var handleClose = _ref.handleClose;
+  var _useSelectedRegisters = useSelectedRegisters(),
+    dispatch = _useSelectedRegisters.dispatch;
+  var _useState = useState(''),
+    value = _useState[0],
+    setValue = _useState[1];
+  var handleChange = function handleChange(event) {
+    setValue(event.target.value);
+  };
+  var handleSalvar = function handleSalvar() {
+    dispatch({
+      value: modelosMock[value].columnsOrder,
+      type: 'columnsOrder'
+    });
+    dispatch({
+      value: modelosMock[value].checkedFields,
+      type: 'checkedFields'
+    });
+    dispatch({
+      value: modelosMock[value].group,
+      type: 'savedTree'
+    });
+    dispatch({
+      value: modelosMock[value].options,
+      type: 'options'
+    });
+    dispatch({
+      value: modelosMock[value].sum,
+      type: 'somar'
+    });
+    var grupo1 = [];
+    var grupo2 = [];
+    modelosMock[value].group.forEach(function (el) {
+      if (el.parent === 1) {
+        grupo1.push(el.id);
+      } else if (el.parent === 11) {
+        grupo2.push(el.id);
+      }
+    });
+    if (grupo2.length > 0) {
+      dispatch({
+        value: [grupo1, grupo2],
+        type: 'agrupamento'
+      });
+    } else {
+      dispatch({
+        value: [grupo1],
+        type: 'agrupamento'
+      });
+    }
+    handleClose();
+  };
+  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(Stack, {
+    direction: "column",
+    justifyContent: "space-between",
+    alignItems: "stretch",
+    spacing: 0,
+    style: {
+      height: '100%'
+    }
+  }, /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement(Typography, {
+    variant: "h5",
+    gutterBottom: true,
+    sx: {
+      padding: '8px 12px'
+    }
+  }, "Modelos"), /*#__PURE__*/React__default.createElement(Divider, null)), /*#__PURE__*/React__default.createElement(Grid, {
+    container: true,
+    direction: "row",
+    xs: 12,
+    style: {
+      overflowY: 'auto',
+      height: '100%',
+      padding: '2px'
+    }
+  }, /*#__PURE__*/React__default.createElement(RadioGroup, {
+    "aria-labelledby": "demo-controlled-radio-buttons-group",
+    name: "controlled-radio-buttons-group",
+    value: value,
+    onChange: handleChange
+  }, modelosMock.map(function (modelo, index) {
+    return /*#__PURE__*/React__default.createElement(FormControlLabel, {
+      key: modelo.name,
+      value: index,
+      control: /*#__PURE__*/React__default.createElement(Radio, null),
+      label: modelo.name
+    });
+  }))), /*#__PURE__*/React__default.createElement(Grid, {
+    xs: 12,
+    container: true,
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+    flexDirection: {
+      xs: 'column',
+      sm: 'row'
+    },
+    spacing: 2
+  }, /*#__PURE__*/React__default.createElement(Grid, {
+    container: true,
+    xs: 5,
+    justifyContent: "flex-start",
+    style: {
+      padding: '8px'
+    }
+  }, /*#__PURE__*/React__default.createElement(Grid, {
+    item: true
+  }, /*#__PURE__*/React__default.createElement(Button, {
+    variant: "outlined",
+    startIcon: /*#__PURE__*/React__default.createElement(DeleteIcon, null)
+  }, "Excluir modelo"))), /*#__PURE__*/React__default.createElement(Grid, {
+    container: true,
+    xs: 7,
+    justifyContent: "flex-end",
+    style: {
+      padding: '8px'
+    }
+  }, /*#__PURE__*/React__default.createElement(Grid, {
+    item: true
+  }, /*#__PURE__*/React__default.createElement(Button, {
+    variant: "contained",
+    onClick: handleClose,
+    startIcon: /*#__PURE__*/React__default.createElement(CancelOutlinedIcon, null)
+  }, "Cancelar")), /*#__PURE__*/React__default.createElement(Grid, {
+    item: true
+  }, /*#__PURE__*/React__default.createElement(Button, {
+    variant: "contained",
+    onClick: handleSalvar,
+    startIcon: /*#__PURE__*/React__default.createElement(SaveOutlinedIcon, null),
+    color: "success"
+  }, "Carregar"))))));
+};
+
+var NovoModelo = function NovoModelo(_ref) {
+  var handleClose = _ref.handleClose;
+  var _useState = useState(''),
+    value = _useState[0],
+    setValue = _useState[1];
+  var handleSalvar = function handleSalvar() {
+    handleClose();
+  };
+  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(Stack, {
+    direction: "column",
+    justifyContent: "space-between",
+    alignItems: "stretch",
+    spacing: 0,
+    style: {
+      height: '100%'
+    }
+  }, /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement(Typography, {
+    variant: "h5",
+    gutterBottom: true,
+    sx: {
+      padding: '8px 12px'
+    }
+  }, "Adicionar novo modelo"), /*#__PURE__*/React__default.createElement(Divider, null)), /*#__PURE__*/React__default.createElement(Grid, {
+    container: true,
+    direction: "row",
+    xs: 12,
+    style: {
+      overflowY: 'auto',
+      height: '100%',
+      padding: '2px'
+    },
+    justifyContent: "space-between"
+  }, /*#__PURE__*/React__default.createElement(Grid, {
+    xs: 12
+  }, /*#__PURE__*/React__default.createElement(Grid, {
+    style: {
+      padding: '8px',
+      margin: '8px'
+    }
+  }, /*#__PURE__*/React__default.createElement(Box, {
+    sx: {
+      paddingTop: 1
+    }
+  }, /*#__PURE__*/React__default.createElement(TextField, {
+    id: "nome-arquivo",
+    label: "Informe um nome",
+    variant: "outlined",
+    fullWidth: true,
+    value: value,
+    InputLabelProps: {
+      shrink: true
+    },
+    onChange: function onChange(event) {
+      setValue(event.target.value);
+    }
+  }))))), /*#__PURE__*/React__default.createElement(Grid, {
+    xs: 12,
+    container: true,
+    justifyContent: "flex-end",
+    flexDirection: {
+      xs: 'column',
+      sm: 'row'
+    },
+    spacing: 2
+  }, /*#__PURE__*/React__default.createElement(Grid, {
+    item: true
+  }, /*#__PURE__*/React__default.createElement(Button, {
+    variant: "contained",
+    onClick: handleClose,
+    startIcon: /*#__PURE__*/React__default.createElement(CancelOutlinedIcon, null)
+  }, "Cancelar")), /*#__PURE__*/React__default.createElement(Grid, {
+    item: true
+  }, /*#__PURE__*/React__default.createElement(Button, {
+    variant: "contained",
+    onClick: handleSalvar,
+    startIcon: /*#__PURE__*/React__default.createElement(SaveOutlinedIcon, null),
+    color: "success"
+  }, "Salvar")))));
+};
+
+var tiposExportacao = ['Excel', 'Texto', 'Word', 'Calc (BrOffice)', 'CSV'];
+var tiposDatas = ['DDMMYY', 'MMDDYY', 'MMYY', 'DDMMYYYY'];
+var opcoesExportacao = ['Nova pasta', 'Exportar cabeçalho', 'manter Excel Visível'];
+var Exportacao = function Exportacao(_ref) {
+  var handleClose = _ref.handleClose;
+  var _useSelectedRegisters = useSelectedRegisters();
+  var _useState = useState(''),
+    extensao = _useState[0],
+    setExtensao = _useState[1];
+  var _useState2 = useState(''),
+    selectedData = _useState2[0],
+    setSelectedData = _useState2[1];
+  var _useState3 = useState(''),
+    fileName = _useState3[0],
+    setFileName = _useState3[1];
+  var _useState4 = useState([]),
+    selecteds = _useState4[0],
+    setSelecteds = _useState4[1];
+  var handleToggleOpcao = function handleToggleOpcao(value) {
+    return function () {
+      var currentIndex = selecteds.indexOf(value);
+      var newChecked = [].concat(selecteds);
+      if (currentIndex === -1) {
+        newChecked.push(value);
+      } else {
+        newChecked.splice(currentIndex, 1);
+      }
+      setSelecteds(newChecked);
+    };
+  };
+  var handleChangeExtensao = function handleChangeExtensao(event) {
+    setExtensao(event.target.value);
+  };
+  var handleSalvar = function handleSalvar() {
+    handleClose();
+  };
+  var handleChangeData = function handleChangeData(event) {
+    setSelectedData(event.target.value);
+  };
+  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(Stack, {
+    direction: "column",
+    justifyContent: "space-between",
+    alignItems: "stretch",
+    spacing: 0,
+    style: {
+      height: '100%'
+    }
+  }, /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement(Typography, {
+    variant: "h5",
+    gutterBottom: true,
+    sx: {
+      padding: '8px 12px'
+    }
+  }, "Exporta\xE7\xE3o"), /*#__PURE__*/React__default.createElement(Divider, null)), /*#__PURE__*/React__default.createElement(Grid, {
+    container: true,
+    direction: "row",
+    xs: 12,
+    style: {
+      overflowY: 'auto',
+      height: '100%',
+      padding: '2px'
+    },
+    justifyContent: "space-between"
+  }, /*#__PURE__*/React__default.createElement(Grid, {
+    xs: 8
+  }, /*#__PURE__*/React__default.createElement(Grid, {
+    style: {
+      padding: '8px',
+      border: '1px solid rgba(0, 0, 0, 0.12)',
+      borderRadius: '4px',
+      margin: '8px'
+    }
+  }, /*#__PURE__*/React__default.createElement(FormLabel, {
+    id: "controlled-radio-buttons-group2"
+  }, "Op\xE7\xF5es de formata\xE7\xE3o"), /*#__PURE__*/React__default.createElement(Box, {
+    sx: {
+      paddingTop: 1
+    }
+  }, /*#__PURE__*/React__default.createElement(FormControl, {
+    fullWidth: true
+  }, /*#__PURE__*/React__default.createElement(InputLabel, {
+    id: "simple-select-label",
+    shrink: true
+  }, "Formato de data"), /*#__PURE__*/React__default.createElement(Select, {
+    labelId: "simple-select-label",
+    id: "simple-select",
+    value: selectedData,
+    label: "Formato de data",
+    onChange: handleChangeData,
+    notched: true
+  }, tiposDatas.map(function (tipo) {
+    return /*#__PURE__*/React__default.createElement(MenuItem, {
+      key: tipo,
+      value: tipo
+    }, tipo);
+  })))), /*#__PURE__*/React__default.createElement(Box, {
+    sx: {
+      paddingTop: 1
+    }
+  }, /*#__PURE__*/React__default.createElement(TextField, {
+    id: "nome-arquivo",
+    label: "Nome do arquivo",
+    variant: "outlined",
+    fullWidth: true,
+    value: fileName,
+    InputLabelProps: {
+      shrink: true
+    },
+    onChange: function onChange(event) {
+      setFileName(event.target.value);
+    }
+  })), /*#__PURE__*/React__default.createElement(List, {
+    sx: {
+      width: '100%',
+      maxWidth: 360
+    }
+  }, opcoesExportacao.map(function (opcao) {
+    var labelId = "checkbox-list-label-" + opcao;
+    return /*#__PURE__*/React__default.createElement(ListItem, {
+      key: opcao,
+      secondaryAction: /*#__PURE__*/React__default.createElement(IconButton, {
+        edge: "end",
+        "aria-label": "comments"
+      }),
+      disablePadding: true
+    }, /*#__PURE__*/React__default.createElement(ListItemButton, {
+      role: undefined,
+      onClick: handleToggleOpcao(opcao),
+      dense: true,
+      sx: {
+        height: '36px'
+      }
+    }, /*#__PURE__*/React__default.createElement(ListItemIcon, null, /*#__PURE__*/React__default.createElement(Checkbox, {
+      edge: "start",
+      checked: selecteds.indexOf(opcao) !== -1,
+      tabIndex: -1,
+      disableRipple: true,
+      inputProps: {
+        'aria-labelledby': labelId
+      }
+    })), /*#__PURE__*/React__default.createElement(ListItemText, {
+      id: labelId,
+      primary: opcao
+    })));
+  })))), /*#__PURE__*/React__default.createElement(Grid, {
+    xs: 4
+  }, /*#__PURE__*/React__default.createElement(Grid, {
+    style: {
+      paddingTop: '8px',
+      border: '1px solid rgba(0, 0, 0, 0.12)',
+      borderRadius: '4px',
+      margin: '8px'
+    }
+  }, /*#__PURE__*/React__default.createElement(FormLabel, {
+    id: "controlled-radio-buttons-group",
+    sx: {
+      paddingLeft: '8px'
+    }
+  }, "Exportar para"), /*#__PURE__*/React__default.createElement(RadioGroup, {
+    "aria-labelledby": "controlled-radio-buttons-group",
+    name: "controlled-radio-buttons-group",
+    value: extensao,
+    onChange: handleChangeExtensao
+  }, tiposExportacao.map(function (tipo) {
+    return /*#__PURE__*/React__default.createElement(FormControlLabel, {
+      key: tipo,
+      value: tipo,
+      sx: {
+        paddingLeft: 2,
+        '& .MuiRadio-root': {
+          padding: '4px'
+        }
+      },
+      control: /*#__PURE__*/React__default.createElement(Radio, {
+        size: "small",
+        sx: {
+          '& .MuiSvgIcon-root': {
+            fontSize: 24
+          }
+        }
+      }),
+      label: tipo
+    });
+  }))))), /*#__PURE__*/React__default.createElement(Grid, {
+    xs: 12,
+    container: true,
+    justifyContent: "flex-end",
+    flexDirection: {
+      xs: 'column',
+      sm: 'row'
+    },
+    spacing: 2
+  }, /*#__PURE__*/React__default.createElement(Grid, {
+    item: true
+  }, /*#__PURE__*/React__default.createElement(Button, {
+    variant: "contained",
+    onClick: handleClose,
+    startIcon: /*#__PURE__*/React__default.createElement(CancelOutlinedIcon, null)
+  }, "Cancelar")), /*#__PURE__*/React__default.createElement(Grid, {
+    item: true
+  }, /*#__PURE__*/React__default.createElement(Button, {
+    variant: "contained",
+    onClick: handleSalvar,
+    startIcon: /*#__PURE__*/React__default.createElement(FileDownloadIcon, null),
+    color: "success"
+  }, "Exportar")))));
 };
 
 var style$d = {
@@ -4357,7 +4984,7 @@ var style$d = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 580,
-  height: 400,
+  height: 500,
   bgcolor: '#fff',
   borderRadius: '5px',
   boxShadow: 24,
@@ -4382,6 +5009,33 @@ function ButtonsList(_ref) {
   };
   var handleCloseSomar = function handleCloseSomar() {
     return setOpenSomar(false);
+  };
+  var _useState3 = useState(false),
+    openModelos = _useState3[0],
+    setOpenModelos = _useState3[1];
+  var handleOpenModelos = function handleOpenModelos() {
+    return setOpenModelos(true);
+  };
+  var handleCloseModelos = function handleCloseModelos() {
+    return setOpenModelos(false);
+  };
+  var _useState4 = useState(false),
+    openNovoModelo = _useState4[0],
+    setOpenNovoModelo = _useState4[1];
+  var handleOpenNovoModelo = function handleOpenNovoModelo() {
+    return setOpenNovoModelo(true);
+  };
+  var handleCloseNovoModelo = function handleCloseNovoModelo() {
+    return setOpenNovoModelo(false);
+  };
+  var _useState5 = useState(false),
+    openExportacao = _useState5[0],
+    setOpenExportacao = _useState5[1];
+  var handleOpenExportacao = function handleOpenExportacao() {
+    return setOpenExportacao(true);
+  };
+  var handleCloseExportacao = function handleCloseExportacao() {
+    return setOpenExportacao(false);
   };
   var _useSelectedRegisters = useSelectedRegisters(),
     _useSelectedRegisters2 = _useSelectedRegisters.state,
@@ -4422,14 +5076,21 @@ function ButtonsList(_ref) {
         })));
       });
       setTableWidth(options.includes('Horizontal (paisagem)') ? '761.89' : '515.3');
-      var _temp = function () {
-        if (agrupamento.length > 1) {
-          return Promise.resolve(PDFNivel2(formattedSelecteds, orderedFields, options, agrupamento, somar, title)).then(function () {});
+      var _temp2 = function () {
+        if (options.includes('Sintético')) {
+          return Promise.resolve(PDFSintetico(formattedSelecteds, orderedFields, options, agrupamento, somar, title)).then(function () {});
         } else {
-          return Promise.resolve(PDFNivel1(formattedSelecteds, orderedFields, options, agrupamento[0], somar, title)).then(function () {});
+          var _temp3 = function () {
+            if (agrupamento.length > 1) {
+              return Promise.resolve(PDFNivel2(formattedSelecteds, orderedFields, options, agrupamento, somar, title)).then(function () {});
+            } else {
+              return Promise.resolve(PDFNivel1(formattedSelecteds, orderedFields, options, agrupamento[0], somar, title)).then(function () {});
+            }
+          }();
+          if (_temp3 && _temp3.then) return _temp3.then(function () {});
         }
       }();
-      return Promise.resolve(_temp && _temp.then ? _temp.then(function () {}) : void 0);
+      return Promise.resolve(_temp2 && _temp2.then ? _temp2.then(function () {}) : void 0);
     } catch (e) {
       return Promise.reject(e);
     }
@@ -4513,6 +5174,34 @@ function ButtonsList(_ref) {
     onClick: handleOpenAgrupamento,
     size: "small"
   }, "Agrupar")), /*#__PURE__*/React__default.createElement(Grid, {
+    xs: 6
+  }, /*#__PURE__*/React__default.createElement(Button, {
+    variant: "outlined",
+    style: {
+      width: '100%'
+    },
+    onClick: handleOpenModelos,
+    size: "small"
+  }, "Modelos")), /*#__PURE__*/React__default.createElement(Grid, {
+    xs: 6
+  }, /*#__PURE__*/React__default.createElement(Button, {
+    variant: "outlined",
+    onClick: handleOpenNovoModelo,
+    style: {
+      width: '100%'
+    },
+    size: "small"
+  }, "Novo Modelo")), /*#__PURE__*/React__default.createElement(Grid, {
+    xs: 12
+  }, /*#__PURE__*/React__default.createElement(Button, {
+    variant: "outlined",
+    onClick: handleOpenExportacao,
+    style: {
+      width: '100%'
+    },
+    size: "small",
+    startIcon: /*#__PURE__*/React__default.createElement(FileDownloadIcon, null)
+  }, "Exportar")), /*#__PURE__*/React__default.createElement(Grid, {
     xs: 12
   }, /*#__PURE__*/React__default.createElement(OptionsChecklist, {
     title: "Detalhes do relat\xF3rio",
@@ -4528,6 +5217,16 @@ function ButtonsList(_ref) {
     setOpen: setOpenAgrupamento,
     handleClose: handleCloseAgrupamento
   }))), /*#__PURE__*/React__default.createElement(Modal$1, {
+    open: openNovoModelo,
+    onClose: handleCloseNovoModelo,
+    "aria-labelledby": "modal-modal-title",
+    "aria-describedby": "modal-modal-description"
+  }, /*#__PURE__*/React__default.createElement(Box, {
+    sx: style$d
+  }, /*#__PURE__*/React__default.createElement(NovoModelo, {
+    setOpen: setOpenNovoModelo,
+    handleClose: handleCloseNovoModelo
+  }))), /*#__PURE__*/React__default.createElement(Modal$1, {
     open: openSomar,
     onClose: handleCloseSomar,
     "aria-labelledby": "modal-modal-title",
@@ -4536,13 +5235,30 @@ function ButtonsList(_ref) {
     sx: style$d
   }, /*#__PURE__*/React__default.createElement(Somar, {
     handleClose: handleCloseSomar
+  }))), /*#__PURE__*/React__default.createElement(Modal$1, {
+    open: openModelos,
+    onClose: handleCloseModelos,
+    "aria-labelledby": "modal-modal-title",
+    "aria-describedby": "modal-modal-description"
+  }, /*#__PURE__*/React__default.createElement(Box, {
+    sx: style$d
+  }, /*#__PURE__*/React__default.createElement(Modelos, {
+    handleClose: handleCloseModelos
+  }))), /*#__PURE__*/React__default.createElement(Modal$1, {
+    open: openExportacao,
+    onClose: handleCloseExportacao,
+    "aria-labelledby": "modal-modal-title",
+    "aria-describedby": "modal-modal-description"
+  }, /*#__PURE__*/React__default.createElement(Box, {
+    sx: style$d
+  }, /*#__PURE__*/React__default.createElement(Exportacao, {
+    handleClose: handleCloseExportacao
   }))));
 }
 
 var style$e = {
   item: {
-    fontSize: '0.9rem',
-    padding: '0.3rem 0.3rem'
+    fontSize: '0.9rem'
   }
 };
 var DynaGrade = function DynaGrade(_ref) {
@@ -4585,7 +5301,7 @@ var DynaGrade = function DynaGrade(_ref) {
         field: field,
         header: field,
         filter: true,
-        filterPlaceholder: "Filtrar por " + field,
+        filterPlaceholder: "Search by " + field,
         sortable: true,
         style: style$e.item
       });
@@ -4593,11 +5309,11 @@ var DynaGrade = function DynaGrade(_ref) {
       return null;
     }
   });
-  return /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement("div", {
-    className: "card"
-  }, /*#__PURE__*/React__default.createElement(DataTable, {
+  return /*#__PURE__*/React__default.createElement(DataTable, {
+    className: "mypanel",
     value: registers,
     reorderableColumns: true,
+    resizableColumns: true,
     onColReorder: function onColReorder(e) {
       return _onColReorder(e);
     },
@@ -4608,26 +5324,23 @@ var DynaGrade = function DynaGrade(_ref) {
     },
     dataKey: "id",
     paginator: true,
-    rows: 30,
+    rows: 50,
     size: "small",
     showGridlines: true,
     stripedRows: true,
     sortMode: "multiple",
     emptyMessage: "Nenhum resultado encontrado"
   }, /*#__PURE__*/React__default.createElement(Column, {
-    selectionMode: "multiple",
-    headerStyle: {
-      width: '3em'
-    }
-  }), dynamicColumns)));
+    selectionMode: "multiple"
+  }), dynamicColumns);
 };
 
-var reportOptions = ['Horizontal (paisagem)', 'Contador de registros', 'Mostrar campo de agrupamento', 'Data/Hora', 'Paginação'];
+var reportOptions = ['Horizontal (paisagem)', 'Contador de registros', 'Mostrar campo de agrupamento', 'Sintético'];
 var Principal = function Principal(_ref) {
   var fetchData = function fetchData() {
     try {
       setLoading(true);
-      return Promise.resolve(api.get(filter)).then(function (res) {
+      return Promise.resolve(api.get(endPoint + "?" + filter)).then(function (res) {
         setData(res.data.data);
         dispatch({
           value: [String(title != null ? title : ''), String(subTitle != null ? subTitle : ''), String(text != null ? text : '')],
@@ -4661,6 +5374,7 @@ var Principal = function Principal(_ref) {
   };
   var api = _ref.api,
     filter = _ref.filter,
+    endPoint = _ref.endPoint,
     _ref$title = _ref.title,
     title = _ref$title === void 0 ? null : _ref$title,
     _ref$subTitle = _ref.subTitle,
@@ -4701,11 +5415,10 @@ var Principal = function Principal(_ref) {
   var Item = styled(Paper$1)(function (_ref2) {
     var theme = _ref2.theme;
     return _extends({
-      backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff'
+      backgroundColor: '#fff'
     }, theme.typography.body2, {
       padding: theme.spacing(1),
-      textAlign: 'center',
-      color: theme.palette.text.secondary
+      textAlign: 'center'
     });
   });
   var getFormattedData = function getFormattedData(_data) {
@@ -4742,7 +5455,7 @@ var Principal = function Principal(_ref) {
   }
   return /*#__PURE__*/React__default.createElement(Box, {
     sx: {
-      minWidth: '840px'
+      minWidth: '910px'
     }
   }, /*#__PURE__*/React__default.createElement(Grid, {
     container: true,
