@@ -1542,6 +1542,28 @@ var CustomInputSelect = function CustomInputSelect(_ref) {
   var handleInternalOnInputChange = function handleInternalOnInputChange(event, newValue) {
     setInternalInputValue(newValue);
   };
+  var handleIsLoading = function handleIsLoading() {
+    if (typeof loading == 'boolean') {
+      return loading;
+    }
+    if (typeof loading == 'number') {
+      if (loading <= 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  };
+  var returnLoadingText = function returnLoadingText() {
+    return /*#__PURE__*/React__default.createElement(material.Box, {
+      sx: {
+        display: 'flex',
+        justifyContent: 'center'
+      }
+    }, /*#__PURE__*/React__default.createElement(material.CircularProgress, {
+      size: 20
+    }));
+  };
   return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(Autocomplete, {
     style: {
       marginTop: '8px'
@@ -1559,8 +1581,8 @@ var CustomInputSelect = function CustomInputSelect(_ref) {
     disabled: disabled,
     options: options || [],
     noOptionsText: 'Nenhum Resultado.',
-    loading: loading,
-    loadingText: "Carregando...",
+    loading: handleIsLoading(),
+    loadingText: returnLoadingText(),
     onBlur: onblur,
     value: value,
     onChange: onChange,

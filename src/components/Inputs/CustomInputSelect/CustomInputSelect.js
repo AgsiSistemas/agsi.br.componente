@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { CircularProgress } from '@mui/material'
 import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
+import { Box } from '@mui/material'
 
 const isNullValue = (value) => {
   return value === undefined || value === null || value === ''
@@ -48,6 +49,29 @@ const CustomInputSelect = ({
     setInternalInputValue(newValue)
   }
 
+  const handleIsLoading = () => {
+
+    if (typeof (loading) == 'boolean') {
+      return loading
+    }
+    if (typeof (loading) == 'number') {
+      if (loading <= 0) {
+        return true
+      }
+      else { return false }
+    }
+
+  }
+
+  const returnLoadingText = () => {
+
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <CircularProgress size={20} />
+      </Box>
+    )
+  }
+
   return (
     <React.Fragment>
       <Autocomplete
@@ -63,8 +87,8 @@ const CustomInputSelect = ({
         disabled={disabled}
         options={options || []}
         noOptionsText={'Nenhum Resultado.'}
-        loading={loading}
-        loadingText='Carregando...'
+        loading={handleIsLoading()}
+        loadingText={returnLoadingText()}
         onBlur={onblur}
         value={value}
         onChange={onChange}

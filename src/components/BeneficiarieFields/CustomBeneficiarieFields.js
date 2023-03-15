@@ -75,7 +75,6 @@ const CustomBeneficiarieFields = ({
           disabled={disabled}
           value={valueId}
           onChange={(event, newInputValue) => {
-            // console.log(newInputValue)
             onChangeId(newInputValue.label)
             if (isNullValue(newInputValue)) onChangeName('')
             if (newInputValue !== null && newInputValue.name) {
@@ -85,6 +84,10 @@ const CustomBeneficiarieFields = ({
           }}
           inputValue={beneficiarieWalletInputValue}
           onInputChange={(event, newInputValue) => {
+            if (newInputValue == '') {
+              onChangeName('')
+              // handleOnChangeData('')
+            }
             setBeneficiarieWalletInputValue(maskWallet(newInputValue))
           }}
           onKeyUp={async (event) => {
@@ -107,7 +110,25 @@ const CustomBeneficiarieFields = ({
               setLoadingBeneficiary(false)
             }
           }}
-          onblur={() => setOpenWalletField(false)}
+          onBlur={async (event) => {
+            try {
+              setLoadingBeneficiary(true)
+              let response = await api.http.get(
+                `${api.addressCode(event.target.value)}`
+              )
+              if (response.data.data?.name) {
+                onChangeId(response.data.data?.code)
+                onChangeName({ label: response.data.data?.name, id: response.data.data?.code })
+              }
+              setOpenWalletField(false)
+              setLoadingBeneficiary(false)
+              // }
+            } catch {
+              setOpenWalletField(false)
+              setLoadingBeneficiary(false)
+            }
+          }
+          }
           maxLength={18}
           validation={validation}
         />

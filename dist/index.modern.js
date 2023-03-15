@@ -46,7 +46,7 @@ import '@mui/icons-material/FolderShared';
 import Divider from '@mui/material/Divider';
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { Tooltip as Tooltip$1, Skeleton, CircularProgress, TextField as TextField$1, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton as IconButton$1, Button as Button$2, Modal, Box as Box$1, Dialog as Dialog$1, DialogTitle as DialogTitle$1, DialogContent as DialogContent$1, DialogContentText as DialogContentText$1, DialogActions as DialogActions$1, LinearProgress, Typography as Typography$1 } from '@mui/material';
+import { Tooltip as Tooltip$1, Skeleton, Box as Box$1, CircularProgress, TextField as TextField$1, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton as IconButton$1, Button as Button$2, Modal, Dialog as Dialog$1, DialogTitle as DialogTitle$1, DialogContent as DialogContent$1, DialogContentText as DialogContentText$1, DialogActions as DialogActions$1, LinearProgress, Typography as Typography$1 } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import InputBase from '@mui/material/InputBase';
@@ -1539,6 +1539,28 @@ var CustomInputSelect = function CustomInputSelect(_ref) {
   var handleInternalOnInputChange = function handleInternalOnInputChange(event, newValue) {
     setInternalInputValue(newValue);
   };
+  var handleIsLoading = function handleIsLoading() {
+    if (typeof loading == 'boolean') {
+      return loading;
+    }
+    if (typeof loading == 'number') {
+      if (loading <= 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  };
+  var returnLoadingText = function returnLoadingText() {
+    return /*#__PURE__*/React__default.createElement(Box$1, {
+      sx: {
+        display: 'flex',
+        justifyContent: 'center'
+      }
+    }, /*#__PURE__*/React__default.createElement(CircularProgress, {
+      size: 20
+    }));
+  };
   return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(Autocomplete, {
     style: {
       marginTop: '8px'
@@ -1556,8 +1578,8 @@ var CustomInputSelect = function CustomInputSelect(_ref) {
     disabled: disabled,
     options: options || [],
     noOptionsText: 'Nenhum Resultado.',
-    loading: loading,
-    loadingText: "Carregando...",
+    loading: handleIsLoading(),
+    loadingText: returnLoadingText(),
     onBlur: onblur,
     value: value,
     onChange: onChange,
