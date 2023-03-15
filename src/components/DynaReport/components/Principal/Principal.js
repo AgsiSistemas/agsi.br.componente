@@ -16,14 +16,14 @@ import ErrorIcon from '@mui/icons-material/Error'
 const reportOptions = [
   'Horizontal (paisagem)',
   'Contador de registros',
-  'Mostrar campo de agrupamento'
-  // 'Data/Hora',
-  // 'Paginação'
+  'Mostrar campo de agrupamento',
+  'Sintético'
 ]
 
 export const Principal = ({
   api,
   filter,
+  endPoint,
   title = null,
   subTitle = null,
   text = null
@@ -47,7 +47,7 @@ export const Principal = ({
 
   async function fetchData() {
     setLoading(true)
-    const res = await api.get(filter)
+    const res = await api.get(`${endPoint}?${filter}`)
     setData(res.data.data)
 
     dispatch({
@@ -76,11 +76,10 @@ export const Principal = ({
   }, [api])
 
   const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    backgroundColor: '#fff',
     ...theme.typography.body2,
     padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary
+    textAlign: 'center'
   }))
 
   const getFormattedData = (_data) => {
@@ -120,8 +119,9 @@ export const Principal = ({
       </Grid>
     )
   }
+
   return (
-    <Box sx={{ minWidth: '840px' }}>
+    <Box sx={{ minWidth: '910px' }}>
       <Grid container spacing={2}>
         <Grid xs={4} sm={4} md={4} lg={3}>
           <Item sx={{ marginBottom: '8px' }}>
@@ -132,7 +132,6 @@ export const Principal = ({
             <ButtonList listOptions={reportOptions} />
           </Item>
         </Grid>
-
         <Grid xs={8} sm={8} md={8} lg={9}>
           <Item>
             <DynaGrade conv={getFormattedData(data?.lines)} />

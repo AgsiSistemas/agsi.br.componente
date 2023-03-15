@@ -2,6 +2,7 @@ import 'primeicons/primeicons.css'
 import 'primereact/resources/themes/lara-light-indigo/theme.css'
 import 'primereact/resources/primereact.css'
 import 'primeflex/primeflex.css'
+import './DynaGrade.css'
 
 import React, { useState, useMemo } from 'react'
 import { DataTable } from 'primereact/datatable'
@@ -9,8 +10,7 @@ import { Column } from 'primereact/column'
 import { useSelectedRegisters } from '../../context/context'
 const style = {
   item: {
-    fontSize: '0.9rem',
-    padding: '0.3rem 0.3rem'
+    fontSize: '0.9rem'
   }
 }
 
@@ -52,7 +52,7 @@ export const DynaGrade = ({ conv }) => {
           field={field}
           header={field}
           filter
-          filterPlaceholder={`Filtrar por ${field}`}
+          filterPlaceholder={`Search by ${field}`}
           sortable
           style={style.item}
         />
@@ -63,29 +63,27 @@ export const DynaGrade = ({ conv }) => {
   })
 
   return (
-    <div>
-      <div className='card'>
-        <DataTable
-          value={registers}
-          reorderableColumns
-          onColReorder={(e) => onColReorder(e)}
-          responsiveLayout='scroll'
-          selection={selecteds}
-          onSelectionChange={(e) => onSelectRegister(e.value)}
-          dataKey='id'
-          paginator
-          rows={30}
-          size='small'
-          showGridlines
-          stripedRows
-          sortMode='multiple'
-          emptyMessage='Nenhum resultado encontrado'
-        >
-          <Column selectionMode='multiple' headerStyle={{ width: '3em' }} />
-          {dynamicColumns}
-        </DataTable>
-      </div>
-    </div>
+    <DataTable
+      className='mypanel'
+      value={registers}
+      reorderableColumns
+      resizableColumns
+      onColReorder={(e) => onColReorder(e)}
+      responsiveLayout='scroll'
+      selection={selecteds}
+      onSelectionChange={(e) => onSelectRegister(e.value)}
+      dataKey='id'
+      paginator
+      rows={50}
+      size='small'
+      showGridlines
+      stripedRows
+      sortMode='multiple'
+      emptyMessage='Nenhum resultado encontrado'
+    >
+      <Column selectionMode='multiple' />
+      {dynamicColumns}
+    </DataTable>
   )
 }
 

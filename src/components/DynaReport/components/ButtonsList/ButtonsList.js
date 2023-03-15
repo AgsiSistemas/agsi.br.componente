@@ -5,15 +5,20 @@ import SearchIcon from '@mui/icons-material/Search'
 import DescriptionIcon from '@mui/icons-material/Description'
 import DataSaverOnIcon from '@mui/icons-material/DataSaverOn'
 import GroupWorkIcon from '@mui/icons-material/GroupWork'
+import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
 import { PDFNivel1 } from '../../utils/PDFNivel1'
 import { PDFNivel2 } from '../../utils/PDFNivel2'
 import { PDFBasico } from '../../utils/PDFBasico'
+import { PDFSintetico } from '../../utils/PDFSintetico'
 import OptionsChecklist from '../OptionsChecklist/OptionsChecklist'
 import Agrupamento from '../Agrupamento/Agrupamento'
 import Somar from '../Somar/Somar'
+import Modelos from '../Modelos/Modelos'
+import NovoModelo from '../NovoModelo/NovoModelo'
+import Exportacao from '../Exportacao/Exportacao'
 import Modal from '@mui/material/Modal'
 import { useSelectedRegisters } from '../../context/context'
 import { setTableWidth } from '../../utils/Methods'
@@ -24,7 +29,7 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 580,
-  height: 400,
+  height: 500,
   bgcolor: '#fff',
   borderRadius: '5px',
   boxShadow: 24,
@@ -39,6 +44,18 @@ function ButtonsList({ listOptions }) {
   const [openSomar, setOpenSomar] = useState(false)
   const handleOpenSomar = () => setOpenSomar(true)
   const handleCloseSomar = () => setOpenSomar(false)
+
+  const [openModelos, setOpenModelos] = useState(false)
+  const handleOpenModelos = () => setOpenModelos(true)
+  const handleCloseModelos = () => setOpenModelos(false)
+
+  const [openNovoModelo, setOpenNovoModelo] = useState(false)
+  const handleOpenNovoModelo = () => setOpenNovoModelo(true)
+  const handleCloseNovoModelo = () => setOpenNovoModelo(false)
+
+  const [openExportacao, setOpenExportacao] = useState(false)
+  const handleOpenExportacao = () => setOpenExportacao(true)
+  const handleCloseExportacao = () => setOpenExportacao(false)
 
   const {
     state: {
@@ -90,7 +107,16 @@ function ButtonsList({ listOptions }) {
       options.includes('Horizontal (paisagem)') ? '761.89' : '515.3'
     )
 
-    if (agrupamento.length > 1) {
+    if (options.includes('Sintético')) {
+      await PDFSintetico(
+        formattedSelecteds,
+        orderedFields,
+        options,
+        agrupamento,
+        somar,
+        title
+      )
+    } else if (agrupamento.length > 1) {
       await PDFNivel2(
         formattedSelecteds,
         orderedFields,
@@ -183,6 +209,37 @@ function ButtonsList({ listOptions }) {
             Agrupar
           </Button>
         </Grid>
+        <Grid xs={6}>
+          <Button
+            variant='outlined'
+            style={{ width: '100%' }}
+            onClick={handleOpenModelos}
+            size='small'
+          >
+            Modelos
+          </Button>
+        </Grid>
+        <Grid xs={6}>
+          <Button
+            variant='outlined'
+            onClick={handleOpenNovoModelo}
+            style={{ width: '100%' }}
+            size='small'
+          >
+            Novo Modelo
+          </Button>
+        </Grid>
+        <Grid xs={12}>
+          <Button
+            variant='outlined'
+            onClick={handleOpenExportacao}
+            style={{ width: '100%' }}
+            size='small'
+            startIcon={<FileDownloadIcon />}
+          >
+            Exportar
+          </Button>
+        </Grid>
         <Grid xs={12}>
           <OptionsChecklist
             title='Detalhes do relatório'
@@ -190,6 +247,8 @@ function ButtonsList({ listOptions }) {
           />
         </Grid>
       </Grid>
+
+      {/* MODALS */}
       <Modal
         open={openAgrupamento}
         onClose={handleCloseAgrupamento}
@@ -204,6 +263,19 @@ function ButtonsList({ listOptions }) {
         </Box>
       </Modal>
       <Modal
+        open={openNovoModelo}
+        onClose={handleCloseNovoModelo}
+        aria-labelledby='modal-modal-title'
+        aria-describedby='modal-modal-description'
+      >
+        <Box sx={style}>
+          <NovoModelo
+            setOpen={setOpenNovoModelo}
+            handleClose={handleCloseNovoModelo}
+          />
+        </Box>
+      </Modal>
+      <Modal
         open={openSomar}
         onClose={handleCloseSomar}
         aria-labelledby='modal-modal-title'
@@ -211,6 +283,26 @@ function ButtonsList({ listOptions }) {
       >
         <Box sx={style}>
           <Somar handleClose={handleCloseSomar} />
+        </Box>
+      </Modal>
+      <Modal
+        open={openModelos}
+        onClose={handleCloseModelos}
+        aria-labelledby='modal-modal-title'
+        aria-describedby='modal-modal-description'
+      >
+        <Box sx={style}>
+          <Modelos handleClose={handleCloseModelos} />
+        </Box>
+      </Modal>
+      <Modal
+        open={openExportacao}
+        onClose={handleCloseExportacao}
+        aria-labelledby='modal-modal-title'
+        aria-describedby='modal-modal-description'
+      >
+        <Box sx={style}>
+          <Exportacao handleClose={handleCloseExportacao} />
         </Box>
       </Modal>
     </Box>

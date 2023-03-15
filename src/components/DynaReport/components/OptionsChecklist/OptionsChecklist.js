@@ -9,14 +9,6 @@ import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
 import Box from '@mui/material/Box'
 import { useSelectedRegisters } from '../../context/context'
-import { styled } from '@mui/material/styles'
-
-const ThemedListItem = styled(ListItem)({
-  '& .MuiListItemButton-root': {
-    paddingLeft: 0,
-    paddingRight: 0
-  }
-})
 
 export default function OptionsChecklist({ listOptions, title }) {
   const {
@@ -37,7 +29,7 @@ export default function OptionsChecklist({ listOptions, title }) {
   }
 
   return (
-    <Box sx={{ p: 2 }}>
+    <Box>
       <Typography variant='h5' gutterBottom sx={{ color: '#455a64' }}>
         {title}
       </Typography>
@@ -52,7 +44,7 @@ export default function OptionsChecklist({ listOptions, title }) {
           const labelId = `checkbox-list-label-${value}`
 
           return (
-            <ThemedListItem
+            <ListItem
               key={value}
               secondaryAction={<IconButton edge='end' aria-label='comments' />}
               disablePadding
@@ -72,7 +64,7 @@ export default function OptionsChecklist({ listOptions, title }) {
                 />
                 <ListItemText id={labelId} primary={value} />
               </ListItemButton>
-            </ThemedListItem>
+            </ListItem>
           )
         })}
       </List>

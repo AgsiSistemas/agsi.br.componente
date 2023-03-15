@@ -139,7 +139,6 @@ export const Somar = ({ handleClose }) => {
               <Button
                 variant='contained'
                 onClick={handleClose}
-                color='error'
                 startIcon={<CancelOutlinedIcon />}
               >
                 Cancelar
@@ -150,6 +149,7 @@ export const Somar = ({ handleClose }) => {
                 variant='contained'
                 onClick={handleSalvar}
                 startIcon={<SaveOutlinedIcon />}
+                color='success'
               >
                 Salvar
               </Button>

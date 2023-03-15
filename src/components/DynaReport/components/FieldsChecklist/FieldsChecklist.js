@@ -31,7 +31,7 @@ export default function FieldsChecklist() {
   }
 
   return (
-    <Box sx={{ p: 2 }}>
+    <Box>
       <Typography variant='h5' gutterBottom sx={{ color: '#455a64' }}>
         Campos disponiveis
       </Typography>
