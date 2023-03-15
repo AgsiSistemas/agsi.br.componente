@@ -13,7 +13,7 @@ import {
   addheader
 } from './Methods'
 
-export const PDFNivel2 = (
+export const PDFSintetico = (
   selecteds,
   fields,
   options,
