@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.98](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.97...v1.0.98) (2023-03-15)
+
+
+### Bug Fixes
+
+* onBlur CustomBeneficiarieFields ([1946b73](https://github.com/AgsiSistemas/agsi.br.componente/commit/1946b732fff50151892d9f31b43d9067f577f82a))
+
 ### [1.0.97](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.96...v1.0.97) (2023-03-08)
 
 ### [1.0.96](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.0.95...v1.0.96) (2023-03-06)
