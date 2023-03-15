@@ -63,7 +63,8 @@ export const TesteDynaReport = () => {
       title='Relatório pelo storybook'
       subTitle='Ativos até 29/12/2022'
       text='Data de inclusão: 01/01/2022 a 29/12/2022'
-      filter='sab/reports/statistics/internal-customer-service?solutionDateInitial=2023-01-01&solutionDateFinal=2023-01-09'
+      filter='solutionDateInitial=2023-01-01&solutionDateFinal=2023-01-09'
+      endPoint='sab/reports/statistics/internal-customer-service'
     />
   )
 }

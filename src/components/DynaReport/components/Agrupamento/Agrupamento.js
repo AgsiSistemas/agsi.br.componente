@@ -224,7 +224,6 @@ export const Agrupamento = ({ handleClose }) => {
               <Button
                 variant='contained'
                 onClick={handleClose}
-                color='error'
                 startIcon={<CancelOutlinedIcon />}
               >
                 Cancelar
@@ -235,6 +234,7 @@ export const Agrupamento = ({ handleClose }) => {
                 variant='contained'
                 onClick={handleSalvar}
                 startIcon={<SaveOutlinedIcon />}
+                color='success'
               >
                 Salvar
               </Button>
