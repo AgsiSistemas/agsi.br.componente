@@ -49,4 +49,5 @@ import { Header } from '@agsisistemas/agsi.br.componente';
   FilesUpload,
   FilesContentApi,
   FilesContent,
+  OperationConfirmModal,
 ```

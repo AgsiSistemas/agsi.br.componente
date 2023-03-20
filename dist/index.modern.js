@@ -25,11 +25,11 @@ import DialogContentText from '@mui/material/DialogContentText';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import PrintIcon from '@mui/icons-material/Print';
 import { Paginator } from 'primereact/paginator';
+import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import { Button as Button$1 } from 'primereact/button';
 import LoadingButton from '@mui/lab/LoadingButton';
-import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
-import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import CheckIcon from '@mui/icons-material/Check';
 import { useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
@@ -46,7 +46,7 @@ import '@mui/icons-material/FolderShared';
 import Divider from '@mui/material/Divider';
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { Tooltip as Tooltip$1, Skeleton, Box as Box$1, CircularProgress, TextField as TextField$1, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton as IconButton$1, Button as Button$2, Modal, Dialog as Dialog$1, DialogTitle as DialogTitle$1, DialogContent as DialogContent$1, DialogContentText as DialogContentText$1, DialogActions as DialogActions$1, LinearProgress, Typography as Typography$1 } from '@mui/material';
+import { Tooltip as Tooltip$1, Skeleton, Box as Box$1, CircularProgress as CircularProgress$1, TextField as TextField$1, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton as IconButton$1, Button as Button$2, Modal, Dialog as Dialog$1, DialogTitle as DialogTitle$1, DialogContent as DialogContent$1, DialogContentText as DialogContentText$1, DialogActions as DialogActions$1, LinearProgress, Typography as Typography$1 } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import InputBase from '@mui/material/InputBase';
@@ -59,7 +59,7 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { ptBR } from 'date-fns/locale';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Backdrop from '@mui/material/Backdrop';
-import CircularProgress$1 from '@mui/material/CircularProgress';
+import CircularProgress$2 from '@mui/material/CircularProgress';
 import { Toast } from 'primereact/toast';
 import { FileUpload } from 'primereact/fileupload';
 import { ProgressBar } from 'primereact/progressbar';
@@ -98,6 +98,8 @@ import 'primereact/resources/primereact.css';
 import 'primeflex/primeflex.css';
 import Paper$1 from '@mui/material/Paper';
 import ErrorIcon from '@mui/icons-material/Error';
+import SaveIcon from '@mui/icons-material/Save';
+import DownloadDoneRoundedIcon from '@mui/icons-material/DownloadDoneRounded';
 
 function _extends() {
   _extends = Object.assign ? Object.assign.bind() : function (target) {
@@ -741,6 +743,112 @@ OperationTable.defaultProp = {
 };
 var OperationTable$1 = /*#__PURE__*/React__default.memo(OperationTable);
 
+var style$7 = {
+  operation_modal_bottom_bar: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%'
+  },
+  operation_modal_bottom_bar_item: {
+    flex: '1'
+  },
+  operation_modal_bottom_bar_item_right_align: {
+    flex: '1',
+    textAlign: 'right'
+  },
+  right_align: {
+    textAlign: 'right'
+  }
+};
+var handleLoading = function handleLoading(text, isLoading) {
+  return isLoading ? /*#__PURE__*/createElement(CircularProgress, null) : text;
+};
+var LoadingComponent = function LoadingComponent(_ref) {
+  var display = _ref.display;
+  if (display !== undefined) return handleLoading('', display);
+};
+var OperationModal = function OperationModal(props) {
+  var _React$useState = useState('paper'),
+    scroll = _React$useState[0];
+  var _React$useState2 = useState({
+      display: false,
+      confirmed: false
+    }),
+    displayConfirm = _React$useState2[0],
+    setDisplayConfirm = _React$useState2[1];
+  return /*#__PURE__*/createElement("div", null, /*#__PURE__*/createElement(Dialog, {
+    maxWidth: true,
+    open: props.displayModal,
+    onClose: props.onClose,
+    scroll: scroll,
+    "aria-labelledby": "scroll-dialog-title",
+    "aria-describedby": "scroll-dialog-description"
+  }, /*#__PURE__*/createElement(DialogTitle, {
+    id: "scroll-dialog-title"
+  }, (props.editMode ? 'Editar' : 'Incluir') + " " + (props.title || '')), /*#__PURE__*/createElement(DialogContent, {
+    dividers: scroll === 'paper'
+  }, /*#__PURE__*/createElement("div", null, props.children)), /*#__PURE__*/createElement(DialogActions, null, /*#__PURE__*/createElement("div", {
+    style: style$7.operation_modal_bottom_bar
+  }, /*#__PURE__*/createElement("div", {
+    style: style$7.operation_modal_bottom_bar_item
+  }, /*#__PURE__*/createElement(LoadingComponent, {
+    display: props.displayLoadingSave
+  })), /*#__PURE__*/createElement("div", {
+    style: style$7.operation_modal_bottom_bar_item_right_align
+  }, /*#__PURE__*/createElement(Button, {
+    style: {
+      marginRight: '8px'
+    },
+    variant: "contained",
+    startIcon: /*#__PURE__*/createElement(CancelOutlinedIcon, null),
+    onClick: props.onCancel
+  }, "Cancelar"), /*#__PURE__*/createElement(Button, {
+    color: "success",
+    variant: "contained",
+    endIcon: /*#__PURE__*/createElement(SaveOutlinedIcon, null),
+    onClick: function onClick() {
+      return setDisplayConfirm({
+        display: true,
+        confirmed: false
+      });
+    }
+  }, "Salvar"))))), /*#__PURE__*/createElement(Dialog, {
+    open: displayConfirm.display,
+    onClose: function onClose() {
+      return setDisplayConfirm({
+        display: false,
+        confirmed: false
+      });
+    },
+    "aria-labelledby": "alert-dialog-title",
+    "aria-describedby": "alert-dialog-description"
+  }, /*#__PURE__*/createElement(DialogTitle, {
+    id: "alert-dialog-title"
+  }, "Confirma\xE7\xE3o"), /*#__PURE__*/createElement(DialogContent, null, /*#__PURE__*/createElement(DialogContentText, {
+    id: "alert-dialog-description"
+  }, "Confirma a grava\xE7\xE3o ?")), /*#__PURE__*/createElement(DialogActions, null, /*#__PURE__*/createElement(Button, {
+    variant: "contained",
+    onClick: function onClick() {
+      return setDisplayConfirm({
+        display: false,
+        confirmed: false
+      });
+    }
+  }, "Cancelar"), /*#__PURE__*/createElement(Button, {
+    variant: "contained",
+    color: "success",
+    onClick: function onClick() {
+      setDisplayConfirm({
+        display: false,
+        confirmed: true
+      });
+      props.onSave();
+    },
+    autoFocus: true
+  }, "Confirmar"))));
+};
+var OperationModal$1 = /*#__PURE__*/memo(OperationModal);
+
 var _excluded = ["children", "onClose"];
 var BootstrapDialog = styled(Dialog)(function (_ref) {
   var theme = _ref.theme;
@@ -844,7 +952,7 @@ function CustomToastMessage$1(_ref) {
   }, message)));
 }
 
-var style$7 = {
+var style$8 = {
   content_data_table: {
     overflowX: 'auto'
   },
@@ -883,7 +991,7 @@ var CustomDataTable = function CustomDataTable(props) {
     setExpandedRows = _useState[1];
   var paginatorRight = paginatorButton !== undefined ? /*#__PURE__*/React__default.createElement(Button$1, {
     label: (paginatorButton === null || paginatorButton === void 0 ? void 0 : paginatorButton.title) !== undefined ? paginatorButton === null || paginatorButton === void 0 ? void 0 : paginatorButton.title : 'Carregar mais...',
-    style: style$7.paginatorRight,
+    style: style$8.paginatorRight,
     type: "button",
     icon: "pi pi-refresh",
     className: "p-button-text",
@@ -904,7 +1012,7 @@ var CustomDataTable = function CustomDataTable(props) {
     });
   };
   return /*#__PURE__*/React__default.createElement("div", {
-    style: displayBorder ? style$7.content_data_table_display_border : style$7.content_data_table
+    style: displayBorder ? style$8.content_data_table_display_border : style$8.content_data_table
   }, /*#__PURE__*/React__default.createElement(DataTable, {
     value: records,
     loading: loading,
@@ -977,7 +1085,7 @@ CustomDataTable.defaultProp = {
 };
 var CustomDataTable$1 = /*#__PURE__*/React__default.memo(CustomDataTable);
 
-var style$8 = {
+var style$9 = {
   save_component: {
     textAlign: 'end',
     marginTop: '15px'
@@ -1002,7 +1110,7 @@ var MessageConfirmation = function MessageConfirmation(_ref) {
     id: "alert-dialog-description"
   }, "Confirma a grava\xE7\xE3o ?")), /*#__PURE__*/React__default.createElement(DialogActions, null, /*#__PURE__*/React__default.createElement(Button, {
     variant: "outlined",
-    style: style$8.save_component_item,
+    style: style$9.save_component_item,
     onClick: onCancelClick,
     startIcon: /*#__PURE__*/React__default.createElement(CancelOutlinedIcon, null)
   }, "Cancelar"), /*#__PURE__*/React__default.createElement(Button, {
@@ -1027,9 +1135,9 @@ var SaveComponent = function SaveComponent(_ref2) {
     loading = _React$useState2[0],
     setLoading = _React$useState2[1];
   return /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement(Conteiner, {
-    style: style$8.save_component
+    style: style$9.save_component
   }, /*#__PURE__*/React__default.createElement(ConteinerItem, null, /*#__PURE__*/React__default.createElement(Button, {
-    style: style$8.save_component_item,
+    style: style$9.save_component_item,
     variant: "outlined",
     startIcon: /*#__PURE__*/React__default.createElement(CancelOutlinedIcon, null),
     onClick: onCancelClick
@@ -1087,7 +1195,7 @@ SaveComponent.defaultProp = {
 };
 var SaveComponent$1 = /*#__PURE__*/React__default.memo(SaveComponent);
 
-var style$9 = {
+var style$a = {
   width: 85,
   height: 80,
   margin: '10px',
@@ -1102,7 +1210,7 @@ function HeaderApp(_ref) {
   var title = _ref.title,
     onClick = _ref.onClick;
   return /*#__PURE__*/createElement(Box, {
-    sx: style$9,
+    sx: style$a,
     onClick: onClick
   }, /*#__PURE__*/createElement("div", {
     className: "box-menu"
@@ -1563,7 +1671,7 @@ var CustomInputSelect = function CustomInputSelect(_ref) {
         display: 'flex',
         justifyContent: 'center'
       }
-    }, /*#__PURE__*/React__default.createElement(CircularProgress, {
+    }, /*#__PURE__*/React__default.createElement(CircularProgress$1, {
       size: 20
     }));
   };
@@ -1607,7 +1715,7 @@ var CustomInputSelect = function CustomInputSelect(_ref) {
         },
         label: title,
         InputProps: _extends({}, params.InputProps, {
-          startAdornment: /*#__PURE__*/React__default.createElement(React__default.Fragment, null, loadingListOptions ? /*#__PURE__*/React__default.createElement(CircularProgress, {
+          startAdornment: /*#__PURE__*/React__default.createElement(React__default.Fragment, null, loadingListOptions ? /*#__PURE__*/React__default.createElement(CircularProgress$1, {
             color: "inherit",
             size: 15
           }) : null, params.InputProps.startAdornment)
@@ -1889,7 +1997,7 @@ CustomDatePicker.defaultProp = {
 };
 var CustomDatePicker$1 = /*#__PURE__*/React__default.memo(CustomDatePicker);
 
-var style$a = {
+var style$b = {
   appcontent: {
     transition: '0.4s',
     animation: 'fadeInAnimation ease 0.5s',
@@ -1904,7 +2012,7 @@ var style$a = {
 };
 var AppContent = function AppContent(props) {
   return /*#__PURE__*/React__default.createElement("div", {
-    style: style$a.appcontent
+    style: style$b.appcontent
   }, /*#__PURE__*/React__default.createElement(Backdrop, {
     sx: {
       color: '#fff',
@@ -1913,7 +2021,7 @@ var AppContent = function AppContent(props) {
       }
     },
     open: props.loading
-  }, /*#__PURE__*/React__default.createElement(CircularProgress$1, {
+  }, /*#__PURE__*/React__default.createElement(CircularProgress$2, {
     color: "inherit"
   })), props.children);
 };
@@ -2166,8 +2274,8 @@ function _catch(body, recover) {
 	return result;
 }
 
-var handleLoading = function handleLoading(text, isLoading) {
-  return isLoading ? /*#__PURE__*/React__default.createElement(CircularProgress$1, null) : text;
+var handleLoading$1 = function handleLoading(text, isLoading) {
+  return isLoading ? /*#__PURE__*/React__default.createElement(CircularProgress$2, null) : text;
 };
 var isNullValue$2 = function isNullValue(value) {
   return value === undefined || value === null || value === '';
@@ -2240,7 +2348,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
   return /*#__PURE__*/React__default.createElement(Fragment, null, /*#__PURE__*/React__default.createElement(ConteinerItem, {
     className: "custom-beneficiarie-component-wallet"
   }, /*#__PURE__*/React__default.createElement(CustomInputSelect$1, {
-    title: handleLoading((!label ? 'Carteirinha' : label[0]) + isRequired(), loadingBeneficiary),
+    title: handleLoading$1((!label ? 'Carteirinha' : label[0]) + isRequired(), loadingBeneficiary),
     freeSolo: true,
     open: openWalletField,
     options: localBeneficiaries.data.content.map(function (item, index) {
@@ -2326,7 +2434,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
     maxLength: 18,
     validation: validation
   })), /*#__PURE__*/React__default.createElement(ConteinerItem, null, /*#__PURE__*/React__default.createElement(CustomInputSelect$1, {
-    title: handleLoading((!label ? 'Nome Beneficiário' : label[1]) + isRequired(), loadingBeneficiary),
+    title: handleLoading$1((!label ? 'Nome Beneficiário' : label[1]) + isRequired(), loadingBeneficiary),
     freeSolo: true,
     open: openBeneficiariesField,
     options: localBeneficiaries.data.content.map(function (item, index) {
@@ -2407,7 +2515,7 @@ CustomBeneficiarieFields.defaultProp = {
 };
 
 var _ArchivesContent$prop;
-var style$b = {
+var style$c = {
   position: 'absolute',
   top: '50%',
   left: '50%',
@@ -2638,7 +2746,7 @@ var ArchivesContent = function ArchivesContent(_ref) {
     "aria-labelledby": "modal-modal-title",
     "aria-describedby": "modal-modal-description"
   }, /*#__PURE__*/React__default.createElement(Box$1, {
-    sx: style$b
+    sx: style$c
   }, /*#__PURE__*/React__default.createElement(Image, {
     src: imgModal,
     alt: "Image",
@@ -3013,7 +3121,7 @@ FilesContentApi.defaultProp = {
 };
 
 var _FilesContent$propTyp;
-var style$c = {
+var style$d = {
   position: 'absolute',
   top: '50%',
   left: '50%',
@@ -3192,7 +3300,7 @@ var FilesContent = function FilesContent(_ref) {
     "aria-labelledby": "modal-modal-title",
     "aria-describedby": "modal-modal-description"
   }, /*#__PURE__*/React__default.createElement(Box$1, {
-    sx: style$c
+    sx: style$d
   }, /*#__PURE__*/React__default.createElement(Image, {
     src: imgModal,
     alt: "Image",
@@ -4978,7 +5086,7 @@ var Exportacao = function Exportacao(_ref) {
   }, "Exportar")))));
 };
 
-var style$d = {
+var style$e = {
   position: 'absolute',
   top: '50%',
   left: '50%',
@@ -5212,7 +5320,7 @@ function ButtonsList(_ref) {
     "aria-labelledby": "modal-modal-title",
     "aria-describedby": "modal-modal-description"
   }, /*#__PURE__*/React__default.createElement(Box, {
-    sx: style$d
+    sx: style$e
   }, /*#__PURE__*/React__default.createElement(Agrupamento, {
     setOpen: setOpenAgrupamento,
     handleClose: handleCloseAgrupamento
@@ -5222,7 +5330,7 @@ function ButtonsList(_ref) {
     "aria-labelledby": "modal-modal-title",
     "aria-describedby": "modal-modal-description"
   }, /*#__PURE__*/React__default.createElement(Box, {
-    sx: style$d
+    sx: style$e
   }, /*#__PURE__*/React__default.createElement(NovoModelo, {
     setOpen: setOpenNovoModelo,
     handleClose: handleCloseNovoModelo
@@ -5232,7 +5340,7 @@ function ButtonsList(_ref) {
     "aria-labelledby": "modal-modal-title",
     "aria-describedby": "modal-modal-description"
   }, /*#__PURE__*/React__default.createElement(Box, {
-    sx: style$d
+    sx: style$e
   }, /*#__PURE__*/React__default.createElement(Somar, {
     handleClose: handleCloseSomar
   }))), /*#__PURE__*/React__default.createElement(Modal$1, {
@@ -5241,7 +5349,7 @@ function ButtonsList(_ref) {
     "aria-labelledby": "modal-modal-title",
     "aria-describedby": "modal-modal-description"
   }, /*#__PURE__*/React__default.createElement(Box, {
-    sx: style$d
+    sx: style$e
   }, /*#__PURE__*/React__default.createElement(Modelos, {
     handleClose: handleCloseModelos
   }))), /*#__PURE__*/React__default.createElement(Modal$1, {
@@ -5250,13 +5358,13 @@ function ButtonsList(_ref) {
     "aria-labelledby": "modal-modal-title",
     "aria-describedby": "modal-modal-description"
   }, /*#__PURE__*/React__default.createElement(Box, {
-    sx: style$d
+    sx: style$e
   }, /*#__PURE__*/React__default.createElement(Exportacao, {
     handleClose: handleCloseExportacao
   }))));
 }
 
-var style$e = {
+var style$f = {
   item: {
     fontSize: '0.9rem'
   }
@@ -5303,7 +5411,7 @@ var DynaGrade = function DynaGrade(_ref) {
         filter: true,
         filterPlaceholder: "Search by " + field,
         sortable: true,
-        style: style$e.item
+        style: style$f.item
       });
     } else {
       return null;
@@ -5490,7 +5598,7 @@ var Principal = function Principal(_ref) {
       }
     },
     open: loading
-  }, /*#__PURE__*/React__default.createElement(CircularProgress$1, {
+  }, /*#__PURE__*/React__default.createElement(CircularProgress$2, {
     color: "inherit"
   })));
 };
@@ -5499,5 +5607,99 @@ function DynaReport(props) {
   return /*#__PURE__*/React__default.createElement(DynaProvider, null, /*#__PURE__*/React__default.createElement(Principal, props));
 }
 
-export { AppContent$1 as AppContent, ArchivesContent, Conteiner, ConteinerItem, CustomBeneficiarieFields, CustomDataTable$1 as CustomDataTable, CustomDatePicker$1 as CustomDatePicker, CustomDialog$1 as CustomDialog, CustomInputSelect$1 as CustomInputSelect, CustomModal$1 as CustomModal, CustomTextField$1 as CustomTextField, CustomTimePicker$1 as CustomTimePicker, CustomToastMessage$1 as CustomToastMessage, DynaReport, FilesContent, FilesContentApi, FilesUpload$1 as FilesUpload, Header$1 as Header, HeaderAccordion$1 as HeaderAccordion, OperationDetail$1 as OperationDetail, OperationSection$1 as OperationSection, OperationTable$1 as OperationTable, PageBase$3 as PageBase, SaveComponent$1 as SaveComponent };
+var OperationConfirmModal = function OperationConfirmModal(_ref) {
+  var open = _ref.open,
+    onClose = _ref.onClose,
+    title = _ref.title,
+    onCancel = _ref.onCancel,
+    onConfirm = _ref.onConfirm,
+    mode = _ref.mode;
+  var handleDefaultConfirm = {
+    message: 'Deseja Continuar com essa Operação ?',
+    titleButton: 'Confirmar'
+  };
+  var handleDelete = {
+    message: 'Tem certeza que deseja excluir ?',
+    titleButton: 'Excluir'
+  };
+  var handleEdit = {
+    message: 'Tem certeza que deseja continuar com a alteração ?',
+    titleButton: 'Salvar'
+  };
+  var ButtonMode = function ButtonMode() {
+    if (mode == 'edit') {
+      return /*#__PURE__*/createElement(Button, {
+        className: "btn-green",
+        variant: "contained",
+        startIcon: /*#__PURE__*/createElement(SaveIcon, null),
+        color: "success",
+        onClick: function onClick() {
+          return onConfirm();
+        },
+        autoFocus: true
+      }, handleEdit.titleButton);
+    }
+    if (mode == 'delete') {
+      return /*#__PURE__*/createElement(Button, {
+        className: "btn-red",
+        variant: "contained",
+        startIcon: /*#__PURE__*/createElement(DeleteIcon, null),
+        color: "error",
+        onClick: function onClick() {
+          return onConfirm();
+        },
+        autoFocus: true
+      }, handleDelete.titleButton);
+    }
+    if (!mode) {
+      return /*#__PURE__*/createElement(Button, {
+        className: "btn-success",
+        variant: "contained",
+        startIcon: /*#__PURE__*/createElement(DownloadDoneRoundedIcon, null),
+        color: "success",
+        onClick: function onClick() {
+          return onConfirm();
+        },
+        autoFocus: true
+      }, handleDefaultConfirm.titleButton);
+    }
+  };
+  var descriptionMode = function descriptionMode() {
+    switch (mode) {
+      case 'edit':
+        return handleEdit.message;
+      case 'delete':
+        return handleDelete.message;
+      default:
+        return handleDefaultConfirm.message;
+    }
+  };
+  return /*#__PURE__*/createElement("div", null, /*#__PURE__*/createElement(Dialog, {
+    open: open,
+    "aria-labelledby": "alert-dialog-title",
+    "aria-describedby": "alert-dialog-description"
+  }, /*#__PURE__*/createElement(DialogTitle, {
+    id: "alert-dialog-title"
+  }, title ? title : 'Confirmação'), /*#__PURE__*/createElement(DialogContent, null, /*#__PURE__*/createElement(DialogContentText, {
+    id: "alert-dialog-description"
+  }, descriptionMode())), /*#__PURE__*/createElement(DialogActions, {
+    style: {
+      display: 'flex',
+      justifyContent: 'center'
+    }
+  }, /*#__PURE__*/createElement(Button, {
+    style: {
+      marginRight: '5px'
+    },
+    variant: "outlined",
+    component: "span",
+    onClick: function onClick() {
+      if (onCancel) onCancel();
+      onClose();
+    }
+  }, "Cancelar"), /*#__PURE__*/createElement(ButtonMode, null))));
+};
+var OperationConfirmModal$1 = /*#__PURE__*/memo(OperationConfirmModal);
+
+export { AppContent$1 as AppContent, ArchivesContent, Conteiner, ConteinerItem, CustomBeneficiarieFields, CustomDataTable$1 as CustomDataTable, CustomDatePicker$1 as CustomDatePicker, CustomDialog$1 as CustomDialog, CustomInputSelect$1 as CustomInputSelect, CustomModal$1 as CustomModal, CustomTextField$1 as CustomTextField, CustomTimePicker$1 as CustomTimePicker, CustomToastMessage$1 as CustomToastMessage, DynaReport, FilesContent, FilesContentApi, FilesUpload$1 as FilesUpload, Header$1 as Header, HeaderAccordion$1 as HeaderAccordion, OperationConfirmModal$1 as OperationConfirmModal, OperationDetail$1 as OperationDetail, OperationModal$1 as OperationModal, OperationSection$1 as OperationSection, OperationTable$1 as OperationTable, PageBase$3 as PageBase, SaveComponent$1 as SaveComponent };
 //# sourceMappingURL=index.modern.js.map

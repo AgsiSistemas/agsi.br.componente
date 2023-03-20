@@ -9,6 +9,7 @@ import { Conteiner, ConteinerItem } from './components/Conteiner/Conteiner'
 import OperationDetail from './components/Content/OperationDetail'
 import OperationSection from './components/Content/OperationSection'
 import OperationTable from './components/Content/OperationTable'
+import OperationModal from './components/Modal/OperationModal'
 import HeaderAccordion from './components/CustomAccordion/HeaderAccordion'
 import CustomDialog from './components/CustomDialog/CustomDialog'
 import CustomToastMessage from './components/CustomToastMessage/CustomToastMessage'
@@ -28,12 +29,14 @@ import ArchivesContent from './components/ArchivesContent/ArchivesContent'
 import FilesContentApi from './components/FilesContentApi/FilesContentApi'
 import FilesContent from './components/FilesContent/FilesContent'
 import DynaReport from './components/DynaReport/DynaReport'
+import OperationConfirmModal from './components/Modal/OperationConfirmModal.js'
 
 export {
   Conteiner,
   ConteinerItem,
   OperationDetail,
   OperationSection,
+  OperationModal,
   OperationTable,
   HeaderAccordion,
   CustomDialog,
@@ -53,5 +56,6 @@ export {
   ArchivesContent,
   FilesContentApi,
   FilesContent,
-  DynaReport
+  DynaReport,
+  OperationConfirmModal
 }
