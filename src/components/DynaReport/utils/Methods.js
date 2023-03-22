@@ -196,3 +196,167 @@ export const addheader = (
     }
   }
 }
+
+export const resumirDadosNvl1 = (registroBase, agrupamento, somar) => {
+  const groupSections1 = []
+  const selectedsClone = [...registroBase]
+  const agrupamentoNivel1 = [...agrupamento[0]]
+  const newRegister = []
+
+  selectedsClone.forEach((element) => {
+    const tempGrupo = []
+    agrupamentoNivel1.forEach((grupo) => {
+      tempGrupo.push(element[grupo])
+    })
+
+    if (!isArrayInArray(groupSections1, tempGrupo)) {
+      groupSections1.push(tempGrupo)
+    }
+  })
+
+  groupSections1.forEach((section1) => {
+    const tempDataSection1 = []
+    const tempResume = []
+    selectedsClone.forEach((register) => {
+      let addToGroup = true
+
+      section1.forEach((element, index) => {
+        if (register[agrupamentoNivel1[index]] !== element) {
+          addToGroup = false
+        }
+      })
+
+      if (addToGroup) {
+        tempDataSection1.push(register)
+      }
+    })
+
+    agrupamentoNivel1.forEach((grupo, index) => {
+      tempResume.push(section1[index])
+    })
+
+    somar.forEach((soma) => {
+      const sum = tempDataSection1.reduce((accumulator, object) => {
+        return accumulator + Number(object[soma])
+      }, 0)
+      tempResume.push(sum)
+    })
+
+    newRegister.push(tempResume)
+  })
+
+  return {
+    lines: newRegister,
+    columns: [...agrupamentoNivel1, ...somar],
+    summableFields: somar
+  }
+}
+
+export const resumirDadosNvl2 = (registroBase, agrupamento, somar) => {
+  const groupSections1 = []
+  const selectedsClone = [...registroBase]
+  const agrupamentoNivel1 = [...agrupamento[0]]
+  const agrupamentoNivel2 = [...agrupamento[1]]
+  const newRegister = []
+  selectedsClone.forEach((element) => {
+    const tempGrupo = []
+    agrupamentoNivel1.forEach((grupo) => {
+      tempGrupo.push(element[grupo])
+    })
+
+    if (!isArrayInArray(groupSections1, tempGrupo)) {
+      groupSections1.push(tempGrupo)
+    }
+  })
+
+  groupSections1.forEach((section1) => {
+    const tempDataSection1 = []
+    selectedsClone.forEach((register) => {
+      let addToGroup = true
+
+      section1.forEach((element, index) => {
+        if (register[agrupamentoNivel1[index]] !== element) {
+          addToGroup = false
+        }
+      })
+
+      if (addToGroup) {
+        tempDataSection1.push(register)
+      }
+    })
+
+    // NIVEL 2
+    const groupSections2 = []
+    tempDataSection1.forEach((element) => {
+      const tempGrupo = []
+      agrupamentoNivel2.forEach((grupo) => {
+        tempGrupo.push(element[grupo])
+      })
+
+      if (!isArrayInArray(groupSections2, tempGrupo)) {
+        groupSections2.push(tempGrupo)
+      }
+    })
+
+    groupSections2.forEach((section2) => {
+      const tempDataSection2 = []
+      const tempResume = []
+
+      tempDataSection1.forEach((register) => {
+        let addToGroup = true
+
+        section2.forEach((element, index) => {
+          if (register[agrupamentoNivel2[index]] !== element) {
+            addToGroup = false
+          }
+        })
+
+        if (addToGroup) {
+          tempDataSection2.push(register)
+        }
+      })
+
+      agrupamentoNivel1.forEach((grupo, index) => {
+        tempResume.push(section1[index])
+      })
+      agrupamentoNivel2.forEach((grupo, index) => {
+        tempResume.push(section2[index])
+      })
+
+      somar.forEach((soma) => {
+        const sum = tempDataSection2.reduce((accumulator, object) => {
+          return accumulator + Number(object[soma])
+        }, 0)
+        tempResume.push(sum)
+      })
+
+      newRegister.push(tempResume)
+    })
+  })
+
+  return {
+    lines: newRegister,
+    columns: [...agrupamentoNivel1, ...agrupamentoNivel2, ...somar],
+    summableFields: somar
+  }
+}
+
+export const getFormattedData = (_data, fields) => {
+  const newData = []
+
+  _data?.forEach((register, i) => {
+    const temp = {}
+    fields?.forEach((field, j) => {
+      temp[field] = register[j]
+    })
+    temp.id = i
+    newData.push(temp)
+  })
+  return newData
+}
+
+export const resumir = (registroBase, agrupamento, somar) => {
+  return agrupamento.length > 1
+    ? resumirDadosNvl2(registroBase, agrupamento, somar)
+    : resumirDadosNvl1(registroBase, agrupamento, somar)
+}

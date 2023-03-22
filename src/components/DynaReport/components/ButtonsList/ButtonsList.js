@@ -11,8 +11,6 @@ import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
 import { PDFNivel1 } from '../../utils/PDFNivel1'
 import { PDFNivel2 } from '../../utils/PDFNivel2'
-import { PDFBasico } from '../../utils/PDFBasico'
-import { PDFSintetico } from '../../utils/PDFSintetico'
 import OptionsChecklist from '../OptionsChecklist/OptionsChecklist'
 import Agrupamento from '../Agrupamento/Agrupamento'
 import Somar from '../Somar/Somar'
@@ -21,7 +19,13 @@ import NovoModelo from '../NovoModelo/NovoModelo'
 import Exportacao from '../Exportacao/Exportacao'
 import Modal from '@mui/material/Modal'
 import { useSelectedRegisters } from '../../context/context'
-import { setTableWidth } from '../../utils/Methods'
+import { setTableWidth, resumir, getFormattedData } from '../../utils/Methods'
+import Tooltip from '@mui/material/Tooltip'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import DialogTitle from '@mui/material/DialogTitle'
 
 const style = {
   position: 'absolute',
@@ -36,7 +40,7 @@ const style = {
   p: 2
 }
 
-function ButtonsList({ listOptions }) {
+function ButtonsList({ listOptions, resume }) {
   const [openAgrupamento, setOpenAgrupamento] = useState(false)
   const handleOpenAgrupamento = () => setOpenAgrupamento(true)
   const handleCloseAgrupamento = () => setOpenAgrupamento(false)
@@ -57,10 +61,13 @@ function ButtonsList({ listOptions }) {
   const handleOpenExportacao = () => setOpenExportacao(true)
   const handleCloseExportacao = () => setOpenExportacao(false)
 
+  const [resumeConfirmation, setResumeConfirmation] = useState(false)
+  const handleOpenConfirmation = () => setResumeConfirmation(true)
+  const handleCloseConfirmation = () => setResumeConfirmation(false)
+
   const {
     state: {
       selecteds,
-      fields,
       checkedFields,
       options,
       agrupamento,
@@ -70,18 +77,14 @@ function ButtonsList({ listOptions }) {
     }
   } = useSelectedRegisters()
 
-  const generatePDFNivel1 = async () => {
+  const convertData = (dataToConvert, orderedFields) => {
     const filteredArr = []
-    const orderedFields = [
-      ...columnsOrder.filter((n) => checkedFields.includes(n))
-    ].slice()
-
     const objModel = {}
     orderedFields.forEach((field, index) => {
       objModel[field] = index
     })
 
-    selecteds.forEach((element) => {
+    dataToConvert.forEach((element) => {
       const newObj = Object.keys(element)
         .filter((key) => orderedFields.includes(key))
         .reduce((obj, key) => {
@@ -103,22 +106,25 @@ function ButtonsList({ listOptions }) {
       )
     )
 
+    return formattedSelecteds
+  }
+
+  const generatePDFNivel1 = async () => {
+    const orderedFields = [
+      ...columnsOrder.filter((n) => checkedFields.includes(n))
+    ].slice()
+
+    const newSelecteds = convertData(selecteds, orderedFields)
+
     setTableWidth(
       options.includes('Horizontal (paisagem)') ? '761.89' : '515.3'
     )
 
-    if (options.includes('Sintético')) {
-      await PDFSintetico(
-        formattedSelecteds,
-        orderedFields,
-        options,
-        agrupamento,
-        somar,
-        title
-      )
+    if (options.includes('Sintético') && agrupamento.length > 0) {
+      handleResume()
     } else if (agrupamento.length > 1) {
       await PDFNivel2(
-        formattedSelecteds,
+        newSelecteds,
         orderedFields,
         options,
         agrupamento,
@@ -127,7 +133,7 @@ function ButtonsList({ listOptions }) {
       )
     } else {
       await PDFNivel1(
-        formattedSelecteds,
+        newSelecteds,
         orderedFields,
         options,
         agrupamento[0],
@@ -137,23 +143,21 @@ function ButtonsList({ listOptions }) {
     }
   }
 
-  const generatePDFBasico = async () => {
-    const filteredArr = []
+  const handleResume = async () => {
+    const newData = resumir(selecteds, agrupamento, somar)
 
-    selecteds.forEach((element) => {
-      const newObj = Object.keys(element)
-        .filter((key) => fields.includes(key))
-        .reduce((obj, key) => {
-          if (checkedFields.includes(key)) obj[key] = element[key] ?? ''
-          return obj
-        }, {})
-
-      filteredArr.push(newObj)
-    })
-    setTableWidth(
-      options.includes('Horizontal (paisagem)') ? '761.89' : '515.3'
+    const newSelecteds = convertData(
+      getFormattedData(newData.lines, newData.columns),
+      newData.columns
     )
-    await PDFBasico(filteredArr, checkedFields, title)
+    await PDFNivel1(
+      newSelecteds,
+      newData.columns,
+      options,
+      agrupamento.length > 1 ? agrupamento[0] : [],
+      somar,
+      title
+    )
   }
 
   return (
@@ -163,30 +167,49 @@ function ButtonsList({ listOptions }) {
       </Typography>
       <Divider />
       <Grid container rowSpacing={1}>
-        <Grid xs={6}>
-          <Button
-            variant='contained'
-            startIcon={<SearchIcon />}
-            style={{ width: '100%' }}
-            onClick={async () => generatePDFNivel1()}
-            disabled={selecteds.length < 1}
-            size='small'
-          >
-            Visualizar
-          </Button>
-        </Grid>
-        <Grid xs={6}>
-          <Button
-            variant='contained'
-            startIcon={<DescriptionIcon />}
-            style={{ width: '100%' }}
-            onClick={async () => generatePDFBasico()}
-            disabled={selecteds.length < 1}
-            size='small'
-          >
-            Resumir
-          </Button>
-        </Grid>
+        <Tooltip
+          title={
+            <div>
+              É necessário selecionar ao menos um registro para visualizar o
+              relatório
+              <br />
+              Para opção de relatório sintético informe ao menos um agrupamento
+            </div>
+          }
+          arrow
+          placement='top'
+        >
+          <Grid xs={6}>
+            <Button
+              variant='contained'
+              startIcon={<SearchIcon />}
+              style={{ width: '100%' }}
+              onClick={async () => generatePDFNivel1()}
+              disabled={selecteds.length < 1}
+              size='small'
+            >
+              Visualizar
+            </Button>
+          </Grid>
+        </Tooltip>
+        <Tooltip
+          title='O resumo utiliza os agrupamentos e somas para recriar os dados da tabela ou seja é necessário informar ao menos um agrupamento para prosseguir'
+          arrow
+          placement='top'
+        >
+          <Grid xs={6}>
+            <Button
+              variant='contained'
+              startIcon={<DescriptionIcon />}
+              style={{ width: '100%' }}
+              onClick={handleOpenConfirmation}
+              disabled={agrupamento.length < 1}
+              size='small'
+            >
+              Resumir
+            </Button>
+          </Grid>
+        </Tooltip>
         <Grid xs={6}>
           <Button
             variant='outlined'
@@ -305,6 +328,41 @@ function ButtonsList({ listOptions }) {
           <Exportacao handleClose={handleCloseExportacao} />
         </Box>
       </Modal>
+      <Dialog
+        open={resumeConfirmation}
+        onClose={handleCloseConfirmation}
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
+      >
+        <DialogTitle id='alert-dialog-title'>
+          Deseja resumir as informações?
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id='alert-dialog-description'>
+            O resumo de informações leva em consideração a configuração de
+            agrupamento e de soma para resumir as informações da tabela
+            <br />
+            Para restaurar os dados originais será necessário solicitar um novo
+            relatório
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseConfirmation} variant='contained'>
+            Recusar
+          </Button>
+          <Button
+            onClick={() => {
+              resume()
+              handleCloseConfirmation()
+            }}
+            autoFocus
+            variant='contained'
+            color='success'
+          >
+            Aceitar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   )
 }

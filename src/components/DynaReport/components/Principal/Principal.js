@@ -12,6 +12,7 @@ import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
 import { Typography } from '@mui/material'
 import ErrorIcon from '@mui/icons-material/Error'
+import { getFormattedData, resumir } from '../../utils/Methods'
 
 const reportOptions = [
   'Horizontal (paisagem)',
@@ -33,7 +34,7 @@ export const Principal = ({
   const [error, setError] = React.useState(false)
 
   const {
-    state: { fields },
+    state: { fields, agrupamento, somar },
     dispatch
   } = useSelectedRegisters()
 
@@ -45,29 +46,33 @@ export const Principal = ({
     dispatch({ value: [], type: 'columnsOrder' })
   }
 
-  async function fetchData() {
-    setLoading(true)
-    const res = await api.get(`${endPoint}?${filter}`)
-    setData(res.data.data)
-
+  const handleRefetch = (newdata) => {
     dispatch({
       value: [String(title ?? ''), String(subTitle ?? ''), String(text ?? '')],
       type: 'title'
     })
-    dispatch({ value: res.data.data.columns, type: 'fields' })
-    dispatch({ value: res.data.data.columns, type: 'checkedFields' })
+    dispatch({ value: newdata.columns, type: 'fields' })
+    dispatch({ value: newdata.columns, type: 'checkedFields' })
     dispatch({
-      value: [null, ...res.data.data.columns],
+      value: [null, ...newdata.columns],
       type: 'columnsOrder'
     })
     dispatch({
-      value: res.data.data.summableFields,
+      value: newdata.summableFields,
       type: 'somar'
     })
     dispatch({
-      value: res.data.data.summableFields,
+      value: newdata.summableFields,
       type: 'summableFields'
     })
+  }
+
+  async function fetchData() {
+    setLoading(true)
+    const res = await api.get(`${endPoint}?${filter}`)
+
+    setData(res.data.data)
+    handleRefetch(res.data.data)
     setLoading(false)
   }
 
@@ -82,26 +87,25 @@ export const Principal = ({
     textAlign: 'center'
   }))
 
-  const getFormattedData = (_data) => {
-    const newData = []
-
-    _data?.forEach((register, i) => {
-      const temp = {}
-      fields.forEach((field, j) => {
-        temp[field] = register[j]
-      })
-      temp.id = i
-      newData.push(temp)
-    })
-    return newData
-  }
-
   const handleFetch = () => {
     clearComponent()
     fetchData().catch((err) => {
       console.log(err)
       setError(true)
     })
+  }
+
+  const handleResumo = () => {
+    setLoading(true)
+    const newData = resumir(
+      getFormattedData(data?.lines, fields),
+      agrupamento,
+      somar
+    )
+
+    setData(newData)
+    handleRefetch(newData)
+    setLoading(false)
   }
 
   if (error) {
@@ -129,12 +133,12 @@ export const Principal = ({
           </Item>
 
           <Item sx={{ marginBottom: '8px' }}>
-            <ButtonList listOptions={reportOptions} />
+            <ButtonList listOptions={reportOptions} resume={handleResumo} />
           </Item>
         </Grid>
         <Grid xs={8} sm={8} md={8} lg={9}>
           <Item>
-            <DynaGrade conv={getFormattedData(data?.lines)} />
+            <DynaGrade conv={getFormattedData(data?.lines, fields)} />
           </Item>
         </Grid>
       </Grid>

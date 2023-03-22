@@ -62,7 +62,7 @@ export const NovoModelo = ({ handleClose }) => {
               <Box sx={{ paddingTop: 1 }}>
                 <TextField
                   id='nome-arquivo'
-                  label='Informe um nome'
+                  label='Informe o nome do modelo'
                   variant='outlined'
                   fullWidth
                   value={value}
