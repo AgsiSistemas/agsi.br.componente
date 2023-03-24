@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Grid from '@mui/material/Unstable_Grid2'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
@@ -11,116 +11,75 @@ import Stack from '@mui/material/Stack'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import RadioGroup from '@mui/material/RadioGroup'
 import Radio from '@mui/material/Radio'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import DialogTitle from '@mui/material/DialogTitle'
+import { defaultModelRoute } from '../../utils/Methods'
 
-const modelosMock = [
-  {
-    name: 'Teste modelo 1',
-    options: [
-      'Horizontal (paisagem)',
-      'Contador de registros',
-      'Mostrar campo de agrupamento'
-    ],
-    group: [
-      {
-        id: 1,
-        parent: 0,
-        droppable: true,
-        text: 'Grupo 01'
-      },
-      {
-        id: 'Código',
-        parent: 1,
-        droppable: false,
-        text: 'Código'
-      },
-      {
-        id: 11,
-        parent: 0,
-        droppable: true,
-        text: 'Grupo 02'
-      },
-      {
-        id: 'Quantidade',
-        parent: 11,
-        droppable: false,
-        text: 'Quantidade'
-      }
-    ],
-    columnsOrder: [null, 'Quantidade', 'Código', 'Atendimento', 'Operador'],
-    checkedFields: ['Código', 'Operador', 'Quantidade', 'Atendimento'],
-    sum: ['Quantidade']
-  },
-  {
-    name: 'Teste modelo 2',
-    options: ['Horizontal (paisagem)'],
-    group: [
-      {
-        id: 1,
-        parent: 0,
-        droppable: true,
-        text: 'Grupo 01'
-      },
-      {
-        id: 'Operador',
-        parent: 1,
-        droppable: false,
-        text: 'Operador'
-      }
-    ],
-    columnsOrder: [
-      null,
-      'Código',
-      'Cód. Motivo Relato',
-      'Quantidade',
-      'Motivo Relato',
-      'Atendimento',
-      'Operador'
-    ],
-    checkedFields: [
-      'Código',
-      'Atendimento',
-      'Cód. Motivo Relato',
-      'Motivo Relato',
-      'Operador',
-      'Quantidade'
-    ],
-    sum: ['Quantidade']
-  }
-]
+export const Modelos = ({
+  handleClose,
+  applyModelo,
+  modeloStandard,
+  updateModeloStandard
+}) => {
+  const {
+    state: { api, endpoint }
+  } = useSelectedRegisters()
 
-export const Modelos = ({ handleClose }) => {
-  const { dispatch } = useSelectedRegisters()
+  const [resumeConfirmation, setResumeConfirmation] = useState(false)
+  const handleOpenConfirmation = () => setResumeConfirmation(true)
+  const handleCloseConfirmation = () => setResumeConfirmation(false)
+
   const [value, setValue] = useState('')
+  const [modelosList, setModelosList] = useState([])
 
   const handleChange = (event) => {
     setValue(event.target.value)
   }
 
-  const handleSalvar = () => {
-    dispatch({ value: modelosMock[value].columnsOrder, type: 'columnsOrder' })
-    dispatch({ value: modelosMock[value].checkedFields, type: 'checkedFields' })
-    dispatch({ value: modelosMock[value].group, type: 'savedTree' })
-    dispatch({ value: modelosMock[value].options, type: 'options' })
-    dispatch({ value: modelosMock[value].sum, type: 'somar' })
+  async function fetchData() {
+    const res = await api.get(`${defaultModelRoute}?endpoint=${endpoint}`)
+    setModelosList(res.data)
 
-    //AGRUPAMENTO
-    const grupo1 = []
-    const grupo2 = []
-    modelosMock[value].group.forEach((el) => {
-      if (el.parent === 1) {
-        grupo1.push(el.id)
-      } else if (el.parent === 11) {
-        grupo2.push(el.id)
-      }
-    })
-    if (grupo2.length > 0) {
-      dispatch({ value: [grupo1, grupo2], type: 'agrupamento' })
-    } else {
-      dispatch({ value: [grupo1], type: 'agrupamento' })
+    if (modeloStandard) {
+      setValue(modeloStandard)
+    } else if (res.data.length > 0) {
+      res.data.forEach((element) => {
+        if (element.standard) {
+          setValue(String(element.id))
+        }
+      })
     }
+  }
 
+  useEffect(() => {
+    fetchData()
+  }, [])
+
+  const handleSalvar = () => {
+    updateModeloStandard(value)
+    applyModelo(
+      JSON.parse(
+        modelosList.find((obj) => String(obj.id) === value).configuration
+      )
+    )
     handleClose()
   }
+
+  const handleDelete = async () => {
+    api
+      .delete(`${defaultModelRoute}/${value}`)
+      .then(function (response) {
+        console.log(response)
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+    fetchData()
+  }
+
   return (
     <React.Fragment>
       <Stack
@@ -136,7 +95,9 @@ export const Modelos = ({ handleClose }) => {
           </Typography>
           <Divider />
         </div>
-
+        <Typography sx={{ padding: '8px 0px' }}>
+          Selecione um modelo para aplicar no relatório atual:
+        </Typography>
         <Grid
           container
           direction='row'
@@ -149,13 +110,27 @@ export const Modelos = ({ handleClose }) => {
             value={value}
             onChange={handleChange}
           >
-            {modelosMock.map((modelo, index) => {
+            {modelosList?.map((modelo) => {
               return (
                 <FormControlLabel
                   key={modelo.name}
-                  value={index}
+                  value={modelo.id}
                   control={<Radio />}
-                  label={modelo.name}
+                  label={
+                    modelo.standard ? (
+                      <>
+                        {modelo.name}
+                        <Typography
+                          variant='caption'
+                          sx={{ padding: '8px 12px' }}
+                        >
+                          (padrão)
+                        </Typography>
+                      </>
+                    ) : (
+                      modelo.name
+                    )
+                  }
                 />
               )
             })}
@@ -176,8 +151,12 @@ export const Modelos = ({ handleClose }) => {
             style={{ padding: '8px' }}
           >
             <Grid item>
-              <Button variant='outlined' startIcon={<DeleteIcon />}>
-                Excluir modelo
+              <Button
+                variant='outlined'
+                onClick={handleOpenConfirmation}
+                startIcon={<DeleteIcon />}
+              >
+                Remover modelo
               </Button>
             </Grid>
           </Grid>
@@ -209,6 +188,37 @@ export const Modelos = ({ handleClose }) => {
           </Grid>
         </Grid>
       </Stack>
+      <Dialog
+        open={resumeConfirmation}
+        onClose={handleCloseConfirmation}
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
+      >
+        <DialogTitle id='alert-dialog-title'>
+          Deseja remover o modelo {modelosList[value]?.name}?
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id='alert-dialog-description'>
+            Não será possível recuperá-lo
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseConfirmation} variant='contained'>
+            Cancelar
+          </Button>
+          <Button
+            onClick={() => {
+              handleDelete()
+              handleCloseConfirmation()
+            }}
+            autoFocus
+            variant='contained'
+            color='error'
+          >
+            Remover
+          </Button>
+        </DialogActions>
+      </Dialog>
     </React.Fragment>
   )
 }

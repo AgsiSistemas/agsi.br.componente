@@ -247,7 +247,9 @@ export const resumirDadosNvl1 = (registroBase, agrupamento, somar) => {
 
   return {
     lines: newRegister,
-    columns: [...agrupamentoNivel1, ...somar],
+    columns: [...agrupamentoNivel1, ...somar].filter(
+      (item, index) => [...agrupamentoNivel1, ...somar].indexOf(item) === index
+    ),
     summableFields: somar
   }
 }
@@ -336,7 +338,11 @@ export const resumirDadosNvl2 = (registroBase, agrupamento, somar) => {
 
   return {
     lines: newRegister,
-    columns: [...agrupamentoNivel1, ...agrupamentoNivel2, ...somar],
+    columns: [...agrupamentoNivel1, ...agrupamentoNivel2, ...somar].filter(
+      (item, index) =>
+        [...agrupamentoNivel1, ...agrupamentoNivel2, ...somar].indexOf(item) ===
+        index
+    ),
     summableFields: somar
   }
 }
@@ -360,3 +366,5 @@ export const resumir = (registroBase, agrupamento, somar) => {
     ? resumirDadosNvl2(registroBase, agrupamento, somar)
     : resumirDadosNvl1(registroBase, agrupamento, somar)
 }
+
+export const defaultModelRoute = '/app-control/report-models'

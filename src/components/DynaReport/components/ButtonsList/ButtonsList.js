@@ -40,7 +40,9 @@ const style = {
   p: 2
 }
 
-function ButtonsList({ listOptions, resume }) {
+function ButtonsList({ listOptions, resume, resumed, setResumed, modelo }) {
+  const { applyModelo, modeloStandard, setModeloStandard } = modelo
+
   const [openAgrupamento, setOpenAgrupamento] = useState(false)
   const handleOpenAgrupamento = () => setOpenAgrupamento(true)
   const handleCloseAgrupamento = () => setOpenAgrupamento(false)
@@ -248,6 +250,7 @@ function ButtonsList({ listOptions, resume }) {
             onClick={handleOpenNovoModelo}
             style={{ width: '100%' }}
             size='small'
+            disabled={resumed}
           >
             Novo Modelo
           </Button>
@@ -295,6 +298,7 @@ function ButtonsList({ listOptions, resume }) {
           <NovoModelo
             setOpen={setOpenNovoModelo}
             handleClose={handleCloseNovoModelo}
+            options={options}
           />
         </Box>
       </Modal>
@@ -315,7 +319,12 @@ function ButtonsList({ listOptions, resume }) {
         aria-describedby='modal-modal-description'
       >
         <Box sx={style}>
-          <Modelos handleClose={handleCloseModelos} />
+          <Modelos
+            handleClose={handleCloseModelos}
+            applyModelo={applyModelo}
+            modeloStandard={modeloStandard}
+            updateModeloStandard={setModeloStandard}
+          />
         </Box>
       </Modal>
       <Modal
@@ -352,6 +361,7 @@ function ButtonsList({ listOptions, resume }) {
           </Button>
           <Button
             onClick={() => {
+              setResumed(true)
               resume()
               handleCloseConfirmation()
             }}

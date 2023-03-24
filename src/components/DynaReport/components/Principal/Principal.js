@@ -12,7 +12,11 @@ import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
 import { Typography } from '@mui/material'
 import ErrorIcon from '@mui/icons-material/Error'
-import { getFormattedData, resumir } from '../../utils/Methods'
+import {
+  getFormattedData,
+  resumir,
+  defaultModelRoute
+} from '../../utils/Methods'
 
 const reportOptions = [
   'Horizontal (paisagem)',
@@ -30,8 +34,10 @@ export const Principal = ({
   text = null
 }) => {
   const [data, setData] = useState(null)
-  const [loading, setLoading] = React.useState(false)
-  const [error, setError] = React.useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
+  const [resumed, setResumed] = useState(false)
+  const [modeloStandard, setModeloStandard] = useState(null)
 
   const {
     state: { fields, agrupamento, somar },
@@ -65,19 +71,59 @@ export const Principal = ({
       value: newdata.summableFields,
       type: 'summableFields'
     })
+    dispatch({ value: endPoint, type: 'endpoint' })
+  }
+
+  const applyModelo = (modelo) => {
+    dispatch({ value: modelo.columnsOrder, type: 'columnsOrder' })
+    dispatch({ value: modelo.checkedFields, type: 'checkedFields' })
+    dispatch({ value: modelo.group, type: 'savedTree' })
+    dispatch({ value: modelo.options, type: 'options' })
+    dispatch({ value: modelo.sum, type: 'somar' })
+
+    //AGRUPAMENTO
+    const grupo1 = []
+    const grupo2 = []
+    modelo.group.forEach((el) => {
+      if (el.parent === 1) {
+        grupo1.push(el.id)
+      } else if (el.parent === 11) {
+        grupo2.push(el.id)
+      }
+    })
+    if (grupo2.length > 0) {
+      dispatch({ value: [grupo1, grupo2], type: 'agrupamento' })
+    } else if (grupo1.length > 0) {
+      dispatch({ value: [grupo1], type: 'agrupamento' })
+    } else {
+      dispatch({ value: [], type: 'agrupamento' })
+    }
   }
 
   async function fetchData() {
     setLoading(true)
     const res = await api.get(`${endPoint}?${filter}`)
 
+    dispatch({ value: api, type: 'api' })
     setData(res.data.data)
     handleRefetch(res.data.data)
     setLoading(false)
   }
 
+  async function fetchModelos() {
+    const res = await api.get(`${defaultModelRoute}?endpoint=${endPoint}`)
+    if (res.data.length > 0) {
+      res.data.forEach((element) => {
+        if (element.standard) {
+          applyModelo(JSON.parse(element.configuration))
+        }
+      })
+    }
+  }
+
   useEffect(() => {
     handleFetch()
+    fetchModelos()
   }, [api])
 
   const Item = styled(Paper)(({ theme }) => ({
@@ -133,7 +179,13 @@ export const Principal = ({
           </Item>
 
           <Item sx={{ marginBottom: '8px' }}>
-            <ButtonList listOptions={reportOptions} resume={handleResumo} />
+            <ButtonList
+              listOptions={reportOptions}
+              resume={handleResumo}
+              resumed={resumed}
+              setResumed={setResumed}
+              modelo={{ applyModelo, modeloStandard, setModeloStandard }}
+            />
           </Item>
         </Grid>
         <Grid xs={8} sm={8} md={8} lg={9}>
