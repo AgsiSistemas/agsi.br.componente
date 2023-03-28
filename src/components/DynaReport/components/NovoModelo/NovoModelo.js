@@ -9,23 +9,44 @@ import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
+import Switch from '@mui/material/Switch'
+import FormGroup from '@mui/material/FormGroup'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import { defaultModelRoute } from '../../utils/Methods'
 
-const modelosMock = [
-  'modelo 1',
-  'modelo 2',
-  'modelo 3',
-  'caracteres *9*(!&#)+!{}`^>'
-]
-
-export const NovoModelo = ({ handleClose }) => {
+export const NovoModelo = ({ handleClose, options }) => {
   const [value, setValue] = useState('')
+  const [checked, setChecked] = React.useState(false)
 
-  const handleChange = (event) => {
-    setValue(event.target.value)
+  const handleChangePadrao = (event) => {
+    setChecked(event.target.checked)
   }
 
-  const handleSalvar = () => {
-    //ADICIONAR CARREGAMENTO DO MODELO
+  const {
+    state: { checkedFields, columnsOrder, savedTree, somar, api, endpoint }
+  } = useSelectedRegisters()
+
+  const handleSalvar = async () => {
+    await api
+      .post(defaultModelRoute, {
+        endpoint: endpoint,
+        name: value,
+        standard: checked,
+        configuration: JSON.stringify({
+          options: options,
+          group: savedTree,
+          columnsOrder: columnsOrder,
+          checkedFields: checkedFields,
+          sum: somar
+        })
+      })
+      .then(function (response) {
+        console.log(response)
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+
     handleClose()
   }
   return (
@@ -54,15 +75,13 @@ export const NovoModelo = ({ handleClose }) => {
             <Grid
               style={{
                 padding: '8px',
-                // border: '1px solid rgba(0, 0, 0, 0.12)',
-                // borderRadius: '4px',
                 margin: '8px'
               }}
             >
               <Box sx={{ paddingTop: 1 }}>
                 <TextField
                   id='nome-arquivo'
-                  label='Informe um nome'
+                  label='Informe o nome do modelo'
                   variant='outlined'
                   fullWidth
                   value={value}
@@ -73,6 +92,30 @@ export const NovoModelo = ({ handleClose }) => {
                     setValue(event.target.value)
                   }}
                 />
+              </Box>
+              <Box sx={{ paddingTop: 1 }}>
+                <FormGroup>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={checked}
+                        onChange={handleChangePadrao}
+                        inputProps={{ 'aria-label': 'modelo-padrao' }}
+                      />
+                    }
+                    label='Padrão'
+                  />
+                  <Typography
+                    variant='caption'
+                    display='block'
+                    gutterBottom
+                    sx={{ padding: '8px 12px' }}
+                  >
+                    *Salvando como padrão o modelo (opções, agrupamentos,
+                    ordenação de colunas, campos, e somas) será pré carregado na
+                    próxima vez que acessar esse relatório.
+                  </Typography>
+                </FormGroup>
               </Box>
             </Grid>
           </Grid>

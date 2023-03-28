@@ -77,9 +77,10 @@ export const PDFNivel1 = (
     // PARA CADA REGISTRO
     data.forEach((el, index) => {
       const tempContent = []
+
       for (const [key, value] of Object.entries(el)) {
         tempContent.push({
-          content: value.trim(),
+          content: typeof value === 'string' ? value.trim() : value,
           styles: {
             fillColor: index % 2 === 0 ? [252, 252, 252] : [245, 245, 245],
             cellWidth: cellWidth

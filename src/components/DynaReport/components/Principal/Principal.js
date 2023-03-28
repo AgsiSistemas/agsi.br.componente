@@ -12,6 +12,11 @@ import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
 import { Typography } from '@mui/material'
 import ErrorIcon from '@mui/icons-material/Error'
+import {
+  getFormattedData,
+  resumir,
+  defaultModelRoute
+} from '../../utils/Methods'
 
 const reportOptions = [
   'Horizontal (paisagem)',
@@ -29,11 +34,13 @@ export const Principal = ({
   text = null
 }) => {
   const [data, setData] = useState(null)
-  const [loading, setLoading] = React.useState(false)
-  const [error, setError] = React.useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
+  const [resumed, setResumed] = useState(false)
+  const [modeloStandard, setModeloStandard] = useState(null)
 
   const {
-    state: { fields },
+    state: { fields, agrupamento, somar },
     dispatch
   } = useSelectedRegisters()
 
@@ -45,34 +52,78 @@ export const Principal = ({
     dispatch({ value: [], type: 'columnsOrder' })
   }
 
-  async function fetchData() {
-    setLoading(true)
-    const res = await api.get(`${endPoint}?${filter}`)
-    setData(res.data.data)
-
+  const handleRefetch = (newdata) => {
     dispatch({
       value: [String(title ?? ''), String(subTitle ?? ''), String(text ?? '')],
       type: 'title'
     })
-    dispatch({ value: res.data.data.columns, type: 'fields' })
-    dispatch({ value: res.data.data.columns, type: 'checkedFields' })
+    dispatch({ value: newdata.columns, type: 'fields' })
+    dispatch({ value: newdata.columns, type: 'checkedFields' })
     dispatch({
-      value: [null, ...res.data.data.columns],
+      value: [null, ...newdata.columns],
       type: 'columnsOrder'
     })
     dispatch({
-      value: res.data.data.summableFields,
+      value: newdata.summableFields,
       type: 'somar'
     })
     dispatch({
-      value: res.data.data.summableFields,
+      value: newdata.summableFields,
       type: 'summableFields'
     })
+    dispatch({ value: endPoint, type: 'endpoint' })
+  }
+
+  const applyModelo = (modelo) => {
+    dispatch({ value: modelo.columnsOrder, type: 'columnsOrder' })
+    dispatch({ value: modelo.checkedFields, type: 'checkedFields' })
+    dispatch({ value: modelo.group, type: 'savedTree' })
+    dispatch({ value: modelo.options, type: 'options' })
+    dispatch({ value: modelo.sum, type: 'somar' })
+
+    //AGRUPAMENTO
+    const grupo1 = []
+    const grupo2 = []
+    modelo.group.forEach((el) => {
+      if (el.parent === 1) {
+        grupo1.push(el.id)
+      } else if (el.parent === 11) {
+        grupo2.push(el.id)
+      }
+    })
+    if (grupo2.length > 0) {
+      dispatch({ value: [grupo1, grupo2], type: 'agrupamento' })
+    } else if (grupo1.length > 0) {
+      dispatch({ value: [grupo1], type: 'agrupamento' })
+    } else {
+      dispatch({ value: [], type: 'agrupamento' })
+    }
+  }
+
+  async function fetchData() {
+    setLoading(true)
+    const res = await api.get(`${endPoint}?${filter}`)
+
+    dispatch({ value: api, type: 'api' })
+    setData(res.data.data)
+    handleRefetch(res.data.data)
     setLoading(false)
+  }
+
+  async function fetchModelos() {
+    const res = await api.get(`${defaultModelRoute}?endpoint=${endPoint}`)
+    if (res.data.length > 0) {
+      res.data.forEach((element) => {
+        if (element.standard) {
+          applyModelo(JSON.parse(element.configuration))
+        }
+      })
+    }
   }
 
   useEffect(() => {
     handleFetch()
+    fetchModelos()
   }, [api])
 
   const Item = styled(Paper)(({ theme }) => ({
@@ -82,26 +133,25 @@ export const Principal = ({
     textAlign: 'center'
   }))
 
-  const getFormattedData = (_data) => {
-    const newData = []
-
-    _data?.forEach((register, i) => {
-      const temp = {}
-      fields.forEach((field, j) => {
-        temp[field] = register[j]
-      })
-      temp.id = i
-      newData.push(temp)
-    })
-    return newData
-  }
-
   const handleFetch = () => {
     clearComponent()
     fetchData().catch((err) => {
       console.log(err)
       setError(true)
     })
+  }
+
+  const handleResumo = () => {
+    setLoading(true)
+    const newData = resumir(
+      getFormattedData(data?.lines, fields),
+      agrupamento,
+      somar
+    )
+
+    setData(newData)
+    handleRefetch(newData)
+    setLoading(false)
   }
 
   if (error) {
@@ -129,12 +179,18 @@ export const Principal = ({
           </Item>
 
           <Item sx={{ marginBottom: '8px' }}>
-            <ButtonList listOptions={reportOptions} />
+            <ButtonList
+              listOptions={reportOptions}
+              resume={handleResumo}
+              resumed={resumed}
+              setResumed={setResumed}
+              modelo={{ applyModelo, modeloStandard, setModeloStandard }}
+            />
           </Item>
         </Grid>
         <Grid xs={8} sm={8} md={8} lg={9}>
           <Item>
-            <DynaGrade conv={getFormattedData(data?.lines)} />
+            <DynaGrade conv={getFormattedData(data?.lines, fields)} />
           </Item>
         </Grid>
       </Grid>

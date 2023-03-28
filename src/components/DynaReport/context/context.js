@@ -22,6 +22,10 @@ function contextReducer(state, action) {
     return { ...state, savedTree: action.value }
   } else if (action.type === 'title') {
     return { ...state, title: action.value }
+  } else if (action.type === 'api') {
+    return { ...state, api: action.value }
+  } else if (action.type === 'endpoint') {
+    return { ...state, endpoint: action.value }
   }
 }
 
@@ -43,7 +47,9 @@ function DynaProvider({ children }) {
     options: [],
     somar: [],
     summableFields: [],
-    title: ''
+    title: '',
+    api: {},
+    endpoint: ''
   })
   const value = { state, dispatch }
 

@@ -90,10 +90,13 @@ export const Agrupamento = ({ handleClose }) => {
         grupo2.push(el.id)
       }
     })
+
     if (grupo2.length > 0) {
       dispatch({ value: [grupo1, grupo2], type: 'agrupamento' })
-    } else {
+    } else if (grupo1.length > 0) {
       dispatch({ value: [grupo1], type: 'agrupamento' })
+    } else {
+      dispatch({ value: [], type: 'agrupamento' })
     }
 
     dispatch({ value: tree, type: 'savedTree' })
