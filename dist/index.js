@@ -90,6 +90,7 @@ var FolderIcon = _interopDefault(require('@mui/icons-material/Folder'));
 var ArrowRightIcon = _interopDefault(require('@mui/icons-material/ArrowRight'));
 var RadioGroup = _interopDefault(require('@mui/material/RadioGroup'));
 var Radio = _interopDefault(require('@mui/material/Radio'));
+var FormGroup = _interopDefault(require('@mui/material/FormGroup'));
 var FormLabel = _interopDefault(require('@mui/material/FormLabel'));
 var Select = _interopDefault(require('@mui/material/Select'));
 var InputLabel = _interopDefault(require('@mui/material/InputLabel'));
@@ -3393,6 +3394,14 @@ function contextReducer(state, action) {
     return _extends({}, state, {
       title: action.value
     });
+  } else if (action.type === 'api') {
+    return _extends({}, state, {
+      api: action.value
+    });
+  } else if (action.type === 'endpoint') {
+    return _extends({}, state, {
+      endpoint: action.value
+    });
   }
 }
 function DynaProvider(_ref) {
@@ -3412,7 +3421,9 @@ function DynaProvider(_ref) {
       options: [],
       somar: [],
       summableFields: [],
-      title: ''
+      title: '',
+      api: {},
+      endpoint: ''
     }),
     state = _React$useReducer[0],
     dispatch = _React$useReducer[1];
@@ -3654,6 +3665,144 @@ var addheader = function addheader(doc, autoTable, fields, agrupamento, title, h
     }
   }
 };
+var resumirDadosNvl1 = function resumirDadosNvl1(registroBase, agrupamento, somar) {
+  var groupSections1 = [];
+  var selectedsClone = [].concat(registroBase);
+  var agrupamentoNivel1 = [].concat(agrupamento[0]);
+  var newRegister = [];
+  selectedsClone.forEach(function (element) {
+    var tempGrupo = [];
+    agrupamentoNivel1.forEach(function (grupo) {
+      tempGrupo.push(element[grupo]);
+    });
+    if (!isArrayInArray(groupSections1, tempGrupo)) {
+      groupSections1.push(tempGrupo);
+    }
+  });
+  groupSections1.forEach(function (section1) {
+    var tempDataSection1 = [];
+    var tempResume = [];
+    selectedsClone.forEach(function (register) {
+      var addToGroup = true;
+      section1.forEach(function (element, index) {
+        if (register[agrupamentoNivel1[index]] !== element) {
+          addToGroup = false;
+        }
+      });
+      if (addToGroup) {
+        tempDataSection1.push(register);
+      }
+    });
+    agrupamentoNivel1.forEach(function (grupo, index) {
+      tempResume.push(section1[index]);
+    });
+    somar.forEach(function (soma) {
+      var sum = tempDataSection1.reduce(function (accumulator, object) {
+        return accumulator + Number(object[soma]);
+      }, 0);
+      tempResume.push(sum);
+    });
+    newRegister.push(tempResume);
+  });
+  return {
+    lines: newRegister,
+    columns: [].concat(agrupamentoNivel1, somar).filter(function (item, index) {
+      return [].concat(agrupamentoNivel1, somar).indexOf(item) === index;
+    }),
+    summableFields: somar
+  };
+};
+var resumirDadosNvl2 = function resumirDadosNvl2(registroBase, agrupamento, somar) {
+  var groupSections1 = [];
+  var selectedsClone = [].concat(registroBase);
+  var agrupamentoNivel1 = [].concat(agrupamento[0]);
+  var agrupamentoNivel2 = [].concat(agrupamento[1]);
+  var newRegister = [];
+  selectedsClone.forEach(function (element) {
+    var tempGrupo = [];
+    agrupamentoNivel1.forEach(function (grupo) {
+      tempGrupo.push(element[grupo]);
+    });
+    if (!isArrayInArray(groupSections1, tempGrupo)) {
+      groupSections1.push(tempGrupo);
+    }
+  });
+  groupSections1.forEach(function (section1) {
+    var tempDataSection1 = [];
+    selectedsClone.forEach(function (register) {
+      var addToGroup = true;
+      section1.forEach(function (element, index) {
+        if (register[agrupamentoNivel1[index]] !== element) {
+          addToGroup = false;
+        }
+      });
+      if (addToGroup) {
+        tempDataSection1.push(register);
+      }
+    });
+    var groupSections2 = [];
+    tempDataSection1.forEach(function (element) {
+      var tempGrupo = [];
+      agrupamentoNivel2.forEach(function (grupo) {
+        tempGrupo.push(element[grupo]);
+      });
+      if (!isArrayInArray(groupSections2, tempGrupo)) {
+        groupSections2.push(tempGrupo);
+      }
+    });
+    groupSections2.forEach(function (section2) {
+      var tempDataSection2 = [];
+      var tempResume = [];
+      tempDataSection1.forEach(function (register) {
+        var addToGroup = true;
+        section2.forEach(function (element, index) {
+          if (register[agrupamentoNivel2[index]] !== element) {
+            addToGroup = false;
+          }
+        });
+        if (addToGroup) {
+          tempDataSection2.push(register);
+        }
+      });
+      agrupamentoNivel1.forEach(function (grupo, index) {
+        tempResume.push(section1[index]);
+      });
+      agrupamentoNivel2.forEach(function (grupo, index) {
+        tempResume.push(section2[index]);
+      });
+      somar.forEach(function (soma) {
+        var sum = tempDataSection2.reduce(function (accumulator, object) {
+          return accumulator + Number(object[soma]);
+        }, 0);
+        tempResume.push(sum);
+      });
+      newRegister.push(tempResume);
+    });
+  });
+  return {
+    lines: newRegister,
+    columns: [].concat(agrupamentoNivel1, agrupamentoNivel2, somar).filter(function (item, index) {
+      return [].concat(agrupamentoNivel1, agrupamentoNivel2, somar).indexOf(item) === index;
+    }),
+    summableFields: somar
+  };
+};
+var getFormattedData = function getFormattedData(_data, fields) {
+  var newData = [];
+  _data === null || _data === void 0 ? void 0 : _data.forEach(function (register, i) {
+    var temp = {};
+    fields === null || fields === void 0 ? void 0 : fields.forEach(function (field, j) {
+      temp[field] = register[j];
+    });
+    temp.id = i;
+    newData.push(temp);
+  });
+  return newData;
+};
+var resumir = function resumir(registroBase, agrupamento, somar) {
+  return agrupamento.length > 1 ? resumirDadosNvl2(registroBase, agrupamento, somar) : resumirDadosNvl1(registroBase, agrupamento, somar);
+};
+var defaultModelRoute = '/app-control/report-models';
 
 var PDFNivel1 = function PDFNivel1(selecteds, fields, options, agrupamento, somar, title) {
   if (agrupamento === void 0) {
@@ -3706,7 +3855,7 @@ var PDFNivel1 = function PDFNivel1(selecteds, fields, options, agrupamento, soma
         var _Object$entries$_i = _Object$entries[_i],
           value = _Object$entries$_i[1];
         tempContent.push({
-          content: value.trim(),
+          content: typeof value === 'string' ? value.trim() : value,
           styles: {
             fillColor: index % 2 === 0 ? [252, 252, 252] : [245, 245, 245],
             cellWidth: cellWidth
@@ -3952,200 +4101,6 @@ var PDFNivel2 = function PDFNivel2(selecteds, fields, options, agrupamento, soma
   doc.save((title[0] === '' ? 'Título não definido' : title[0]) + ".pdf");
 };
 
-var PDFBasico = function PDFBasico(selecteds, fields, title) {
-  var doc = new jspdf.jsPDF('p', 'pt', 'a4');
-  var addtable = function addtable(data) {
-    var newBody = data.map(function (el) {
-      return Object.values(el);
-    });
-    autoTable(doc, {
-      startY: doc.lastAutoTable.finalY,
-      body: newBody,
-      head: [fields],
-      headStyles: {
-        fillColor: [41, 89, 129],
-        textColor: [255, 255, 255],
-        fontStyle: 'bold'
-      },
-      margin: {
-        top: startPageY - 34
-      }
-    });
-  };
-  addtable(selecteds);
-  addheader(doc, autoTable, fields, [], title, false, false);
-  doc.save((title[0] === '' ? 'Título não definido' : title[0] + ' resumido') + " .pdf");
-};
-
-var PDFSintetico = function PDFSintetico(selecteds, fields, options, agrupamento, somar, title) {
-  if (agrupamento === void 0) {
-    agrupamento = [];
-  }
-  if (somar === void 0) {
-    somar = [];
-  }
-  var isHorizontal = options.includes('Horizontal (paisagem)');
-  var isCounting = options.includes('Contador de registros');
-  var maxLength = isHorizontal ? '461' : '750';
-  var doc = new jspdf.jsPDF(isHorizontal ? 'l' : 'p', 'pt', 'a4');
-  var page = 1;
-  var hideGroupField = !options.includes('Mostrar campo de agrupamento');
-  var addSumFooter = function addSumFooter(dataSection) {
-    var somaContent = [];
-    var filteredHeader = fields.slice();
-    agrupamento.forEach(function (grupo) {
-      filteredHeader = getFilteredHeader(filteredHeader, grupo, hideGroupField);
-    });
-    filteredHeader.forEach(function (element) {
-      if (somar.includes(element)) {
-        var sumWithInitial = dataSection.reduce(function (acc, data) {
-          return acc + Number(data[element]);
-        }, 0);
-        somaContent.push(somaContent.length === 0 ? "\u03A3 " + sumWithInitial : sumWithInitial);
-      } else {
-        somaContent.push(somaContent.length === 0 ? "\u03A3" : null);
-      }
-    });
-    addSum(doc.lastAutoTable.finalY, null, somaContent, doc, autoTable);
-  };
-  var addCountFooter = function addCountFooter(dataSection) {
-    var contadorContent = ["Reg:  " + dataSection.length];
-    addCount(doc.lastAutoTable.finalY, null, contadorContent, doc, autoTable);
-  };
-  var addPrimeiroNivel = function addPrimeiroNivel(Y, header, content) {
-    autoTable(doc, {
-      startY: Y > startPageY ? Y : startPageY,
-      head: header ? [header] : [],
-      pageBreak: 'avoid',
-      margin: {
-        top: startPageY
-      },
-      body: content
-    });
-  };
-  var addtable = function addtable(data) {
-    var cellWidth = tableWidth / (fields.length - (hideGroupField ? agrupamento[0].length + agrupamento[1].length : 0));
-    data.forEach(function (el, index) {
-      var tempContent = [];
-      for (var _i = 0, _Object$entries = Object.entries(el); _i < _Object$entries.length; _i++) {
-        var _Object$entries$_i = _Object$entries[_i],
-          value = _Object$entries$_i[1];
-        tempContent.push({
-          content: value.trim(),
-          styles: {
-            fillColor: index % 2 === 0 ? [252, 252, 252] : [245, 245, 245],
-            cellWidth: cellWidth
-          }
-        });
-      }
-      var Y = pageUpd(doc.lastAutoTable.finalY, doc, page, maxLength);
-      addPrimeiroNivel(Y, null, [tempContent]);
-    });
-  };
-  autoTable(doc, {
-    startY: startPageY
-  });
-  var groupSections1 = [];
-  var selectedsClone = [].concat(selecteds);
-  var agrupamentoNivel1 = agrupamento[0];
-  var agrupamentoNivel2 = agrupamento[1];
-  selectedsClone.forEach(function (element) {
-    var tempGrupo = [];
-    agrupamentoNivel1.forEach(function (grupo) {
-      tempGrupo.push(element[grupo]);
-    });
-    if (!isArrayInArray(groupSections1, tempGrupo)) {
-      groupSections1.push(tempGrupo);
-    }
-  });
-  groupSections1.forEach(function (section1) {
-    var Y = doc.lastAutoTable.finalY;
-    var tempDataSection1 = [];
-    selectedsClone.forEach(function (register) {
-      var addToGroup = true;
-      section1.forEach(function (element, index) {
-        if (register[agrupamentoNivel1[index]] !== element) {
-          addToGroup = false;
-        }
-      });
-      if (addToGroup) {
-        if (hideGroupField) {
-          agrupamentoNivel1.forEach(function (grupo) {
-            delete register[grupo];
-          });
-        }
-        tempDataSection1.push(register);
-      }
-    });
-    Y = pageUpd(Y, doc, page, maxLength);
-    autoTable(doc, {
-      body: [[getGroupHeader(agrupamentoNivel1, section1)]],
-      startY: Y,
-      pageBreak: 'avoid',
-      columnStyles: {
-        0: {
-          fillColor: [205, 214, 236],
-          textColor: [0, 0, 0],
-          fontStyle: 'bold'
-        }
-      }
-    });
-    var groupSections2 = [];
-    tempDataSection1.forEach(function (element) {
-      var tempGrupo = [];
-      agrupamentoNivel2.forEach(function (grupo) {
-        tempGrupo.push(element[grupo]);
-      });
-      if (!isArrayInArray(groupSections2, tempGrupo)) {
-        groupSections2.push(tempGrupo);
-      }
-    });
-    groupSections2.forEach(function (section2) {
-      var tempDataSection2 = [];
-      Y = pageUpd(doc.lastAutoTable.finalY, doc, page, maxLength);
-      autoTable(doc, {
-        body: [agrupamentoNivel2],
-        startY: Y,
-        pageBreak: 'avoid',
-        columnStyles: getHeaderStyles(section2.length)
-      });
-      autoTable(doc, {
-        body: [section2],
-        startY: doc.lastAutoTable.finalY,
-        pageBreak: 'avoid',
-        columnStyles: getHeaderStyles(section2.length)
-      });
-      tempDataSection1.forEach(function (register) {
-        var addToGroup = true;
-        section2.forEach(function (element, index) {
-          if (register[agrupamentoNivel2[index]] !== element) {
-            addToGroup = false;
-          }
-        });
-        if (addToGroup) {
-          if (hideGroupField) {
-            agrupamentoNivel2.forEach(function (grupo) {
-              delete register[grupo];
-            });
-          }
-          tempDataSection2.push(register);
-        }
-      });
-      addtable(tempDataSection2);
-      if (somar.length > 0) addSumFooter(tempDataSection2);
-      if (isCounting) addCountFooter(tempDataSection2);
-      autoTable(doc, {
-        startY: doc.lastAutoTable.finalY + 2
-      });
-    });
-    autoTable(doc, {
-      startY: doc.lastAutoTable.finalY + 2
-    });
-  });
-  addheader(doc, autoTable, fields, agrupamento.flat(), title, hideGroupField);
-  doc.save((title[0] === '' ? 'Título não definido' : title[0] + 'sintético') + ".pdf");
-};
-
 function OptionsChecklist(_ref) {
   var listOptions = _ref.listOptions,
     title = _ref.title;
@@ -4347,9 +4302,14 @@ var Agrupamento = function Agrupamento(_ref) {
         value: [grupo1, grupo2],
         type: 'agrupamento'
       });
-    } else {
+    } else if (grupo1.length > 0) {
       dispatch({
         value: [grupo1],
+        type: 'agrupamento'
+      });
+    } else {
+      dispatch({
+        value: [],
         type: 'agrupamento'
       });
     }
@@ -4621,103 +4581,74 @@ var Somar = function Somar(_ref) {
   }, "Salvar"))))));
 };
 
-var modelosMock = [{
-  name: 'Teste modelo 1',
-  options: ['Horizontal (paisagem)', 'Contador de registros', 'Mostrar campo de agrupamento'],
-  group: [{
-    id: 1,
-    parent: 0,
-    droppable: true,
-    text: 'Grupo 01'
-  }, {
-    id: 'Código',
-    parent: 1,
-    droppable: false,
-    text: 'Código'
-  }, {
-    id: 11,
-    parent: 0,
-    droppable: true,
-    text: 'Grupo 02'
-  }, {
-    id: 'Quantidade',
-    parent: 11,
-    droppable: false,
-    text: 'Quantidade'
-  }],
-  columnsOrder: [null, 'Quantidade', 'Código', 'Atendimento', 'Operador'],
-  checkedFields: ['Código', 'Operador', 'Quantidade', 'Atendimento'],
-  sum: ['Quantidade']
-}, {
-  name: 'Teste modelo 2',
-  options: ['Horizontal (paisagem)'],
-  group: [{
-    id: 1,
-    parent: 0,
-    droppable: true,
-    text: 'Grupo 01'
-  }, {
-    id: 'Operador',
-    parent: 1,
-    droppable: false,
-    text: 'Operador'
-  }],
-  columnsOrder: [null, 'Código', 'Cód. Motivo Relato', 'Quantidade', 'Motivo Relato', 'Atendimento', 'Operador'],
-  checkedFields: ['Código', 'Atendimento', 'Cód. Motivo Relato', 'Motivo Relato', 'Operador', 'Quantidade'],
-  sum: ['Quantidade']
-}];
 var Modelos = function Modelos(_ref) {
-  var handleClose = _ref.handleClose;
+  var _modelosList$value;
+  var fetchData = function fetchData() {
+    try {
+      return Promise.resolve(api.get(defaultModelRoute + "?endpoint=" + endpoint)).then(function (res) {
+        setModelosList(res.data);
+        if (modeloStandard) {
+          setValue(modeloStandard);
+        } else if (res.data.length > 0) {
+          res.data.forEach(function (element) {
+            if (element.standard) {
+              setValue(String(element.id));
+            }
+          });
+        }
+      });
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  };
+  var handleClose = _ref.handleClose,
+    applyModelo = _ref.applyModelo,
+    modeloStandard = _ref.modeloStandard,
+    updateModeloStandard = _ref.updateModeloStandard;
   var _useSelectedRegisters = useSelectedRegisters(),
-    dispatch = _useSelectedRegisters.dispatch;
-  var _useState = React.useState(''),
-    value = _useState[0],
-    setValue = _useState[1];
+    _useSelectedRegisters2 = _useSelectedRegisters.state,
+    api = _useSelectedRegisters2.api,
+    endpoint = _useSelectedRegisters2.endpoint;
+  var _useState = React.useState(false),
+    resumeConfirmation = _useState[0],
+    setResumeConfirmation = _useState[1];
+  var handleOpenConfirmation = function handleOpenConfirmation() {
+    return setResumeConfirmation(true);
+  };
+  var handleCloseConfirmation = function handleCloseConfirmation() {
+    return setResumeConfirmation(false);
+  };
+  var _useState2 = React.useState(''),
+    value = _useState2[0],
+    setValue = _useState2[1];
+  var _useState3 = React.useState([]),
+    modelosList = _useState3[0],
+    setModelosList = _useState3[1];
   var handleChange = function handleChange(event) {
     setValue(event.target.value);
   };
+  React.useEffect(function () {
+    fetchData();
+  }, []);
   var handleSalvar = function handleSalvar() {
-    dispatch({
-      value: modelosMock[value].columnsOrder,
-      type: 'columnsOrder'
-    });
-    dispatch({
-      value: modelosMock[value].checkedFields,
-      type: 'checkedFields'
-    });
-    dispatch({
-      value: modelosMock[value].group,
-      type: 'savedTree'
-    });
-    dispatch({
-      value: modelosMock[value].options,
-      type: 'options'
-    });
-    dispatch({
-      value: modelosMock[value].sum,
-      type: 'somar'
-    });
-    var grupo1 = [];
-    var grupo2 = [];
-    modelosMock[value].group.forEach(function (el) {
-      if (el.parent === 1) {
-        grupo1.push(el.id);
-      } else if (el.parent === 11) {
-        grupo2.push(el.id);
-      }
-    });
-    if (grupo2.length > 0) {
-      dispatch({
-        value: [grupo1, grupo2],
-        type: 'agrupamento'
-      });
-    } else {
-      dispatch({
-        value: [grupo1],
-        type: 'agrupamento'
-      });
-    }
+    updateModeloStandard(value);
+    applyModelo(JSON.parse(modelosList.find(function (obj) {
+      return String(obj.id) === value;
+    }).configuration));
     handleClose();
+  };
+  var handleDelete = function handleDelete() {
+    try {
+      api["delete"](defaultModelRoute + "/" + value).then(function (response) {
+        console.log(response);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+      fetchData();
+      return Promise.resolve();
+    } catch (e) {
+      return Promise.reject(e);
+    }
   };
   return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(Stack, {
     direction: "column",
@@ -4733,7 +4664,11 @@ var Modelos = function Modelos(_ref) {
     sx: {
       padding: '8px 12px'
     }
-  }, "Modelos"), /*#__PURE__*/React__default.createElement(Divider, null)), /*#__PURE__*/React__default.createElement(Grid, {
+  }, "Modelos"), /*#__PURE__*/React__default.createElement(Divider, null)), /*#__PURE__*/React__default.createElement(Typography, {
+    sx: {
+      padding: '8px 0px'
+    }
+  }, "Selecione um modelo para aplicar no relat\xF3rio atual:"), /*#__PURE__*/React__default.createElement(Grid, {
     container: true,
     direction: "row",
     xs: 12,
@@ -4747,12 +4682,17 @@ var Modelos = function Modelos(_ref) {
     name: "controlled-radio-buttons-group",
     value: value,
     onChange: handleChange
-  }, modelosMock.map(function (modelo, index) {
+  }, modelosList === null || modelosList === void 0 ? void 0 : modelosList.map(function (modelo) {
     return /*#__PURE__*/React__default.createElement(FormControlLabel, {
       key: modelo.name,
-      value: index,
+      value: modelo.id,
       control: /*#__PURE__*/React__default.createElement(Radio, null),
-      label: modelo.name
+      label: modelo.standard ? /*#__PURE__*/React__default.createElement(Fragment, null, modelo.name, /*#__PURE__*/React__default.createElement(Typography, {
+        variant: "caption",
+        sx: {
+          padding: '8px 12px'
+        }
+      }, "(padr\xE3o)")) : modelo.name
     });
   }))), /*#__PURE__*/React__default.createElement(Grid, {
     xs: 12,
@@ -4775,8 +4715,9 @@ var Modelos = function Modelos(_ref) {
     item: true
   }, /*#__PURE__*/React__default.createElement(Button, {
     variant: "outlined",
+    onClick: handleOpenConfirmation,
     startIcon: /*#__PURE__*/React__default.createElement(DeleteIcon, null)
-  }, "Excluir modelo"))), /*#__PURE__*/React__default.createElement(Grid, {
+  }, "Remover modelo"))), /*#__PURE__*/React__default.createElement(Grid, {
     container: true,
     xs: 7,
     justifyContent: "flex-end",
@@ -4796,16 +4737,72 @@ var Modelos = function Modelos(_ref) {
     onClick: handleSalvar,
     startIcon: /*#__PURE__*/React__default.createElement(SaveOutlinedIcon, null),
     color: "success"
-  }, "Carregar"))))));
+  }, "Carregar"))))), /*#__PURE__*/React__default.createElement(Dialog, {
+    open: resumeConfirmation,
+    onClose: handleCloseConfirmation,
+    "aria-labelledby": "alert-dialog-title",
+    "aria-describedby": "alert-dialog-description"
+  }, /*#__PURE__*/React__default.createElement(DialogTitle, {
+    id: "alert-dialog-title"
+  }, "Deseja remover o modelo ", (_modelosList$value = modelosList[value]) === null || _modelosList$value === void 0 ? void 0 : _modelosList$value.name, "?"), /*#__PURE__*/React__default.createElement(DialogContent, null, /*#__PURE__*/React__default.createElement(DialogContentText, {
+    id: "alert-dialog-description"
+  }, "N\xE3o ser\xE1 poss\xEDvel recuper\xE1-lo")), /*#__PURE__*/React__default.createElement(DialogActions, null, /*#__PURE__*/React__default.createElement(Button, {
+    onClick: handleCloseConfirmation,
+    variant: "contained"
+  }, "Cancelar"), /*#__PURE__*/React__default.createElement(Button, {
+    onClick: function onClick() {
+      handleDelete();
+      handleCloseConfirmation();
+    },
+    autoFocus: true,
+    variant: "contained",
+    color: "error"
+  }, "Remover"))));
 };
 
 var NovoModelo = function NovoModelo(_ref) {
-  var handleClose = _ref.handleClose;
+  var handleClose = _ref.handleClose,
+    options = _ref.options;
   var _useState = React.useState(''),
     value = _useState[0],
     setValue = _useState[1];
+  var _React$useState = React__default.useState(false),
+    checked = _React$useState[0],
+    setChecked = _React$useState[1];
+  var handleChangePadrao = function handleChangePadrao(event) {
+    setChecked(event.target.checked);
+  };
+  var _useSelectedRegisters = useSelectedRegisters(),
+    _useSelectedRegisters2 = _useSelectedRegisters.state,
+    checkedFields = _useSelectedRegisters2.checkedFields,
+    columnsOrder = _useSelectedRegisters2.columnsOrder,
+    savedTree = _useSelectedRegisters2.savedTree,
+    somar = _useSelectedRegisters2.somar,
+    api = _useSelectedRegisters2.api,
+    endpoint = _useSelectedRegisters2.endpoint;
   var handleSalvar = function handleSalvar() {
-    handleClose();
+    try {
+      return Promise.resolve(api.post(defaultModelRoute, {
+        endpoint: endpoint,
+        name: value,
+        standard: checked,
+        configuration: JSON.stringify({
+          options: options,
+          group: savedTree,
+          columnsOrder: columnsOrder,
+          checkedFields: checkedFields,
+          sum: somar
+        })
+      }).then(function (response) {
+        console.log(response);
+      })["catch"](function (error) {
+        console.log(error);
+      })).then(function () {
+        handleClose();
+      });
+    } catch (e) {
+      return Promise.reject(e);
+    }
   };
   return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(Stack, {
     direction: "column",
@@ -4844,7 +4841,7 @@ var NovoModelo = function NovoModelo(_ref) {
     }
   }, /*#__PURE__*/React__default.createElement(TextField, {
     id: "nome-arquivo",
-    label: "Informe um nome",
+    label: "Informe o nome do modelo",
     variant: "outlined",
     fullWidth: true,
     value: value,
@@ -4854,7 +4851,27 @@ var NovoModelo = function NovoModelo(_ref) {
     onChange: function onChange(event) {
       setValue(event.target.value);
     }
-  }))))), /*#__PURE__*/React__default.createElement(Grid, {
+  })), /*#__PURE__*/React__default.createElement(Box, {
+    sx: {
+      paddingTop: 1
+    }
+  }, /*#__PURE__*/React__default.createElement(FormGroup, null, /*#__PURE__*/React__default.createElement(FormControlLabel, {
+    control: /*#__PURE__*/React__default.createElement(Switch, {
+      checked: checked,
+      onChange: handleChangePadrao,
+      inputProps: {
+        'aria-label': 'modelo-padrao'
+      }
+    }),
+    label: "Padr\xE3o"
+  }), /*#__PURE__*/React__default.createElement(Typography, {
+    variant: "caption",
+    display: "block",
+    gutterBottom: true,
+    sx: {
+      padding: '8px 12px'
+    }
+  }, "*Salvando como padr\xE3o o modelo (op\xE7\xF5es, agrupamentos, ordena\xE7\xE3o de colunas, campos, e somas) ser\xE1 pr\xE9 carregado na pr\xF3xima vez que acessar esse relat\xF3rio.")))))), /*#__PURE__*/React__default.createElement(Grid, {
     xs: 12,
     container: true,
     justifyContent: "flex-end",
@@ -5100,7 +5117,14 @@ var style$e = {
   p: 2
 };
 function ButtonsList(_ref) {
-  var listOptions = _ref.listOptions;
+  var listOptions = _ref.listOptions,
+    resume = _ref.resume,
+    resumed = _ref.resumed,
+    setResumed = _ref.setResumed,
+    modelo = _ref.modelo;
+  var applyModelo = modelo.applyModelo,
+    modeloStandard = modelo.modeloStandard,
+    setModeloStandard = modelo.setModeloStandard;
   var _useState = React.useState(false),
     openAgrupamento = _useState[0],
     setOpenAgrupamento = _useState[1];
@@ -5146,54 +5170,66 @@ function ButtonsList(_ref) {
   var handleCloseExportacao = function handleCloseExportacao() {
     return setOpenExportacao(false);
   };
+  var _useState6 = React.useState(false),
+    resumeConfirmation = _useState6[0],
+    setResumeConfirmation = _useState6[1];
+  var handleOpenConfirmation = function handleOpenConfirmation() {
+    return setResumeConfirmation(true);
+  };
+  var handleCloseConfirmation = function handleCloseConfirmation() {
+    return setResumeConfirmation(false);
+  };
   var _useSelectedRegisters = useSelectedRegisters(),
     _useSelectedRegisters2 = _useSelectedRegisters.state,
     selecteds = _useSelectedRegisters2.selecteds,
-    fields = _useSelectedRegisters2.fields,
     checkedFields = _useSelectedRegisters2.checkedFields,
     options = _useSelectedRegisters2.options,
     agrupamento = _useSelectedRegisters2.agrupamento,
     somar = _useSelectedRegisters2.somar,
     title = _useSelectedRegisters2.title,
     columnsOrder = _useSelectedRegisters2.columnsOrder;
+  var convertData = function convertData(dataToConvert, orderedFields) {
+    var filteredArr = [];
+    var objModel = {};
+    orderedFields.forEach(function (field, index) {
+      objModel[field] = index;
+    });
+    dataToConvert.forEach(function (element) {
+      var newObj = Object.keys(element).filter(function (key) {
+        return orderedFields.includes(key);
+      }).reduce(function (obj, key) {
+        var _element$key;
+        if (checkedFields.includes(key)) obj[key] = (_element$key = element[key]) != null ? _element$key : '';
+        return obj;
+      }, {});
+      filteredArr.push(newObj);
+    });
+    var formattedSelecteds = filteredArr.map(function (o) {
+      return Object.assign.apply(Object, [{}].concat(Object.keys(o).sort(function (a, b) {
+        return objModel[a] - objModel[b];
+      }).map(function (x) {
+        var _ref2;
+        return _ref2 = {}, _ref2[x] = o[x], _ref2;
+      })));
+    });
+    return formattedSelecteds;
+  };
   var generatePDFNivel1 = function generatePDFNivel1() {
     try {
-      var filteredArr = [];
       var orderedFields = [].concat(columnsOrder.filter(function (n) {
         return checkedFields.includes(n);
       })).slice();
-      var objModel = {};
-      orderedFields.forEach(function (field, index) {
-        objModel[field] = index;
-      });
-      selecteds.forEach(function (element) {
-        var newObj = Object.keys(element).filter(function (key) {
-          return orderedFields.includes(key);
-        }).reduce(function (obj, key) {
-          var _element$key;
-          if (checkedFields.includes(key)) obj[key] = (_element$key = element[key]) != null ? _element$key : '';
-          return obj;
-        }, {});
-        filteredArr.push(newObj);
-      });
-      var formattedSelecteds = filteredArr.map(function (o) {
-        return Object.assign.apply(Object, [{}].concat(Object.keys(o).sort(function (a, b) {
-          return objModel[a] - objModel[b];
-        }).map(function (x) {
-          var _ref2;
-          return _ref2 = {}, _ref2[x] = o[x], _ref2;
-        })));
-      });
+      var newSelecteds = convertData(selecteds, orderedFields);
       setTableWidth(options.includes('Horizontal (paisagem)') ? '761.89' : '515.3');
       var _temp2 = function () {
-        if (options.includes('Sintético')) {
-          return Promise.resolve(PDFSintetico(formattedSelecteds, orderedFields, options, agrupamento, somar, title)).then(function () {});
+        if (options.includes('Sintético') && agrupamento.length > 0) {
+          handleResume();
         } else {
           var _temp3 = function () {
             if (agrupamento.length > 1) {
-              return Promise.resolve(PDFNivel2(formattedSelecteds, orderedFields, options, agrupamento, somar, title)).then(function () {});
+              return Promise.resolve(PDFNivel2(newSelecteds, orderedFields, options, agrupamento, somar, title)).then(function () {});
             } else {
-              return Promise.resolve(PDFNivel1(formattedSelecteds, orderedFields, options, agrupamento[0], somar, title)).then(function () {});
+              return Promise.resolve(PDFNivel1(newSelecteds, orderedFields, options, agrupamento[0], somar, title)).then(function () {});
             }
           }();
           if (_temp3 && _temp3.then) return _temp3.then(function () {});
@@ -5204,21 +5240,11 @@ function ButtonsList(_ref) {
       return Promise.reject(e);
     }
   };
-  var generatePDFBasico = function generatePDFBasico() {
+  var handleResume = function handleResume() {
     try {
-      var filteredArr = [];
-      selecteds.forEach(function (element) {
-        var newObj = Object.keys(element).filter(function (key) {
-          return fields.includes(key);
-        }).reduce(function (obj, key) {
-          var _element$key2;
-          if (checkedFields.includes(key)) obj[key] = (_element$key2 = element[key]) != null ? _element$key2 : '';
-          return obj;
-        }, {});
-        filteredArr.push(newObj);
-      });
-      setTableWidth(options.includes('Horizontal (paisagem)') ? '761.89' : '515.3');
-      return Promise.resolve(PDFBasico(filteredArr, checkedFields, title)).then(function () {});
+      var newData = resumir(selecteds, agrupamento, somar);
+      var newSelecteds = convertData(getFormattedData(newData.lines, newData.columns), newData.columns);
+      return Promise.resolve(PDFNivel1(newSelecteds, newData.columns, options, agrupamento.length > 1 ? agrupamento[0] : [], somar, title)).then(function () {});
     } catch (e) {
       return Promise.reject(e);
     }
@@ -5236,6 +5262,10 @@ function ButtonsList(_ref) {
   }, "Op\xE7\xF5es"), /*#__PURE__*/React__default.createElement(Divider, null), /*#__PURE__*/React__default.createElement(Grid, {
     container: true,
     rowSpacing: 1
+  }, /*#__PURE__*/React__default.createElement(Tooltip, {
+    title: /*#__PURE__*/React__default.createElement("div", null, "\xC9 necess\xE1rio selecionar ao menos um registro para visualizar o relat\xF3rio", /*#__PURE__*/React__default.createElement("br", null), "Para op\xE7\xE3o de relat\xF3rio sint\xE9tico informe ao menos um agrupamento"),
+    arrow: true,
+    placement: "top"
   }, /*#__PURE__*/React__default.createElement(Grid, {
     xs: 6
   }, /*#__PURE__*/React__default.createElement(Button, {
@@ -5249,7 +5279,11 @@ function ButtonsList(_ref) {
     },
     disabled: selecteds.length < 1,
     size: "small"
-  }, "Visualizar")), /*#__PURE__*/React__default.createElement(Grid, {
+  }, "Visualizar"))), /*#__PURE__*/React__default.createElement(Tooltip, {
+    title: "O resumo utiliza os agrupamentos e somas para recriar os dados da tabela ou seja \xE9 necess\xE1rio informar ao menos um agrupamento para prosseguir",
+    arrow: true,
+    placement: "top"
+  }, /*#__PURE__*/React__default.createElement(Grid, {
     xs: 6
   }, /*#__PURE__*/React__default.createElement(Button, {
     variant: "contained",
@@ -5257,12 +5291,10 @@ function ButtonsList(_ref) {
     style: {
       width: '100%'
     },
-    onClick: function onClick() {
-      return generatePDFBasico();
-    },
-    disabled: selecteds.length < 1,
+    onClick: handleOpenConfirmation,
+    disabled: agrupamento.length < 1,
     size: "small"
-  }, "Resumir")), /*#__PURE__*/React__default.createElement(Grid, {
+  }, "Resumir"))), /*#__PURE__*/React__default.createElement(Grid, {
     xs: 6
   }, /*#__PURE__*/React__default.createElement(Button, {
     variant: "outlined",
@@ -5299,7 +5331,8 @@ function ButtonsList(_ref) {
     style: {
       width: '100%'
     },
-    size: "small"
+    size: "small",
+    disabled: resumed
   }, "Novo Modelo")), /*#__PURE__*/React__default.createElement(Grid, {
     xs: 12
   }, /*#__PURE__*/React__default.createElement(Button, {
@@ -5334,7 +5367,8 @@ function ButtonsList(_ref) {
     sx: style$e
   }, /*#__PURE__*/React__default.createElement(NovoModelo, {
     setOpen: setOpenNovoModelo,
-    handleClose: handleCloseNovoModelo
+    handleClose: handleCloseNovoModelo,
+    options: options
   }))), /*#__PURE__*/React__default.createElement(Modal, {
     open: openSomar,
     onClose: handleCloseSomar,
@@ -5352,7 +5386,10 @@ function ButtonsList(_ref) {
   }, /*#__PURE__*/React__default.createElement(Box, {
     sx: style$e
   }, /*#__PURE__*/React__default.createElement(Modelos, {
-    handleClose: handleCloseModelos
+    handleClose: handleCloseModelos,
+    applyModelo: applyModelo,
+    modeloStandard: modeloStandard,
+    updateModeloStandard: setModeloStandard
   }))), /*#__PURE__*/React__default.createElement(Modal, {
     open: openExportacao,
     onClose: handleCloseExportacao,
@@ -5362,7 +5399,28 @@ function ButtonsList(_ref) {
     sx: style$e
   }, /*#__PURE__*/React__default.createElement(Exportacao, {
     handleClose: handleCloseExportacao
-  }))));
+  }))), /*#__PURE__*/React__default.createElement(Dialog, {
+    open: resumeConfirmation,
+    onClose: handleCloseConfirmation,
+    "aria-labelledby": "alert-dialog-title",
+    "aria-describedby": "alert-dialog-description"
+  }, /*#__PURE__*/React__default.createElement(DialogTitle, {
+    id: "alert-dialog-title"
+  }, "Deseja resumir as informa\xE7\xF5es?"), /*#__PURE__*/React__default.createElement(DialogContent, null, /*#__PURE__*/React__default.createElement(DialogContentText, {
+    id: "alert-dialog-description"
+  }, "O resumo de informa\xE7\xF5es leva em considera\xE7\xE3o a configura\xE7\xE3o de agrupamento e de soma para resumir as informa\xE7\xF5es da tabela", /*#__PURE__*/React__default.createElement("br", null), "Para restaurar os dados originais ser\xE1 necess\xE1rio solicitar um novo relat\xF3rio")), /*#__PURE__*/React__default.createElement(DialogActions, null, /*#__PURE__*/React__default.createElement(Button, {
+    onClick: handleCloseConfirmation,
+    variant: "contained"
+  }, "Recusar"), /*#__PURE__*/React__default.createElement(Button, {
+    onClick: function onClick() {
+      setResumed(true);
+      resume();
+      handleCloseConfirmation();
+    },
+    autoFocus: true,
+    variant: "contained",
+    color: "success"
+  }, "Aceitar"))));
 }
 
 var style$f = {
@@ -5446,35 +5504,31 @@ var DynaGrade = function DynaGrade(_ref) {
 
 var reportOptions = ['Horizontal (paisagem)', 'Contador de registros', 'Mostrar campo de agrupamento', 'Sintético'];
 var Principal = function Principal(_ref) {
+  var fetchModelos = function fetchModelos() {
+    try {
+      return Promise.resolve(api.get(defaultModelRoute + "?endpoint=" + endPoint)).then(function (res) {
+        if (res.data.length > 0) {
+          res.data.forEach(function (element) {
+            if (element.standard) {
+              applyModelo(JSON.parse(element.configuration));
+            }
+          });
+        }
+      });
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  };
   var fetchData = function fetchData() {
     try {
       setLoading(true);
       return Promise.resolve(api.get(endPoint + "?" + filter)).then(function (res) {
+        dispatch({
+          value: api,
+          type: 'api'
+        });
         setData(res.data.data);
-        dispatch({
-          value: [String(title != null ? title : ''), String(subTitle != null ? subTitle : ''), String(text != null ? text : '')],
-          type: 'title'
-        });
-        dispatch({
-          value: res.data.data.columns,
-          type: 'fields'
-        });
-        dispatch({
-          value: res.data.data.columns,
-          type: 'checkedFields'
-        });
-        dispatch({
-          value: [null].concat(res.data.data.columns),
-          type: 'columnsOrder'
-        });
-        dispatch({
-          value: res.data.data.summableFields,
-          type: 'somar'
-        });
-        dispatch({
-          value: res.data.data.summableFields,
-          type: 'summableFields'
-        });
+        handleRefetch(res.data.data);
         setLoading(false);
       });
     } catch (e) {
@@ -5493,14 +5547,23 @@ var Principal = function Principal(_ref) {
   var _useState = React.useState(null),
     data = _useState[0],
     setData = _useState[1];
-  var _React$useState = React__default.useState(false),
-    loading = _React$useState[0],
-    setLoading = _React$useState[1];
-  var _React$useState2 = React__default.useState(false),
-    error = _React$useState2[0],
-    setError = _React$useState2[1];
+  var _useState2 = React.useState(false),
+    loading = _useState2[0],
+    setLoading = _useState2[1];
+  var _useState3 = React.useState(false),
+    error = _useState3[0],
+    setError = _useState3[1];
+  var _useState4 = React.useState(false),
+    resumed = _useState4[0],
+    setResumed = _useState4[1];
+  var _useState5 = React.useState(null),
+    modeloStandard = _useState5[0],
+    setModeloStandard = _useState5[1];
   var _useSelectedRegisters = useSelectedRegisters(),
-    fields = _useSelectedRegisters.state.fields,
+    _useSelectedRegisters2 = _useSelectedRegisters.state,
+    fields = _useSelectedRegisters2.fields,
+    agrupamento = _useSelectedRegisters2.agrupamento,
+    somar = _useSelectedRegisters2.somar,
     dispatch = _useSelectedRegisters.dispatch;
   var clearComponent = function clearComponent() {
     setData(null);
@@ -5518,8 +5581,86 @@ var Principal = function Principal(_ref) {
       type: 'columnsOrder'
     });
   };
+  var handleRefetch = function handleRefetch(newdata) {
+    dispatch({
+      value: [String(title != null ? title : ''), String(subTitle != null ? subTitle : ''), String(text != null ? text : '')],
+      type: 'title'
+    });
+    dispatch({
+      value: newdata.columns,
+      type: 'fields'
+    });
+    dispatch({
+      value: newdata.columns,
+      type: 'checkedFields'
+    });
+    dispatch({
+      value: [null].concat(newdata.columns),
+      type: 'columnsOrder'
+    });
+    dispatch({
+      value: newdata.summableFields,
+      type: 'somar'
+    });
+    dispatch({
+      value: newdata.summableFields,
+      type: 'summableFields'
+    });
+    dispatch({
+      value: endPoint,
+      type: 'endpoint'
+    });
+  };
+  var applyModelo = function applyModelo(modelo) {
+    dispatch({
+      value: modelo.columnsOrder,
+      type: 'columnsOrder'
+    });
+    dispatch({
+      value: modelo.checkedFields,
+      type: 'checkedFields'
+    });
+    dispatch({
+      value: modelo.group,
+      type: 'savedTree'
+    });
+    dispatch({
+      value: modelo.options,
+      type: 'options'
+    });
+    dispatch({
+      value: modelo.sum,
+      type: 'somar'
+    });
+    var grupo1 = [];
+    var grupo2 = [];
+    modelo.group.forEach(function (el) {
+      if (el.parent === 1) {
+        grupo1.push(el.id);
+      } else if (el.parent === 11) {
+        grupo2.push(el.id);
+      }
+    });
+    if (grupo2.length > 0) {
+      dispatch({
+        value: [grupo1, grupo2],
+        type: 'agrupamento'
+      });
+    } else if (grupo1.length > 0) {
+      dispatch({
+        value: [grupo1],
+        type: 'agrupamento'
+      });
+    } else {
+      dispatch({
+        value: [],
+        type: 'agrupamento'
+      });
+    }
+  };
   React.useEffect(function () {
     handleFetch();
+    fetchModelos();
   }, [api]);
   var Item = styles.styled(Paper)(function (_ref2) {
     var theme = _ref2.theme;
@@ -5530,24 +5671,19 @@ var Principal = function Principal(_ref) {
       textAlign: 'center'
     });
   });
-  var getFormattedData = function getFormattedData(_data) {
-    var newData = [];
-    _data === null || _data === void 0 ? void 0 : _data.forEach(function (register, i) {
-      var temp = {};
-      fields.forEach(function (field, j) {
-        temp[field] = register[j];
-      });
-      temp.id = i;
-      newData.push(temp);
-    });
-    return newData;
-  };
   var handleFetch = function handleFetch() {
     clearComponent();
     fetchData()["catch"](function (err) {
       console.log(err);
       setError(true);
     });
+  };
+  var handleResumo = function handleResumo() {
+    setLoading(true);
+    var newData = resumir(getFormattedData(data === null || data === void 0 ? void 0 : data.lines, fields), agrupamento, somar);
+    setData(newData);
+    handleRefetch(newData);
+    setLoading(false);
   };
   if (error) {
     return /*#__PURE__*/React__default.createElement(Grid, {
@@ -5583,14 +5719,22 @@ var Principal = function Principal(_ref) {
       marginBottom: '8px'
     }
   }, /*#__PURE__*/React__default.createElement(ButtonsList, {
-    listOptions: reportOptions
+    listOptions: reportOptions,
+    resume: handleResumo,
+    resumed: resumed,
+    setResumed: setResumed,
+    modelo: {
+      applyModelo: applyModelo,
+      modeloStandard: modeloStandard,
+      setModeloStandard: setModeloStandard
+    }
   }))), /*#__PURE__*/React__default.createElement(Grid, {
     xs: 8,
     sm: 8,
     md: 8,
     lg: 9
   }, /*#__PURE__*/React__default.createElement(Item, null, /*#__PURE__*/React__default.createElement(DynaGrade, {
-    conv: getFormattedData(data === null || data === void 0 ? void 0 : data.lines)
+    conv: getFormattedData(data === null || data === void 0 ? void 0 : data.lines, fields)
   })))), /*#__PURE__*/React__default.createElement(Backdrop, {
     sx: {
       color: '#fff',
