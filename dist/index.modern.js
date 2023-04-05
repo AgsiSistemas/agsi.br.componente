@@ -46,7 +46,7 @@ import '@mui/icons-material/FolderShared';
 import Divider from '@mui/material/Divider';
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { Tooltip as Tooltip$1, Skeleton, Box as Box$1, CircularProgress as CircularProgress$1, TextField as TextField$1, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton as IconButton$1, Button as Button$2, Modal, Dialog as Dialog$1, DialogTitle as DialogTitle$1, DialogContent as DialogContent$1, DialogContentText as DialogContentText$1, DialogActions as DialogActions$1, LinearProgress, Typography as Typography$1 } from '@mui/material';
+import { Tooltip as Tooltip$1, Skeleton, Box as Box$1, CircularProgress as CircularProgress$1, TextField as TextField$1, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton as IconButton$1, Button as Button$2, Modal, Dialog as Dialog$1, DialogTitle as DialogTitle$1, DialogContent as DialogContent$1, DialogContentText as DialogContentText$1, DialogActions as DialogActions$1, LinearProgress, Typography as Typography$1, Popover, ButtonGroup } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import InputBase from '@mui/material/InputBase';
@@ -101,6 +101,8 @@ import Paper$1 from '@mui/material/Paper';
 import ErrorIcon from '@mui/icons-material/Error';
 import SaveIcon from '@mui/icons-material/Save';
 import DownloadDoneRoundedIcon from '@mui/icons-material/DownloadDoneRounded';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 
 function _extends() {
   _extends = Object.assign ? Object.assign.bind() : function (target) {
@@ -1040,7 +1042,7 @@ var CustomDataTable = function CustomDataTable(props) {
     style: {
       width: '3em'
     }
-  }), columnList.map(function (item, index) {
+  }), columnList === null || columnList === void 0 ? void 0 : columnList.map(function (item, index) {
     if (item.body !== undefined) return /*#__PURE__*/React__default.createElement(Column, {
       key: index,
       style: item.style,
@@ -5845,5 +5847,201 @@ var OperationConfirmModal = function OperationConfirmModal(_ref) {
 };
 var OperationConfirmModal$1 = /*#__PURE__*/memo(OperationConfirmModal);
 
-export { AppContent$1 as AppContent, ArchivesContent, Conteiner, ConteinerItem, CustomBeneficiarieFields, CustomDataTable$1 as CustomDataTable, CustomDatePicker$1 as CustomDatePicker, CustomDialog$1 as CustomDialog, CustomInputSelect$1 as CustomInputSelect, CustomModal$1 as CustomModal, CustomTextField$1 as CustomTextField, CustomTimePicker$1 as CustomTimePicker, CustomToastMessage$1 as CustomToastMessage, DynaReport, FilesContent, FilesContentApi, FilesUpload$1 as FilesUpload, Header$1 as Header, HeaderAccordion$1 as HeaderAccordion, OperationConfirmModal$1 as OperationConfirmModal, OperationDetail$1 as OperationDetail, OperationModal$1 as OperationModal, OperationSection$1 as OperationSection, OperationTable$1 as OperationTable, PageBase$3 as PageBase, SaveComponent$1 as SaveComponent };
+var CustomSimpleModal = function CustomSimpleModal(_ref) {
+  var open = _ref.open,
+    onClose = _ref.onClose,
+    children = _ref.children;
+  return /*#__PURE__*/React__default.createElement(Modal, {
+    open: open,
+    onClose: onClose,
+    "aria-labelledby": "child-modal-title",
+    "aria-describedby": "child-modal-description"
+  }, /*#__PURE__*/React__default.createElement(Box$1, {
+    className: "modal-style"
+  }, children));
+};
+CustomSimpleModal.propTypes = {
+  open: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+  onClose: PropTypes.func
+};
+CustomSimpleModal.defaultProp = {
+  open: false,
+  onClose: function onClose() {}
+};
+
+var _excluded$5 = ["label", "type", "value", "onChange", "labelValue", "onChangeLabelValue", "optionsLabel", "noAlertNoneValue", "maxDate"];
+var CustomLabelField = function CustomLabelField(_ref) {
+  var label = _ref.label,
+    type = _ref.type,
+    value = _ref.value,
+    onChange = _ref.onChange,
+    labelValue = _ref.labelValue,
+    onChangeLabelValue = _ref.onChangeLabelValue,
+    optionsLabel = _ref.optionsLabel,
+    noAlertNoneValue = _ref.noAlertNoneValue,
+    maxDate = _ref.maxDate,
+    other = _objectWithoutPropertiesLoose(_ref, _excluded$5);
+  var _useState = useState(null),
+    anchorEl = _useState[0],
+    setAnchorEl = _useState[1];
+  var open = Boolean(anchorEl);
+  var id = open ? 'simple-popover' : undefined;
+  var handleClick = function handleClick(event) {
+    setAnchorEl(event.currentTarget);
+  };
+  var handleClose = function handleClose() {
+    setAnchorEl(null);
+  };
+  if (!labelValue && optionsLabel) {
+    onChangeLabelValue(optionsLabel[0]);
+  }
+  if (type == 'date') {
+    return /*#__PURE__*/React__default.createElement(Fragment$1, null, /*#__PURE__*/React__default.createElement(CustomDatePicker$1, _extends({
+      size: "small",
+      label: /*#__PURE__*/React__default.createElement(Tooltip$1, {
+        title: "Alterar",
+        followCursor: true
+      }, /*#__PURE__*/React__default.createElement("div", {
+        className: "custom-field-dinamic-label-content-label link-style",
+        "aria-describedby": id,
+        onClick: handleClick
+      }, label, /*#__PURE__*/React__default.createElement("div", {
+        className: "custom-field-dinamic-label-value"
+      }, " ( " + labelValue + " )"), /*#__PURE__*/React__default.createElement("i", {
+        className: "pi pi-pencil release-exams-date-type-label"
+      }))),
+      maxDate: maxDate,
+      onKeyDown: function onKeyDown(e) {
+        return e.preventDefault();
+      },
+      value: value,
+      onChange: onChange,
+      noAlertNoneValue: noAlertNoneValue
+    }, other)), /*#__PURE__*/React__default.createElement(Popover, {
+      id: id,
+      open: open,
+      anchorEl: anchorEl,
+      onClose: handleClose,
+      anchorOrigin: {
+        vertical: 'bottom',
+        horizontal: 'left'
+      }
+    }, /*#__PURE__*/React__default.createElement(ButtonGroup, {
+      variant: "outlined",
+      "aria-label": "outlined button group"
+    }, optionsLabel === null || optionsLabel === void 0 ? void 0 : optionsLabel.map(function (item) {
+      return /*#__PURE__*/React__default.createElement(Button$2, {
+        onClick: function onClick() {
+          onChangeLabelValue(item);
+          handleClose();
+        }
+      }, item);
+    }))));
+  } else {
+    return /*#__PURE__*/React__default.createElement(Fragment$1, null, /*#__PURE__*/React__default.createElement(CustomTextField$1, _extends({
+      label: /*#__PURE__*/React__default.createElement(Tooltip$1, {
+        title: "Alterar",
+        followCursor: true
+      }, /*#__PURE__*/React__default.createElement("div", {
+        className: "custom-field-dinamic-label-content-label link-style",
+        "aria-describedby": id,
+        onClick: handleClick
+      }, label, /*#__PURE__*/React__default.createElement("div", {
+        className: "custom-field-dinamic-label-value"
+      }, " ( " + labelValue + " )"), /*#__PURE__*/React__default.createElement("i", {
+        className: "pi pi-pencil release-exams-date-type-label"
+      }))),
+      value: value,
+      onChange: onChange
+    }, other)), /*#__PURE__*/React__default.createElement(Popover, {
+      id: id,
+      open: open,
+      anchorEl: anchorEl,
+      onClose: handleClose,
+      anchorOrigin: {
+        vertical: 'bottom',
+        horizontal: 'left'
+      }
+    }, /*#__PURE__*/React__default.createElement(ButtonGroup, {
+      variant: "outlined",
+      "aria-label": "outlined button group"
+    }, optionsLabel === null || optionsLabel === void 0 ? void 0 : optionsLabel.map(function (item) {
+      return /*#__PURE__*/React__default.createElement(Button$2, {
+        onClick: function onClick() {
+          onChangeLabelValue(item);
+          handleClose();
+        }
+      }, item);
+    }))));
+  }
+};
+
+var _excluded$6 = ["children", "value", "index"];
+function TabPanel(props) {
+  var children = props.children,
+    value = props.value,
+    index = props.index,
+    other = _objectWithoutPropertiesLoose(props, _excluded$6);
+  return /*#__PURE__*/createElement("div", _extends({
+    role: "tabpanel",
+    hidden: value !== index,
+    id: "simple-tabpanel-" + index,
+    "aria-labelledby": "simple-tab-" + index
+  }, other), value === index && /*#__PURE__*/createElement(Box, {
+    sx: {
+      paddingTop: 1
+    }
+  }, /*#__PURE__*/createElement(Typography, null, children)));
+}
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired
+};
+function a11yProps(index) {
+  return {
+    id: "simple-tab-" + index,
+    'aria-controls': "simple-tabpanel-" + index
+  };
+}
+var OperationTab = function OperationTab(_ref) {
+  var menuList = _ref.menuList,
+    childrenList = _ref.childrenList,
+    footer = _ref.footer;
+  var _React$useState = useState(0),
+    value = _React$useState[0],
+    setValue = _React$useState[1];
+  var handleChange = function handleChange(event, newValue) {
+    setValue(newValue);
+  };
+  return /*#__PURE__*/createElement(Box, {
+    sx: {
+      width: '100%'
+    }
+  }, /*#__PURE__*/createElement(Box, {
+    sx: {
+      borderBottom: 1,
+      borderColor: 'divider'
+    }
+  }, /*#__PURE__*/createElement(Tabs, {
+    value: value,
+    onChange: handleChange,
+    "aria-label": "basic tabs example"
+  }, menuList === null || menuList === void 0 ? void 0 : menuList.map(function (item, index) {
+    return /*#__PURE__*/createElement(Tab, _extends({
+      label: item.title
+    }, a11yProps(index)));
+  }))), childrenList === null || childrenList === void 0 ? void 0 : childrenList.map(function (item, index) {
+    return /*#__PURE__*/createElement(TabPanel, {
+      value: value,
+      index: index
+    }, item);
+  }), /*#__PURE__*/createElement(Box, {
+    sx: {
+      paddingTop: '15px'
+    }
+  }, footer && footer));
+};
+
+export { AppContent$1 as AppContent, ArchivesContent, Conteiner, ConteinerItem, CustomBeneficiarieFields, CustomDataTable$1 as CustomDataTable, CustomDatePicker$1 as CustomDatePicker, CustomDialog$1 as CustomDialog, CustomInputSelect$1 as CustomInputSelect, CustomLabelField, CustomModal$1 as CustomModal, CustomSimpleModal, CustomTextField$1 as CustomTextField, CustomTimePicker$1 as CustomTimePicker, CustomToastMessage$1 as CustomToastMessage, DynaReport, FilesContent, FilesContentApi, FilesUpload$1 as FilesUpload, Header$1 as Header, HeaderAccordion$1 as HeaderAccordion, OperationConfirmModal$1 as OperationConfirmModal, OperationDetail$1 as OperationDetail, OperationModal$1 as OperationModal, OperationSection$1 as OperationSection, OperationTab, OperationTable$1 as OperationTable, PageBase$3 as PageBase, SaveComponent$1 as SaveComponent };
 //# sourceMappingURL=index.modern.js.map

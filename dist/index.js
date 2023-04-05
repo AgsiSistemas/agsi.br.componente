@@ -104,6 +104,8 @@ var Paper = _interopDefault(require('@mui/material/Paper'));
 var ErrorIcon = _interopDefault(require('@mui/icons-material/Error'));
 var SaveIcon = _interopDefault(require('@mui/icons-material/Save'));
 var DownloadDoneRoundedIcon = _interopDefault(require('@mui/icons-material/DownloadDoneRounded'));
+var Tabs = _interopDefault(require('@mui/material/Tabs'));
+var Tab = _interopDefault(require('@mui/material/Tab'));
 
 function _extends() {
   _extends = Object.assign ? Object.assign.bind() : function (target) {
@@ -1043,7 +1045,7 @@ var CustomDataTable = function CustomDataTable(props) {
     style: {
       width: '3em'
     }
-  }), columnList.map(function (item, index) {
+  }), columnList === null || columnList === void 0 ? void 0 : columnList.map(function (item, index) {
     if (item.body !== undefined) return /*#__PURE__*/React__default.createElement(column.Column, {
       key: index,
       style: item.style,
@@ -5846,6 +5848,202 @@ var OperationConfirmModal = function OperationConfirmModal(_ref) {
 };
 var OperationConfirmModal$1 = /*#__PURE__*/React.memo(OperationConfirmModal);
 
+var CustomSimpleModal = function CustomSimpleModal(_ref) {
+  var open = _ref.open,
+    onClose = _ref.onClose,
+    children = _ref.children;
+  return /*#__PURE__*/React__default.createElement(material.Modal, {
+    open: open,
+    onClose: onClose,
+    "aria-labelledby": "child-modal-title",
+    "aria-describedby": "child-modal-description"
+  }, /*#__PURE__*/React__default.createElement(material.Box, {
+    className: "modal-style"
+  }, children));
+};
+CustomSimpleModal.propTypes = {
+  open: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+  onClose: PropTypes.func
+};
+CustomSimpleModal.defaultProp = {
+  open: false,
+  onClose: function onClose() {}
+};
+
+var _excluded$5 = ["label", "type", "value", "onChange", "labelValue", "onChangeLabelValue", "optionsLabel", "noAlertNoneValue", "maxDate"];
+var CustomLabelField = function CustomLabelField(_ref) {
+  var label = _ref.label,
+    type = _ref.type,
+    value = _ref.value,
+    onChange = _ref.onChange,
+    labelValue = _ref.labelValue,
+    onChangeLabelValue = _ref.onChangeLabelValue,
+    optionsLabel = _ref.optionsLabel,
+    noAlertNoneValue = _ref.noAlertNoneValue,
+    maxDate = _ref.maxDate,
+    other = _objectWithoutPropertiesLoose(_ref, _excluded$5);
+  var _useState = React.useState(null),
+    anchorEl = _useState[0],
+    setAnchorEl = _useState[1];
+  var open = Boolean(anchorEl);
+  var id = open ? 'simple-popover' : undefined;
+  var handleClick = function handleClick(event) {
+    setAnchorEl(event.currentTarget);
+  };
+  var handleClose = function handleClose() {
+    setAnchorEl(null);
+  };
+  if (!labelValue && optionsLabel) {
+    onChangeLabelValue(optionsLabel[0]);
+  }
+  if (type == 'date') {
+    return /*#__PURE__*/React__default.createElement(React.Fragment, null, /*#__PURE__*/React__default.createElement(CustomDatePicker$1, _extends({
+      size: "small",
+      label: /*#__PURE__*/React__default.createElement(material.Tooltip, {
+        title: "Alterar",
+        followCursor: true
+      }, /*#__PURE__*/React__default.createElement("div", {
+        className: "custom-field-dinamic-label-content-label link-style",
+        "aria-describedby": id,
+        onClick: handleClick
+      }, label, /*#__PURE__*/React__default.createElement("div", {
+        className: "custom-field-dinamic-label-value"
+      }, " ( " + labelValue + " )"), /*#__PURE__*/React__default.createElement("i", {
+        className: "pi pi-pencil release-exams-date-type-label"
+      }))),
+      maxDate: maxDate,
+      onKeyDown: function onKeyDown(e) {
+        return e.preventDefault();
+      },
+      value: value,
+      onChange: onChange,
+      noAlertNoneValue: noAlertNoneValue
+    }, other)), /*#__PURE__*/React__default.createElement(material.Popover, {
+      id: id,
+      open: open,
+      anchorEl: anchorEl,
+      onClose: handleClose,
+      anchorOrigin: {
+        vertical: 'bottom',
+        horizontal: 'left'
+      }
+    }, /*#__PURE__*/React__default.createElement(material.ButtonGroup, {
+      variant: "outlined",
+      "aria-label": "outlined button group"
+    }, optionsLabel === null || optionsLabel === void 0 ? void 0 : optionsLabel.map(function (item) {
+      return /*#__PURE__*/React__default.createElement(material.Button, {
+        onClick: function onClick() {
+          onChangeLabelValue(item);
+          handleClose();
+        }
+      }, item);
+    }))));
+  } else {
+    return /*#__PURE__*/React__default.createElement(React.Fragment, null, /*#__PURE__*/React__default.createElement(CustomTextField$1, _extends({
+      label: /*#__PURE__*/React__default.createElement(material.Tooltip, {
+        title: "Alterar",
+        followCursor: true
+      }, /*#__PURE__*/React__default.createElement("div", {
+        className: "custom-field-dinamic-label-content-label link-style",
+        "aria-describedby": id,
+        onClick: handleClick
+      }, label, /*#__PURE__*/React__default.createElement("div", {
+        className: "custom-field-dinamic-label-value"
+      }, " ( " + labelValue + " )"), /*#__PURE__*/React__default.createElement("i", {
+        className: "pi pi-pencil release-exams-date-type-label"
+      }))),
+      value: value,
+      onChange: onChange
+    }, other)), /*#__PURE__*/React__default.createElement(material.Popover, {
+      id: id,
+      open: open,
+      anchorEl: anchorEl,
+      onClose: handleClose,
+      anchorOrigin: {
+        vertical: 'bottom',
+        horizontal: 'left'
+      }
+    }, /*#__PURE__*/React__default.createElement(material.ButtonGroup, {
+      variant: "outlined",
+      "aria-label": "outlined button group"
+    }, optionsLabel === null || optionsLabel === void 0 ? void 0 : optionsLabel.map(function (item) {
+      return /*#__PURE__*/React__default.createElement(material.Button, {
+        onClick: function onClick() {
+          onChangeLabelValue(item);
+          handleClose();
+        }
+      }, item);
+    }))));
+  }
+};
+
+var _excluded$6 = ["children", "value", "index"];
+function TabPanel(props) {
+  var children = props.children,
+    value = props.value,
+    index = props.index,
+    other = _objectWithoutPropertiesLoose(props, _excluded$6);
+  return /*#__PURE__*/React.createElement("div", _extends({
+    role: "tabpanel",
+    hidden: value !== index,
+    id: "simple-tabpanel-" + index,
+    "aria-labelledby": "simple-tab-" + index
+  }, other), value === index && /*#__PURE__*/React.createElement(Box, {
+    sx: {
+      paddingTop: 1
+    }
+  }, /*#__PURE__*/React.createElement(Typography, null, children)));
+}
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired
+};
+function a11yProps(index) {
+  return {
+    id: "simple-tab-" + index,
+    'aria-controls': "simple-tabpanel-" + index
+  };
+}
+var OperationTab = function OperationTab(_ref) {
+  var menuList = _ref.menuList,
+    childrenList = _ref.childrenList,
+    footer = _ref.footer;
+  var _React$useState = React.useState(0),
+    value = _React$useState[0],
+    setValue = _React$useState[1];
+  var handleChange = function handleChange(event, newValue) {
+    setValue(newValue);
+  };
+  return /*#__PURE__*/React.createElement(Box, {
+    sx: {
+      width: '100%'
+    }
+  }, /*#__PURE__*/React.createElement(Box, {
+    sx: {
+      borderBottom: 1,
+      borderColor: 'divider'
+    }
+  }, /*#__PURE__*/React.createElement(Tabs, {
+    value: value,
+    onChange: handleChange,
+    "aria-label": "basic tabs example"
+  }, menuList === null || menuList === void 0 ? void 0 : menuList.map(function (item, index) {
+    return /*#__PURE__*/React.createElement(Tab, _extends({
+      label: item.title
+    }, a11yProps(index)));
+  }))), childrenList === null || childrenList === void 0 ? void 0 : childrenList.map(function (item, index) {
+    return /*#__PURE__*/React.createElement(TabPanel, {
+      value: value,
+      index: index
+    }, item);
+  }), /*#__PURE__*/React.createElement(Box, {
+    sx: {
+      paddingTop: '15px'
+    }
+  }, footer && footer));
+};
+
 exports.AppContent = AppContent$1;
 exports.ArchivesContent = ArchivesContent;
 exports.Conteiner = Conteiner;
@@ -5855,7 +6053,9 @@ exports.CustomDataTable = CustomDataTable$1;
 exports.CustomDatePicker = CustomDatePicker$1;
 exports.CustomDialog = CustomDialog$1;
 exports.CustomInputSelect = CustomInputSelect$1;
+exports.CustomLabelField = CustomLabelField;
 exports.CustomModal = CustomModal$1;
+exports.CustomSimpleModal = CustomSimpleModal;
 exports.CustomTextField = CustomTextField$1;
 exports.CustomTimePicker = CustomTimePicker$1;
 exports.CustomToastMessage = CustomToastMessage$1;
@@ -5869,6 +6069,7 @@ exports.OperationConfirmModal = OperationConfirmModal$1;
 exports.OperationDetail = OperationDetail$1;
 exports.OperationModal = OperationModal$1;
 exports.OperationSection = OperationSection$1;
+exports.OperationTab = OperationTab;
 exports.OperationTable = OperationTable$1;
 exports.PageBase = PageBase$3;
 exports.SaveComponent = SaveComponent$1;

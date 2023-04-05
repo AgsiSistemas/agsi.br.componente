@@ -108,7 +108,7 @@ const CustomDataTable = (props) => {
         scrollHeight={heigthDataTable}
       >
         {displayExpander && <Column expander style={{ width: '3em' }} />}
-        {columnList.map((item, index) => {
+        {columnList?.map((item, index) => {
           if (item.body !== undefined)
             return (
               <Column
@@ -157,11 +157,11 @@ CustomDataTable.defaultProp = {
   displayBorder: false,
   paginator: false,
   displayExpander: false,
-  onRowExpand: () => {},
-  onRowCollapse: () => {},
+  onRowExpand: () => { },
+  onRowCollapse: () => { },
   paginatorButton: {
     title: 'Carregar mais..',
-    onClick: () => {}
+    onClick: () => { }
   }
 }
 

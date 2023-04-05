@@ -13,7 +13,8 @@ import OperationModal from './components/Modal/OperationModal'
 import HeaderAccordion from './components/CustomAccordion/HeaderAccordion'
 import CustomDialog from './components/CustomDialog/CustomDialog'
 import CustomToastMessage from './components/CustomToastMessage/CustomToastMessage'
-import CustomModal from './components/Modal/CustomModal'
+
+import CustomModal from './components/Modal/CustomModal.js'
 import PageBase from './components/PageBase/PageBase'
 import CustomDataTable from './components/CustomDataTable/CustomDataTable'
 import SaveComponent from './components/Footer/SaveComponent'
@@ -30,6 +31,9 @@ import FilesContentApi from './components/FilesContentApi/FilesContentApi'
 import FilesContent from './components/FilesContent/FilesContent'
 import DynaReport from './components/DynaReport/DynaReport'
 import OperationConfirmModal from './components/Modal/OperationConfirmModal.js'
+import CustomSimpleModal from './components/Modal/CustomSimpleModal/CustomSimpleModal.js'
+import CustomLabelField from './components/Inputs/CustomLabelField/CustomLabelField.js'
+import OperationTab from './components/Content/OperationTab/OperationTab.js'
 
 export {
   Conteiner,
@@ -57,5 +61,8 @@ export {
   FilesContentApi,
   FilesContent,
   DynaReport,
-  OperationConfirmModal
+  OperationConfirmModal,
+  CustomSimpleModal,
+  CustomLabelField,
+  OperationTab
 }
