@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.1](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.2.0...v1.2.1) (2023-04-19)
+
+
+### Bug Fixes
+
+* props condition show title ou no operationSection ([9d35aae](https://github.com/AgsiSistemas/agsi.br.componente/commit/9d35aaea8f4cfa04b7b3bc683a5a6f911c63665a))
+
 ## [1.2.0](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.1.9...v1.2.0) (2023-04-19)
 
 ### [1.1.9](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.1.8...v1.1.9) (2023-04-05)
