@@ -31,8 +31,12 @@ const handleDisplayModal = (displayModal) => {
 const OperationSection = (props) => {
   return (
     <div>
-      <h2 style={style.operation_header_title}>{props.title}</h2>
-      <h5 style={style.operation_header_subtitle}>{props.subTitle}</h5>
+      {props.title &&
+        <h2 style={style.operation_header_title}>{props.title}</h2>
+      }
+      {props.subTitle &&
+        <h5 style={style.operation_header_subtitle}>{props.subTitle}</h5>
+      }
       <CustomModal
         displayModal={props.displayModal}
         onCloseDialog={props.onCloseDialog}
@@ -102,18 +106,18 @@ OperationSection.propTypes = {
 OperationSection.defaultProp = {
   title: '',
   subTitle: '',
-  onCloseDialog: () => {},
+  onCloseDialog: () => { },
   displayModal: false,
   disableAttachButton: false,
   disableExpandedButton: false,
   titleHeader: '',
-  onClick: () => {},
+  onClick: () => { },
   buttonAdditional: null,
   toastMessages: {
     open: false,
     message: '',
     severity: '',
-    handleClose: () => {}
+    handleClose: () => { }
   }
 }
 

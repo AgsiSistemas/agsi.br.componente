@@ -448,9 +448,9 @@ var handleDisplayModal = function handleDisplayModal(displayModal) {
 };
 var OperationSection = function OperationSection(props) {
   var _props$toastMessages, _props$toastMessages2, _props$toastMessages3;
-  return /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement("h2", {
+  return /*#__PURE__*/React__default.createElement("div", null, props.title && /*#__PURE__*/React__default.createElement("h2", {
     style: style$5.operation_header_title
-  }, props.title), /*#__PURE__*/React__default.createElement("h5", {
+  }, props.title), props.subTitle && /*#__PURE__*/React__default.createElement("h5", {
     style: style$5.operation_header_subtitle
   }, props.subTitle), /*#__PURE__*/React__default.createElement(CustomModal$1, {
     displayModal: props.displayModal,
