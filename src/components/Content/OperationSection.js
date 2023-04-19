@@ -30,7 +30,7 @@ const handleDisplayModal = (displayModal) => {
 
 const OperationSection = (props) => {
   return (
-    <div>
+    <div className={props.className} style={props.style}>
       {props.title &&
         <h2 style={style.operation_header_title}>{props.title}</h2>
       }
