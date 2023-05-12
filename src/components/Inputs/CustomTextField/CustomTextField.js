@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { CircularProgress } from '@mui/material'
 import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
+import NumberFormat from 'react-number-format'
+import { currencyFormatter } from '../../../Utils/Utils.js'
 
 const isNullValue = (value) => {
   return value === undefined || value === null || value === ''
@@ -20,6 +22,7 @@ const CustomTextField = ({
   label,
   id,
   value,
+  type,
   disabled,
   onChange,
   validation,
@@ -28,6 +31,29 @@ const CustomTextField = ({
   inputProps,
   ...other
 }) => {
+  if (type && type == 'amount') {
+    return (
+      <NumberFormat
+        id={id}
+        size='small'
+        label={label}
+        style={{ marginTop: '8px', marginBottom: '4px' }}
+        fullWidth
+        disabled={disabled}
+        InputLabelProps={{ shrink: true }}
+        value={value}
+        onChange={onChange}
+        error={handleError(value, validation)}
+        helperText={value ? '' : handleHelperText(validation)}
+        inputProps={inputProps}
+        prefix='R$ '
+        thousandSeparator={true}
+        format={currencyFormatter}
+        customInput={TextField}
+        {...other}
+      />
+    )
+  }
   return (
     <React.Fragment>
       <TextField
@@ -60,7 +86,8 @@ CustomTextField.propTypes = {
   multiline: PropTypes.bool,
   rows: PropTypes.number,
   onChange: PropTypes.func,
-  validation: PropTypes.bool
+  validation: PropTypes.bool,
+  type: PropTypes.string,
 }
 
 CustomTextField.defaultProp = {
@@ -71,7 +98,8 @@ CustomTextField.defaultProp = {
   rows: false,
   disabled: false,
   onChange: () => { },
-  validation: false
+  validation: false,
+  type: ''
 }
 
 export default React.memo(CustomTextField)

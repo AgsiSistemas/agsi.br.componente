@@ -165,7 +165,7 @@ const OperationTable = (props) => {
                         key={index}
                         style={item.style}
                         sortable={item.sortable}
-                        field={item.field}
+                        field={item?.field}
                         body={item.body}
                         header={item.header}
                         frozen={item.frozen}
@@ -179,7 +179,7 @@ const OperationTable = (props) => {
                         key={index}
                         style={item.style}
                         sortable={item.sortable}
-                        field={item.field}
+                        field={item?.field}
                         header={item.header}
                         frozen={item.frozen}
                         dataType={item.dataType}
@@ -261,23 +261,23 @@ OperationTable.propTypes = {
 }
 
 OperationTable.defaultProp = {
-  onReportClick: () => {},
-  onAddClick: () => {},
+  onReportClick: () => { },
+  onAddClick: () => { },
   paginator: false,
   deleteHandler: {
     displayDelete: false,
-    onCancelClick: () => {},
-    onDeleteClick: () => {}
+    onCancelClick: () => { },
+    onDeleteClick: () => { }
   },
   records: [],
   columnList: [],
   heigthDataTable: 0,
   display: false,
-  onClick: () => {},
+  onClick: () => { },
   printIcon: true,
   paginatorButton: {
     title: 'Carregar mais..',
-    onClick: () => {}
+    onClick: () => { }
   }
 }
 

@@ -53,13 +53,14 @@ import InputBase from '@mui/material/InputBase';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+import NumberFormat from 'react-number-format';
+import CircularProgress$2 from '@mui/material/CircularProgress';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { ptBR } from 'date-fns/locale';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Backdrop from '@mui/material/Backdrop';
-import CircularProgress$2 from '@mui/material/CircularProgress';
 import { Toast } from 'primereact/toast';
 import { FileUpload } from 'primereact/fileupload';
 import { ProgressBar } from 'primereact/progressbar';
@@ -653,7 +654,7 @@ var OperationTable = function OperationTable(props) {
       key: index,
       style: item.style,
       sortable: item.sortable,
-      field: item.field,
+      field: item === null || item === void 0 ? void 0 : item.field,
       body: item.body,
       header: item.header,
       frozen: item.frozen,
@@ -663,7 +664,7 @@ var OperationTable = function OperationTable(props) {
       key: index,
       style: item.style,
       sortable: item.sortable,
-      field: item.field,
+      field: item === null || item === void 0 ? void 0 : item.field,
       header: item.header,
       frozen: item.frozen,
       dataType: item.dataType
@@ -1781,20 +1782,36 @@ CustomInputSelect.defaultProp = {
 };
 var CustomInputSelect$1 = /*#__PURE__*/React__default.memo(CustomInputSelect);
 
-var _excluded$2 = ["label", "id", "value", "disabled", "onChange", "validation", "multiline", "rows", "inputProps"];
+var handleLoading$1 = function handleLoading(text, isLoading) {
+  return isLoading ? /*#__PURE__*/React__default.createElement(CircularProgress$2, null) : text;
+};
 var isNullValue$1 = function isNullValue(value) {
+  return value === undefined || value === null || value === '';
+};
+function currencyFormatter(value) {
+  if (!Number(value)) return;
+  var amount = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL"
+  }).format(value / 100);
+  return "" + amount;
+}
+
+var _excluded$2 = ["label", "id", "value", "type", "disabled", "onChange", "validation", "multiline", "rows", "inputProps"];
+var isNullValue$2 = function isNullValue(value) {
   return value === undefined || value === null || value === '';
 };
 var handleHelperText$1 = function handleHelperText(validation) {
   return validation ? 'Campo obrigatório' : '';
 };
 var handleError$1 = function handleError(value, validation) {
-  return isNullValue$1(value) && validation;
+  return isNullValue$2(value) && validation;
 };
 var CustomTextField = function CustomTextField(_ref) {
   var label = _ref.label,
     id = _ref.id,
     value = _ref.value,
+    type = _ref.type,
     disabled = _ref.disabled,
     onChange = _ref.onChange,
     validation = _ref.validation,
@@ -1802,6 +1819,31 @@ var CustomTextField = function CustomTextField(_ref) {
     rows = _ref.rows,
     inputProps = _ref.inputProps,
     other = _objectWithoutPropertiesLoose(_ref, _excluded$2);
+  if (type && type == 'amount') {
+    return /*#__PURE__*/React__default.createElement(NumberFormat, _extends({
+      id: id,
+      size: "small",
+      label: label,
+      style: {
+        marginTop: '8px',
+        marginBottom: '4px'
+      },
+      fullWidth: true,
+      disabled: disabled,
+      InputLabelProps: {
+        shrink: true
+      },
+      value: value,
+      onChange: onChange,
+      error: handleError$1(value, validation),
+      helperText: value ? '' : handleHelperText$1(validation),
+      inputProps: inputProps,
+      prefix: "R$ ",
+      thousandSeparator: true,
+      format: currencyFormatter,
+      customInput: TextField
+    }, other));
+  }
   return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(TextField, _extends({
     size: "small",
     label: label,
@@ -1830,7 +1872,8 @@ CustomTextField.propTypes = {
   multiline: PropTypes.bool,
   rows: PropTypes.number,
   onChange: PropTypes.func,
-  validation: PropTypes.bool
+  validation: PropTypes.bool,
+  type: PropTypes.string
 };
 CustomTextField.defaultProp = {
   label: '',
@@ -1840,7 +1883,8 @@ CustomTextField.defaultProp = {
   rows: false,
   disabled: false,
   onChange: function onChange() {},
-  validation: false
+  validation: false,
+  type: ''
 };
 var CustomTextField$1 = /*#__PURE__*/React__default.memo(CustomTextField);
 
@@ -2280,13 +2324,6 @@ function _catch(body, recover) {
 	return result;
 }
 
-var handleLoading$1 = function handleLoading(text, isLoading) {
-  return isLoading ? /*#__PURE__*/React__default.createElement(CircularProgress$2, null) : text;
-};
-var isNullValue$2 = function isNullValue(value) {
-  return value === undefined || value === null || value === '';
-};
-
 var maskText = function maskText(v) {
   var value = v;
   if (value.length > 150) value.preventDefault();
@@ -2294,7 +2331,7 @@ var maskText = function maskText(v) {
   return value;
 };
 var maskWallet = function maskWallet(v) {
-  if (isNullValue$2(v)) return '';
+  if (isNullValue$1(v)) return '';
   var value = v;
   value = value.replace(/\D/g, '');
   value = value.replace(/(\d{4})(\d{2})/, '$1.$2');
@@ -2368,7 +2405,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
     value: valueId,
     onChange: function onChange(event, newInputValue) {
       onChangeId(newInputValue.label);
-      if (isNullValue$2(newInputValue)) onChangeName('');
+      if (isNullValue$1(newInputValue)) onChangeName('');
       if (newInputValue !== null && newInputValue.name) {
         onChangeName({
           label: newInputValue.name,
@@ -2391,7 +2428,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
             if (event.key === 'Tab' || event.target.value.length > 15) {
               setLoadingBeneficiary(true);
               return Promise.resolve(api.http.get("" + api.addressCode(event.target.value))).then(function (response) {
-                if (!isNullValue$2(response.data.data.code)) {
+                if (!isNullValue$1(response.data.data.code)) {
                   setLocalBeneficiaries({
                     data: {
                       content: [response.data.data]
@@ -2461,7 +2498,7 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
           var item = localBeneficiaries.data.content.filter(function (x) {
             return x.name === newInputValue;
           })[0];
-          if (!isNullValue$2(item)) {
+          if (!isNullValue$1(item)) {
             onChangeId(item.code);
             handleOnChangeData(item);
             setOpenBeneficiariesField(false);

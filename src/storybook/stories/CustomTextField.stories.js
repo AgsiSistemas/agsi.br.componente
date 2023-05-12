@@ -17,5 +17,16 @@ const Template = (args) => <CustomTextField {...args} />;
 export const Default = Template.bind({});
 Default.args = {
   primary: true,
-  label: 'Nome',
+  label: 'Padrão',
+};
+export const TypeAmount = Template.bind({});
+TypeAmount.args = {
+  label: 'Valor Moeda Brasileira',
+  type: 'amount'
+};
+export const TypeAmountValidation = Template.bind({});
+TypeAmountValidation.args = {
+  label: 'Valor Moeda Brasileira',
+  type: 'amount',
+  validation: true
 };
