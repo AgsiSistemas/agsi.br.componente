@@ -1372,6 +1372,12 @@ function MenuAppList(_ref) {
   }), children));
 }
 
+var BarMessageTest = function BarMessageTest() {
+  return /*#__PURE__*/React__default.createElement(React.Fragment, null, /*#__PURE__*/React__default.createElement("div", {
+    className: "bar-test-message-content"
+  }, /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement("b", null, "Ambiente de Teste e Desenvolvimento!"), /*#__PURE__*/React__default.createElement("em", null, "\"Altera\xE7\xF5es N\xC3O fazem efeito no Banco de dados Produ\xE7\xE3o!\""))));
+};
+
 var Header = function Header(_ref) {
   var title = _ref.title,
     linkTitle = _ref.linkTitle,
@@ -1379,7 +1385,8 @@ var Header = function Header(_ref) {
     listApp = _ref$listApp === void 0 ? [] : _ref$listApp,
     loadingListApp = _ref.loadingListApp,
     notification = _ref.notification,
-    manageAccess = _ref.manageAccess;
+    manageAccess = _ref.manageAccess,
+    barTest = _ref.barTest;
   var navigate = reactRouterDom.useNavigate();
   var _React$useState = React.useState(getRememberMenuLocalStorage()),
     openMenu = _React$useState[0],
@@ -1522,7 +1529,10 @@ var Header = function Header(_ref) {
     sx: {
       flexGrow: 1
     }
-  }, /*#__PURE__*/React.createElement(AppBar, {
+  }, barTest && /*#__PURE__*/React.createElement(BarMessageTest, null), /*#__PURE__*/React.createElement(AppBar, {
+    sx: barTest && {
+      top: '15px'
+    },
     className: "header-app-bar",
     position: "fixed"
   }, /*#__PURE__*/React.createElement(Toolbar, null, linkTitle !== '/' && /*#__PURE__*/React.createElement(IconButton, {

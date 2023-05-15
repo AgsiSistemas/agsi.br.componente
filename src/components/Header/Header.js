@@ -30,9 +30,10 @@ import {
   roleUserAGSI
 } from './HeaderUtils';
 import { getOperator } from './HeaderUtils.js';
+import { BarMessageTest } from '../BarMessageTest/BarMessageTest.js';
 
 
-const Header = ({ title, linkTitle, listApp = [], loadingListApp, notification, manageAccess }) => {
+const Header = ({ title, linkTitle, listApp = [], loadingListApp, notification, manageAccess, barTest }) => {
 
   var navigate = useNavigate()
 
@@ -205,7 +206,10 @@ const Header = ({ title, linkTitle, listApp = [], loadingListApp, notification, 
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar className='header-app-bar' position="fixed">
+      {barTest &&
+        <BarMessageTest />
+      }
+      <AppBar sx={barTest && { top: '15px' }} className='header-app-bar' position="fixed">
         <Toolbar>
           {linkTitle !== '/' &&
             <IconButton
