@@ -34,6 +34,7 @@ import OperationConfirmModal from './components/Modal/OperationConfirmModal.js'
 import CustomSimpleModal from './components/Modal/CustomSimpleModal/CustomSimpleModal.js'
 import CustomLabelField from './components/Inputs/CustomLabelField/CustomLabelField.js'
 import OperationTab from './components/Content/OperationTab/OperationTab.js'
+import CustomCheckBox from './components/CustomCheckBox/CustomCheckBox.js'
 
 export {
   Conteiner,
@@ -64,5 +65,6 @@ export {
   OperationConfirmModal,
   CustomSimpleModal,
   CustomLabelField,
-  OperationTab
+  OperationTab,
+  CustomCheckBox
 }

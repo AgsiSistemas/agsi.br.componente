@@ -6094,11 +6094,26 @@ var OperationTab = function OperationTab(_ref) {
   }, footer && footer));
 };
 
+var CustomCheckBox = function CustomCheckBox(_ref) {
+  var label = _ref.label,
+    onChange = _ref.onChange,
+    value = _ref.value;
+  return /*#__PURE__*/React__default.createElement(material.FormGroup, {
+    className: "custom-checkbox-content"
+  }, /*#__PURE__*/React__default.createElement(material.FormControlLabel, {
+    checked: value,
+    onChange: onChange,
+    control: /*#__PURE__*/React__default.createElement(material.Checkbox, null),
+    label: label
+  }));
+};
+
 exports.AppContent = AppContent$1;
 exports.ArchivesContent = ArchivesContent;
 exports.Conteiner = Conteiner;
 exports.ConteinerItem = ConteinerItem;
 exports.CustomBeneficiarieFields = CustomBeneficiarieFields;
+exports.CustomCheckBox = CustomCheckBox;
 exports.CustomDataTable = CustomDataTable$1;
 exports.CustomDatePicker = CustomDatePicker$1;
 exports.CustomDialog = CustomDialog$1;

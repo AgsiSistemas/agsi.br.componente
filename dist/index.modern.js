@@ -46,7 +46,7 @@ import '@mui/icons-material/FolderShared';
 import Divider from '@mui/material/Divider';
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { Tooltip as Tooltip$1, Skeleton, Box as Box$1, CircularProgress as CircularProgress$1, TextField as TextField$1, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton as IconButton$1, Button as Button$2, Modal, Dialog as Dialog$1, DialogTitle as DialogTitle$1, DialogContent as DialogContent$1, DialogContentText as DialogContentText$1, DialogActions as DialogActions$1, LinearProgress, Typography as Typography$1, Popover, ButtonGroup } from '@mui/material';
+import { Tooltip as Tooltip$1, Skeleton, Box as Box$1, CircularProgress as CircularProgress$1, TextField as TextField$1, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton as IconButton$1, Button as Button$2, Modal, Dialog as Dialog$1, DialogTitle as DialogTitle$1, DialogContent as DialogContent$1, DialogContentText as DialogContentText$1, DialogActions as DialogActions$1, LinearProgress, Typography as Typography$1, Popover, ButtonGroup, FormGroup as FormGroup$1, FormControlLabel as FormControlLabel$1, Checkbox as Checkbox$1 } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import InputBase from '@mui/material/InputBase';
@@ -6093,5 +6093,19 @@ var OperationTab = function OperationTab(_ref) {
   }, footer && footer));
 };
 
-export { AppContent$1 as AppContent, ArchivesContent, Conteiner, ConteinerItem, CustomBeneficiarieFields, CustomDataTable$1 as CustomDataTable, CustomDatePicker$1 as CustomDatePicker, CustomDialog$1 as CustomDialog, CustomInputSelect$1 as CustomInputSelect, CustomLabelField, CustomModal$1 as CustomModal, CustomSimpleModal, CustomTextField$1 as CustomTextField, CustomTimePicker$1 as CustomTimePicker, CustomToastMessage$1 as CustomToastMessage, DynaReport, FilesContent, FilesContentApi, FilesUpload$1 as FilesUpload, Header$1 as Header, HeaderAccordion$1 as HeaderAccordion, OperationConfirmModal$1 as OperationConfirmModal, OperationDetail$1 as OperationDetail, OperationModal$1 as OperationModal, OperationSection$1 as OperationSection, OperationTab, OperationTable$1 as OperationTable, PageBase$3 as PageBase, SaveComponent$1 as SaveComponent };
+var CustomCheckBox = function CustomCheckBox(_ref) {
+  var label = _ref.label,
+    onChange = _ref.onChange,
+    value = _ref.value;
+  return /*#__PURE__*/React__default.createElement(FormGroup$1, {
+    className: "custom-checkbox-content"
+  }, /*#__PURE__*/React__default.createElement(FormControlLabel$1, {
+    checked: value,
+    onChange: onChange,
+    control: /*#__PURE__*/React__default.createElement(Checkbox$1, null),
+    label: label
+  }));
+};
+
+export { AppContent$1 as AppContent, ArchivesContent, Conteiner, ConteinerItem, CustomBeneficiarieFields, CustomCheckBox, CustomDataTable$1 as CustomDataTable, CustomDatePicker$1 as CustomDatePicker, CustomDialog$1 as CustomDialog, CustomInputSelect$1 as CustomInputSelect, CustomLabelField, CustomModal$1 as CustomModal, CustomSimpleModal, CustomTextField$1 as CustomTextField, CustomTimePicker$1 as CustomTimePicker, CustomToastMessage$1 as CustomToastMessage, DynaReport, FilesContent, FilesContentApi, FilesUpload$1 as FilesUpload, Header$1 as Header, HeaderAccordion$1 as HeaderAccordion, OperationConfirmModal$1 as OperationConfirmModal, OperationDetail$1 as OperationDetail, OperationModal$1 as OperationModal, OperationSection$1 as OperationSection, OperationTab, OperationTable$1 as OperationTable, PageBase$3 as PageBase, SaveComponent$1 as SaveComponent };
 //# sourceMappingURL=index.modern.js.map
