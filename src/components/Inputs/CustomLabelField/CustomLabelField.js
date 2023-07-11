@@ -26,7 +26,7 @@ const CustomLabelField = ({ label, type, value, onChange, labelValue, onChangeLa
 
   if (type == 'select') {
     return (
-      <Fragment>
+      <div className='custom-label-field-content-input'>
         <CustomInputSelect
           label={
             <Tooltip title='Alterar' followCursor={true}>
@@ -63,13 +63,13 @@ const CustomLabelField = ({ label, type, value, onChange, labelValue, onChangeLa
             })}
           </ButtonGroup>
         </Popover>
-      </Fragment>
+      </div>
     )
   }
 
   if (type == 'date') {
     return (
-      <Fragment>
+      <div className='custom-label-field-content-input'>
 
         <CustomDatePicker
           size="small"
@@ -110,13 +110,13 @@ const CustomLabelField = ({ label, type, value, onChange, labelValue, onChangeLa
             })}
           </ButtonGroup>
         </Popover>
-      </Fragment>
+      </div >
     )
 
   }
 
   return (
-    <Fragment>
+    <div className='custom-label-field-content-input'>
       <CustomTextField
         label={
           <Tooltip title='Alterar' followCursor={true}>
@@ -152,7 +152,7 @@ const CustomLabelField = ({ label, type, value, onChange, labelValue, onChangeLa
           })}
         </ButtonGroup>
       </Popover>
-    </Fragment>
+    </div>
   )
 
 }

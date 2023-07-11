@@ -5976,7 +5976,9 @@ var CustomLabelField = function CustomLabelField(_ref) {
     onChangeLabelValue(optionsLabel[0]);
   }
   if (type == 'select') {
-    return /*#__PURE__*/React__default.createElement(Fragment$1, null, /*#__PURE__*/React__default.createElement(CustomInputSelect$1, _extends({
+    return /*#__PURE__*/React__default.createElement("div", {
+      className: "custom-label-field-content-input"
+    }, /*#__PURE__*/React__default.createElement(CustomInputSelect$1, _extends({
       label: /*#__PURE__*/React__default.createElement(Tooltip$1, {
         title: "Alterar",
         followCursor: true
@@ -6014,7 +6016,9 @@ var CustomLabelField = function CustomLabelField(_ref) {
     }))));
   }
   if (type == 'date') {
-    return /*#__PURE__*/React__default.createElement(Fragment$1, null, /*#__PURE__*/React__default.createElement(CustomDatePicker$1, _extends({
+    return /*#__PURE__*/React__default.createElement("div", {
+      className: "custom-label-field-content-input"
+    }, /*#__PURE__*/React__default.createElement(CustomDatePicker$1, _extends({
       size: "small",
       label: /*#__PURE__*/React__default.createElement(Tooltip$1, {
         title: "Alterar",
@@ -6056,7 +6060,9 @@ var CustomLabelField = function CustomLabelField(_ref) {
       }, item);
     }))));
   }
-  return /*#__PURE__*/React__default.createElement(Fragment$1, null, /*#__PURE__*/React__default.createElement(CustomTextField$1, _extends({
+  return /*#__PURE__*/React__default.createElement("div", {
+    className: "custom-label-field-content-input"
+  }, /*#__PURE__*/React__default.createElement(CustomTextField$1, _extends({
     label: /*#__PURE__*/React__default.createElement(Tooltip$1, {
       title: "Alterar",
       followCursor: true
