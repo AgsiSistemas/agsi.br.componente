@@ -5948,7 +5948,7 @@ CustomSimpleModal.defaultProp = {
   confirmClassName: ''
 };
 
-var _excluded$5 = ["label", "type", "value", "onChange", "labelValue", "onChangeLabelValue", "optionsLabel", "noAlertNoneValue", "maxDate"];
+var _excluded$5 = ["label", "type", "value", "onChange", "labelValue", "onChangeLabelValue", "optionsLabel", "noAlertNoneValue", "maxDate", "options"];
 var CustomLabelField = function CustomLabelField(_ref) {
   var label = _ref.label,
     type = _ref.type,
@@ -5959,6 +5959,7 @@ var CustomLabelField = function CustomLabelField(_ref) {
     optionsLabel = _ref.optionsLabel,
     noAlertNoneValue = _ref.noAlertNoneValue,
     maxDate = _ref.maxDate,
+    options = _ref.options,
     other = _objectWithoutPropertiesLoose(_ref, _excluded$5);
   var _useState = useState(null),
     anchorEl = _useState[0],
@@ -5973,6 +5974,44 @@ var CustomLabelField = function CustomLabelField(_ref) {
   };
   if (!labelValue && optionsLabel) {
     onChangeLabelValue(optionsLabel[0]);
+  }
+  if (type == 'select') {
+    return /*#__PURE__*/React__default.createElement(Fragment$1, null, /*#__PURE__*/React__default.createElement(CustomInputSelect$1, _extends({
+      label: /*#__PURE__*/React__default.createElement(Tooltip$1, {
+        title: "Alterar",
+        followCursor: true
+      }, /*#__PURE__*/React__default.createElement("div", {
+        className: "custom-field-dinamic-label-content-label link-style",
+        "aria-describedby": id,
+        onClick: handleClick
+      }, label, /*#__PURE__*/React__default.createElement("div", {
+        className: "custom-field-dinamic-label-value"
+      }, " ( " + labelValue + " )"), /*#__PURE__*/React__default.createElement("i", {
+        className: "pi pi-pencil release-exams-date-type-label"
+      }))),
+      value: value,
+      onChange: onChange,
+      options: options
+    }, other)), /*#__PURE__*/React__default.createElement(Popover, {
+      id: id,
+      open: open,
+      anchorEl: anchorEl,
+      onClose: handleClose,
+      anchorOrigin: {
+        vertical: 'bottom',
+        horizontal: 'left'
+      }
+    }, /*#__PURE__*/React__default.createElement(ButtonGroup, {
+      variant: "outlined",
+      "aria-label": "outlined button group"
+    }, optionsLabel === null || optionsLabel === void 0 ? void 0 : optionsLabel.map(function (item) {
+      return /*#__PURE__*/React__default.createElement(Button$2, {
+        onClick: function onClick() {
+          onChangeLabelValue(item);
+          handleClose();
+        }
+      }, item);
+    }))));
   }
   if (type == 'date') {
     return /*#__PURE__*/React__default.createElement(Fragment$1, null, /*#__PURE__*/React__default.createElement(CustomDatePicker$1, _extends({
@@ -6016,43 +6055,42 @@ var CustomLabelField = function CustomLabelField(_ref) {
         }
       }, item);
     }))));
-  } else {
-    return /*#__PURE__*/React__default.createElement(Fragment$1, null, /*#__PURE__*/React__default.createElement(CustomTextField$1, _extends({
-      label: /*#__PURE__*/React__default.createElement(Tooltip$1, {
-        title: "Alterar",
-        followCursor: true
-      }, /*#__PURE__*/React__default.createElement("div", {
-        className: "custom-field-dinamic-label-content-label link-style",
-        "aria-describedby": id,
-        onClick: handleClick
-      }, label, /*#__PURE__*/React__default.createElement("div", {
-        className: "custom-field-dinamic-label-value"
-      }, " ( " + labelValue + " )"), /*#__PURE__*/React__default.createElement("i", {
-        className: "pi pi-pencil release-exams-date-type-label"
-      }))),
-      value: value,
-      onChange: onChange
-    }, other)), /*#__PURE__*/React__default.createElement(Popover, {
-      id: id,
-      open: open,
-      anchorEl: anchorEl,
-      onClose: handleClose,
-      anchorOrigin: {
-        vertical: 'bottom',
-        horizontal: 'left'
-      }
-    }, /*#__PURE__*/React__default.createElement(ButtonGroup, {
-      variant: "outlined",
-      "aria-label": "outlined button group"
-    }, optionsLabel === null || optionsLabel === void 0 ? void 0 : optionsLabel.map(function (item) {
-      return /*#__PURE__*/React__default.createElement(Button$2, {
-        onClick: function onClick() {
-          onChangeLabelValue(item);
-          handleClose();
-        }
-      }, item);
-    }))));
   }
+  return /*#__PURE__*/React__default.createElement(Fragment$1, null, /*#__PURE__*/React__default.createElement(CustomTextField$1, _extends({
+    label: /*#__PURE__*/React__default.createElement(Tooltip$1, {
+      title: "Alterar",
+      followCursor: true
+    }, /*#__PURE__*/React__default.createElement("div", {
+      className: "custom-field-dinamic-label-content-label link-style",
+      "aria-describedby": id,
+      onClick: handleClick
+    }, label, /*#__PURE__*/React__default.createElement("div", {
+      className: "custom-field-dinamic-label-value"
+    }, " ( " + labelValue + " )"), /*#__PURE__*/React__default.createElement("i", {
+      className: "pi pi-pencil release-exams-date-type-label"
+    }))),
+    value: value,
+    onChange: onChange
+  }, other)), /*#__PURE__*/React__default.createElement(Popover, {
+    id: id,
+    open: open,
+    anchorEl: anchorEl,
+    onClose: handleClose,
+    anchorOrigin: {
+      vertical: 'bottom',
+      horizontal: 'left'
+    }
+  }, /*#__PURE__*/React__default.createElement(ButtonGroup, {
+    variant: "outlined",
+    "aria-label": "outlined button group"
+  }, optionsLabel === null || optionsLabel === void 0 ? void 0 : optionsLabel.map(function (item) {
+    return /*#__PURE__*/React__default.createElement(Button$2, {
+      onClick: function onClick() {
+        onChangeLabelValue(item);
+        handleClose();
+      }
+    }, item);
+  }))));
 };
 
 var _excluded$6 = ["children", "value", "index"];
