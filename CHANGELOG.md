@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.13](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.6.12...v1.6.13) (2023-07-11)
+
+
+### Bug Fixes
+
+* version import. ([72d4de1](https://github.com/AgsiSistemas/agsi.br.componente/commit/72d4de1398c6f92a9dc060c7368f4076bd003271))
+
 ### [1.6.12](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.6.11...v1.6.12) (2023-07-11)
 
 ### [1.6.11](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.6.10...v1.6.11) (2023-07-11)
