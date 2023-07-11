@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.6.13...v1.7.0) (2023-07-11)
+
+
+### Features
+
+* new type custom label field component. ([68e7a91](https://github.com/AgsiSistemas/agsi.br.componente/commit/68e7a91d9890ec55e8327acab3aa1b7a5775abca))
+
 ### [1.6.13](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.6.12...v1.6.13) (2023-07-11)
 
 
