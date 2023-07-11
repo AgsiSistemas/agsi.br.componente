@@ -1,0 +1,19 @@
+.custom-input-select-combo-list-conteiner {
+  border: 1px solid #96969699;
+  border-radius: 4px;
+  overflow: auto;
+  margin-bottom: 4px;
+  margin-top: 4px;
+  width: 100%;
+  flex: none !important;
+}
+
+.custom-input-select-combo-list-add-input {
+  width: 80% !important;
+  flex: none !important;
+}
+
+.custom-input-select-combo-list-disabled {
+  opacity: 0.3;
+  pointer-events: none;
+}

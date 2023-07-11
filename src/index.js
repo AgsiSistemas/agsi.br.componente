@@ -12,10 +12,10 @@ import OperationTable from './components/Content/OperationTable'
 import OperationModal from './components/Modal/OperationModal'
 import HeaderAccordion from './components/CustomAccordion/HeaderAccordion'
 import CustomDialog from './components/CustomDialog/CustomDialog'
-import CustomToastMessage from './components/CustomToastMessage/CustomToastMessage'
+// import CustomToastMessage from './components/CustomToastMessage/CustomToastMessage.js'
 
 import CustomModal from './components/Modal/CustomModal.js'
-import PageBase from './components/PageBase/PageBase'
+// import PageBase from './components/PageBase/PageBase/'
 import CustomDataTable from './components/CustomDataTable/CustomDataTable'
 import SaveComponent from './components/Footer/SaveComponent'
 import Header from './components/Header/Header'
@@ -35,6 +35,8 @@ import CustomSimpleModal from './components/Modal/CustomSimpleModal/CustomSimple
 import CustomLabelField from './components/Inputs/CustomLabelField/CustomLabelField.js'
 import OperationTab from './components/Content/OperationTab/OperationTab.js'
 import CustomCheckBox from './components/CustomCheckBox/CustomCheckBox.js'
+import CustomInputSelectComboList from './components/CustomInputSelectComboList/CustomInputSelectComboList.js'
+import CustomContentReport from './components/CustomContentReport/CustomContentReport.js'
 
 export {
   Conteiner,
@@ -45,9 +47,9 @@ export {
   OperationTable,
   HeaderAccordion,
   CustomDialog,
-  CustomToastMessage,
+  // CustomToastMessage,
   CustomModal,
-  PageBase,
+  // PageBase,
   CustomDataTable,
   SaveComponent,
   Header,
@@ -66,5 +68,7 @@ export {
   CustomSimpleModal,
   CustomLabelField,
   OperationTab,
-  CustomCheckBox
+  CustomCheckBox,
+  CustomInputSelectComboList,
+  CustomContentReport
 }

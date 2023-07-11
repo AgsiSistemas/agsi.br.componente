@@ -14,7 +14,7 @@ yarn add @agsisistemas/agsi.br.componente
 
 ### Install via package.json:
 
-"@agsisistemas/agsi.br.componente": "1.0.27"
+"@agsisistemas/agsi.br.componente": "1.6.12"
 
 ## Styles:
 
@@ -50,4 +50,6 @@ import { Header } from '@agsisistemas/agsi.br.componente';
   FilesContentApi,
   FilesContent,
   OperationConfirmModal,
+  CustomInputSelectComboList,
+  CustomContentReport
 ```

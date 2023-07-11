@@ -394,7 +394,32 @@ p {
   box-shadow: 4px;
   border-radius: 4px;
   box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
-  padding: 2rem;
+}
+
+.simple-modal-children-content {
+  padding: 1em 2em;
+}
+
+.simple-modal-title {
+  padding-left: 2em;
+  width: 100%;
+  border-bottom: 1px solid;
+  background-color: #008EBC;
+  border-radius: 4px 4px 0 0;
+  color: #fff;
+}
+
+.simple-modal-footer-content {
+  flex: none !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+  border-top: 1px solid rgba(0, 0, 0, 0.1215686275);
+  margin-top: 15px;
+  padding: 5px;
+}
+
+.simple-modal-button-footer {
+  margin-left: 4px !important;
 }
 .custom-field-dinamic-label-value {
   font-weight: 600 !important;
@@ -410,4 +435,32 @@ p {
   justify-content: center;
   padding-top: 4px;
   padding-left: 7px;
+}
+.custom-input-select-combo-list-conteiner {
+  border: 1px solid rgba(150, 150, 150, 0.6);
+  border-radius: 4px;
+  overflow: auto;
+  margin-bottom: 4px;
+  margin-top: 4px;
+  width: 100%;
+  flex: none !important;
+}
+
+.custom-input-select-combo-list-add-input {
+  width: 80% !important;
+  flex: none !important;
+}
+
+.custom-input-select-combo-list-disabled {
+  opacity: 0.3;
+  pointer-events: none;
+}
+.report-generator-button {
+  display: flex;
+  margin-top: 1.5em;
+  justify-content: flex-end;
+}
+
+.historic-attendance-report-protocol {
+  max-width: 200px;
 }
