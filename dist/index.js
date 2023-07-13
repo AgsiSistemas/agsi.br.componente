@@ -2378,7 +2378,9 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
       onChangeData(e);
     }
   };
-  return /*#__PURE__*/React__default.createElement(React.Fragment, null, /*#__PURE__*/React__default.createElement(ConteinerItem, {
+  return /*#__PURE__*/React__default.createElement("div", {
+    className: "custom-beneficiarie-field-content"
+  }, /*#__PURE__*/React__default.createElement(ConteinerItem, {
     className: "custom-beneficiarie-component-wallet"
   }, /*#__PURE__*/React__default.createElement(CustomInputSelect$1, {
     title: handleLoading$1((!label ? 'Carteirinha' : label[0]) + isRequired(), loadingBeneficiary),
@@ -2466,7 +2468,9 @@ var CustomBeneficiarieFields = function CustomBeneficiarieFields(_ref) {
     },
     maxLength: 18,
     validation: validation
-  })), /*#__PURE__*/React__default.createElement(ConteinerItem, null, /*#__PURE__*/React__default.createElement(CustomInputSelect$1, {
+  })), /*#__PURE__*/React__default.createElement(ConteinerItem, {
+    className: "custom-beneficiarie-field-name"
+  }, /*#__PURE__*/React__default.createElement(CustomInputSelect$1, {
     title: handleLoading$1((!label ? 'Nome Beneficiário' : label[1]) + isRequired(), loadingBeneficiary),
     freeSolo: true,
     open: openBeneficiariesField,

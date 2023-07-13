@@ -248,6 +248,17 @@ p {
 }
 .custom-beneficiarie-component-wallet {
   max-width: 200px;
+  padding: 0 !important;
+}
+
+.custom-beneficiarie-field-name {
+  padding: 0 0 0 5px !important;
+}
+
+.custom-beneficiarie-field-content {
+  display: flex;
+  padding: 0 !important;
+  min-width: 500px;
 }
 .conteiner-archive-component {
   margin: 10px 0 1rem 0;

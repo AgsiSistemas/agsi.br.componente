@@ -58,7 +58,7 @@ const CustomBeneficiarieFields = ({
   }
 
   return (
-    <Fragment>
+    <div className='custom-beneficiarie-field-content'>
       <ConteinerItem className='custom-beneficiarie-component-wallet'>
         <CustomInputSelect
           title={handleLoading(
@@ -133,7 +133,7 @@ const CustomBeneficiarieFields = ({
           validation={validation}
         />
       </ConteinerItem>
-      <ConteinerItem>
+      <ConteinerItem className='custom-beneficiarie-field-name'>
         <CustomInputSelect
           title={handleLoading(
             (!label ? 'Nome Beneficiário' : label[1]) + isRequired(),
@@ -197,7 +197,7 @@ const CustomBeneficiarieFields = ({
           validation={validation}
         />
       </ConteinerItem>
-    </Fragment>
+    </div>
   )
 }
 
