@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.5](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.7.4...v1.7.5) (2023-08-14)
+
+
+### Bug Fixes
+
+* padding custom beneficiarie field component ([410c0a1](https://github.com/AgsiSistemas/agsi.br.componente/commit/410c0a1e48201f2ff3b6f6516dc44dcf97c663a5))
+
 ### [1.7.4](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.7.3...v1.7.4) (2023-07-13)
 
 ### [1.7.3](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.7.2...v1.7.3) (2023-07-13)
