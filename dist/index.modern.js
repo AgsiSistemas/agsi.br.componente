@@ -111,6 +111,9 @@ import 'react-is';
 import emStyled from '@emotion/styled';
 import '@emotion/react';
 import { jsx } from 'react/jsx-runtime';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
 
 function _extends() {
   _extends = Object.assign ? Object.assign.bind() : function (target) {
@@ -998,6 +1001,7 @@ var CustomDataTable = function CustomDataTable(props) {
   return /*#__PURE__*/React__default.createElement("div", {
     style: displayBorder ? style$8.content_data_table_display_border : style$8.content_data_table
   }, /*#__PURE__*/React__default.createElement(DataTable, {
+    className: "custom-data-table-content",
     value: records,
     loading: loading,
     paginator: paginator,
@@ -6103,71 +6107,98 @@ var CustomLabelField = function CustomLabelField(_ref) {
   }))));
 };
 
-var _excluded$6 = ["children", "value", "index"];
-function TabPanel(props) {
-  var children = props.children,
-    value = props.value,
-    index = props.index,
-    other = _objectWithoutPropertiesLoose(props, _excluded$6);
-  return /*#__PURE__*/createElement("div", _extends({
+var _excluded$6 = ["children", "value", "index", "className"],
+  _excluded2 = ["activeTab", "menuList", "childrenList", "footer", "className", "classNameChildren", "disableRipple", "tabIndicatorProps"];
+function TabPanel(_ref) {
+  var children = _ref.children,
+    value = _ref.value,
+    index = _ref.index,
+    className = _ref.className,
+    other = _objectWithoutPropertiesLoose(_ref, _excluded$6);
+  return /*#__PURE__*/React__default.createElement(Box$1, _extends({
     role: "tabpanel",
     hidden: value !== index,
     id: "simple-tabpanel-" + index,
+    className: "tabpanel-" + className,
     "aria-labelledby": "simple-tab-" + index
-  }, other), value === index && /*#__PURE__*/createElement(Box$1, {
+  }, other), value === index && /*#__PURE__*/React__default.createElement(Box$1, {
     sx: {
       paddingTop: 1
     }
-  }, /*#__PURE__*/createElement(Typography, null, children)));
+  }, /*#__PURE__*/React__default.createElement(Typography, null, children)));
 }
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.number.isRequired,
   value: PropTypes.number.isRequired
 };
-function a11yProps(index) {
+function a11yProps(index, className) {
   return {
     id: "simple-tab-" + index,
+    className: "tabpanel" + className,
     'aria-controls': "simple-tabpanel-" + index
   };
 }
-var OperationTab = function OperationTab(_ref) {
-  var menuList = _ref.menuList,
-    childrenList = _ref.childrenList,
-    footer = _ref.footer;
-  var _React$useState = useState(0),
-    value = _React$useState[0],
-    setValue = _React$useState[1];
+var OperationTab = function OperationTab(_ref2) {
+  var activeTab = _ref2.activeTab,
+    menuList = _ref2.menuList,
+    childrenList = _ref2.childrenList,
+    footer = _ref2.footer,
+    className = _ref2.className,
+    disableRipple = _ref2.disableRipple,
+    tabIndicatorProps = _ref2.tabIndicatorProps,
+    props = _objectWithoutPropertiesLoose(_ref2, _excluded2);
+  var _useState = useState(0),
+    value = _useState[0],
+    setValue = _useState[1];
+  useEffect(function () {
+    if (activeTab && activeTab !== value) {
+      setValue(activeTab);
+    }
+  }, [activeTab]);
   var handleChange = function handleChange(event, newValue) {
     setValue(newValue);
   };
-  return /*#__PURE__*/createElement(Box$1, {
-    sx: {
-      width: '100%'
-    }
-  }, /*#__PURE__*/createElement(Box$1, {
-    sx: {
-      borderBottom: 1,
-      borderColor: 'divider'
-    }
-  }, /*#__PURE__*/createElement(Tabs, {
+  return /*#__PURE__*/React__default.createElement(Fragment$1, null, /*#__PURE__*/React__default.createElement(Tabs, _extends({
+    className: className,
     value: value,
     onChange: handleChange,
-    "aria-label": "basic tabs example"
-  }, menuList === null || menuList === void 0 ? void 0 : menuList.map(function (item, index) {
-    return /*#__PURE__*/createElement(Tab, _extends({
+    "aria-label": "tabs",
+    TabIndicatorProps: tabIndicatorProps
+  }, props), menuList === null || menuList === void 0 ? void 0 : menuList.map(function (item, index) {
+    return /*#__PURE__*/React__default.createElement(Tab, _extends({
+      disableRipple: disableRipple,
       label: item.title
-    }, a11yProps(index)));
-  }))), childrenList === null || childrenList === void 0 ? void 0 : childrenList.map(function (item, index) {
-    return /*#__PURE__*/createElement(TabPanel, {
+    }, a11yProps(index, className)));
+  })), childrenList === null || childrenList === void 0 ? void 0 : childrenList.map(function (item, index) {
+    return /*#__PURE__*/React__default.createElement(TabPanel, {
       value: value,
-      index: index
+      index: index,
+      className: className
     }, item);
-  }), /*#__PURE__*/createElement(Box$1, {
+  }), /*#__PURE__*/React__default.createElement(Box$1, {
     sx: {
       paddingTop: '15px'
     }
   }, footer && footer));
+};
+OperationTab.propTypes = {
+  menuList: PropTypes.array,
+  childrenList: PropTypes.array,
+  footer: PropTypes.node,
+  className: PropTypes.string,
+  classNameChildren: PropTypes.string,
+  disableRipple: PropTypes.bool,
+  tabIndicatorProps: PropTypes.object
+};
+OperationTab.defaultProp = {
+  menuList: [],
+  childrenList: [],
+  footer: /*#__PURE__*/React__default.createElement(Fragment$1, null),
+  className: '',
+  classNameChildren: '',
+  disableRipple: false,
+  tabIndicatorProps: {}
 };
 
 var CustomCheckBox = function CustomCheckBox(_ref) {
@@ -7641,7 +7672,7 @@ var CustomContentReport = function CustomContentReport(_ref) {
     toastMessages = _ref.toastMessages,
     loading = _ref.loading;
   var HandleSearchButton = function HandleSearchButton() {
-    return /*#__PURE__*/React__default.createElement(Button$2, {
+    if (_onClick) return /*#__PURE__*/React__default.createElement(Button$2, {
       className: "btn-blue",
       id: id ? id : 'button-generate-report',
       startIcon: /*#__PURE__*/React__default.createElement(PrintIcon, null),
@@ -7674,5 +7705,58 @@ CustomContentReport.propTypes = {
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired
 };
 
-export { AppContent$1 as AppContent, ArchivesContent, Conteiner, ConteinerItem, CustomBeneficiarieFields, CustomCheckBox, CustomContentReport, CustomDataTable$1 as CustomDataTable, CustomDatePicker$1 as CustomDatePicker, CustomDialog$1 as CustomDialog, CustomInputSelect$1 as CustomInputSelect, CustomInputSelectComboList, CustomLabelField, CustomModal$1 as CustomModal, CustomSimpleModal, CustomTextField$1 as CustomTextField, CustomTimePicker$1 as CustomTimePicker, DynaReport, FilesContent, FilesContentApi, FilesUpload$1 as FilesUpload, Header$1 as Header, HeaderAccordion$1 as HeaderAccordion, OperationConfirmModal$1 as OperationConfirmModal, OperationDetail$1 as OperationDetail, OperationModal$1 as OperationModal, OperationSection$1 as OperationSection, OperationTab, OperationTable$1 as OperationTable, SaveComponent$1 as SaveComponent };
+var CustomStepForm = function CustomStepForm(_ref) {
+  var labelSteps = _ref.labelSteps,
+    activeStep = _ref.activeStep,
+    setActiveStep = _ref.setActiveStep,
+    labelContent = _ref.labelContent;
+  var _useState = useState(activeStep | 0),
+    step = _useState[0],
+    setStep = _useState[1];
+  useEffect(function () {
+    if (setActiveStep !== 0) setStep(setActiveStep);
+  }, [setActiveStep]);
+  var handleNextStep = function handleNextStep() {
+    if (labelSteps.length == step + 1) return;
+    setStep(function (curr) {
+      return curr + 1;
+    });
+  };
+  var handleBackStep = function handleBackStep() {
+    if (step == 0) return;
+    setStep(function (curr) {
+      return curr - 1;
+    });
+  };
+  return /*#__PURE__*/React__default.createElement(Fragment$1, null, /*#__PURE__*/React__default.createElement(Box$1, {
+    className: "custom-step-form-content-stepper"
+  }, /*#__PURE__*/React__default.createElement(Stepper, {
+    activeStep: step,
+    className: "custom-step-form-stepper"
+  }, labelSteps === null || labelSteps === void 0 ? void 0 : labelSteps.map(function (label) {
+    return /*#__PURE__*/React__default.createElement(Step, {
+      key: label
+    }, /*#__PURE__*/React__default.createElement(StepLabel, null, label));
+  }))), labelContent === null || labelContent === void 0 ? void 0 : labelContent.map(function (item) {
+    return item;
+  })[step], /*#__PURE__*/React__default.createElement(Box$1, {
+    className: "custom-step-form-content-buttons"
+  }, /*#__PURE__*/React__default.createElement(Button$2, {
+    variant: "outlined",
+    className: "custom-step-form-back-button",
+    onClick: function onClick() {
+      return handleBackStep();
+    },
+    disabled: step == 0
+  }, "Voltar"), /*#__PURE__*/React__default.createElement(Button$2, {
+    variant: "contained",
+    className: "custom-step-form-next-button",
+    onClick: function onClick() {
+      return handleNextStep();
+    },
+    disabled: (labelSteps === null || labelSteps === void 0 ? void 0 : labelSteps.length) == step + 1
+  }, "Avan\xE7ar")));
+};
+
+export { AppContent$1 as AppContent, ArchivesContent, Conteiner, ConteinerItem, CustomBeneficiarieFields, CustomCheckBox, CustomContentReport, CustomDataTable$1 as CustomDataTable, CustomDatePicker$1 as CustomDatePicker, CustomDialog$1 as CustomDialog, CustomInputSelect$1 as CustomInputSelect, CustomInputSelectComboList, CustomLabelField, CustomModal$1 as CustomModal, CustomSimpleModal, CustomStepForm, CustomTextField$1 as CustomTextField, CustomTimePicker$1 as CustomTimePicker, DynaReport, FilesContent, FilesContentApi, FilesUpload$1 as FilesUpload, Header$1 as Header, HeaderAccordion$1 as HeaderAccordion, OperationConfirmModal$1 as OperationConfirmModal, OperationDetail$1 as OperationDetail, OperationModal$1 as OperationModal, OperationSection$1 as OperationSection, OperationTab, OperationTable$1 as OperationTable, SaveComponent$1 as SaveComponent };
 //# sourceMappingURL=index.modern.js.map

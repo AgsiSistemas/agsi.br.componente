@@ -11,16 +11,17 @@ import './CustomContentReport.scss'
 const CustomContentReport = ({ id, onClick, titleReport, children, toastMessages, loading }) => {
 
   const HandleSearchButton = () => {
-    return (
-      <Button
-        className='btn-blue'
-        id={id ? id : 'button-generate-report'}
-        startIcon={<PrintIcon />}
-        variant="contained"
-        color="primary"
-        onClick={() => onClick()}
-      >Gerar Relatório</Button>
-    )
+    if (onClick)
+      return (
+        <Button
+          className='btn-blue'
+          id={id ? id : 'button-generate-report'}
+          startIcon={<PrintIcon />}
+          variant="contained"
+          color="primary"
+          onClick={() => onClick()}
+        >Gerar Relatório</Button>
+      )
   }
 
   return (

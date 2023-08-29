@@ -1,18 +1,18 @@
-import * as React from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import React, { Fragment, useEffect, useState } from 'react';
 
-export function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+export function TabPanel({ children, value, index, className, ...other }) {
 
   return (
-    <div
+    <Box
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
+      className={`tabpanel-${className}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
@@ -21,7 +21,7 @@ export function TabPanel(props) {
           <Typography>{children}</Typography>
         </Box>
       )}
-    </div>
+    </Box>
   );
 }
 
@@ -31,44 +31,82 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-function a11yProps(index) {
+function a11yProps(index, className) {
   return {
     id: `simple-tab-${index}`,
+    className: `tabpanel${className}`,
     'aria-controls': `simple-tabpanel-${index}`,
   };
 }
 
-const OperationTab = ({ menuList, childrenList, footer }) => {
-  const [value, setValue] = React.useState(0);
+const OperationTab = ({ activeTab, menuList, childrenList, footer, className, classNameChildren, disableRipple, tabIndicatorProps, ...props }) => {
+
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    if (activeTab && activeTab !== value) {
+      setValue(activeTab)
+    }
+  }, [activeTab])
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          {menuList?.map((item, index) => {
-            return (
-              <Tab label={item.title} {...a11yProps(index)} />
-            )
-          })}
-        </Tabs>
-      </Box>
+    <Fragment>
+
+      <Tabs
+        className={className}
+        value={value}
+        onChange={handleChange}
+        aria-label="tabs"
+        TabIndicatorProps={tabIndicatorProps}
+        {...props}
+      >
+        {menuList?.map((item, index) => {
+          return (
+            <Tab disableRipple={disableRipple} label={item.title} {...a11yProps(index, className)} />
+          )
+        })}
+      </Tabs>
+
       {childrenList?.map((item, index) => {
         return (
-          <TabPanel value={value} index={index}>
+          <TabPanel value={value} index={index} className={className}>
             {item}
           </TabPanel>
         )
-
       })}
+
       <Box sx={{ paddingTop: '15px' }}>
         {footer && footer}
       </Box>
-    </Box>
+
+    </Fragment>
   );
+}
+
+OperationTab.propTypes = {
+
+  menuList: PropTypes.array,
+  childrenList: PropTypes.array,
+  footer: PropTypes.node,
+  className: PropTypes.string,
+  classNameChildren: PropTypes.string,
+  disableRipple: PropTypes.bool,
+  tabIndicatorProps: PropTypes.object
+
+}
+
+OperationTab.defaultProp = {
+  menuList: [],
+  childrenList: [],
+  footer: <></>,
+  className: '',
+  classNameChildren: '',
+  disableRipple: false,
+  tabIndicatorProps: {}
 }
 
 export default OperationTab

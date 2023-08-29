@@ -140,6 +140,9 @@ p {
   font-size: 10pt !important;
 }
 
+.custom-data-table-content {
+  overflow: auto;
+}
 .bar-test-message-content {
   width: 100%;
   height: 20px !important;
@@ -474,4 +477,32 @@ p {
 
 .historic-attendance-report-protocol {
   max-width: 200px;
+}
+.custom-step-form-content-stepper {
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.custom-step-form-content-buttons {
+  width: 100%;
+  margin: 1em 0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.custom-step-form-next-button {
+  background-color: #008EBC;
+}
+
+.custom-step-form-next-button:hover {
+  background-color: #0099cc;
+}
+
+.custom-step-form-back-button {
+  color: #008EBC;
+}
+
+.custom-step-form-back-button:hover {
+  color: #0099cc;
 }

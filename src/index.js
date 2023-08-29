@@ -37,6 +37,7 @@ import OperationTab from './components/Content/OperationTab/OperationTab.js'
 import CustomCheckBox from './components/CustomCheckBox/CustomCheckBox.js'
 import CustomInputSelectComboList from './components/CustomInputSelectComboList/CustomInputSelectComboList.js'
 import CustomContentReport from './components/CustomContentReport/CustomContentReport.js'
+import CustomStepForm from './components/CustomStepForm/CustomStepForm.js'
 
 export {
   Conteiner,
@@ -70,5 +71,6 @@ export {
   OperationTab,
   CustomCheckBox,
   CustomInputSelectComboList,
-  CustomContentReport
+  CustomContentReport,
+  CustomStepForm
 }

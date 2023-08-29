@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
 import { Button } from 'primereact/button'
+import './CustomDataTable.scss'
 
 const style = {
   content_data_table: {
@@ -86,6 +87,7 @@ const CustomDataTable = (props) => {
       }
     >
       <DataTable
+        className='custom-data-table-content'
         value={records}
         loading={loading}
         paginator={paginator}

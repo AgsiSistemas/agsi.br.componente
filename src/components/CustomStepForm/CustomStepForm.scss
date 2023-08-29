@@ -1,0 +1,31 @@
+// stepper
+.custom-step-form-content-stepper {
+  margin-bottom: 2rem;
+  width: 100%;
+
+}
+
+.custom-step-form-content-buttons {
+
+  width: 100%;
+  margin: 1em 0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.custom-step-form-next-button {
+  background-color: #008EBC;
+}
+
+.custom-step-form-next-button:hover {
+  background-color: #0099cc;
+}
+
+.custom-step-form-back-button {
+  color: #008EBC;
+}
+
+.custom-step-form-back-button:hover {
+  color: #0099cc;
+}
