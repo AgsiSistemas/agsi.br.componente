@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.7.10...v1.8.0) (2023-08-29)
+
+
+### Features
+
+* custom data table updates and storybook. ([957c29d](https://github.com/AgsiSistemas/agsi.br.componente/commit/957c29d5eea755df6e0f2fe32d3ea7aac90011ed))
+
 ### [1.7.10](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.7.9...v1.7.10) (2023-08-29)
 
 ### [1.7.9](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.7.8...v1.7.9) (2023-08-25)
