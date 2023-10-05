@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.0](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.8.6...v1.9.0) (2023-10-05)
+
+
+### Features
+
+* operation tab styled ([f17dc26](https://github.com/AgsiSistemas/agsi.br.componente/commit/f17dc26083cfb04cc4adf8fb471179b3ac78271c))
+
 ### [1.8.6](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.8.5...v1.8.6) (2023-10-05)
 
 ### [1.8.5](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.8.4...v1.8.5) (2023-10-05)
