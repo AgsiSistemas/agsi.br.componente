@@ -52,5 +52,6 @@ import { Header } from '@agsisistemas/agsi.br.componente';
   OperationConfirmModal,
   CustomInputSelectComboList,
   CustomContentReport,
-  CustomStepForm
+  CustomStepForm,
+  CustomTabAccordion
 ```

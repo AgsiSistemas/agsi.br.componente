@@ -1,0 +1,22 @@
+@import '../../../variables.scss';
+
+.operation-tab-content {
+  border-bottom: 1px solid $blue-color-secondary;
+  border-radius: 4px 4px 0 0;
+  background-color: #ECF5FA;
+  border: 1px solid #cbe7f6;
+
+  .MuiButtonBase-root:hover {
+    background-color: $blue-color-secondary;
+    border-radius: 4px 4px 0 0;
+  }
+
+  .MuiTabs-indicator {
+    background-color: $blue-color
+  }
+
+  .Mui-selected {
+    color: $blue-color !important;
+
+  }
+}

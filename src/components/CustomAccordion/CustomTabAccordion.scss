@@ -1,0 +1,19 @@
+@import "../../variables.scss";
+
+.custom-tab-accordion-conteiner {
+  margin: 15px 0;
+}
+
+.custom-tab-accordion-title-content {
+  background-color: $blue-color-secondary !important;
+  border-bottom: 1px solid #def1fb !important;
+}
+
+.custom-tab-accordion-title {
+  width: 35%;
+  color: $blue-color !important;
+}
+
+.custom-tab-accordion-subtitle {
+  color: $gray-color !important;
+}

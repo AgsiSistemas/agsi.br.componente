@@ -4,6 +4,7 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import React, { Fragment, useEffect, useState } from 'react';
+import './OperationTab.scss'
 
 export function TabPanel({ children, value, index, className, ...other }) {
 
@@ -57,7 +58,7 @@ const OperationTab = ({ activeTab, menuList, childrenList, footer, className, cl
     <Fragment>
 
       <Tabs
-        className={className}
+        className={`operation-tab-content ${className}`}
         value={value}
         onChange={handleChange}
         aria-label="tabs"
@@ -73,7 +74,7 @@ const OperationTab = ({ activeTab, menuList, childrenList, footer, className, cl
 
       {childrenList?.map((item, index) => {
         return (
-          <TabPanel value={value} index={index} className={className}>
+          <TabPanel sx={{ width: '100%' }} value={value} index={index} className={className}>
             {item}
           </TabPanel>
         )

@@ -443,6 +443,22 @@ p {
 .custom-field-dinamic-label-content-label {
   display: flex;
 }
+.operation-tab-content {
+  border-bottom: 1px solid #ECF5FA;
+  border-radius: 4px 4px 0 0;
+  background-color: #ECF5FA;
+  border: 1px solid #cbe7f6;
+}
+.operation-tab-content .MuiButtonBase-root:hover {
+  background-color: #ECF5FA;
+  border-radius: 4px 4px 0 0;
+}
+.operation-tab-content .MuiTabs-indicator {
+  background-color: #008EBC;
+}
+.operation-tab-content .Mui-selected {
+  color: #008EBC !important;
+}
 .custom-checkbox-content {
   height: 100%;
   display: flex;
@@ -505,4 +521,21 @@ p {
 
 .custom-step-form-back-button:hover {
   color: #0099cc;
+}
+.custom-tab-accordion-conteiner {
+  margin: 15px 0;
+}
+
+.custom-tab-accordion-title-content {
+  background-color: #ECF5FA !important;
+  border-bottom: 1px solid #def1fb !important;
+}
+
+.custom-tab-accordion-title {
+  width: 35%;
+  color: #008EBC !important;
+}
+
+.custom-tab-accordion-subtitle {
+  color: #6c757d !important;
 }

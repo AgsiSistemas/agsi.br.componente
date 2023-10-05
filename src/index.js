@@ -38,6 +38,7 @@ import CustomCheckBox from './components/CustomCheckBox/CustomCheckBox.js'
 import CustomInputSelectComboList from './components/CustomInputSelectComboList/CustomInputSelectComboList.js'
 import CustomContentReport from './components/CustomContentReport/CustomContentReport.js'
 import CustomStepForm from './components/CustomStepForm/CustomStepForm.js'
+import CustomTabAccordion from './components/CustomAccordion/CustomTabAccordion.js'
 
 export {
   Conteiner,
@@ -72,5 +73,6 @@ export {
   CustomCheckBox,
   CustomInputSelectComboList,
   CustomContentReport,
-  CustomStepForm
+  CustomStepForm,
+  CustomTabAccordion
 }

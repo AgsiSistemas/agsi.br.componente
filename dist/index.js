@@ -117,6 +117,7 @@ var jsxRuntime = require('react/jsx-runtime');
 var Stepper = _interopDefault(require('@mui/material/Stepper'));
 var Step = _interopDefault(require('@mui/material/Step'));
 var StepLabel = _interopDefault(require('@mui/material/StepLabel'));
+var ExpandMoreIcon = _interopDefault(require('@mui/icons-material/ExpandMore'));
 
 function _extends() {
   _extends = Object.assign ? Object.assign.bind() : function (target) {
@@ -6161,7 +6162,7 @@ var OperationTab = function OperationTab(_ref2) {
     setValue(newValue);
   };
   return /*#__PURE__*/React__default.createElement(React.Fragment, null, /*#__PURE__*/React__default.createElement(Tabs, _extends({
-    className: className,
+    className: "operation-tab-content " + className,
     value: value,
     onChange: handleChange,
     "aria-label": "tabs",
@@ -6173,6 +6174,9 @@ var OperationTab = function OperationTab(_ref2) {
     }, a11yProps(index, className)));
   })), childrenList === null || childrenList === void 0 ? void 0 : childrenList.map(function (item, index) {
     return /*#__PURE__*/React__default.createElement(TabPanel, {
+      sx: {
+        width: '100%'
+      },
       value: value,
       index: index,
       className: className
@@ -7759,6 +7763,36 @@ var CustomStepForm = function CustomStepForm(_ref) {
   }, "Avan\xE7ar")));
 };
 
+var CustomTabAccordion = function CustomTabAccordion(_ref) {
+  var itens = _ref.itens,
+    value = _ref.value,
+    onChange = _ref.onChange,
+    className = _ref.className;
+  var handleChange = function handleChange(value) {
+    onChange(value);
+  };
+  return /*#__PURE__*/React__default.createElement("div", {
+    className: "custom-tab-accordion-conteiner"
+  }, itens === null || itens === void 0 ? void 0 : itens.map(function (item) {
+    return /*#__PURE__*/React__default.createElement(material.Accordion, {
+      expanded: value && value == item.tag,
+      onChange: onChange ? function () {
+        return handleChange(item.tag);
+      } : false,
+      className: className
+    }, /*#__PURE__*/React__default.createElement(material.AccordionSummary, {
+      expandIcon: /*#__PURE__*/React__default.createElement(ExpandMoreIcon, null),
+      "aria-controls": "aria-" + item.title,
+      id: "painel-" + item.title,
+      className: "custom-tab-accordion-title-content"
+    }, /*#__PURE__*/React__default.createElement(material.Typography, {
+      className: "custom-tab-accordion-title"
+    }, item.title), item.subTitle && /*#__PURE__*/React__default.createElement(material.Typography, {
+      className: "custom-tab-accordion-subtitle"
+    }, item.subTitle)), /*#__PURE__*/React__default.createElement(material.AccordionDetails, null, item.content));
+  }));
+};
+
 exports.AppContent = AppContent$1;
 exports.ArchivesContent = ArchivesContent;
 exports.Conteiner = Conteiner;
@@ -7775,6 +7809,7 @@ exports.CustomLabelField = CustomLabelField;
 exports.CustomModal = CustomModal$1;
 exports.CustomSimpleModal = CustomSimpleModal;
 exports.CustomStepForm = CustomStepForm;
+exports.CustomTabAccordion = CustomTabAccordion;
 exports.CustomTextField = CustomTextField$1;
 exports.CustomTimePicker = CustomTimePicker$1;
 exports.DynaReport = DynaReport;

@@ -28,5 +28,11 @@ module.exports = {
   },
   core: {
     builder: 'webpack5'
-  }
+  },
+  env: (config) => (
+    {
+      ...config,
+      ACCORDION_VALUE: 'title1'
+    }
+  )
 };

@@ -46,7 +46,7 @@ import '@mui/icons-material/FolderShared';
 import Divider from '@mui/material/Divider';
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { Tooltip as Tooltip$1, Skeleton, Box as Box$2, CircularProgress as CircularProgress$1, TextField as TextField$1, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton as IconButton$1, Button as Button$2, Modal, Dialog as Dialog$1, DialogTitle as DialogTitle$1, DialogContent as DialogContent$1, DialogContentText as DialogContentText$1, DialogActions as DialogActions$1, LinearProgress, Typography as Typography$1, Popover, ButtonGroup, FormGroup as FormGroup$1, FormControlLabel as FormControlLabel$1, Checkbox as Checkbox$1 } from '@mui/material';
+import { Tooltip as Tooltip$1, Skeleton, Box as Box$2, CircularProgress as CircularProgress$1, TextField as TextField$1, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton as IconButton$1, Button as Button$2, Modal, Dialog as Dialog$1, DialogTitle as DialogTitle$1, DialogContent as DialogContent$1, DialogContentText as DialogContentText$1, DialogActions as DialogActions$1, LinearProgress, Typography as Typography$1, Popover, ButtonGroup, FormGroup as FormGroup$1, FormControlLabel as FormControlLabel$1, Checkbox as Checkbox$1, Accordion as Accordion$1, AccordionSummary as AccordionSummary$1, AccordionDetails as AccordionDetails$1 } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import InputBase from '@mui/material/InputBase';
@@ -114,6 +114,7 @@ import { jsx } from 'react/jsx-runtime';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 function _extends() {
   _extends = Object.assign ? Object.assign.bind() : function (target) {
@@ -6160,7 +6161,7 @@ var OperationTab = function OperationTab(_ref2) {
     setValue(newValue);
   };
   return /*#__PURE__*/React__default.createElement(Fragment$1, null, /*#__PURE__*/React__default.createElement(Tabs, _extends({
-    className: className,
+    className: "operation-tab-content " + className,
     value: value,
     onChange: handleChange,
     "aria-label": "tabs",
@@ -6172,6 +6173,9 @@ var OperationTab = function OperationTab(_ref2) {
     }, a11yProps(index, className)));
   })), childrenList === null || childrenList === void 0 ? void 0 : childrenList.map(function (item, index) {
     return /*#__PURE__*/React__default.createElement(TabPanel, {
+      sx: {
+        width: '100%'
+      },
       value: value,
       index: index,
       className: className
@@ -7758,5 +7762,35 @@ var CustomStepForm = function CustomStepForm(_ref) {
   }, "Avan\xE7ar")));
 };
 
-export { AppContent$1 as AppContent, ArchivesContent, Conteiner, ConteinerItem, CustomBeneficiarieFields, CustomCheckBox, CustomContentReport, CustomDataTable$1 as CustomDataTable, CustomDatePicker$1 as CustomDatePicker, CustomDialog$1 as CustomDialog, CustomInputSelect$1 as CustomInputSelect, CustomInputSelectComboList, CustomLabelField, CustomModal$1 as CustomModal, CustomSimpleModal, CustomStepForm, CustomTextField$1 as CustomTextField, CustomTimePicker$1 as CustomTimePicker, DynaReport, FilesContent, FilesContentApi, FilesUpload$1 as FilesUpload, Header$1 as Header, HeaderAccordion$1 as HeaderAccordion, OperationConfirmModal$1 as OperationConfirmModal, OperationDetail$1 as OperationDetail, OperationModal$1 as OperationModal, OperationSection$1 as OperationSection, OperationTab, OperationTable$1 as OperationTable, SaveComponent$1 as SaveComponent };
+var CustomTabAccordion = function CustomTabAccordion(_ref) {
+  var itens = _ref.itens,
+    value = _ref.value,
+    onChange = _ref.onChange,
+    className = _ref.className;
+  var handleChange = function handleChange(value) {
+    onChange(value);
+  };
+  return /*#__PURE__*/React__default.createElement("div", {
+    className: "custom-tab-accordion-conteiner"
+  }, itens === null || itens === void 0 ? void 0 : itens.map(function (item) {
+    return /*#__PURE__*/React__default.createElement(Accordion$1, {
+      expanded: value && value == item.tag,
+      onChange: onChange ? function () {
+        return handleChange(item.tag);
+      } : false,
+      className: className
+    }, /*#__PURE__*/React__default.createElement(AccordionSummary$1, {
+      expandIcon: /*#__PURE__*/React__default.createElement(ExpandMoreIcon, null),
+      "aria-controls": "aria-" + item.title,
+      id: "painel-" + item.title,
+      className: "custom-tab-accordion-title-content"
+    }, /*#__PURE__*/React__default.createElement(Typography$1, {
+      className: "custom-tab-accordion-title"
+    }, item.title), item.subTitle && /*#__PURE__*/React__default.createElement(Typography$1, {
+      className: "custom-tab-accordion-subtitle"
+    }, item.subTitle)), /*#__PURE__*/React__default.createElement(AccordionDetails$1, null, item.content));
+  }));
+};
+
+export { AppContent$1 as AppContent, ArchivesContent, Conteiner, ConteinerItem, CustomBeneficiarieFields, CustomCheckBox, CustomContentReport, CustomDataTable$1 as CustomDataTable, CustomDatePicker$1 as CustomDatePicker, CustomDialog$1 as CustomDialog, CustomInputSelect$1 as CustomInputSelect, CustomInputSelectComboList, CustomLabelField, CustomModal$1 as CustomModal, CustomSimpleModal, CustomStepForm, CustomTabAccordion, CustomTextField$1 as CustomTextField, CustomTimePicker$1 as CustomTimePicker, DynaReport, FilesContent, FilesContentApi, FilesUpload$1 as FilesUpload, Header$1 as Header, HeaderAccordion$1 as HeaderAccordion, OperationConfirmModal$1 as OperationConfirmModal, OperationDetail$1 as OperationDetail, OperationModal$1 as OperationModal, OperationSection$1 as OperationSection, OperationTab, OperationTable$1 as OperationTable, SaveComponent$1 as SaveComponent };
 //# sourceMappingURL=index.modern.js.map
