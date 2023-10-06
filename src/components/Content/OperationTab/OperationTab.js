@@ -58,7 +58,9 @@ const OperationTab = ({ activeTab, menuList, childrenList, footer, className, cl
     <Fragment>
 
       <Tabs
-        className={`operation-tab-content ${className}`}
+        className={
+          className ? className : 'operation-tab-content'
+        }
         value={value}
         onChange={handleChange}
         aria-label="tabs"

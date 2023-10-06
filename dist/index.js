@@ -6162,7 +6162,7 @@ var OperationTab = function OperationTab(_ref2) {
     setValue(newValue);
   };
   return /*#__PURE__*/React__default.createElement(React.Fragment, null, /*#__PURE__*/React__default.createElement(Tabs, _extends({
-    className: "operation-tab-content " + className,
+    className: className ? className : 'operation-tab-content',
     value: value,
     onChange: handleChange,
     "aria-label": "tabs",
@@ -7793,6 +7793,49 @@ var CustomTabAccordion = function CustomTabAccordion(_ref) {
   }));
 };
 
+var CustomRadioGroup = function CustomRadioGroup(_ref) {
+  var title = _ref.title,
+    value = _ref.value,
+    onChange = _ref.onChange,
+    defaultValue = _ref.defaultValue,
+    itemsList = _ref.itemsList,
+    row = _ref.row;
+  return /*#__PURE__*/React__default.createElement(material.FormControl, null, title && /*#__PURE__*/React__default.createElement(material.FormLabel, {
+    id: "radio-buttons-group-label"
+  }, title), /*#__PURE__*/React__default.createElement(material.RadioGroup, {
+    "aria-labelledby": "radio-buttons-group-label",
+    defaultValue: defaultValue,
+    name: "radio-buttons-group",
+    value: value,
+    onChange: onChange,
+    row: row
+  }, itemsList === null || itemsList === void 0 ? void 0 : itemsList.map(function (item) {
+    return /*#__PURE__*/React__default.createElement(material.FormControlLabel, {
+      value: item === null || item === void 0 ? void 0 : item.value,
+      className: "custom-radio-group-radio-button",
+      control: /*#__PURE__*/React__default.createElement(material.Radio, null),
+      label: item === null || item === void 0 ? void 0 : item.label,
+      disabled: item.disabled
+    });
+  })));
+};
+CustomRadioGroup.propTypes = {
+  title: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  onChange: PropTypes.func,
+  defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  itemsList: PropTypes.array,
+  row: PropTypes.bool
+};
+CustomRadioGroup.defaultProp = {
+  title: 'Titulo',
+  value: '',
+  onChange: function onChange() {},
+  defaultValue: '',
+  itemsList: [],
+  row: false
+};
+
 exports.AppContent = AppContent$1;
 exports.ArchivesContent = ArchivesContent;
 exports.Conteiner = Conteiner;
@@ -7807,6 +7850,7 @@ exports.CustomInputSelect = CustomInputSelect$1;
 exports.CustomInputSelectComboList = CustomInputSelectComboList;
 exports.CustomLabelField = CustomLabelField;
 exports.CustomModal = CustomModal$1;
+exports.CustomRadioGroup = CustomRadioGroup;
 exports.CustomSimpleModal = CustomSimpleModal;
 exports.CustomStepForm = CustomStepForm;
 exports.CustomTabAccordion = CustomTabAccordion;

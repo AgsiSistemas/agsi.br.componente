@@ -447,7 +447,7 @@ p {
   border-bottom: 1px solid #ECF5FA;
   border-radius: 4px 4px 0 0;
   background-color: #ECF5FA;
-  border: 1px solid #cbe7f6;
+  border: 1px solid rgba(0, 0, 0, 0.12);
 }
 .operation-tab-content .MuiButtonBase-root:hover {
   background-color: #ECF5FA;
@@ -538,4 +538,7 @@ p {
 
 .custom-tab-accordion-subtitle {
   color: #6c757d !important;
+}
+.custom-radio-group-radio-button .Mui-checked {
+  color: #008EBC !important;
 }

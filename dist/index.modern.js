@@ -46,7 +46,7 @@ import '@mui/icons-material/FolderShared';
 import Divider from '@mui/material/Divider';
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { Tooltip as Tooltip$1, Skeleton, Box as Box$2, CircularProgress as CircularProgress$1, TextField as TextField$1, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton as IconButton$1, Button as Button$2, Modal, Dialog as Dialog$1, DialogTitle as DialogTitle$1, DialogContent as DialogContent$1, DialogContentText as DialogContentText$1, DialogActions as DialogActions$1, LinearProgress, Typography as Typography$1, Popover, ButtonGroup, FormGroup as FormGroup$1, FormControlLabel as FormControlLabel$1, Checkbox as Checkbox$1, Accordion as Accordion$1, AccordionSummary as AccordionSummary$1, AccordionDetails as AccordionDetails$1 } from '@mui/material';
+import { Tooltip as Tooltip$1, Skeleton, Box as Box$2, CircularProgress as CircularProgress$1, TextField as TextField$1, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton as IconButton$1, Button as Button$2, Modal, Dialog as Dialog$1, DialogTitle as DialogTitle$1, DialogContent as DialogContent$1, DialogContentText as DialogContentText$1, DialogActions as DialogActions$1, LinearProgress, Typography as Typography$1, Popover, ButtonGroup, FormGroup as FormGroup$1, FormControlLabel as FormControlLabel$1, Checkbox as Checkbox$1, Accordion as Accordion$1, AccordionSummary as AccordionSummary$1, AccordionDetails as AccordionDetails$1, FormControl as FormControl$1, FormLabel as FormLabel$1, RadioGroup as RadioGroup$1, Radio as Radio$1 } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import InputBase from '@mui/material/InputBase';
@@ -6161,7 +6161,7 @@ var OperationTab = function OperationTab(_ref2) {
     setValue(newValue);
   };
   return /*#__PURE__*/React__default.createElement(Fragment$1, null, /*#__PURE__*/React__default.createElement(Tabs, _extends({
-    className: "operation-tab-content " + className,
+    className: className ? className : 'operation-tab-content',
     value: value,
     onChange: handleChange,
     "aria-label": "tabs",
@@ -7792,5 +7792,48 @@ var CustomTabAccordion = function CustomTabAccordion(_ref) {
   }));
 };
 
-export { AppContent$1 as AppContent, ArchivesContent, Conteiner, ConteinerItem, CustomBeneficiarieFields, CustomCheckBox, CustomContentReport, CustomDataTable$1 as CustomDataTable, CustomDatePicker$1 as CustomDatePicker, CustomDialog$1 as CustomDialog, CustomInputSelect$1 as CustomInputSelect, CustomInputSelectComboList, CustomLabelField, CustomModal$1 as CustomModal, CustomSimpleModal, CustomStepForm, CustomTabAccordion, CustomTextField$1 as CustomTextField, CustomTimePicker$1 as CustomTimePicker, DynaReport, FilesContent, FilesContentApi, FilesUpload$1 as FilesUpload, Header$1 as Header, HeaderAccordion$1 as HeaderAccordion, OperationConfirmModal$1 as OperationConfirmModal, OperationDetail$1 as OperationDetail, OperationModal$1 as OperationModal, OperationSection$1 as OperationSection, OperationTab, OperationTable$1 as OperationTable, SaveComponent$1 as SaveComponent };
+var CustomRadioGroup = function CustomRadioGroup(_ref) {
+  var title = _ref.title,
+    value = _ref.value,
+    onChange = _ref.onChange,
+    defaultValue = _ref.defaultValue,
+    itemsList = _ref.itemsList,
+    row = _ref.row;
+  return /*#__PURE__*/React__default.createElement(FormControl$1, null, title && /*#__PURE__*/React__default.createElement(FormLabel$1, {
+    id: "radio-buttons-group-label"
+  }, title), /*#__PURE__*/React__default.createElement(RadioGroup$1, {
+    "aria-labelledby": "radio-buttons-group-label",
+    defaultValue: defaultValue,
+    name: "radio-buttons-group",
+    value: value,
+    onChange: onChange,
+    row: row
+  }, itemsList === null || itemsList === void 0 ? void 0 : itemsList.map(function (item) {
+    return /*#__PURE__*/React__default.createElement(FormControlLabel$1, {
+      value: item === null || item === void 0 ? void 0 : item.value,
+      className: "custom-radio-group-radio-button",
+      control: /*#__PURE__*/React__default.createElement(Radio$1, null),
+      label: item === null || item === void 0 ? void 0 : item.label,
+      disabled: item.disabled
+    });
+  })));
+};
+CustomRadioGroup.propTypes = {
+  title: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  onChange: PropTypes.func,
+  defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  itemsList: PropTypes.array,
+  row: PropTypes.bool
+};
+CustomRadioGroup.defaultProp = {
+  title: 'Titulo',
+  value: '',
+  onChange: function onChange() {},
+  defaultValue: '',
+  itemsList: [],
+  row: false
+};
+
+export { AppContent$1 as AppContent, ArchivesContent, Conteiner, ConteinerItem, CustomBeneficiarieFields, CustomCheckBox, CustomContentReport, CustomDataTable$1 as CustomDataTable, CustomDatePicker$1 as CustomDatePicker, CustomDialog$1 as CustomDialog, CustomInputSelect$1 as CustomInputSelect, CustomInputSelectComboList, CustomLabelField, CustomModal$1 as CustomModal, CustomRadioGroup, CustomSimpleModal, CustomStepForm, CustomTabAccordion, CustomTextField$1 as CustomTextField, CustomTimePicker$1 as CustomTimePicker, DynaReport, FilesContent, FilesContentApi, FilesUpload$1 as FilesUpload, Header$1 as Header, HeaderAccordion$1 as HeaderAccordion, OperationConfirmModal$1 as OperationConfirmModal, OperationDetail$1 as OperationDetail, OperationModal$1 as OperationModal, OperationSection$1 as OperationSection, OperationTab, OperationTable$1 as OperationTable, SaveComponent$1 as SaveComponent };
 //# sourceMappingURL=index.modern.js.map

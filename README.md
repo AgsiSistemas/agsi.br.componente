@@ -53,5 +53,6 @@ import { Header } from '@agsisistemas/agsi.br.componente';
   CustomInputSelectComboList,
   CustomContentReport,
   CustomStepForm,
-  CustomTabAccordion
+  CustomTabAccordion,
+  CustomRadioGroup
 ```
