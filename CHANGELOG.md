@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.0](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.9.4...v1.10.0) (2023-10-23)
+
+
+### Features
+
+* new component custom radio group and update styles ([d0ef40e](https://github.com/AgsiSistemas/agsi.br.componente/commit/d0ef40e75386c6da39fc282885e03b0028b5b3a3))
+
 ### [1.9.4](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.9.3...v1.9.4) (2023-10-05)
 
 ### [1.9.3](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.9.2...v1.9.3) (2023-10-05)
