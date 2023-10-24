@@ -118,6 +118,8 @@ var Stepper = _interopDefault(require('@mui/material/Stepper'));
 var Step = _interopDefault(require('@mui/material/Step'));
 var StepLabel = _interopDefault(require('@mui/material/StepLabel'));
 var ExpandMoreIcon = _interopDefault(require('@mui/icons-material/ExpandMore'));
+var ManageSearchIcon = _interopDefault(require('@mui/icons-material/ManageSearch'));
+var SaveAsIcon = _interopDefault(require('@mui/icons-material/SaveAs'));
 
 function _extends() {
   _extends = Object.assign ? Object.assign.bind() : function (target) {
@@ -7847,39 +7849,21 @@ CustomRadioGroup.defaultProp = {
 };
 
 var CustomComboListModal = function CustomComboListModal(_ref) {
-  var titleInput = _ref.titleInput,
-    options = _ref.options,
+  var title = _ref.title,
     columnNameTable = _ref.columnNameTable,
     getRecordsTable = _ref.getRecordsTable,
+    childrenModal = _ref.childrenModal,
+    confirmClickModal = _ref.confirmClickModal,
     disabled = _ref.disabled;
   var columnListTable = columnNameTable || [];
-  var _useState = React.useState(null),
-    customInputValue = _useState[0],
-    setCustomInputValue = _useState[1];
-  var _useState2 = React.useState(null);
-  var _useState3 = React.useState([]),
-    customTableList = _useState3[0],
-    setCustomTableList = _useState3[1];
+  var _useState = React.useState(null);
+  var _useState2 = React.useState([]),
+    customTableList = _useState2[0],
+    setCustomTableList = _useState2[1];
+  var _useState3 = React.useState(false),
+    modalIncludeEdit = _useState3[0],
+    setModalIncludeEdit = _useState3[1];
   getRecordsTable && getRecordsTable(customTableList);
-  var handleAddTableList = function handleAddTableList() {
-    if (!customInputValue) return;
-    if (customTableList.find(function (x) {
-      return x.id == customInputValue.id;
-    })) {
-      setCustomInputValue(null);
-      return;
-    }
-    setCustomTableList(function (current) {
-      return [].concat(current, [customInputValue]);
-    });
-    setCustomInputValue(null);
-  };
-  var handleAddAllTableList = function handleAddAllTableList() {
-    setCustomTableList([]);
-    var AllList = options;
-    setCustomTableList(AllList);
-    setCustomInputValue(null);
-  };
   var handleRemoveTableList = function handleRemoveTableList(event, index) {
     setCustomTableList(function (current) {
       var newArr = [].concat(current).filter(function (x) {
@@ -7908,58 +7892,43 @@ var CustomComboListModal = function CustomComboListModal(_ref) {
       })));
     }
   };
-  var handleClearTable = function handleClearTable() {
-    setCustomTableList([]);
-    setCustomInputValue(null);
-  };
   return /*#__PURE__*/React__default.createElement(ConteinerItem, {
     className: "custom-input-select-combo-list-conteiner"
-  }, /*#__PURE__*/React__default.createElement(Box, {
-    sx: {
-      display: 'flex',
-      alignItems: 'center'
-    }
-  }, /*#__PURE__*/React__default.createElement(ConteinerItem, {
-    className: "custom-input-select-combo-list-add-input"
-  }, /*#__PURE__*/React__default.createElement(CustomInputSelect$1, {
-    title: titleInput,
-    options: options || [],
-    disabled: disabled,
-    value: customInputValue,
-    onChange: function onChange(event, newValue) {
-      return setCustomInputValue(newValue);
-    }
-  })), /*#__PURE__*/React__default.createElement(ConteinerItem, null, /*#__PURE__*/React__default.createElement(material.Tooltip, {
-    title: "Adicionar " + titleInput
+  }, /*#__PURE__*/React__default.createElement(Conteiner, null, /*#__PURE__*/React__default.createElement(ConteinerItem, null, /*#__PURE__*/React__default.createElement(material.Typography, {
+    className: "title-table-custom"
+  }, title), /*#__PURE__*/React__default.createElement(CustomDataTable$1, {
+    records: customTableList || [],
+    columnList: [].concat(columnListTable, [columnAction])
+  })), /*#__PURE__*/React__default.createElement(ConteinerItem, {
+    className: "flex-none custom-combo-list-modal-buttons-content"
+  }, /*#__PURE__*/React__default.createElement(material.Tooltip, {
+    title: "Incluir"
   }, /*#__PURE__*/React__default.createElement(material.IconButton, {
     onClick: function onClick() {
-      return handleAddTableList();
+      return setModalIncludeEdit(true);
     },
     disabled: disabled
   }, /*#__PURE__*/React__default.createElement(AddCircleOutlineRoundedIcon, null))), /*#__PURE__*/React__default.createElement(material.Tooltip, {
-    title: "Adicionar Todos(as) " + titleInput + "(s)"
+    title: "Pesquisar"
   }, /*#__PURE__*/React__default.createElement(material.IconButton, {
-    onClick: function onClick() {
-      return handleAddAllTableList();
-    },
     disabled: disabled
-  }, /*#__PURE__*/React__default.createElement(PostAddRoundedIcon, null))), customTableList.length > 1 && /*#__PURE__*/React__default.createElement(material.Tooltip, {
-    title: "Limpar Tudo"
-  }, /*#__PURE__*/React__default.createElement(material.IconButton, {
-    onClick: function onClick() {
-      return handleClearTable();
+  }, /*#__PURE__*/React__default.createElement(ManageSearchIcon, null))))), /*#__PURE__*/React__default.createElement(CustomSimpleModal, {
+    open: modalIncludeEdit,
+    onClose: function onClose() {
+      return setModalIncludeEdit(false);
     },
-    disabled: disabled
-  }, /*#__PURE__*/React__default.createElement(DeleteSweepIcon, null))))), /*#__PURE__*/React__default.createElement(Box, {
-    className: disabled && 'custom-input-select-combo-list-disabled',
-    sx: {
-      maxHeight: '200px',
-      overflow: 'scroll'
-    }
-  }, /*#__PURE__*/React__default.createElement(CustomDataTable$1, {
-    records: customTableList || [],
-    columnList: [].concat(columnListTable, [columnAction])
-  })));
+    title: "Inclus\xE3o / Edi\xE7\xE3o - " + title,
+    footer: true,
+    confirmTitle: "Gravar",
+    confirmClick: confirmClickModal,
+    confirmClassName: "btn-blue",
+    confirmIcon: /*#__PURE__*/React__default.createElement(SaveAsIcon, null),
+    exitClick: function exitClick() {
+      return setModalIncludeEdit(false);
+    },
+    exitTitle: "Sair",
+    exitClassName: "btn-blue"
+  }, childrenModal && childrenModal));
 };
 
 exports.AppContent = AppContent$1;
