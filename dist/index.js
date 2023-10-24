@@ -7846,12 +7846,129 @@ CustomRadioGroup.defaultProp = {
   row: false
 };
 
+var CustomComboListModal = function CustomComboListModal(_ref) {
+  var titleInput = _ref.titleInput,
+    options = _ref.options,
+    columnNameTable = _ref.columnNameTable,
+    getRecordsTable = _ref.getRecordsTable,
+    disabled = _ref.disabled;
+  var columnListTable = columnNameTable || [];
+  var _useState = React.useState(null),
+    customInputValue = _useState[0],
+    setCustomInputValue = _useState[1];
+  var _useState2 = React.useState(null);
+  var _useState3 = React.useState([]),
+    customTableList = _useState3[0],
+    setCustomTableList = _useState3[1];
+  getRecordsTable && getRecordsTable(customTableList);
+  var handleAddTableList = function handleAddTableList() {
+    if (!customInputValue) return;
+    if (customTableList.find(function (x) {
+      return x.id == customInputValue.id;
+    })) {
+      setCustomInputValue(null);
+      return;
+    }
+    setCustomTableList(function (current) {
+      return [].concat(current, [customInputValue]);
+    });
+    setCustomInputValue(null);
+  };
+  var handleAddAllTableList = function handleAddAllTableList() {
+    setCustomTableList([]);
+    var AllList = options;
+    setCustomTableList(AllList);
+    setCustomInputValue(null);
+  };
+  var handleRemoveTableList = function handleRemoveTableList(event, index) {
+    setCustomTableList(function (current) {
+      var newArr = [].concat(current).filter(function (x) {
+        return x.id !== event.id;
+      });
+      return newArr;
+    });
+  };
+  var columnAction = {
+    style: {
+      textAlign: 'right',
+      width: '100px'
+    },
+    sortable: false,
+    frozen: true,
+    alignFrozen: "left",
+    body: function body(e, index) {
+      return /*#__PURE__*/React__default.createElement(material.Tooltip, {
+        title: "Remover da Lista"
+      }, /*#__PURE__*/React__default.createElement(material.IconButton, {
+        "aria-label": "Delete"
+      }, /*#__PURE__*/React__default.createElement(DeleteIcon, {
+        onClick: function onClick() {
+          return handleRemoveTableList(e);
+        }
+      })));
+    }
+  };
+  var handleClearTable = function handleClearTable() {
+    setCustomTableList([]);
+    setCustomInputValue(null);
+  };
+  return /*#__PURE__*/React__default.createElement(ConteinerItem, {
+    className: "custom-input-select-combo-list-conteiner"
+  }, /*#__PURE__*/React__default.createElement(Box, {
+    sx: {
+      display: 'flex',
+      alignItems: 'center'
+    }
+  }, /*#__PURE__*/React__default.createElement(ConteinerItem, {
+    className: "custom-input-select-combo-list-add-input"
+  }, /*#__PURE__*/React__default.createElement(CustomInputSelect$1, {
+    title: titleInput,
+    options: options || [],
+    disabled: disabled,
+    value: customInputValue,
+    onChange: function onChange(event, newValue) {
+      return setCustomInputValue(newValue);
+    }
+  })), /*#__PURE__*/React__default.createElement(ConteinerItem, null, /*#__PURE__*/React__default.createElement(material.Tooltip, {
+    title: "Adicionar " + titleInput
+  }, /*#__PURE__*/React__default.createElement(material.IconButton, {
+    onClick: function onClick() {
+      return handleAddTableList();
+    },
+    disabled: disabled
+  }, /*#__PURE__*/React__default.createElement(AddCircleOutlineRoundedIcon, null))), /*#__PURE__*/React__default.createElement(material.Tooltip, {
+    title: "Adicionar Todos(as) " + titleInput + "(s)"
+  }, /*#__PURE__*/React__default.createElement(material.IconButton, {
+    onClick: function onClick() {
+      return handleAddAllTableList();
+    },
+    disabled: disabled
+  }, /*#__PURE__*/React__default.createElement(PostAddRoundedIcon, null))), customTableList.length > 1 && /*#__PURE__*/React__default.createElement(material.Tooltip, {
+    title: "Limpar Tudo"
+  }, /*#__PURE__*/React__default.createElement(material.IconButton, {
+    onClick: function onClick() {
+      return handleClearTable();
+    },
+    disabled: disabled
+  }, /*#__PURE__*/React__default.createElement(DeleteSweepIcon, null))))), /*#__PURE__*/React__default.createElement(Box, {
+    className: disabled && 'custom-input-select-combo-list-disabled',
+    sx: {
+      maxHeight: '200px',
+      overflow: 'scroll'
+    }
+  }, /*#__PURE__*/React__default.createElement(CustomDataTable$1, {
+    records: customTableList || [],
+    columnList: [].concat(columnListTable, [columnAction])
+  })));
+};
+
 exports.AppContent = AppContent$1;
 exports.ArchivesContent = ArchivesContent;
 exports.Conteiner = Conteiner;
 exports.ConteinerItem = ConteinerItem;
 exports.CustomBeneficiarieFields = CustomBeneficiarieFields;
 exports.CustomCheckBox = CustomCheckBox;
+exports.CustomComboListModal = CustomComboListModal;
 exports.CustomContentReport = CustomContentReport;
 exports.CustomDataTable = CustomDataTable$1;
 exports.CustomDatePicker = CustomDatePicker$1;

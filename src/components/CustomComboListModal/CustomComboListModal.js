@@ -1,52 +1,53 @@
-import React from 'react'
-import { ConteinerItem } from '../Conteiner/Conteiner.js'
+import React, { useState } from 'react'
+import { Conteiner, ConteinerItem } from '../Conteiner/Conteiner.js'
 import CustomDataTable from '../CustomDataTable/CustomDataTable.js'
-import CustomInputSelect from '../Inputs/CustomInputSelect/CustomInputSelect.js'
-import { IconButton, Tooltip } from "@mui/material"
+import { IconButton, Tooltip, Typography } from "@mui/material"
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PostAddRoundedIcon from '@mui/icons-material/PostAddRounded';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import { Box } from "@mui/system"
+import SaveAsIcon from '@mui/icons-material/SaveAs';
 import './CustomComboListModal.scss'
+import CustomSimpleModal from '../Modal/CustomSimpleModal/CustomSimpleModal.js';
 
-const CustomComboListModal = ({ titleInput, options, columnListTable, getRecordsTable, disabled }) => {
+const CustomComboListModal = ({ title, options, columnNameTable, getRecordsTable, childrenModal, confirmClickModal, disabled }) => {
 
-  // const [customInputValue, setCustomInputValue] = useState(null)
-  // const [inputCustomInputValue, setInputCustomInputValue] = useState(null)
-  // const [customTableList, setCustomTableList] = useState([])
+  let columnListTable = columnNameTable || []
 
-  let customTableList = []
-  let inputCustomInputValue = []
-  let customInputValue = []
+  const [customInputValue, setCustomInputValue] = useState(null)
+  const [customTableList, setCustomTableList] = useState([])
+  const [modalIncludeEdit, setModalIncludeEdit] = useState(false)
 
-  getRecordsTable(customTableList)
+  getRecordsTable && getRecordsTable(customTableList)
 
   const handleAddTableList = () => {
 
     if (!customInputValue) return
     if (customTableList.find(x => x.id == customInputValue.id)) {
-      // setCustomInputValue(null)
+      setCustomInputValue(null)
       return
     }
 
-    // setCustomTableList((current) => [...current, customInputValue])
-    // setCustomInputValue(null)
+    setCustomTableList((current) => [...current, customInputValue])
+    setCustomInputValue(null)
 
   }
+
   const handleAddAllTableList = () => {
-    // setCustomTableList([])
+    setCustomTableList([])
     let AllList = options
-    // setCustomTableList(AllList)
-    // setCustomInputValue(null)
+    setCustomTableList(AllList)
+    setCustomInputValue(null)
   }
 
   const handleRemoveTableList = (event, index) => {
 
-    // setCustomTableList((current) => {
-    //   const newArr = [...current].filter(x => x.id !== event.id)
-    //   return newArr
-    // })
+    setCustomTableList((current) => {
+      const newArr = [...current].filter(x => x.id !== event.id)
+      return newArr
+    })
   }
 
   const columnAction = {
@@ -64,62 +65,56 @@ const CustomComboListModal = ({ titleInput, options, columnListTable, getRecords
       )
     }
   }
+
   const handleClearTable = () => {
-    // setCustomTableList([])
-    // setCustomInputValue(null)
+    setCustomTableList([])
+    setCustomInputValue(null)
   }
 
   return (
     <ConteinerItem className='custom-input-select-combo-list-conteiner'>
-      {/* <Typography>Empresa</Typography> */}
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <ConteinerItem className='custom-input-select-combo-list-add-input'>
-          <CustomInputSelect
-            title={titleInput}
-            options={options || []}
-            disabled={disabled}
-            value={customInputValue}
-            onChange={(event, newValue) => setCustomInputValue(newValue)}
-            inputValue={inputCustomInputValue}
-          // onInputChange={(event, newValue) => setInputCustomInputValue(newValue)}
+
+      <Conteiner>
+        <ConteinerItem>
+          <Typography className='title-table-custom'>{title}</Typography>
+          <CustomDataTable
+            records={customTableList || []}
+            columnList={[...columnListTable, columnAction]}
           />
         </ConteinerItem>
-        <ConteinerItem>
-          <Tooltip title={`Adicionar ${titleInput}`}>
+        <ConteinerItem className='flex-none custom-combo-list-modal-buttons-content'>
+          <Tooltip title='Incluir'>
             <IconButton
-              onClick={() => handleAddTableList()}
+              onClick={() => setModalIncludeEdit(true)}
               disabled={disabled}
             >
               <AddCircleOutlineRoundedIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title={`Adicionar Todos(as) ${titleInput}(s)`}>
+          <Tooltip title='Pesquisar'>
             <IconButton
-              onClick={() => handleAddAllTableList()}
               disabled={disabled}
             >
-              <PostAddRoundedIcon />
+              <ManageSearchIcon />
             </IconButton>
           </Tooltip>
-          {customTableList.length > 1 &&
-            <Tooltip title={`Limpar Tudo`}>
-              <IconButton
-                onClick={() => handleClearTable()}
-                disabled={disabled}
-              >
-                <DeleteSweepIcon />
-              </IconButton>
-            </Tooltip>
-          }
         </ConteinerItem>
-
-      </Box>
-      <Box className={disabled && 'custom-input-select-combo-list-disabled'} sx={{ maxHeight: '200px', overflow: 'scroll' }}>
-        <CustomDataTable
-          records={customTableList || []}
-          columnList={[...columnListTable, columnAction] || []}
-        />
-      </Box>
+      </Conteiner>
+      <CustomSimpleModal
+        open={modalIncludeEdit}
+        onClose={() => setModalIncludeEdit(false)}
+        title={`Inclusão / Edição - ${title}`}
+        footer
+        confirmTitle='Gravar'
+        confirmClick={confirmClickModal}
+        confirmClassName='btn-blue'
+        confirmIcon={<SaveAsIcon />}
+        exitClick={() => setModalIncludeEdit(false)}
+        exitTitle='Sair'
+        exitClassName='btn-blue'
+      >
+        {childrenModal && childrenModal}
+      </CustomSimpleModal>
     </ConteinerItem>
   )
 }

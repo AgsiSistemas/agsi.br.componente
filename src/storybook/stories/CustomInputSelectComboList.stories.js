@@ -1,5 +1,8 @@
 import React from "react";
 import CustomComboListModal from "../../components/CustomComboListModal/CustomComboListModal.js";
+import { Conteiner, ConteinerItem } from "../../components/Conteiner/Conteiner.js";
+import CustomTextField from "../../components/Inputs/CustomTextField/CustomTextField.js";
+import { Typography } from "@mui/material";
 
 
 
@@ -15,10 +18,23 @@ const TemplateCustomInputSelectComboList = (args) => {
   )
 }
 
+const ModalContent = () => {
+  return (
+    <Conteiner>
+      {/* <Typography>asd</Typography> */}
+      <ConteinerItem>
+        <CustomTextField label='name' />
+      </ConteinerItem>
+    </Conteiner>
+  )
+}
+
 //👇 Each story then reuses that template
 export const DefaultComboList = TemplateCustomInputSelectComboList.bind({});
 
 DefaultComboList.args = {
 
-  getRecordsTable: (value) => console.log(value)
+  title: 'Limite de utilização',
+  // getRecordsTable: (value) => console.log(value),
+  // childrenModal: <ModalContent />
 };

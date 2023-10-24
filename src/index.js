@@ -42,6 +42,7 @@ import CustomContentReport from './components/CustomContentReport/CustomContentR
 import CustomStepForm from './components/CustomStepForm/CustomStepForm.js'
 import CustomTabAccordion from './components/CustomAccordion/CustomTabAccordion.js'
 import CustomRadioGroup from './components/Inputs/CustomRadioGroup/CustomRadioGroup.js'
+import CustomComboListModal from './components/CustomComboListModal/CustomComboListModal.js'
 
 
 export {
@@ -79,5 +80,6 @@ export {
   CustomContentReport,
   CustomStepForm,
   CustomTabAccordion,
-  CustomRadioGroup
+  CustomRadioGroup,
+  CustomComboListModal
 }

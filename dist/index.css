@@ -564,3 +564,22 @@ p {
 .custom-radio-group-radio-button-end .Mui-checked {
   color: #008EBC !important;
 }
+.custom-input-select-combo-list-conteiner {
+  border: 1px solid rgba(150, 150, 150, 0.6);
+  border-radius: 4px;
+  overflow: auto;
+  margin-bottom: 4px;
+  margin-top: 4px;
+  width: 100%;
+  flex: none !important;
+}
+
+.custom-input-select-combo-list-add-input {
+  width: 80% !important;
+  flex: none !important;
+}
+
+.custom-input-select-combo-list-disabled {
+  opacity: 0.3;
+  pointer-events: none;
+}

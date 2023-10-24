@@ -17,3 +17,8 @@
   opacity: 0.3;
   pointer-events: none;
 }
+
+.custom-combo-list-modal-buttons-content {
+  display: flex;
+  flex-direction: column;
+}

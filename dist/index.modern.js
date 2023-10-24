@@ -7845,5 +7845,121 @@ CustomRadioGroup.defaultProp = {
   row: false
 };
 
-export { AppContent$1 as AppContent, ArchivesContent, Conteiner, ConteinerItem, CustomBeneficiarieFields, CustomCheckBox, CustomContentReport, CustomDataTable$1 as CustomDataTable, CustomDatePicker$1 as CustomDatePicker, CustomDialog$1 as CustomDialog, CustomInputSelect$1 as CustomInputSelect, CustomInputSelectComboList, CustomLabelField, CustomModal$1 as CustomModal, CustomRadioGroup, CustomSimpleModal, CustomStepForm, CustomTabAccordion, CustomTextField$1 as CustomTextField, CustomTimePicker$1 as CustomTimePicker, DynaReport, FilesContent, FilesContentApi, FilesUpload$1 as FilesUpload, Header$1 as Header, HeaderAccordion$1 as HeaderAccordion, OperationConfirmModal$1 as OperationConfirmModal, OperationDetail$1 as OperationDetail, OperationModal$1 as OperationModal, OperationSection$1 as OperationSection, OperationTab, OperationTable$1 as OperationTable, SaveComponent$1 as SaveComponent };
+var CustomComboListModal = function CustomComboListModal(_ref) {
+  var titleInput = _ref.titleInput,
+    options = _ref.options,
+    columnNameTable = _ref.columnNameTable,
+    getRecordsTable = _ref.getRecordsTable,
+    disabled = _ref.disabled;
+  var columnListTable = columnNameTable || [];
+  var _useState = useState(null),
+    customInputValue = _useState[0],
+    setCustomInputValue = _useState[1];
+  var _useState2 = useState(null);
+  var _useState3 = useState([]),
+    customTableList = _useState3[0],
+    setCustomTableList = _useState3[1];
+  getRecordsTable && getRecordsTable(customTableList);
+  var handleAddTableList = function handleAddTableList() {
+    if (!customInputValue) return;
+    if (customTableList.find(function (x) {
+      return x.id == customInputValue.id;
+    })) {
+      setCustomInputValue(null);
+      return;
+    }
+    setCustomTableList(function (current) {
+      return [].concat(current, [customInputValue]);
+    });
+    setCustomInputValue(null);
+  };
+  var handleAddAllTableList = function handleAddAllTableList() {
+    setCustomTableList([]);
+    var AllList = options;
+    setCustomTableList(AllList);
+    setCustomInputValue(null);
+  };
+  var handleRemoveTableList = function handleRemoveTableList(event, index) {
+    setCustomTableList(function (current) {
+      var newArr = [].concat(current).filter(function (x) {
+        return x.id !== event.id;
+      });
+      return newArr;
+    });
+  };
+  var columnAction = {
+    style: {
+      textAlign: 'right',
+      width: '100px'
+    },
+    sortable: false,
+    frozen: true,
+    alignFrozen: "left",
+    body: function body(e, index) {
+      return /*#__PURE__*/React__default.createElement(Tooltip$1, {
+        title: "Remover da Lista"
+      }, /*#__PURE__*/React__default.createElement(IconButton$1, {
+        "aria-label": "Delete"
+      }, /*#__PURE__*/React__default.createElement(DeleteIcon, {
+        onClick: function onClick() {
+          return handleRemoveTableList(e);
+        }
+      })));
+    }
+  };
+  var handleClearTable = function handleClearTable() {
+    setCustomTableList([]);
+    setCustomInputValue(null);
+  };
+  return /*#__PURE__*/React__default.createElement(ConteinerItem, {
+    className: "custom-input-select-combo-list-conteiner"
+  }, /*#__PURE__*/React__default.createElement(Box, {
+    sx: {
+      display: 'flex',
+      alignItems: 'center'
+    }
+  }, /*#__PURE__*/React__default.createElement(ConteinerItem, {
+    className: "custom-input-select-combo-list-add-input"
+  }, /*#__PURE__*/React__default.createElement(CustomInputSelect$1, {
+    title: titleInput,
+    options: options || [],
+    disabled: disabled,
+    value: customInputValue,
+    onChange: function onChange(event, newValue) {
+      return setCustomInputValue(newValue);
+    }
+  })), /*#__PURE__*/React__default.createElement(ConteinerItem, null, /*#__PURE__*/React__default.createElement(Tooltip$1, {
+    title: "Adicionar " + titleInput
+  }, /*#__PURE__*/React__default.createElement(IconButton$1, {
+    onClick: function onClick() {
+      return handleAddTableList();
+    },
+    disabled: disabled
+  }, /*#__PURE__*/React__default.createElement(AddCircleOutlineRoundedIcon, null))), /*#__PURE__*/React__default.createElement(Tooltip$1, {
+    title: "Adicionar Todos(as) " + titleInput + "(s)"
+  }, /*#__PURE__*/React__default.createElement(IconButton$1, {
+    onClick: function onClick() {
+      return handleAddAllTableList();
+    },
+    disabled: disabled
+  }, /*#__PURE__*/React__default.createElement(PostAddRoundedIcon, null))), customTableList.length > 1 && /*#__PURE__*/React__default.createElement(Tooltip$1, {
+    title: "Limpar Tudo"
+  }, /*#__PURE__*/React__default.createElement(IconButton$1, {
+    onClick: function onClick() {
+      return handleClearTable();
+    },
+    disabled: disabled
+  }, /*#__PURE__*/React__default.createElement(DeleteSweepIcon, null))))), /*#__PURE__*/React__default.createElement(Box, {
+    className: disabled && 'custom-input-select-combo-list-disabled',
+    sx: {
+      maxHeight: '200px',
+      overflow: 'scroll'
+    }
+  }, /*#__PURE__*/React__default.createElement(CustomDataTable$1, {
+    records: customTableList || [],
+    columnList: [].concat(columnListTable, [columnAction])
+  })));
+};
+
+export { AppContent$1 as AppContent, ArchivesContent, Conteiner, ConteinerItem, CustomBeneficiarieFields, CustomCheckBox, CustomComboListModal, CustomContentReport, CustomDataTable$1 as CustomDataTable, CustomDatePicker$1 as CustomDatePicker, CustomDialog$1 as CustomDialog, CustomInputSelect$1 as CustomInputSelect, CustomInputSelectComboList, CustomLabelField, CustomModal$1 as CustomModal, CustomRadioGroup, CustomSimpleModal, CustomStepForm, CustomTabAccordion, CustomTextField$1 as CustomTextField, CustomTimePicker$1 as CustomTimePicker, DynaReport, FilesContent, FilesContentApi, FilesUpload$1 as FilesUpload, Header$1 as Header, HeaderAccordion$1 as HeaderAccordion, OperationConfirmModal$1 as OperationConfirmModal, OperationDetail$1 as OperationDetail, OperationModal$1 as OperationModal, OperationSection$1 as OperationSection, OperationTab, OperationTable$1 as OperationTable, SaveComponent$1 as SaveComponent };
 //# sourceMappingURL=index.modern.js.map
