@@ -3,15 +3,18 @@ import PropTypes from 'prop-types'
 import './CustomRadioGroup.scss'
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
 
-const CustomRadioGroup = ({ title, value, onChange, defaultValue, itemsList, row }) => {
+const CustomRadioGroup = ({ title, value, onChange, defaultValue, itemsList, row, className, classNameGroup }) => {
 
   return (
-    <FormControl>
+    <FormControl
+      className={className}
+    >
       {title &&
         <FormLabel id="radio-buttons-group-label">{title}</FormLabel>
       }
       <RadioGroup
         aria-labelledby="radio-buttons-group-label"
+        className={classNameGroup}
         defaultValue={defaultValue}
         name="radio-buttons-group"
         value={value}
@@ -22,7 +25,11 @@ const CustomRadioGroup = ({ title, value, onChange, defaultValue, itemsList, row
           return (
             <FormControlLabel
               value={item?.value}
-              className="custom-radio-group-radio-button"
+              className={
+                `custom-radio-group-radio-button${item?.inputPosition &&
+                `-` + item.inputPosition} ${item?.className}`
+              }
+              labelPlacement={item?.labelPlacement}
               control={<Radio />}
               label={item?.label}
               disabled={item.disabled}
@@ -37,6 +44,8 @@ const CustomRadioGroup = ({ title, value, onChange, defaultValue, itemsList, row
 CustomRadioGroup.propTypes = {
 
   title: PropTypes.string,
+  className: PropTypes.string,
+  classNameGroup: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   onChange: PropTypes.func,
   defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -46,6 +55,8 @@ CustomRadioGroup.propTypes = {
 
 CustomRadioGroup.defaultProp = {
   title: 'Titulo',
+  className: '',
+  classNameGroup: '',
   value: '',
   onChange: () => { },
   defaultValue: '',

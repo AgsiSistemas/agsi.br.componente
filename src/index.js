@@ -4,6 +4,8 @@ import React from 'react'
 import '../src/components/Header/Header.css'
 export * from '../src/components/Header/Header.css'
 
+import './GlobalStyle.scss'
+
 import { Conteiner, ConteinerItem } from './components/Conteiner/Conteiner'
 
 import OperationDetail from './components/Content/OperationDetail'
@@ -40,6 +42,7 @@ import CustomContentReport from './components/CustomContentReport/CustomContentR
 import CustomStepForm from './components/CustomStepForm/CustomStepForm.js'
 import CustomTabAccordion from './components/CustomAccordion/CustomTabAccordion.js'
 import CustomRadioGroup from './components/Inputs/CustomRadioGroup/CustomRadioGroup.js'
+
 
 export {
   Conteiner,

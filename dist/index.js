@@ -7799,11 +7799,16 @@ var CustomRadioGroup = function CustomRadioGroup(_ref) {
     onChange = _ref.onChange,
     defaultValue = _ref.defaultValue,
     itemsList = _ref.itemsList,
-    row = _ref.row;
-  return /*#__PURE__*/React__default.createElement(material.FormControl, null, title && /*#__PURE__*/React__default.createElement(material.FormLabel, {
+    row = _ref.row,
+    className = _ref.className,
+    classNameGroup = _ref.classNameGroup;
+  return /*#__PURE__*/React__default.createElement(material.FormControl, {
+    className: className
+  }, title && /*#__PURE__*/React__default.createElement(material.FormLabel, {
     id: "radio-buttons-group-label"
   }, title), /*#__PURE__*/React__default.createElement(material.RadioGroup, {
     "aria-labelledby": "radio-buttons-group-label",
+    className: classNameGroup,
     defaultValue: defaultValue,
     name: "radio-buttons-group",
     value: value,
@@ -7812,7 +7817,8 @@ var CustomRadioGroup = function CustomRadioGroup(_ref) {
   }, itemsList === null || itemsList === void 0 ? void 0 : itemsList.map(function (item) {
     return /*#__PURE__*/React__default.createElement(material.FormControlLabel, {
       value: item === null || item === void 0 ? void 0 : item.value,
-      className: "custom-radio-group-radio-button",
+      className: "custom-radio-group-radio-button" + ((item === null || item === void 0 ? void 0 : item.inputPosition) && "-" + item.inputPosition) + " " + (item === null || item === void 0 ? void 0 : item.className),
+      labelPlacement: item === null || item === void 0 ? void 0 : item.labelPlacement,
       control: /*#__PURE__*/React__default.createElement(material.Radio, null),
       label: item === null || item === void 0 ? void 0 : item.label,
       disabled: item.disabled
@@ -7821,6 +7827,8 @@ var CustomRadioGroup = function CustomRadioGroup(_ref) {
 };
 CustomRadioGroup.propTypes = {
   title: PropTypes.string,
+  className: PropTypes.string,
+  classNameGroup: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   onChange: PropTypes.func,
   defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -7829,6 +7837,8 @@ CustomRadioGroup.propTypes = {
 };
 CustomRadioGroup.defaultProp = {
   title: 'Titulo',
+  className: '',
+  classNameGroup: '',
   value: '',
   onChange: function onChange() {},
   defaultValue: '',

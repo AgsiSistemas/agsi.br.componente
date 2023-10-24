@@ -1,6 +1,26 @@
 @import '../../../variables.scss';
 
+#radio-buttons-group-label {
+  font-weight: 500 !important;
+}
+
 .custom-radio-group-radio-button {
+
+  .Mui-checked {
+    color: $blue-color !important;
+  }
+}
+
+.custom-radio-group-radio-button-start {
+  align-items: flex-start !important;
+
+  .Mui-checked {
+    color: $blue-color !important;
+  }
+}
+
+.custom-radio-group-radio-button-end {
+  align-items: flex-end !important;
 
   .Mui-checked {
     color: $blue-color !important;

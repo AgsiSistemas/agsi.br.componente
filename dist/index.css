@@ -140,6 +140,10 @@ p {
   font-size: 10pt !important;
 }
 
+.teste-global-style {
+  color: blue;
+  background-color: chartreuse;
+}
 .custom-data-table-content {
   overflow: auto;
 }
@@ -539,6 +543,24 @@ p {
 .custom-tab-accordion-subtitle {
   color: #6c757d !important;
 }
+#radio-buttons-group-label {
+  font-weight: 500 !important;
+}
+
 .custom-radio-group-radio-button .Mui-checked {
+  color: #008EBC !important;
+}
+
+.custom-radio-group-radio-button-start {
+  align-items: flex-start !important;
+}
+.custom-radio-group-radio-button-start .Mui-checked {
+  color: #008EBC !important;
+}
+
+.custom-radio-group-radio-button-end {
+  align-items: flex-end !important;
+}
+.custom-radio-group-radio-button-end .Mui-checked {
   color: #008EBC !important;
 }
