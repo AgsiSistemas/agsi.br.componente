@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.12.0](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.11.0...v1.12.0) (2023-10-24)
+
+
+### Features
+
+* new component custom combo list modal ([ded23cc](https://github.com/AgsiSistemas/agsi.br.componente/commit/ded23cc02824add04c55fd2a0fa0607f0f5e60e3))
+
 ## [1.11.0](https://github.com/AgsiSistemas/agsi.br.componente/compare/v1.10.7...v1.11.0) (2023-10-24)
 
 
