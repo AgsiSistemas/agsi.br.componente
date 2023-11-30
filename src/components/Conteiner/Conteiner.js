@@ -11,7 +11,8 @@ const style = {
   },
   conteiner_item: {
     flex: '1',
-    padding: '3px'
+    padding: '3px',
+    overflow: 'auto'
   }
 }
 

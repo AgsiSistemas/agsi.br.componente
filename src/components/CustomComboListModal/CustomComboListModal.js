@@ -12,7 +12,7 @@ import SaveAsIcon from '@mui/icons-material/SaveAs';
 import './CustomComboListModal.scss'
 import CustomSimpleModal from '../Modal/CustomSimpleModal/CustomSimpleModal.js';
 
-const CustomComboListModal = ({ title, options, columnNameTable, getRecordsTable, childrenModal, confirmClickModal, disabled }) => {
+const CustomComboListModal = ({ title, options, columnNameTable, value, children, confirmClickModal, disabled }) => {
 
   let columnListTable = columnNameTable || []
 
@@ -20,7 +20,7 @@ const CustomComboListModal = ({ title, options, columnNameTable, getRecordsTable
   const [customTableList, setCustomTableList] = useState([])
   const [modalIncludeEdit, setModalIncludeEdit] = useState(false)
 
-  getRecordsTable && getRecordsTable(customTableList)
+  // getRecordsTable && getRecordsTable(customTableList)
 
   const handleAddTableList = () => {
 
@@ -78,7 +78,7 @@ const CustomComboListModal = ({ title, options, columnNameTable, getRecordsTable
         <ConteinerItem>
           <Typography className='title-table-custom'>{title}</Typography>
           <CustomDataTable
-            records={customTableList || []}
+            records={value || []}
             columnList={[...columnListTable, columnAction]}
           />
         </ConteinerItem>
@@ -113,7 +113,8 @@ const CustomComboListModal = ({ title, options, columnNameTable, getRecordsTable
         exitTitle='Sair'
         exitClassName='btn-blue'
       >
-        {childrenModal && childrenModal}
+        {/* {childrenModal && childrenModal} */}
+        {children}
       </CustomSimpleModal>
     </ConteinerItem>
   )

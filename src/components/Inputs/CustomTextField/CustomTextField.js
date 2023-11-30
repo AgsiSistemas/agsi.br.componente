@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { CircularProgress } from '@mui/material'
 import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
-import NumberFormat from 'react-number-format'
+import { NumericFormat } from 'react-number-format';
 import { currencyFormatter } from '../../../Utils/Utils.js'
 
 const isNullValue = (value) => {
@@ -33,7 +33,7 @@ const CustomTextField = ({
 }) => {
   if (type && type == 'amount') {
     return (
-      <NumberFormat
+      <NumericFormat
         id={id}
         size='small'
         label={label}

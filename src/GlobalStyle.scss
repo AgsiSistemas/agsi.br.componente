@@ -100,3 +100,9 @@
   padding-left: 1em;
   border-bottom: #008dbc2d 1px solid;
 }
+
+// Button Default align
+.button-align-center {
+  display: flex;
+  align-items: center !important;
+}

@@ -1,32 +1,15 @@
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import PropTypes from 'prop-types'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
 import { Button } from 'primereact/button'
+import { Typography } from '@mui/material'
 import './CustomDataTable.scss'
 
-const style = {
-  content_data_table: {
-    overflowX: 'auto'
-  },
-  content_data_table_display_border: {
-    overflowX: 'auto',
-    border: 'solid 1px #ADADAD',
-    borderRadius: '3px',
-    padding: '8px'
-  },
-  p_datatable_row_expansion: {
-    background: '#F5F5F5!important'
-  },
-  paginatorRight: {
-    fontSize: '12px',
-    color: '#69ABEC',
-    fontWeight: 'normal'
-  }
-}
 const CustomDataTable = (props) => {
   const {
     records,
+    title,
     columnList,
     heigthDataTable,
     paginatorStep,
@@ -37,6 +20,7 @@ const CustomDataTable = (props) => {
     onRowCollapse,
     rowExpansionTemplate,
     paginatorButton,
+    emptyMessage,
     loading
   } = props
 
@@ -53,10 +37,9 @@ const CustomDataTable = (props) => {
             ? paginatorButton?.title
             : 'Carregar mais...'
         }
-        style={style.paginatorRight}
         type='button'
         icon='pi pi-refresh'
-        className='p-button-text'
+        className='p-button-text paginator-right'
         onClick={paginatorButton.onClick}
       />
     ) : (
@@ -79,17 +62,21 @@ const CustomDataTable = (props) => {
   }
 
   return (
-    <div
-      style={
-        displayBorder
-          ? style.content_data_table_display_border
-          : style.content_data_table
+    <Fragment >
+      {title &&
+        <Typography className='title-table-custom'>
+          {title}
+        </Typography>
       }
-    >
       <DataTable
-        className='custom-data-table-content'
+        className={
+          displayBorder ?
+            'content-data-table-display-border' :
+            'custom-data-table-content'}
         value={records}
+        style={{ width: '100%' }}
         loading={loading}
+        scrollable
         paginator={paginator}
         paginatorRight={paginatorRight}
         expandedRows={expandedRows}
@@ -105,7 +92,7 @@ const CustomDataTable = (props) => {
         }
         size='small'
         rows={rowsTable}
-        emptyMessage={'Nenhum resultado encontrado'}
+        emptyMessage={emptyMessage ? emptyMessage : 'Nenhum resultado encontrado'}
         rowsPerPageOptions={calPerPage()}
         scrollHeight={heigthDataTable}
       >
@@ -136,11 +123,12 @@ const CustomDataTable = (props) => {
             )
         })}
       </DataTable>
-    </div>
+    </Fragment >
   )
 }
 
 CustomDataTable.propTypes = {
+  title: PropTypes.string,
   records: PropTypes.arrayOf(PropTypes.object),
   columnList: PropTypes.arrayOf(PropTypes.object),
   heigthDataTable: PropTypes.number,
@@ -149,10 +137,12 @@ CustomDataTable.propTypes = {
   displayExpander: PropTypes.bool,
   onRowExpand: PropTypes.func,
   onRowCollapse: PropTypes.func,
-  paginatorButton: PropTypes.object
+  paginatorButton: PropTypes.object,
+  emptyMessage: PropTypes.string
 }
 
 CustomDataTable.defaultProp = {
+  title: '',
   records: [],
   columnList: [],
   heigthDataTable: 0,
@@ -164,7 +154,8 @@ CustomDataTable.defaultProp = {
   paginatorButton: {
     title: 'Carregar mais..',
     onClick: () => { }
-  }
+  },
+  emptyMessage: ''
 }
 
 export default React.memo(CustomDataTable)

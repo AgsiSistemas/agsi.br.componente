@@ -11,17 +11,21 @@ export default {
 
 const TemplateDataTable = (args) => {
   return (
-    <div>
+    <Conteiner style={{ width: '70%', background: 'green' }}>
 
-      <CustomDataTable {...args} />
+      <ConteinerItem>
+        <CustomDataTable {...args} />
+      </ConteinerItem>
 
-    </div>
+    </Conteiner>
+
   )
 }
 
 export const Default = TemplateDataTable.bind({});
 
 Default.args = {
+  title: 'TITULO',
   columnList: [
     {
       field: 'id',

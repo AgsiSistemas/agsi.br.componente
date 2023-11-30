@@ -32,6 +32,7 @@ var SaveOutlinedIcon = _interopDefault(require('@mui/icons-material/SaveOutlined
 var CancelOutlinedIcon = _interopDefault(require('@mui/icons-material/CancelOutlined'));
 var CloseIcon = _interopDefault(require('@mui/icons-material/Close'));
 var button = require('primereact/button');
+var material = require('@mui/material');
 var LoadingButton = _interopDefault(require('@mui/lab/LoadingButton'));
 var CheckIcon = _interopDefault(require('@mui/icons-material/Check'));
 var reactRouterDom = require('react-router-dom');
@@ -49,14 +50,13 @@ require('@mui/icons-material/FolderShared');
 var Divider = _interopDefault(require('@mui/material/Divider'));
 var Badge = _interopDefault(require('@mui/material/Badge'));
 var NotificationsIcon = _interopDefault(require('@mui/icons-material/Notifications'));
-var material = require('@mui/material');
 var FormControlLabel = _interopDefault(require('@mui/material/FormControlLabel'));
 var Switch = _interopDefault(require('@mui/material/Switch'));
 var InputBase = _interopDefault(require('@mui/material/InputBase'));
 var ManageAccountsIcon = _interopDefault(require('@mui/icons-material/ManageAccounts'));
 var TextField = _interopDefault(require('@mui/material/TextField'));
 var Autocomplete = _interopDefault(require('@mui/material/Autocomplete'));
-var NumberFormat = _interopDefault(require('react-number-format'));
+var reactNumberFormat = require('react-number-format');
 var CircularProgress$1 = _interopDefault(require('@mui/material/CircularProgress'));
 var AdapterDateFns = require('@mui/x-date-pickers/AdapterDateFns');
 var LocalizationProvider = require('@mui/x-date-pickers/LocalizationProvider');
@@ -112,7 +112,7 @@ var PostAddRoundedIcon = _interopDefault(require('@mui/icons-material/PostAddRou
 var DeleteSweepIcon = _interopDefault(require('@mui/icons-material/DeleteSweep'));
 require('react-is');
 var emStyled = _interopDefault(require('@emotion/styled'));
-require('@emotion/react');
+var react = require('@emotion/react');
 var jsxRuntime = require('react/jsx-runtime');
 var Stepper = _interopDefault(require('@mui/material/Stepper'));
 var Step = _interopDefault(require('@mui/material/Step'));
@@ -157,7 +157,8 @@ var style = {
   },
   conteiner_item: {
     flex: '1',
-    padding: '3px'
+    padding: '3px',
+    overflow: 'auto'
   }
 };
 var Conteiner = function Conteiner(props) {
@@ -945,27 +946,9 @@ CustomDialog.defaultProp = {
 };
 var CustomDialog$1 = /*#__PURE__*/React.memo(CustomDialog);
 
-var style$8 = {
-  content_data_table: {
-    overflowX: 'auto'
-  },
-  content_data_table_display_border: {
-    overflowX: 'auto',
-    border: 'solid 1px #ADADAD',
-    borderRadius: '3px',
-    padding: '8px'
-  },
-  p_datatable_row_expansion: {
-    background: '#F5F5F5!important'
-  },
-  paginatorRight: {
-    fontSize: '12px',
-    color: '#69ABEC',
-    fontWeight: 'normal'
-  }
-};
 var CustomDataTable = function CustomDataTable(props) {
   var records = props.records,
+    title = props.title,
     columnList = props.columnList,
     heigthDataTable = props.heigthDataTable,
     paginatorStep = props.paginatorStep,
@@ -976,6 +959,7 @@ var CustomDataTable = function CustomDataTable(props) {
     onRowCollapse = props.onRowCollapse,
     rowExpansionTemplate = props.rowExpansionTemplate,
     paginatorButton = props.paginatorButton,
+    emptyMessage = props.emptyMessage,
     loading = props.loading;
   var rowsTable = paginatorStep ? paginatorStep : 5;
   var pagArr = [rowsTable];
@@ -984,10 +968,9 @@ var CustomDataTable = function CustomDataTable(props) {
     setExpandedRows = _useState[1];
   var paginatorRight = paginatorButton !== undefined ? /*#__PURE__*/React__default.createElement(button.Button, {
     label: (paginatorButton === null || paginatorButton === void 0 ? void 0 : paginatorButton.title) !== undefined ? paginatorButton === null || paginatorButton === void 0 ? void 0 : paginatorButton.title : 'Carregar mais...',
-    style: style$8.paginatorRight,
     type: "button",
     icon: "pi pi-refresh",
-    className: "p-button-text",
+    className: "p-button-text paginator-right",
     onClick: paginatorButton.onClick
   }) : /*#__PURE__*/React__default.createElement(React__default.Fragment, null);
   var calPerPage = function calPerPage() {
@@ -1004,12 +987,16 @@ var CustomDataTable = function CustomDataTable(props) {
       return a - b;
     });
   };
-  return /*#__PURE__*/React__default.createElement("div", {
-    style: displayBorder ? style$8.content_data_table_display_border : style$8.content_data_table
-  }, /*#__PURE__*/React__default.createElement(datatable.DataTable, {
-    className: "custom-data-table-content",
+  return /*#__PURE__*/React__default.createElement(React.Fragment, null, title && /*#__PURE__*/React__default.createElement(material.Typography, {
+    className: "title-table-custom"
+  }, title), /*#__PURE__*/React__default.createElement(datatable.DataTable, {
+    className: displayBorder ? 'content-data-table-display-border' : 'custom-data-table-content',
     value: records,
+    style: {
+      width: '100%'
+    },
     loading: loading,
+    scrollable: true,
     paginator: paginator,
     paginatorRight: paginatorRight,
     expandedRows: expandedRows,
@@ -1025,7 +1012,7 @@ var CustomDataTable = function CustomDataTable(props) {
     currentPageReportTemplate: 'Mostrando {first} a {last} de {totalRecords}',
     size: "small",
     rows: rowsTable,
-    emptyMessage: 'Nenhum resultado encontrado',
+    emptyMessage: emptyMessage ? emptyMessage : 'Nenhum resultado encontrado',
     rowsPerPageOptions: calPerPage(),
     scrollHeight: heigthDataTable
   }, displayExpander && /*#__PURE__*/React__default.createElement(column.Column, {
@@ -1053,6 +1040,7 @@ var CustomDataTable = function CustomDataTable(props) {
   })));
 };
 CustomDataTable.propTypes = {
+  title: PropTypes.string,
   records: PropTypes.arrayOf(PropTypes.object),
   columnList: PropTypes.arrayOf(PropTypes.object),
   heigthDataTable: PropTypes.number,
@@ -1061,9 +1049,11 @@ CustomDataTable.propTypes = {
   displayExpander: PropTypes.bool,
   onRowExpand: PropTypes.func,
   onRowCollapse: PropTypes.func,
-  paginatorButton: PropTypes.object
+  paginatorButton: PropTypes.object,
+  emptyMessage: PropTypes.string
 };
 CustomDataTable.defaultProp = {
+  title: '',
   records: [],
   columnList: [],
   heigthDataTable: 0,
@@ -1075,11 +1065,12 @@ CustomDataTable.defaultProp = {
   paginatorButton: {
     title: 'Carregar mais..',
     onClick: function onClick() {}
-  }
+  },
+  emptyMessage: ''
 };
 var CustomDataTable$1 = /*#__PURE__*/React__default.memo(CustomDataTable);
 
-var style$9 = {
+var style$8 = {
   save_component: {
     textAlign: 'end',
     marginTop: '15px'
@@ -1104,7 +1095,7 @@ var MessageConfirmation = function MessageConfirmation(_ref) {
     id: "alert-dialog-description"
   }, "Confirma a grava\xE7\xE3o ?")), /*#__PURE__*/React__default.createElement(DialogActions, null, /*#__PURE__*/React__default.createElement(Button, {
     variant: "outlined",
-    style: style$9.save_component_item,
+    style: style$8.save_component_item,
     onClick: onCancelClick,
     startIcon: /*#__PURE__*/React__default.createElement(CancelOutlinedIcon, null)
   }, "Cancelar"), /*#__PURE__*/React__default.createElement(Button, {
@@ -1129,9 +1120,9 @@ var SaveComponent = function SaveComponent(_ref2) {
     loading = _React$useState2[0],
     setLoading = _React$useState2[1];
   return /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement(Conteiner, {
-    style: style$9.save_component
+    style: style$8.save_component
   }, /*#__PURE__*/React__default.createElement(ConteinerItem, null, /*#__PURE__*/React__default.createElement(Button, {
-    style: style$9.save_component_item,
+    style: style$8.save_component_item,
     variant: "outlined",
     startIcon: /*#__PURE__*/React__default.createElement(CancelOutlinedIcon, null),
     onClick: onCancelClick
@@ -1189,7 +1180,7 @@ SaveComponent.defaultProp = {
 };
 var SaveComponent$1 = /*#__PURE__*/React__default.memo(SaveComponent);
 
-var style$a = {
+var style$9 = {
   width: 85,
   height: 80,
   margin: '10px',
@@ -1204,7 +1195,7 @@ function HeaderApp(_ref) {
   var title = _ref.title,
     onClick = _ref.onClick;
   return /*#__PURE__*/React.createElement(Box$1, {
-    sx: style$a,
+    sx: style$9,
     onClick: onClick
   }, /*#__PURE__*/React.createElement("div", {
     className: "box-menu"
@@ -1817,7 +1808,7 @@ var CustomTextField = function CustomTextField(_ref) {
     inputProps = _ref.inputProps,
     other = _objectWithoutPropertiesLoose(_ref, _excluded$2);
   if (type && type == 'amount') {
-    return /*#__PURE__*/React__default.createElement(NumberFormat, _extends({
+    return /*#__PURE__*/React__default.createElement(reactNumberFormat.NumericFormat, _extends({
       id: id,
       size: "small",
       label: label,
@@ -2044,7 +2035,7 @@ CustomDatePicker.defaultProp = {
 };
 var CustomDatePicker$1 = /*#__PURE__*/React__default.memo(CustomDatePicker);
 
-var style$b = {
+var style$a = {
   appcontent: {
     transition: '0.4s',
     animation: 'fadeInAnimation ease 0.5s',
@@ -2059,7 +2050,7 @@ var style$b = {
 };
 var AppContent = function AppContent(props) {
   return /*#__PURE__*/React__default.createElement("div", {
-    style: style$b.appcontent
+    style: style$a.appcontent
   }, /*#__PURE__*/React__default.createElement(Backdrop, {
     sx: {
       color: '#fff',
@@ -2559,7 +2550,7 @@ CustomBeneficiarieFields.defaultProp = {
 };
 
 var _ArchivesContent$prop;
-var style$c = {
+var style$b = {
   position: 'absolute',
   top: '50%',
   left: '50%',
@@ -2790,7 +2781,7 @@ var ArchivesContent = function ArchivesContent(_ref) {
     "aria-labelledby": "modal-modal-title",
     "aria-describedby": "modal-modal-description"
   }, /*#__PURE__*/React__default.createElement(material.Box, {
-    sx: style$c
+    sx: style$b
   }, /*#__PURE__*/React__default.createElement(image.Image, {
     src: imgModal,
     alt: "Image",
@@ -3165,7 +3156,7 @@ FilesContentApi.defaultProp = {
 };
 
 var _FilesContent$propTyp;
-var style$d = {
+var style$c = {
   position: 'absolute',
   top: '50%',
   left: '50%',
@@ -3344,7 +3335,7 @@ var FilesContent = function FilesContent(_ref) {
     "aria-labelledby": "modal-modal-title",
     "aria-describedby": "modal-modal-description"
   }, /*#__PURE__*/React__default.createElement(material.Box, {
-    sx: style$d
+    sx: style$c
   }, /*#__PURE__*/React__default.createElement(image.Image, {
     src: imgModal,
     alt: "Image",
@@ -5144,7 +5135,7 @@ var Exportacao = function Exportacao(_ref) {
   }, "Exportar")))));
 };
 
-var style$e = {
+var style$d = {
   position: 'absolute',
   top: '50%',
   left: '50%',
@@ -5394,7 +5385,7 @@ function ButtonsList(_ref) {
     "aria-labelledby": "modal-modal-title",
     "aria-describedby": "modal-modal-description"
   }, /*#__PURE__*/React__default.createElement(Box$1, {
-    sx: style$e
+    sx: style$d
   }, /*#__PURE__*/React__default.createElement(Agrupamento, {
     setOpen: setOpenAgrupamento,
     handleClose: handleCloseAgrupamento
@@ -5404,7 +5395,7 @@ function ButtonsList(_ref) {
     "aria-labelledby": "modal-modal-title",
     "aria-describedby": "modal-modal-description"
   }, /*#__PURE__*/React__default.createElement(Box$1, {
-    sx: style$e
+    sx: style$d
   }, /*#__PURE__*/React__default.createElement(NovoModelo, {
     setOpen: setOpenNovoModelo,
     handleClose: handleCloseNovoModelo,
@@ -5415,7 +5406,7 @@ function ButtonsList(_ref) {
     "aria-labelledby": "modal-modal-title",
     "aria-describedby": "modal-modal-description"
   }, /*#__PURE__*/React__default.createElement(Box$1, {
-    sx: style$e
+    sx: style$d
   }, /*#__PURE__*/React__default.createElement(Somar, {
     handleClose: handleCloseSomar
   }))), /*#__PURE__*/React__default.createElement(Modal, {
@@ -5424,7 +5415,7 @@ function ButtonsList(_ref) {
     "aria-labelledby": "modal-modal-title",
     "aria-describedby": "modal-modal-description"
   }, /*#__PURE__*/React__default.createElement(Box$1, {
-    sx: style$e
+    sx: style$d
   }, /*#__PURE__*/React__default.createElement(Modelos, {
     handleClose: handleCloseModelos,
     applyModelo: applyModelo,
@@ -5436,7 +5427,7 @@ function ButtonsList(_ref) {
     "aria-labelledby": "modal-modal-title",
     "aria-describedby": "modal-modal-description"
   }, /*#__PURE__*/React__default.createElement(Box$1, {
-    sx: style$e
+    sx: style$d
   }, /*#__PURE__*/React__default.createElement(Exportacao, {
     handleClose: handleCloseExportacao
   }))), /*#__PURE__*/React__default.createElement(Dialog, {
@@ -5463,7 +5454,7 @@ function ButtonsList(_ref) {
   }, "Aceitar"))));
 }
 
-var style$f = {
+var style$e = {
   item: {
     fontSize: '0.9rem'
   }
@@ -5510,7 +5501,7 @@ var DynaGrade = function DynaGrade(_ref) {
         filter: true,
         filterPlaceholder: "Search by " + field,
         sortable: true,
-        style: style$f.item
+        style: style$e.item
       });
     } else {
       return null;
@@ -6304,8 +6295,56 @@ function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-/** @license MUI v5.11.0
+const defaultGenerator = componentName => componentName;
+const createClassNameGenerator = () => {
+  let generate = defaultGenerator;
+  return {
+    configure(generator) {
+      generate = generator;
+    },
+    generate(componentName) {
+      return generate(componentName);
+    },
+    reset() {
+      generate = defaultGenerator;
+    }
+  };
+};
+const ClassNameGenerator = createClassNameGenerator();
+
+// If GlobalStateSlot is changed, GLOBAL_STATE_CLASSES in
+// \packages\api-docs-builder\utils\parseSlotsAndClasses.ts must be updated accordingly.
+const globalStateClassesMapping = {
+  active: 'active',
+  checked: 'checked',
+  completed: 'completed',
+  disabled: 'disabled',
+  error: 'error',
+  expanded: 'expanded',
+  focused: 'focused',
+  focusVisible: 'focusVisible',
+  open: 'open',
+  readOnly: 'readOnly',
+  required: 'required',
+  selected: 'selected'
+};
+function generateUtilityClass(componentName, slot, globalStatePrefix = 'Mui') {
+  const globalStateClass = globalStateClassesMapping[slot];
+  return globalStateClass ? `${globalStatePrefix}-${globalStateClass}` : `${ClassNameGenerator.generate(componentName)}-${slot}`;
+}
+
+function generateUtilityClasses(componentName, slots, globalStatePrefix = 'Mui') {
+  const result = {};
+  slots.forEach(slot => {
+    result[slot] = generateUtilityClass(componentName, slot, globalStatePrefix);
+  });
+  return result;
+}
+
+/**
+ * @mui/styled-engine v5.14.19
  *
+ * @license MIT
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
@@ -6324,6 +6363,102 @@ function styled(tag, options) {
   }
   return stylesFactory;
 }
+
+function _objectWithoutPropertiesLoose$1(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+  return target;
+}
+
+const _excluded$7 = ["values", "unit", "step"];
+const sortBreakpointsValues = values => {
+  const breakpointsAsArray = Object.keys(values).map(key => ({
+    key,
+    val: values[key]
+  })) || [];
+  // Sort in ascending order
+  breakpointsAsArray.sort((breakpoint1, breakpoint2) => breakpoint1.val - breakpoint2.val);
+  return breakpointsAsArray.reduce((acc, obj) => {
+    return _extends$1({}, acc, {
+      [obj.key]: obj.val
+    });
+  }, {});
+};
+
+// Keep in mind that @media is inclusive by the CSS specification.
+function createBreakpoints(breakpoints) {
+  const {
+      // The breakpoint **start** at this value.
+      // For instance with the first breakpoint xs: [xs, sm).
+      values = {
+        xs: 0,
+        // phone
+        sm: 600,
+        // tablet
+        md: 900,
+        // small laptop
+        lg: 1200,
+        // desktop
+        xl: 1536 // large screen
+      },
+
+      unit = 'px',
+      step = 5
+    } = breakpoints,
+    other = _objectWithoutPropertiesLoose$1(breakpoints, _excluded$7);
+  const sortedValues = sortBreakpointsValues(values);
+  const keys = Object.keys(sortedValues);
+  function up(key) {
+    const value = typeof values[key] === 'number' ? values[key] : key;
+    return `@media (min-width:${value}${unit})`;
+  }
+  function down(key) {
+    const value = typeof values[key] === 'number' ? values[key] : key;
+    return `@media (max-width:${value - step / 100}${unit})`;
+  }
+  function between(start, end) {
+    const endIndex = keys.indexOf(end);
+    return `@media (min-width:${typeof values[start] === 'number' ? values[start] : start}${unit}) and ` + `(max-width:${(endIndex !== -1 && typeof values[keys[endIndex]] === 'number' ? values[keys[endIndex]] : end) - step / 100}${unit})`;
+  }
+  function only(key) {
+    if (keys.indexOf(key) + 1 < keys.length) {
+      return between(key, keys[keys.indexOf(key) + 1]);
+    }
+    return up(key);
+  }
+  function not(key) {
+    // handle first and last key separately, for better readability
+    const keyIndex = keys.indexOf(key);
+    if (keyIndex === 0) {
+      return up(keys[1]);
+    }
+    if (keyIndex === keys.length - 1) {
+      return down(keys[keyIndex]);
+    }
+    return between(key, keys[keys.indexOf(key) + 1]).replace('@media', '@media not all and');
+  }
+  return _extends$1({
+    keys,
+    values: sortedValues,
+    up,
+    down,
+    between,
+    only,
+    not,
+    unit
+  }, other);
+}
+
+const shape = {
+  borderRadius: 4
+};
 
 const responsivePropType = process.env.NODE_ENV !== 'production' ? PropTypes.oneOfType([PropTypes.number, PropTypes.string, PropTypes.object, PropTypes.array]) : {};
 
@@ -6435,7 +6570,7 @@ function getStyleValue(themeMapping, transform, propValueFinal, userValue = prop
   }
   return value;
 }
-function style$g(options) {
+function style$f(options) {
   const {
     prop,
     cssProperty = options.prop,
@@ -6471,29 +6606,6 @@ function style$g(options) {
     [prop]: responsivePropType
   } : {};
   fn.filterProps = [prop];
-  return fn;
-}
-
-function compose(...styles) {
-  const handlers = styles.reduce((acc, style) => {
-    style.filterProps.forEach(prop => {
-      acc[prop] = style;
-    });
-    return acc;
-  }, {});
-
-  // false positive
-  // eslint-disable-next-line react/function-component-definition
-  const fn = props => {
-    return Object.keys(props).reduce((acc, prop) => {
-      if (handlers[prop]) {
-        return merge(acc, handlers[prop](props));
-      }
-      return acc;
-    }, {});
-  };
-  fn.propTypes = process.env.NODE_ENV !== 'production' ? styles.reduce((acc, style) => Object.assign(acc, style.propTypes), {}) : {};
-  fn.filterProps = styles.reduce((acc, style) => acc.concat(style.filterProps), []);
   return fn;
 }
 
@@ -6619,12 +6731,12 @@ function resolveCssProperty(props, keys, prop, transformer) {
   const propValue = props[prop];
   return handleBreakpoints(props, propValue, styleFromPropValue);
 }
-function style$h(props, keys) {
+function style$g(props, keys) {
   const transformer = createUnarySpacing(props.theme);
   return Object.keys(props).map(prop => resolveCssProperty(props, keys, prop, transformer)).reduce(merge, {});
 }
 function margin(props) {
-  return style$h(props, marginKeys);
+  return style$g(props, marginKeys);
 }
 margin.propTypes = process.env.NODE_ENV !== 'production' ? marginKeys.reduce((obj, key) => {
   obj[key] = responsivePropType;
@@ -6632,7 +6744,7 @@ margin.propTypes = process.env.NODE_ENV !== 'production' ? marginKeys.reduce((ob
 }, {}) : {};
 margin.filterProps = marginKeys;
 function padding(props) {
-  return style$h(props, paddingKeys);
+  return style$g(props, paddingKeys);
 }
 padding.propTypes = process.env.NODE_ENV !== 'production' ? paddingKeys.reduce((obj, key) => {
   obj[key] = responsivePropType;
@@ -6640,7 +6752,7 @@ padding.propTypes = process.env.NODE_ENV !== 'production' ? paddingKeys.reduce((
 }, {}) : {};
 padding.filterProps = paddingKeys;
 function spacing(props) {
-  return style$h(props, spacingKeys);
+  return style$g(props, spacingKeys);
 }
 spacing.propTypes = process.env.NODE_ENV !== 'production' ? spacingKeys.reduce((obj, key) => {
   obj[key] = responsivePropType;
@@ -6648,57 +6760,87 @@ spacing.propTypes = process.env.NODE_ENV !== 'production' ? spacingKeys.reduce((
 }, {}) : {};
 spacing.filterProps = spacingKeys;
 
+// The different signatures imply different meaning for their arguments that can't be expressed structurally.
+// We express the difference with variable names.
+/* tslint:disable:unified-signatures */
+/* tslint:enable:unified-signatures */
+
+function createSpacing(spacingInput = 8) {
+  // Already transformed.
+  if (spacingInput.mui) {
+    return spacingInput;
+  }
+
+  // Material Design layouts are visually balanced. Most measurements align to an 8dp grid, which aligns both spacing and the overall layout.
+  // Smaller components, such as icons, can align to a 4dp grid.
+  // https://m2.material.io/design/layout/understanding-layout.html
+  const transform = createUnarySpacing({
+    spacing: spacingInput
+  });
+  const spacing = (...argsInput) => {
+    if (process.env.NODE_ENV !== 'production') {
+      if (!(argsInput.length <= 4)) {
+        console.error(`MUI: Too many arguments provided, expected between 0 and 4, got ${argsInput.length}`);
+      }
+    }
+    const args = argsInput.length === 0 ? [1] : argsInput;
+    return args.map(argument => {
+      const output = transform(argument);
+      return typeof output === 'number' ? `${output}px` : output;
+    }).join(' ');
+  };
+  spacing.mui = true;
+  return spacing;
+}
+
+function compose(...styles) {
+  const handlers = styles.reduce((acc, style) => {
+    style.filterProps.forEach(prop => {
+      acc[prop] = style;
+    });
+    return acc;
+  }, {});
+
+  // false positive
+  // eslint-disable-next-line react/function-component-definition
+  const fn = props => {
+    return Object.keys(props).reduce((acc, prop) => {
+      if (handlers[prop]) {
+        return merge(acc, handlers[prop](props));
+      }
+      return acc;
+    }, {});
+  };
+  fn.propTypes = process.env.NODE_ENV !== 'production' ? styles.reduce((acc, style) => Object.assign(acc, style.propTypes), {}) : {};
+  fn.filterProps = styles.reduce((acc, style) => acc.concat(style.filterProps), []);
+  return fn;
+}
+
 function borderTransform(value) {
   if (typeof value !== 'number') {
     return value;
   }
   return `${value}px solid`;
 }
-const border = style$g({
-  prop: 'border',
-  themeKey: 'borders',
-  transform: borderTransform
-});
-const borderTop = style$g({
-  prop: 'borderTop',
-  themeKey: 'borders',
-  transform: borderTransform
-});
-const borderRight = style$g({
-  prop: 'borderRight',
-  themeKey: 'borders',
-  transform: borderTransform
-});
-const borderBottom = style$g({
-  prop: 'borderBottom',
-  themeKey: 'borders',
-  transform: borderTransform
-});
-const borderLeft = style$g({
-  prop: 'borderLeft',
-  themeKey: 'borders',
-  transform: borderTransform
-});
-const borderColor = style$g({
-  prop: 'borderColor',
-  themeKey: 'palette'
-});
-const borderTopColor = style$g({
-  prop: 'borderTopColor',
-  themeKey: 'palette'
-});
-const borderRightColor = style$g({
-  prop: 'borderRightColor',
-  themeKey: 'palette'
-});
-const borderBottomColor = style$g({
-  prop: 'borderBottomColor',
-  themeKey: 'palette'
-});
-const borderLeftColor = style$g({
-  prop: 'borderLeftColor',
-  themeKey: 'palette'
-});
+function createBorderStyle(prop, transform) {
+  return style$f({
+    prop,
+    themeKey: 'borders',
+    transform
+  });
+}
+const border = createBorderStyle('border', borderTransform);
+const borderTop = createBorderStyle('borderTop', borderTransform);
+const borderRight = createBorderStyle('borderRight', borderTransform);
+const borderBottom = createBorderStyle('borderBottom', borderTransform);
+const borderLeft = createBorderStyle('borderLeft', borderTransform);
+const borderColor = createBorderStyle('borderColor');
+const borderTopColor = createBorderStyle('borderTopColor');
+const borderRightColor = createBorderStyle('borderRightColor');
+const borderBottomColor = createBorderStyle('borderBottomColor');
+const borderLeftColor = createBorderStyle('borderLeftColor');
+const outline = createBorderStyle('outline', borderTransform);
+const outlineColor = createBorderStyle('outlineColor');
 
 // false positive
 // eslint-disable-next-line react/function-component-definition
@@ -6716,7 +6858,7 @@ borderRadius.propTypes = process.env.NODE_ENV !== 'production' ? {
   borderRadius: responsivePropType
 } : {};
 borderRadius.filterProps = ['borderRadius'];
-const borders = compose(border, borderTop, borderRight, borderBottom, borderLeft, borderColor, borderTopColor, borderRightColor, borderBottomColor, borderLeftColor, borderRadius);
+const borders = compose(border, borderTop, borderRight, borderBottom, borderLeft, borderColor, borderTopColor, borderRightColor, borderBottomColor, borderLeftColor, borderRadius, outline, outlineColor);
 
 // false positive
 // eslint-disable-next-line react/function-component-definition
@@ -6768,31 +6910,31 @@ rowGap.propTypes = process.env.NODE_ENV !== 'production' ? {
   rowGap: responsivePropType
 } : {};
 rowGap.filterProps = ['rowGap'];
-const gridColumn = style$g({
+const gridColumn = style$f({
   prop: 'gridColumn'
 });
-const gridRow = style$g({
+const gridRow = style$f({
   prop: 'gridRow'
 });
-const gridAutoFlow = style$g({
+const gridAutoFlow = style$f({
   prop: 'gridAutoFlow'
 });
-const gridAutoColumns = style$g({
+const gridAutoColumns = style$f({
   prop: 'gridAutoColumns'
 });
-const gridAutoRows = style$g({
+const gridAutoRows = style$f({
   prop: 'gridAutoRows'
 });
-const gridTemplateColumns = style$g({
+const gridTemplateColumns = style$f({
   prop: 'gridTemplateColumns'
 });
-const gridTemplateRows = style$g({
+const gridTemplateRows = style$f({
   prop: 'gridTemplateRows'
 });
-const gridTemplateAreas = style$g({
+const gridTemplateAreas = style$f({
   prop: 'gridTemplateAreas'
 });
-const gridArea = style$g({
+const gridArea = style$f({
   prop: 'gridArea'
 });
 const grid = compose(gap, columnGap, rowGap, gridColumn, gridRow, gridAutoFlow, gridAutoColumns, gridAutoRows, gridTemplateColumns, gridTemplateRows, gridTemplateAreas, gridArea);
@@ -6803,18 +6945,18 @@ function paletteTransform(value, userValue) {
   }
   return value;
 }
-const color = style$g({
+const color = style$f({
   prop: 'color',
   themeKey: 'palette',
   transform: paletteTransform
 });
-const bgcolor = style$g({
+const bgcolor = style$f({
   prop: 'bgcolor',
   cssProperty: 'backgroundColor',
   themeKey: 'palette',
   transform: paletteTransform
 });
-const backgroundColor = style$g({
+const backgroundColor = style$f({
   prop: 'backgroundColor',
   themeKey: 'palette',
   transform: paletteTransform
@@ -6824,17 +6966,27 @@ const palette = compose(color, bgcolor, backgroundColor);
 function sizingTransform(value) {
   return value <= 1 && value !== 0 ? `${value * 100}%` : value;
 }
-const width = style$g({
+const width = style$f({
   prop: 'width',
   transform: sizingTransform
 });
 const maxWidth = props => {
   if (props.maxWidth !== undefined && props.maxWidth !== null) {
     const styleFromPropValue = propValue => {
-      var _props$theme, _props$theme$breakpoi, _props$theme$breakpoi2;
-      const breakpoint = ((_props$theme = props.theme) == null ? void 0 : (_props$theme$breakpoi = _props$theme.breakpoints) == null ? void 0 : (_props$theme$breakpoi2 = _props$theme$breakpoi.values) == null ? void 0 : _props$theme$breakpoi2[propValue]) || values[propValue];
+      var _props$theme, _props$theme2;
+      const breakpoint = ((_props$theme = props.theme) == null || (_props$theme = _props$theme.breakpoints) == null || (_props$theme = _props$theme.values) == null ? void 0 : _props$theme[propValue]) || values[propValue];
+      if (!breakpoint) {
+        return {
+          maxWidth: sizingTransform(propValue)
+        };
+      }
+      if (((_props$theme2 = props.theme) == null || (_props$theme2 = _props$theme2.breakpoints) == null ? void 0 : _props$theme2.unit) !== 'px') {
+        return {
+          maxWidth: `${breakpoint}${props.theme.breakpoints.unit}`
+        };
+      }
       return {
-        maxWidth: breakpoint || sizingTransform(propValue)
+        maxWidth: breakpoint
       };
     };
     return handleBreakpoints(props, props.maxWidth, styleFromPropValue);
@@ -6842,33 +6994,33 @@ const maxWidth = props => {
   return null;
 };
 maxWidth.filterProps = ['maxWidth'];
-const minWidth = style$g({
+const minWidth = style$f({
   prop: 'minWidth',
   transform: sizingTransform
 });
-const height = style$g({
+const height = style$f({
   prop: 'height',
   transform: sizingTransform
 });
-const maxHeight = style$g({
+const maxHeight = style$f({
   prop: 'maxHeight',
   transform: sizingTransform
 });
-const minHeight = style$g({
+const minHeight = style$f({
   prop: 'minHeight',
   transform: sizingTransform
 });
-const sizeWidth = style$g({
+const sizeWidth = style$f({
   prop: 'size',
   cssProperty: 'width',
   transform: sizingTransform
 });
-const sizeHeight = style$g({
+const sizeHeight = style$f({
   prop: 'size',
   cssProperty: 'height',
   transform: sizingTransform
 });
-const boxSizing = style$g({
+const boxSizing = style$f({
   prop: 'boxSizing'
 });
 const sizing = compose(width, maxWidth, minWidth, height, maxHeight, minHeight, boxSizing);
@@ -6908,6 +7060,13 @@ const defaultSxConfig = {
     themeKey: 'palette'
   },
   borderLeftColor: {
+    themeKey: 'palette'
+  },
+  outline: {
+    themeKey: 'borders',
+    transform: borderTransform
+  },
+  outlineColor: {
     themeKey: 'palette'
   },
   borderRadius: {
@@ -7183,6 +7342,13 @@ function unstable_createStyleFunctionSx() {
     if (val == null) {
       return null;
     }
+
+    // TODO v6: remove, see https://github.com/mui/material-ui/pull/38123
+    if (themeKey === 'typography' && val === 'inherit') {
+      return {
+        [prop]: val
+      };
+    }
     const themeMapping = getPath(theme, themeKey) || {};
     if (style) {
       return style(props);
@@ -7268,27 +7434,60 @@ function unstable_createStyleFunctionSx() {
 const styleFunctionSx = unstable_createStyleFunctionSx();
 styleFunctionSx.filterProps = ['sx'];
 
-function _objectWithoutPropertiesLoose$1(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-  return target;
+const _excluded$8 = ["breakpoints", "palette", "spacing", "shape"];
+function createTheme(options = {}, ...args) {
+  const {
+      breakpoints: breakpointsInput = {},
+      palette: paletteInput = {},
+      spacing: spacingInput,
+      shape: shapeInput = {}
+    } = options,
+    other = _objectWithoutPropertiesLoose$1(options, _excluded$8);
+  const breakpoints = createBreakpoints(breakpointsInput);
+  const spacing = createSpacing(spacingInput);
+  let muiTheme = deepmerge({
+    breakpoints,
+    direction: 'ltr',
+    components: {},
+    // Inject component definitions.
+    palette: _extends$1({
+      mode: 'light'
+    }, paletteInput),
+    spacing,
+    shape: _extends$1({}, shape, shapeInput)
+  }, other);
+  muiTheme = args.reduce((acc, argument) => deepmerge(acc, argument), muiTheme);
+  muiTheme.unstable_sxConfig = _extends$1({}, defaultSxConfig, other == null ? void 0 : other.unstable_sxConfig);
+  muiTheme.unstable_sx = function sx(props) {
+    return styleFunctionSx({
+      sx: props,
+      theme: this
+    });
+  };
+  return muiTheme;
 }
 
-const _excluded$7 = ["sx"];
+function isObjectEmpty(obj) {
+  return Object.keys(obj).length === 0;
+}
+function useTheme(defaultTheme = null) {
+  const contextTheme = React.useContext(react.ThemeContext);
+  return !contextTheme || isObjectEmpty(contextTheme) ? defaultTheme : contextTheme;
+}
+
+const systemDefaultTheme = createTheme();
+function useTheme$1(defaultTheme = systemDefaultTheme) {
+  return useTheme(defaultTheme);
+}
+
+const _excluded$9 = ["sx"];
 const splitProps = props => {
   var _props$theme$unstable, _props$theme;
   const result = {
     systemProps: {},
     otherProps: {}
   };
-  const config = (_props$theme$unstable = props == null ? void 0 : (_props$theme = props.theme) == null ? void 0 : _props$theme.unstable_sxConfig) != null ? _props$theme$unstable : defaultSxConfig;
+  const config = (_props$theme$unstable = props == null || (_props$theme = props.theme) == null ? void 0 : _props$theme.unstable_sxConfig) != null ? _props$theme$unstable : defaultSxConfig;
   Object.keys(props).forEach(prop => {
     if (config[prop]) {
       result.systemProps[prop] = props[prop];
@@ -7302,7 +7501,7 @@ function extendSxProp(props) {
   const {
       sx: inSx
     } = props,
-    other = _objectWithoutPropertiesLoose$1(props, _excluded$7);
+    other = _objectWithoutPropertiesLoose$1(props, _excluded$9);
   const {
     systemProps,
     otherProps
@@ -7328,182 +7527,10 @@ function extendSxProp(props) {
 
 function r(e){var t,f,n="";if("string"==typeof e||"number"==typeof e)n+=e;else if("object"==typeof e)if(Array.isArray(e))for(t=0;t<e.length;t++)e[t]&&(f=r(e[t]))&&(n&&(n+=" "),n+=f);else for(t in e)e[t]&&(n&&(n+=" "),n+=t);return n}function clsx(){for(var e,t,f=0,n="";f<arguments.length;)(e=arguments[f++])&&(t=r(e))&&(n&&(n+=" "),n+=t);return n}
 
-const _excluded$8 = ["values", "unit", "step"];
-const sortBreakpointsValues = values => {
-  const breakpointsAsArray = Object.keys(values).map(key => ({
-    key,
-    val: values[key]
-  })) || [];
-  // Sort in ascending order
-  breakpointsAsArray.sort((breakpoint1, breakpoint2) => breakpoint1.val - breakpoint2.val);
-  return breakpointsAsArray.reduce((acc, obj) => {
-    return _extends$1({}, acc, {
-      [obj.key]: obj.val
-    });
-  }, {});
-};
-
-// Keep in mind that @media is inclusive by the CSS specification.
-function createBreakpoints(breakpoints) {
-  const {
-      // The breakpoint **start** at this value.
-      // For instance with the first breakpoint xs: [xs, sm).
-      values = {
-        xs: 0,
-        // phone
-        sm: 600,
-        // tablet
-        md: 900,
-        // small laptop
-        lg: 1200,
-        // desktop
-        xl: 1536 // large screen
-      },
-
-      unit = 'px',
-      step = 5
-    } = breakpoints,
-    other = _objectWithoutPropertiesLoose$1(breakpoints, _excluded$8);
-  const sortedValues = sortBreakpointsValues(values);
-  const keys = Object.keys(sortedValues);
-  function up(key) {
-    const value = typeof values[key] === 'number' ? values[key] : key;
-    return `@media (min-width:${value}${unit})`;
-  }
-  function down(key) {
-    const value = typeof values[key] === 'number' ? values[key] : key;
-    return `@media (max-width:${value - step / 100}${unit})`;
-  }
-  function between(start, end) {
-    const endIndex = keys.indexOf(end);
-    return `@media (min-width:${typeof values[start] === 'number' ? values[start] : start}${unit}) and ` + `(max-width:${(endIndex !== -1 && typeof values[keys[endIndex]] === 'number' ? values[keys[endIndex]] : end) - step / 100}${unit})`;
-  }
-  function only(key) {
-    if (keys.indexOf(key) + 1 < keys.length) {
-      return between(key, keys[keys.indexOf(key) + 1]);
-    }
-    return up(key);
-  }
-  function not(key) {
-    // handle first and last key separately, for better readability
-    const keyIndex = keys.indexOf(key);
-    if (keyIndex === 0) {
-      return up(keys[1]);
-    }
-    if (keyIndex === keys.length - 1) {
-      return down(keys[keyIndex]);
-    }
-    return between(key, keys[keys.indexOf(key) + 1]).replace('@media', '@media not all and');
-  }
-  return _extends$1({
-    keys,
-    values: sortedValues,
-    up,
-    down,
-    between,
-    only,
-    not,
-    unit
-  }, other);
-}
-
-const shape = {
-  borderRadius: 4
-};
-
-/* tslint:enable:unified-signatures */
-
-function createSpacing(spacingInput = 8) {
-  // Already transformed.
-  if (spacingInput.mui) {
-    return spacingInput;
-  }
-
-  // Material Design layouts are visually balanced. Most measurements align to an 8dp grid, which aligns both spacing and the overall layout.
-  // Smaller components, such as icons, can align to a 4dp grid.
-  // https://m2.material.io/design/layout/understanding-layout.html
-  const transform = createUnarySpacing({
-    spacing: spacingInput
-  });
-  const spacing = (...argsInput) => {
-    if (process.env.NODE_ENV !== 'production') {
-      if (!(argsInput.length <= 4)) {
-        console.error(`MUI: Too many arguments provided, expected between 0 and 4, got ${argsInput.length}`);
-      }
-    }
-    const args = argsInput.length === 0 ? [1] : argsInput;
-    return args.map(argument => {
-      const output = transform(argument);
-      return typeof output === 'number' ? `${output}px` : output;
-    }).join(' ');
-  };
-  spacing.mui = true;
-  return spacing;
-}
-
-const _excluded$9 = ["breakpoints", "palette", "spacing", "shape"];
-function createTheme(options = {}, ...args) {
-  const {
-      breakpoints: breakpointsInput = {},
-      palette: paletteInput = {},
-      spacing: spacingInput,
-      shape: shapeInput = {}
-    } = options,
-    other = _objectWithoutPropertiesLoose$1(options, _excluded$9);
-  const breakpoints = createBreakpoints(breakpointsInput);
-  const spacing = createSpacing(spacingInput);
-  let muiTheme = deepmerge({
-    breakpoints,
-    direction: 'ltr',
-    components: {},
-    // Inject component definitions.
-    palette: _extends$1({
-      mode: 'light'
-    }, paletteInput),
-    spacing,
-    shape: _extends$1({}, shape, shapeInput)
-  }, other);
-  muiTheme = args.reduce((acc, argument) => deepmerge(acc, argument), muiTheme);
-  muiTheme.unstable_sxConfig = _extends$1({}, defaultSxConfig, other == null ? void 0 : other.unstable_sxConfig);
-  muiTheme.unstable_sx = function sx(props) {
-    return styleFunctionSx({
-      sx: props,
-      theme: this
-    });
-  };
-  return muiTheme;
-}
-
-const ThemeContext = /*#__PURE__*/React.createContext(null);
-if (process.env.NODE_ENV !== 'production') {
-  ThemeContext.displayName = 'ThemeContext';
-}
-
-function useTheme() {
-  const theme = React.useContext(ThemeContext);
-  if (process.env.NODE_ENV !== 'production') {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    React.useDebugValue(theme);
-  }
-  return theme;
-}
-
-function isObjectEmpty(obj) {
-  return Object.keys(obj).length === 0;
-}
-function useTheme$1(defaultTheme = null) {
-  const contextTheme = useTheme();
-  return !contextTheme || isObjectEmpty(contextTheme) ? defaultTheme : contextTheme;
-}
-
-const systemDefaultTheme = createTheme();
-function useTheme$2(defaultTheme = systemDefaultTheme) {
-  return useTheme$1(defaultTheme);
-}
-
 const _excluded$a = ["className", "component"];
 function createBox(options = {}) {
   const {
+    themeId,
     defaultTheme,
     defaultClassName = 'MuiBox-root',
     generateClassName
@@ -7512,7 +7539,7 @@ function createBox(options = {}) {
     shouldForwardProp: prop => prop !== 'theme' && prop !== 'sx' && prop !== 'as'
   })(styleFunctionSx);
   const Box = /*#__PURE__*/React.forwardRef(function Box(inProps, ref) {
-    const theme = useTheme$2(defaultTheme);
+    const theme = useTheme$1(defaultTheme);
     const _extendSxProp = extendSxProp(inProps),
       {
         className,
@@ -7523,13 +7550,18 @@ function createBox(options = {}) {
       as: component,
       ref: ref,
       className: clsx(className, generateClassName ? generateClassName(defaultClassName) : defaultClassName),
-      theme: theme
+      theme: themeId ? theme[themeId] || theme : theme
     }, other));
   });
   return Box;
 }
 
-const Box = createBox();
+const boxClasses = generateUtilityClasses('MuiBox', ['root']);
+
+const Box = createBox({
+  defaultClassName: boxClasses.root,
+  generateClassName: ClassNameGenerator.generate
+});
 process.env.NODE_ENV !== "production" ? Box.propTypes /* remove-proptypes */ = {
   // ----------------------------- Warning --------------------------------
   // | These PropTypes are generated from the TypeScript type definitions |
@@ -7851,19 +7883,17 @@ CustomRadioGroup.defaultProp = {
 var CustomComboListModal = function CustomComboListModal(_ref) {
   var title = _ref.title,
     columnNameTable = _ref.columnNameTable,
-    getRecordsTable = _ref.getRecordsTable,
-    childrenModal = _ref.childrenModal,
+    value = _ref.value,
+    children = _ref.children,
     confirmClickModal = _ref.confirmClickModal,
     disabled = _ref.disabled;
   var columnListTable = columnNameTable || [];
   var _useState = React.useState(null);
   var _useState2 = React.useState([]),
-    customTableList = _useState2[0],
     setCustomTableList = _useState2[1];
   var _useState3 = React.useState(false),
     modalIncludeEdit = _useState3[0],
     setModalIncludeEdit = _useState3[1];
-  getRecordsTable && getRecordsTable(customTableList);
   var handleRemoveTableList = function handleRemoveTableList(event, index) {
     setCustomTableList(function (current) {
       var newArr = [].concat(current).filter(function (x) {
@@ -7897,7 +7927,7 @@ var CustomComboListModal = function CustomComboListModal(_ref) {
   }, /*#__PURE__*/React__default.createElement(Conteiner, null, /*#__PURE__*/React__default.createElement(ConteinerItem, null, /*#__PURE__*/React__default.createElement(material.Typography, {
     className: "title-table-custom"
   }, title), /*#__PURE__*/React__default.createElement(CustomDataTable$1, {
-    records: customTableList || [],
+    records: value || [],
     columnList: [].concat(columnListTable, [columnAction])
   })), /*#__PURE__*/React__default.createElement(ConteinerItem, {
     className: "flex-none custom-combo-list-modal-buttons-content"
@@ -7928,7 +7958,7 @@ var CustomComboListModal = function CustomComboListModal(_ref) {
     },
     exitTitle: "Sair",
     exitClassName: "btn-blue"
-  }, childrenModal && childrenModal));
+  }, children));
 };
 
 exports.AppContent = AppContent$1;

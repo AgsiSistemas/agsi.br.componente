@@ -235,8 +235,26 @@ p {
   padding-left: 1em;
   border-bottom: rgba(0, 141, 188, 0.1764705882) 1px solid;
 }
+
+.button-align-center {
+  display: flex;
+  align-items: center !important;
+}
 .custom-data-table-content {
   overflow: auto;
+}
+
+.content-data-table-display-border {
+  overflow-x: auto;
+  border: solid 1px #ADADAD;
+  border-radius: 3px;
+  padding: 8px;
+}
+
+.paginator-right {
+  font-size: 12px;
+  color: #69ABEC;
+  font-weight: normal;
 }
 .bar-test-message-content {
   width: 100%;
