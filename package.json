@@ -1,6 +1,6 @@
 {
   "name": "@agsisistemas/agsi.br.componente",
-  "version": "1.13.4",
+  "version": "1.13.5",
   "description": "Made with create-react-library",
   "author": "AgsiSistemas",
   "license": "MIT",
@@ -60,7 +60,7 @@
     "mui-utils": "^0.0.4",
     "primeflex": "^3.3.0",
     "primeicons": "^5.0.0",
-    "primereact": "^7.2.1",
+    "primereact": "^10.2.1",
     "prop-types": "^15.8.1",
     "react-dnd": "^16.0.1",
     "react-image-lightbox": "^5.1.4",
